@@ -1,0 +1,12 @@
+/*
+ * Example client preset ("acme").
+ * Un cliente = un preset (CLAUDE.md §7). Re-skinear = re-mapear semánticos a
+ * valores de marca. Crear este preset NO requirió tocar ningún componente.
+ */
+.ui-theme-acme {
+  --ui-color-primary: #7c3aed;
+  --ui-color-primary-hover: #6d28d9;
+  --ui-color-primary-active: #5b21b6;
+  --ui-focus-ring: #8b5cf6;
+  --ui-radius: 9999px;
+}

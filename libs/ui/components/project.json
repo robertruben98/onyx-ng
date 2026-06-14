@@ -1,0 +1,28 @@
+{
+  "name": "ui-components",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ui/components",
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": { "command": "jest libs/ui/components" }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "eslint libs/ui/components",
+          "stylelint \"libs/ui/components/**/*.scss\""
+        ],
+        "parallel": false
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p libs/ui/components/tsconfig.json --noEmit"
+      }
+    }
+  }
+}
