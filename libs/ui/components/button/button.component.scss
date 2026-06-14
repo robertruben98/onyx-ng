@@ -1,0 +1,95 @@
+// Button styles — references ONLY semantic / component tokens (CLAUDE.md §3).
+// No raw colors / sizes / radii, no primitive tokens. Light/dark come from
+// token re-mapping in the active theme, never from conditionals here.
+
+:host {
+  display: inline-block;
+}
+
+.ui-button__el {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ui-button-padding-y);
+  height: var(--ui-button-height);
+  padding: var(--ui-button-padding-y) var(--ui-button-padding-x);
+  border: var(--ui-button-border-width) solid transparent;
+  border-radius: var(--ui-button-radius);
+  font-family: inherit;
+  font-size: var(--ui-button-font-size);
+  font-weight: var(--ui-button-font-weight);
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease,
+    border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.ui-button__el:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-focus-ring);
+}
+
+.ui-button__el:disabled {
+  cursor: not-allowed;
+  background-color: var(--ui-color-disabled-bg);
+  color: var(--ui-color-disabled-text);
+  border-color: transparent;
+}
+
+// --- Variants -------------------------------------------------------------
+:host(.ui-button--primary) .ui-button__el {
+  background-color: var(--ui-button-bg);
+  color: var(--ui-button-text);
+}
+:host(.ui-button--primary) .ui-button__el:hover:not(:disabled) {
+  background-color: var(--ui-button-bg-hover);
+}
+:host(.ui-button--primary) .ui-button__el:active:not(:disabled) {
+  background-color: var(--ui-button-bg-active);
+}
+
+:host(.ui-button--secondary) .ui-button__el {
+  background-color: var(--ui-color-surface);
+  color: var(--ui-color-primary);
+  border-color: var(--ui-color-primary);
+}
+:host(.ui-button--secondary) .ui-button__el:hover:not(:disabled) {
+  background-color: var(--ui-color-surface-hover);
+}
+
+:host(.ui-button--text) .ui-button__el {
+  background-color: transparent;
+  color: var(--ui-color-primary);
+}
+:host(.ui-button--text) .ui-button__el:hover:not(:disabled) {
+  background-color: var(--ui-color-surface-hover);
+}
+
+// --- Sizes ----------------------------------------------------------------
+:host(.ui-button--sm) .ui-button__el {
+  height: var(--ui-button-height-sm);
+}
+:host(.ui-button--lg) .ui-button__el {
+  height: var(--ui-button-height-lg);
+}
+
+// --- Loading --------------------------------------------------------------
+:host(.ui-button--loading) .ui-button__label {
+  opacity: 0.7;
+}
+
+.ui-button__spinner {
+  display: inline-block;
+  width: var(--ui-button-spinner-size);
+  height: var(--ui-button-spinner-size);
+  border: var(--ui-button-spinner-width) solid currentColor;
+  border-top-color: transparent;
+  border-radius: var(--ui-button-spinner-radius);
+  animation: ui-button-spin 600ms linear infinite;
+}
+
+@keyframes ui-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

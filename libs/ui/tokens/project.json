@@ -1,0 +1,15 @@
+{
+  "name": "ui-tokens",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ui/tokens",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "style-dictionary build --config libs/ui/tokens/config.json"
+      },
+      "outputs": ["{workspaceRoot}/libs/ui/tokens/dist"]
+    }
+  }
+}

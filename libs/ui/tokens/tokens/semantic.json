@@ -1,0 +1,19 @@
+{
+  "color": {
+    "primary": { "value": "{blue.500}" },
+    "primary-hover": { "value": "{blue.600}" },
+    "primary-active": { "value": "{blue.700}" },
+    "on-primary": { "value": "{white}" },
+    "surface": { "value": "{white}" },
+    "surface-hover": { "value": "{blue.50}" },
+    "text": { "value": "{slate.900}" },
+    "disabled-bg": { "value": "{slate.100}" },
+    "disabled-text": { "value": "{slate.400}" }
+  },
+  "focus": {
+    "ring": { "value": "{blue.600}" },
+    "ring-width": { "value": "{border.width-thick}" },
+    "ring-offset": { "value": "{border.width-thick}" }
+  },
+  "radius": { "value": "{radius.md}" }
+}

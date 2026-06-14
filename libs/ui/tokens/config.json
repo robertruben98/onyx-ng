@@ -1,0 +1,17 @@
+{
+  "source": ["libs/ui/tokens/tokens/**/*.json"],
+  "platforms": {
+    "css": {
+      "transformGroup": "css",
+      "prefix": "ui",
+      "buildPath": "libs/ui/tokens/dist/",
+      "files": [
+        {
+          "destination": "tokens.css",
+          "format": "css/variables",
+          "options": { "outputReferences": true }
+        }
+      ]
+    }
+  }
+}

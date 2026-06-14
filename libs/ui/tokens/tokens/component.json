@@ -1,0 +1,20 @@
+{
+  "button": {
+    "bg": { "value": "{color.primary}" },
+    "bg-hover": { "value": "{color.primary-hover}" },
+    "bg-active": { "value": "{color.primary-active}" },
+    "text": { "value": "{color.on-primary}" },
+    "radius": { "value": "{radius}" },
+    "padding-x": { "value": "{space.4}" },
+    "padding-y": { "value": "{space.2}" },
+    "font-size": { "value": "{font.size.md}" },
+    "font-weight": { "value": "{font.weight.medium}" },
+    "height": { "value": "{size.control-md}" },
+    "height-sm": { "value": "{size.control-sm}" },
+    "height-lg": { "value": "{size.control-lg}" },
+    "border-width": { "value": "{border.width}" },
+    "spinner-size": { "value": "{font.size.md}" },
+    "spinner-width": { "value": "{border.width-thick}" },
+    "spinner-radius": { "value": "{radius.full}" }
+  }
+}

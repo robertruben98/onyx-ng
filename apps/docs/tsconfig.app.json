@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc/docs",
+    "types": []
+  },
+  "include": ["src/**/*.ts", "../../libs/ui/**/*.ts"],
+  "exclude": ["../../libs/ui/**/*.spec.ts"]
+}
