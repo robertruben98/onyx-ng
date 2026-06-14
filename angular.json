@@ -30,6 +30,24 @@
             "development": { "optimization": false }
           },
           "defaultConfiguration": "production"
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": "apps/docs/.storybook",
+            "browserTarget": "docs:build",
+            "compodoc": false,
+            "port": 6006
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "configDir": "apps/docs/.storybook",
+            "browserTarget": "docs:build",
+            "compodoc": false,
+            "outputDir": "dist/storybook"
+          }
         }
       }
     }

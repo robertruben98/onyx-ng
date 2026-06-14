@@ -10,8 +10,8 @@
     "lint": "eslint . && npm run lint:tokens",
     "lint:tokens": "stylelint \"libs/ui/components/**/*.scss\"",
     "test": "jest",
-    "storybook": "npm run build:tokens && storybook dev -p 6006 --no-open -c apps/docs/.storybook",
-    "build-storybook": "npm run build:tokens && storybook build -c apps/docs/.storybook -o dist/storybook"
+    "storybook": "npm run build:tokens && ng run docs:storybook",
+    "build-storybook": "npm run build:tokens && ng run docs:build-storybook"
   },
   "dependencies": {
     "@angular/animations": "^19.0.0",

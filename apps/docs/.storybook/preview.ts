@@ -1,6 +1,7 @@
 import type { Preview } from '@storybook/angular';
-import '../../../libs/ui/tokens/dist/tokens.css';
-import '../../../libs/ui/themes/dark.css';
+
+// Design tokens + theme presets are injected globally via the `docs:build`
+// target's `styles` in angular.json (the Angular Storybook builder consumes it).
 
 const preview: Preview = {
   parameters: {
