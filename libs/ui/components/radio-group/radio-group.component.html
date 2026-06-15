@@ -1,0 +1,24 @@
+<fieldset
+  class="ui-radio-group__fieldset"
+  role="radiogroup"
+  [attr.aria-label]="!label() && ariaLabel() ? ariaLabel() : null"
+  [attr.aria-invalid]="invalid() ? 'true' : null"
+>
+  @if (label()) {
+    <legend class="ui-radio-group__legend">{{ label() }}</legend>
+  }
+  @for (opt of options(); track opt.value) {
+    <label class="ui-radio">
+      <input
+        class="ui-radio__el"
+        type="radio"
+        [name]="name"
+        [value]="opt.value"
+        [checked]="value() === opt.value"
+        [disabled]="disabledState() || !!opt.disabled"
+        (change)="select(opt.value)"
+      />
+      <span class="ui-radio__label">{{ opt.label }}</span>
+    </label>
+  }
+</fieldset>

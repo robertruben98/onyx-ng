@@ -1,0 +1,65 @@
+// Radio group styles — references ONLY semantic / component tokens (CLAUDE.md §3).
+// Native radios share a name so the browser provides roving focus + arrow-key
+// navigation and full a11y. accent-color renders the selected dot.
+
+:host {
+  display: inline-block;
+}
+
+.ui-radio-group__fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-radio-group-gap);
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.ui-radio-group__legend {
+  padding: 0;
+  font-size: var(--ui-radio-legend-font-size);
+  font-weight: var(--ui-radio-legend-font-weight);
+  color: var(--ui-color-text);
+}
+
+.ui-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ui-radio-gap);
+  cursor: pointer;
+}
+
+.ui-radio__el {
+  width: var(--ui-radio-size);
+  height: var(--ui-radio-size);
+  margin: 0;
+  accent-color: var(--ui-radio-bg-checked);
+  cursor: pointer;
+}
+
+.ui-radio__el:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-focus-ring);
+}
+
+.ui-radio__el:disabled {
+  cursor: not-allowed;
+}
+
+.ui-radio__label {
+  font-size: var(--ui-radio-label-font-size);
+  color: var(--ui-color-text);
+}
+
+// --- Invalid --------------------------------------------------------------
+:host(.ui-radio-group--invalid) .ui-radio__el {
+  accent-color: var(--ui-radio-border-invalid);
+}
+
+// --- Disabled -------------------------------------------------------------
+:host(.ui-radio-group--disabled) .ui-radio {
+  cursor: not-allowed;
+}
+:host(.ui-radio-group--disabled) .ui-radio__label {
+  color: var(--ui-radio-disabled-text);
+}

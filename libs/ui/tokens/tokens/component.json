@@ -84,5 +84,16 @@
     "label-gap": { "value": "{space.2}" },
     "label-font-size": { "value": "{font.size.md}" },
     "disabled-text": { "value": "{color.disabled-text}" }
+  },
+  "radio": {
+    "size": { "value": "{size.checkbox-md}" },
+    "bg-checked": { "value": "{color.primary}" },
+    "border-invalid": { "value": "{color.danger}" },
+    "gap": { "value": "{space.2}" },
+    "group-gap": { "value": "{space.2}" },
+    "label-font-size": { "value": "{font.size.md}" },
+    "legend-font-size": { "value": "{font.size.sm}" },
+    "legend-font-weight": { "value": "{font.weight.medium}" },
+    "disabled-text": { "value": "{color.disabled-text}" }
   }
 }
