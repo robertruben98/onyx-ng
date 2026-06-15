@@ -1,4 +1,4 @@
 import { ComponentDoc } from "./doc-model";
+import { buttonDoc } from "@onyx/ui/components";
 
-// Populated in Phase 3 as each component gains its .docs.ts.
-export const COMPONENT_DOCS: ComponentDoc[] = [];
+export const COMPONENT_DOCS: ComponentDoc[] = [buttonDoc];
