@@ -18,6 +18,10 @@
       "executor": "nx:run-commands",
       "options": { "command": "ng serve docs" }
     },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": { "command": "jest apps/docs/src" }
+    },
     "build-storybook": {
       "executor": "nx:run-commands",
       "options": {
