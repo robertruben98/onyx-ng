@@ -20,7 +20,7 @@ import { CodeBlockComponent } from "./code-block.component";
         <p>{{ demo().description }}</p>
       }
       <div class="docs-demo__preview">
-        <ng-container *ngComponentOutlet="demo().component" />
+        <ng-container [ngComponentOutlet]="demo().component" />
       </div>
       <button
         type="button"
