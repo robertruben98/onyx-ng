@@ -1,14 +1,8 @@
-import { bootstrapApplication } from '@angular/platform-browser';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ButtonComponent } from '@onyx/ui/components';
+import { bootstrapApplication } from "@angular/platform-browser";
+import { provideRouter } from "@angular/router";
+import { AppComponent } from "./app/app.component";
+import { routes } from "./app/app.routes";
 
-@Component({
-  selector: 'ui-root',
-  standalone: true,
-  imports: [ButtonComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ui-button>Onyx UI</ui-button>`
-})
-export class AppComponent {}
-
-bootstrapApplication(AppComponent).catch((err) => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [provideRouter(routes)],
+}).catch((err) => console.error(err));
