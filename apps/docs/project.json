@@ -21,17 +21,6 @@
     "test": {
       "executor": "nx:run-commands",
       "options": { "command": "jest apps/docs/src" }
-    },
-    "build-storybook": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "npm run build-storybook"
-      },
-      "outputs": ["{workspaceRoot}/dist/storybook"]
-    },
-    "storybook": {
-      "executor": "nx:run-commands",
-      "options": { "command": "npm run storybook" }
     }
   }
 }
