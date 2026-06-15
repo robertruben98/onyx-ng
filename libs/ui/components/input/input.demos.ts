@@ -4,7 +4,7 @@ import { InputComponent } from "./input.component";
 
 const basicCode = `<ui-input label="Email" placeholder="you@example.com" type="email" />`;
 @Component({ standalone: true, imports: [InputComponent], template: basicCode })
-class InputBasicDemo {}
+class InputBasicDemoComponent {}
 
 const statesCode = `<ui-input label="Invalid" [invalid]="true" />
 <ui-input label="Disabled" [disabled]="true" />`;
@@ -13,9 +13,9 @@ const statesCode = `<ui-input label="Invalid" [invalid]="true" />
   imports: [InputComponent],
   template: statesCode,
 })
-class InputStatesDemo {}
+class InputStatesDemoComponent {}
 
 export const inputDemos: Demo[] = [
-  { title: "Basic", code: basicCode, component: InputBasicDemo },
-  { title: "States", code: statesCode, component: InputStatesDemo },
+  { title: "Basic", code: basicCode, component: InputBasicDemoComponent },
+  { title: "States", code: statesCode, component: InputStatesDemoComponent },
 ];

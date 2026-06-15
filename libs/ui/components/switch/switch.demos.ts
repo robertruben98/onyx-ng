@@ -8,7 +8,7 @@ const basicCode = `<ui-switch label="Enable notifications" />`;
   imports: [SwitchComponent],
   template: basicCode,
 })
-class SwitchBasicDemo {}
+class SwitchBasicDemoComponent {}
 
 const disabledCode = `<ui-switch label="Disabled" [disabled]="true" />`;
 @Component({
@@ -16,9 +16,13 @@ const disabledCode = `<ui-switch label="Disabled" [disabled]="true" />`;
   imports: [SwitchComponent],
   template: disabledCode,
 })
-class SwitchDisabledDemo {}
+class SwitchDisabledDemoComponent {}
 
 export const switchDemos: Demo[] = [
-  { title: "Basic", code: basicCode, component: SwitchBasicDemo },
-  { title: "Disabled", code: disabledCode, component: SwitchDisabledDemo },
+  { title: "Basic", code: basicCode, component: SwitchBasicDemoComponent },
+  {
+    title: "Disabled",
+    code: disabledCode,
+    component: SwitchDisabledDemoComponent,
+  },
 ];

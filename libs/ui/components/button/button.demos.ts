@@ -10,7 +10,7 @@ const variantsCode = `<ui-button variant="primary">Primary</ui-button>
   imports: [ButtonComponent],
   template: variantsCode,
 })
-class ButtonVariantsDemo {}
+class ButtonVariantsDemoComponent {}
 
 const statesCode = `<ui-button [disabled]="true">Disabled</ui-button>
 <ui-button [loading]="true">Loading</ui-button>`;
@@ -19,9 +19,13 @@ const statesCode = `<ui-button [disabled]="true">Disabled</ui-button>
   imports: [ButtonComponent],
   template: statesCode,
 })
-class ButtonStatesDemo {}
+class ButtonStatesDemoComponent {}
 
 export const buttonDemos: Demo[] = [
-  { title: "Variants", code: variantsCode, component: ButtonVariantsDemo },
-  { title: "States", code: statesCode, component: ButtonStatesDemo },
+  {
+    title: "Variants",
+    code: variantsCode,
+    component: ButtonVariantsDemoComponent,
+  },
+  { title: "States", code: statesCode, component: ButtonStatesDemoComponent },
 ];

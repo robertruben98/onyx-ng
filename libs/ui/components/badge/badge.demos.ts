@@ -12,8 +12,12 @@ const variantsCode = `<ui-badge variant="neutral">Neutral</ui-badge>
   imports: [BadgeComponent],
   template: variantsCode,
 })
-class BadgeVariantsDemo {}
+class BadgeVariantsDemoComponent {}
 
 export const badgeDemos: Demo[] = [
-  { title: "Variants", code: variantsCode, component: BadgeVariantsDemo },
+  {
+    title: "Variants",
+    code: variantsCode,
+    component: BadgeVariantsDemoComponent,
+  },
 ];

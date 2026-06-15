@@ -13,10 +13,10 @@ const basicCode = `<ui-radio-group label="Size" [options]="options" />`;
   imports: [RadioGroupComponent],
   template: basicCode,
 })
-class RadioBasicDemo {
+class RadioBasicDemoComponent {
   readonly options = sizeOptions;
 }
 
 export const radioGroupDemos: Demo[] = [
-  { title: "Basic", code: basicCode, component: RadioBasicDemo },
+  { title: "Basic", code: basicCode, component: RadioBasicDemoComponent },
 ];

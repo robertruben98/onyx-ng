@@ -8,7 +8,7 @@ const basicCode = `<ui-checkbox label="Accept terms" />`;
   imports: [CheckboxComponent],
   template: basicCode,
 })
-class CheckboxBasicDemo {}
+class CheckboxBasicDemoComponent {}
 
 const statesCode = `<ui-checkbox label="Indeterminate" [indeterminate]="true" />
 <ui-checkbox label="Disabled" [disabled]="true" />`;
@@ -17,9 +17,9 @@ const statesCode = `<ui-checkbox label="Indeterminate" [indeterminate]="true" />
   imports: [CheckboxComponent],
   template: statesCode,
 })
-class CheckboxStatesDemo {}
+class CheckboxStatesDemoComponent {}
 
 export const checkboxDemos: Demo[] = [
-  { title: "Basic", code: basicCode, component: CheckboxBasicDemo },
-  { title: "States", code: statesCode, component: CheckboxStatesDemo },
+  { title: "Basic", code: basicCode, component: CheckboxBasicDemoComponent },
+  { title: "States", code: statesCode, component: CheckboxStatesDemoComponent },
 ];

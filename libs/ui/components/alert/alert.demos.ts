@@ -11,7 +11,7 @@ const variantsCode = `<ui-alert variant="info" title="Info">An informational mes
   imports: [AlertComponent],
   template: variantsCode,
 })
-class AlertVariantsDemo {}
+class AlertVariantsDemoComponent {}
 
 const dismissCode = `<ui-alert variant="info" [dismissible]="true">Dismiss me.</ui-alert>`;
 @Component({
@@ -19,9 +19,17 @@ const dismissCode = `<ui-alert variant="info" [dismissible]="true">Dismiss me.</
   imports: [AlertComponent],
   template: dismissCode,
 })
-class AlertDismissDemo {}
+class AlertDismissDemoComponent {}
 
 export const alertDemos: Demo[] = [
-  { title: "Variants", code: variantsCode, component: AlertVariantsDemo },
-  { title: "Dismissible", code: dismissCode, component: AlertDismissDemo },
+  {
+    title: "Variants",
+    code: variantsCode,
+    component: AlertVariantsDemoComponent,
+  },
+  {
+    title: "Dismissible",
+    code: dismissCode,
+    component: AlertDismissDemoComponent,
+  },
 ];

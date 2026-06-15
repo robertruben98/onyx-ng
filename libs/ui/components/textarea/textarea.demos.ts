@@ -8,8 +8,8 @@ const basicCode = `<ui-textarea label="Bio" placeholder="Tell us about yourselfâ
   imports: [TextareaComponent],
   template: basicCode,
 })
-class TextareaBasicDemo {}
+class TextareaBasicDemoComponent {}
 
 export const textareaDemos: Demo[] = [
-  { title: "Basic", code: basicCode, component: TextareaBasicDemo },
+  { title: "Basic", code: basicCode, component: TextareaBasicDemoComponent },
 ];
