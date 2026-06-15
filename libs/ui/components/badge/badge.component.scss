@@ -1,0 +1,38 @@
+// Badge styles — references ONLY semantic / component tokens (CLAUDE.md §3).
+// Variants map to feedback-role tokens; light/dark via token re-mapping.
+
+:host {
+  display: inline-flex;
+}
+
+.ui-badge__el {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--ui-badge-padding-y) var(--ui-badge-padding-x);
+  font-size: var(--ui-badge-font-size);
+  font-weight: var(--ui-badge-font-weight);
+  line-height: 1;
+  border-radius: var(--ui-badge-radius);
+  white-space: nowrap;
+}
+
+:host(.ui-badge--neutral) .ui-badge__el {
+  background-color: var(--ui-badge-neutral-bg);
+  color: var(--ui-badge-neutral-text);
+}
+:host(.ui-badge--info) .ui-badge__el {
+  background-color: var(--ui-badge-info-bg);
+  color: var(--ui-badge-info-text);
+}
+:host(.ui-badge--success) .ui-badge__el {
+  background-color: var(--ui-badge-success-bg);
+  color: var(--ui-badge-success-text);
+}
+:host(.ui-badge--warning) .ui-badge__el {
+  background-color: var(--ui-badge-warning-bg);
+  color: var(--ui-badge-warning-text);
+}
+:host(.ui-badge--danger) .ui-badge__el {
+  background-color: var(--ui-badge-danger-bg);
+  color: var(--ui-badge-danger-text);
+}
