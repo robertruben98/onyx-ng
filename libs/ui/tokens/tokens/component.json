@@ -69,5 +69,20 @@
     "border-width": { "value": "{border.width}" },
     "disabled-bg": { "value": "{color.disabled-bg}" },
     "disabled-text": { "value": "{color.disabled-text}" }
+  },
+  "switch": {
+    "track-width": { "value": "{size.switch-track-w}" },
+    "track-height": { "value": "{size.switch-track-h}" },
+    "thumb-size": { "value": "{size.switch-thumb}" },
+    "thumb-travel": { "value": "{size.switch-travel}" },
+    "padding": { "value": "{border.width-thick}" },
+    "track-bg": { "value": "{color.border}" },
+    "track-bg-checked": { "value": "{color.primary}" },
+    "thumb-color": { "value": "{white}" },
+    "radius": { "value": "{radii.full}" },
+    "border-invalid": { "value": "{color.danger}" },
+    "label-gap": { "value": "{space.2}" },
+    "label-font-size": { "value": "{font.size.md}" },
+    "disabled-text": { "value": "{color.disabled-text}" }
   }
 }

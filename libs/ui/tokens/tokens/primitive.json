@@ -40,7 +40,11 @@
     "checkbox-sm": { "value": "1rem" },
     "checkbox-md": { "value": "1.25rem" },
     "checkbox-lg": { "value": "1.5rem" },
-    "textarea-min": { "value": "4.5rem" }
+    "textarea-min": { "value": "4.5rem" },
+    "switch-track-w": { "value": "2.5rem" },
+    "switch-track-h": { "value": "1.5rem" },
+    "switch-thumb": { "value": "1.25rem" },
+    "switch-travel": { "value": "1rem" }
   },
   "font": {
     "size": {

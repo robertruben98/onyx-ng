@@ -1,0 +1,20 @@
+<label class="ui-switch__wrap" [attr.for]="inputId">
+  <span class="ui-switch__control">
+    <input
+      class="ui-switch__el"
+      type="checkbox"
+      role="switch"
+      [id]="inputId"
+      [checked]="checked()"
+      [disabled]="disabledState()"
+      [attr.aria-label]="!label() && ariaLabel() ? ariaLabel() : null"
+      [attr.aria-invalid]="invalid() ? 'true' : null"
+      (change)="handleChange($event)"
+      (blur)="handleBlur()"
+    />
+    <span class="ui-switch__track" aria-hidden="true"></span>
+  </span>
+  @if (label()) {
+    <span class="ui-switch__label">{{ label() }}</span>
+  }
+</label>
