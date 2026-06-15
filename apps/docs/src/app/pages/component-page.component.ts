@@ -8,17 +8,24 @@ import { ActivatedRoute } from "@angular/router";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { map } from "rxjs";
 import { COMPONENT_DOCS } from "../registry";
+import { ApiTableComponent } from "../ui/api-table.component";
+import { DemoBlockComponent } from "../ui/demo-block.component";
 
 @Component({
   selector: "docs-component-page",
   standalone: true,
-  imports: [],
+  imports: [ApiTableComponent, DemoBlockComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (doc(); as d) {
       <article>
         <h1>{{ d.title }}</h1>
         <p class="docs-lead">{{ d.description }}</p>
+        @for (demo of d.demos; track demo.title) {
+          <docs-demo-block [demo]="demo" />
+        }
+        <h2>API</h2>
+        <docs-api-table [rows]="d.api" />
       </article>
     }
   `,
