@@ -1,4 +1,22 @@
 import { ComponentDoc } from "./doc-model";
-import { buttonDoc } from "@onyx/ui/components";
+import {
+  buttonDoc,
+  inputDoc,
+  textareaDoc,
+  checkboxDoc,
+  switchDoc,
+  radioGroupDoc,
+  badgeDoc,
+  alertDoc,
+} from "@onyx/ui/components";
 
-export const COMPONENT_DOCS: ComponentDoc[] = [buttonDoc];
+export const COMPONENT_DOCS: ComponentDoc[] = [
+  buttonDoc,
+  inputDoc,
+  textareaDoc,
+  checkboxDoc,
+  switchDoc,
+  radioGroupDoc,
+  badgeDoc,
+  alertDoc,
+];
