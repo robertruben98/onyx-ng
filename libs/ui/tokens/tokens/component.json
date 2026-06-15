@@ -15,6 +15,26 @@
     "border-width": { "value": "{border.width}" },
     "spinner-size": { "value": "{font.size.md}" },
     "spinner-width": { "value": "{border.width-thick}" },
-    "spinner-radius": { "value": "{radius.full}" }
+    "spinner-radius": { "value": "{radii.full}" }
+  },
+  "input": {
+    "bg": { "value": "{color.surface}" },
+    "text": { "value": "{color.text}" },
+    "placeholder": { "value": "{color.text-muted}" },
+    "border": { "value": "{color.border}" },
+    "border-focus": { "value": "{color.primary}" },
+    "border-invalid": { "value": "{color.danger}" },
+    "radius": { "value": "{radius}" },
+    "padding-x": { "value": "{space.3}" },
+    "font-size": { "value": "{font.size.md}" },
+    "height": { "value": "{size.control-md}" },
+    "height-sm": { "value": "{size.control-sm}" },
+    "height-lg": { "value": "{size.control-lg}" },
+    "border-width": { "value": "{border.width}" },
+    "disabled-bg": { "value": "{color.disabled-bg}" },
+    "disabled-text": { "value": "{color.disabled-text}" },
+    "label-font-size": { "value": "{font.size.sm}" },
+    "label-font-weight": { "value": "{font.weight.medium}" },
+    "label-gap": { "value": "{space.1}" }
   }
 }

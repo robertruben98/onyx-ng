@@ -15,6 +15,10 @@
     "900": { "value": "#0f172a" },
     "950": { "value": "#020617" }
   },
+  "red": {
+    "500": { "value": "#ef4444" },
+    "600": { "value": "#dc2626" }
+  },
   "white": { "value": "#ffffff" },
   "black": { "value": "#000000" },
   "space": {
@@ -24,7 +28,7 @@
     "4": { "value": "1rem" },
     "5": { "value": "1.25rem" }
   },
-  "radius": {
+  "radii": {
     "sm": { "value": "0.25rem" },
     "md": { "value": "0.5rem" },
     "full": { "value": "9999px" }

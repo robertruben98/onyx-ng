@@ -7,6 +7,9 @@
     "surface": { "value": "{white}" },
     "surface-hover": { "value": "{blue.50}" },
     "text": { "value": "{slate.900}" },
+    "text-muted": { "value": "{slate.400}" },
+    "border": { "value": "{slate.200}" },
+    "danger": { "value": "{red.600}" },
     "disabled-bg": { "value": "{slate.100}" },
     "disabled-text": { "value": "{slate.400}" }
   },
@@ -15,5 +18,5 @@
     "ring-width": { "value": "{border.width-thick}" },
     "ring-offset": { "value": "{border.width-thick}" }
   },
-  "radius": { "value": "{radius.md}" }
+  "radius": { "value": "{radii.md}" }
 }
