@@ -112,5 +112,26 @@
     "warning-text": { "value": "{color.warning}" },
     "danger-bg": { "value": "{color.danger-surface}" },
     "danger-text": { "value": "{color.danger}" }
+  },
+  "alert": {
+    "radius": { "value": "{radius}" },
+    "padding-x": { "value": "{space.4}" },
+    "padding-y": { "value": "{space.3}" },
+    "gap": { "value": "{space.3}" },
+    "accent-width": { "value": "{space.1}" },
+    "text": { "value": "{color.text}" },
+    "title-font-weight": { "value": "{font.weight.medium}" },
+    "font-size": { "value": "{font.size.md}" },
+    "close-size": { "value": "{font.size.lg}" },
+    "neutral-bg": { "value": "{color.neutral-surface}" },
+    "neutral-accent": { "value": "{color.neutral}" },
+    "info-bg": { "value": "{color.info-surface}" },
+    "info-accent": { "value": "{color.info}" },
+    "success-bg": { "value": "{color.success-surface}" },
+    "success-accent": { "value": "{color.success}" },
+    "warning-bg": { "value": "{color.warning-surface}" },
+    "warning-accent": { "value": "{color.warning}" },
+    "danger-bg": { "value": "{color.danger-surface}" },
+    "danger-accent": { "value": "{color.danger}" }
   }
 }

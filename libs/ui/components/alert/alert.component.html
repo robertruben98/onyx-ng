@@ -1,0 +1,18 @@
+<div class="ui-alert__el" [attr.role]="role()">
+  <div class="ui-alert__body">
+    @if (title()) {
+      <p class="ui-alert__title">{{ title() }}</p>
+    }
+    <div class="ui-alert__content"><ng-content /></div>
+  </div>
+  @if (dismissible()) {
+    <button
+      type="button"
+      class="ui-alert__close"
+      [attr.aria-label]="dismissLabel()"
+      (click)="dismiss()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  }
+</div>

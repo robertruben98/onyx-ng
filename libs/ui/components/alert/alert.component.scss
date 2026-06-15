@@ -1,0 +1,82 @@
+// Alert styles — references ONLY semantic / component tokens (CLAUDE.md §3).
+// Variants map to feedback-role tokens; light/dark via token re-mapping.
+
+:host {
+  display: block;
+}
+
+.ui-alert__el {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ui-alert-gap);
+  padding: var(--ui-alert-padding-y) var(--ui-alert-padding-x);
+  font-size: var(--ui-alert-font-size);
+  color: var(--ui-alert-text);
+  border-radius: var(--ui-alert-radius);
+  border-left: var(--ui-alert-accent-width) solid transparent;
+}
+
+.ui-alert__body {
+  flex: 1;
+}
+
+.ui-alert__title {
+  margin: 0;
+  font-weight: var(--ui-alert-title-font-weight);
+}
+
+.ui-alert__content {
+  margin: 0;
+}
+
+.ui-alert__close {
+  flex-shrink: 0;
+  padding: 0;
+  font-size: var(--ui-alert-close-size);
+  line-height: 1;
+  color: inherit;
+  background: transparent;
+  border: none;
+  border-radius: var(--ui-alert-radius);
+  cursor: pointer;
+}
+
+.ui-alert__close:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-focus-ring);
+}
+
+// --- Variants -------------------------------------------------------------
+:host(.ui-alert--neutral) .ui-alert__el {
+  background-color: var(--ui-alert-neutral-bg);
+  border-left-color: var(--ui-alert-neutral-accent);
+}
+:host(.ui-alert--info) .ui-alert__el {
+  background-color: var(--ui-alert-info-bg);
+  border-left-color: var(--ui-alert-info-accent);
+}
+:host(.ui-alert--success) .ui-alert__el {
+  background-color: var(--ui-alert-success-bg);
+  border-left-color: var(--ui-alert-success-accent);
+}
+:host(.ui-alert--warning) .ui-alert__el {
+  background-color: var(--ui-alert-warning-bg);
+  border-left-color: var(--ui-alert-warning-accent);
+}
+:host(.ui-alert--danger) .ui-alert__el {
+  background-color: var(--ui-alert-danger-bg);
+  border-left-color: var(--ui-alert-danger-accent);
+}
+
+:host(.ui-alert--info) .ui-alert__title {
+  color: var(--ui-alert-info-accent);
+}
+:host(.ui-alert--success) .ui-alert__title {
+  color: var(--ui-alert-success-accent);
+}
+:host(.ui-alert--warning) .ui-alert__title {
+  color: var(--ui-alert-warning-accent);
+}
+:host(.ui-alert--danger) .ui-alert__title {
+  color: var(--ui-alert-danger-accent);
+}
