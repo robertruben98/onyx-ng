@@ -1,0 +1,116 @@
+import { Component, signal } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { render, screen, waitFor } from "@testing-library/angular";
+import userEvent from "@testing-library/user-event";
+import { axe } from "jest-axe";
+import { TextareaComponent } from "./textarea.component";
+
+const axeOptions = { rules: { region: { enabled: false } } };
+
+describe("TextareaComponent", () => {
+  it("associates a visible label with the control", async () => {
+    await render(`<ui-textarea label="Bio" />`, {
+      imports: [TextareaComponent],
+    });
+    expect(screen.getByLabelText("Bio")).toBeInTheDocument();
+  });
+
+  it("falls back to ariaLabel when no visible label is given", async () => {
+    await render(`<ui-textarea ariaLabel="Notes" />`, {
+      imports: [TextareaComponent],
+    });
+    expect(screen.getByLabelText("Notes")).toBeInTheDocument();
+  });
+
+  it("emits valueChange as the user types", async () => {
+    const user = userEvent.setup();
+    const valueChange = jest.fn();
+    await render(
+      `<ui-textarea label="Bio" (valueChange)="valueChange($event)" />`,
+      {
+        imports: [TextareaComponent],
+        componentProperties: { valueChange },
+      },
+    );
+    await user.type(screen.getByLabelText("Bio"), "hi");
+    expect(valueChange).toHaveBeenLastCalledWith("hi");
+  });
+
+  it("is reachable by keyboard", async () => {
+    const user = userEvent.setup();
+    await render(`<ui-textarea label="Bio" />`, {
+      imports: [TextareaComponent],
+    });
+    await user.tab();
+    expect(screen.getByLabelText("Bio")).toHaveFocus();
+  });
+
+  it("reflects invalid via aria-invalid", async () => {
+    await render(`<ui-textarea label="Bio" [invalid]="true" />`, {
+      imports: [TextareaComponent],
+    });
+    expect(screen.getByLabelText("Bio")).toHaveAttribute(
+      "aria-invalid",
+      "true",
+    );
+  });
+
+  it("does NOT accept input when disabled", async () => {
+    const user = userEvent.setup();
+    const valueChange = jest.fn();
+    await render(
+      `<ui-textarea label="Bio" [disabled]="true" (valueChange)="valueChange($event)" />`,
+      { imports: [TextareaComponent], componentProperties: { valueChange } },
+    );
+    const el = screen.getByLabelText("Bio");
+    expect(el).toBeDisabled();
+    await user.type(el, "x");
+    expect(valueChange).not.toHaveBeenCalled();
+  });
+
+  describe("ControlValueAccessor (ngModel)", () => {
+    @Component({
+      standalone: true,
+      imports: [TextareaComponent, FormsModule],
+      template: `<ui-textarea
+        label="Bio"
+        [ngModel]="model()"
+        (ngModelChange)="model.set($event)"
+      />`,
+    })
+    class HostComponent {
+      readonly model = signal("hello");
+    }
+
+    it("writes the model value into the control", async () => {
+      await render(HostComponent);
+      await waitFor(() =>
+        expect(screen.getByLabelText("Bio")).toHaveValue("hello"),
+      );
+    });
+
+    it("updates the model when the user types", async () => {
+      const user = userEvent.setup();
+      const { fixture } = await render(HostComponent);
+      const el = screen.getByLabelText("Bio");
+      await user.clear(el);
+      await user.type(el, "world");
+      expect(fixture.componentInstance.model()).toBe("world");
+    });
+  });
+
+  it("has no axe violations (default)", async () => {
+    const { container } = await render(`<ui-textarea label="Bio" />`, {
+      imports: [TextareaComponent],
+    });
+    expect(await axe(container, axeOptions)).toHaveNoViolations();
+  });
+
+  it("has no axe violations (invalid)", async () => {
+    const { container } = await render(
+      `<ui-textarea label="Bio" [invalid]="true" />`,
+      { imports: [TextareaComponent] },
+    );
+    expect(await axe(container, axeOptions)).toHaveNoViolations();
+  });
+});

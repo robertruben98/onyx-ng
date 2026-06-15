@@ -1,0 +1,53 @@
+// Textarea styles — references ONLY semantic / component tokens (CLAUDE.md §3).
+// No raw colors / sizes / radii, no primitive tokens. Light/dark via token
+// re-mapping in the active theme, never conditionals here.
+
+:host {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--ui-input-label-gap);
+}
+
+.ui-textarea__label {
+  font-size: var(--ui-input-label-font-size);
+  font-weight: var(--ui-input-label-font-weight);
+  color: var(--ui-textarea-text);
+}
+
+.ui-textarea__el {
+  min-height: var(--ui-textarea-min-height);
+  padding: var(--ui-textarea-padding-y) var(--ui-textarea-padding-x);
+  font-family: inherit;
+  font-size: var(--ui-textarea-font-size);
+  color: var(--ui-textarea-text);
+  background-color: var(--ui-textarea-bg);
+  border: var(--ui-textarea-border-width) solid var(--ui-textarea-border);
+  border-radius: var(--ui-textarea-radius);
+  resize: vertical;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.ui-textarea__el::placeholder {
+  color: var(--ui-textarea-placeholder);
+}
+
+.ui-textarea__el:focus-visible {
+  outline: none;
+  border-color: var(--ui-textarea-border-focus);
+  box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-focus-ring);
+}
+
+.ui-textarea__el:disabled {
+  cursor: not-allowed;
+  background-color: var(--ui-textarea-disabled-bg);
+  color: var(--ui-textarea-disabled-text);
+}
+
+:host(.ui-textarea--invalid) .ui-textarea__el {
+  border-color: var(--ui-textarea-border-invalid);
+}
+:host(.ui-textarea--invalid) .ui-textarea__el:focus-visible {
+  box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-textarea-border-invalid);
+}

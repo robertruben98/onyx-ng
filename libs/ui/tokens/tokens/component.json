@@ -53,5 +53,21 @@
     "label-font-size": { "value": "{font.size.md}" },
     "disabled-bg": { "value": "{color.disabled-bg}" },
     "disabled-text": { "value": "{color.disabled-text}" }
+  },
+  "textarea": {
+    "bg": { "value": "{color.surface}" },
+    "text": { "value": "{color.text}" },
+    "placeholder": { "value": "{color.text-muted}" },
+    "border": { "value": "{color.border}" },
+    "border-focus": { "value": "{color.primary}" },
+    "border-invalid": { "value": "{color.danger}" },
+    "radius": { "value": "{radius}" },
+    "padding-x": { "value": "{space.3}" },
+    "padding-y": { "value": "{space.2}" },
+    "font-size": { "value": "{font.size.md}" },
+    "min-height": { "value": "{size.textarea-min}" },
+    "border-width": { "value": "{border.width}" },
+    "disabled-bg": { "value": "{color.disabled-bg}" },
+    "disabled-text": { "value": "{color.disabled-text}" }
   }
 }
