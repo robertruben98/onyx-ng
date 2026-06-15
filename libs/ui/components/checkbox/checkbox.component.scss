@@ -1,0 +1,59 @@
+// Checkbox styles — references ONLY semantic / component tokens (CLAUDE.md §3).
+// Uses the native control + `accent-color` so the browser renders the check and
+// indeterminate dash (full a11y, no custom drawing). Light/dark via token
+// re-mapping in the active theme, never conditionals here.
+
+:host {
+  display: inline-block;
+}
+
+.ui-checkbox__wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ui-checkbox-label-gap);
+  cursor: pointer;
+}
+
+.ui-checkbox__el {
+  width: var(--ui-checkbox-size);
+  height: var(--ui-checkbox-size);
+  margin: 0;
+  accent-color: var(--ui-checkbox-bg-checked);
+  border-radius: var(--ui-checkbox-radius);
+  cursor: pointer;
+}
+
+.ui-checkbox__el:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-focus-ring);
+}
+
+.ui-checkbox__label {
+  font-size: var(--ui-checkbox-label-font-size);
+  color: var(--ui-color-text);
+}
+
+// --- Sizes ----------------------------------------------------------------
+:host(.ui-checkbox--sm) .ui-checkbox__el {
+  width: var(--ui-checkbox-size-sm);
+  height: var(--ui-checkbox-size-sm);
+}
+:host(.ui-checkbox--lg) .ui-checkbox__el {
+  width: var(--ui-checkbox-size-lg);
+  height: var(--ui-checkbox-size-lg);
+}
+
+// --- Invalid --------------------------------------------------------------
+:host(.ui-checkbox--invalid) .ui-checkbox__el {
+  accent-color: var(--ui-checkbox-border-invalid);
+  box-shadow: 0 0 0 var(--ui-checkbox-border-width)
+    var(--ui-checkbox-border-invalid);
+}
+
+// --- Disabled -------------------------------------------------------------
+:host(.ui-checkbox--disabled) .ui-checkbox__wrap {
+  cursor: not-allowed;
+}
+:host(.ui-checkbox--disabled) .ui-checkbox__label {
+  color: var(--ui-checkbox-disabled-text);
+}

@@ -1,0 +1,17 @@
+<label class="ui-checkbox__wrap" [attr.for]="inputId">
+  <input
+    #box
+    class="ui-checkbox__el"
+    type="checkbox"
+    [id]="inputId"
+    [checked]="checked()"
+    [disabled]="disabledState()"
+    [attr.aria-label]="!label() && ariaLabel() ? ariaLabel() : null"
+    [attr.aria-invalid]="invalid() ? 'true' : null"
+    (change)="handleChange($event)"
+    (blur)="handleBlur()"
+  />
+  @if (label()) {
+    <span class="ui-checkbox__label">{{ label() }}</span>
+  }
+</label>

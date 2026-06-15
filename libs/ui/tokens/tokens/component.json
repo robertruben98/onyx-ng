@@ -36,5 +36,22 @@
     "label-font-size": { "value": "{font.size.sm}" },
     "label-font-weight": { "value": "{font.weight.medium}" },
     "label-gap": { "value": "{space.1}" }
+  },
+  "checkbox": {
+    "size": { "value": "{size.checkbox-md}" },
+    "size-sm": { "value": "{size.checkbox-sm}" },
+    "size-lg": { "value": "{size.checkbox-lg}" },
+    "bg": { "value": "{color.surface}" },
+    "bg-checked": { "value": "{color.primary}" },
+    "border": { "value": "{color.border}" },
+    "border-checked": { "value": "{color.primary}" },
+    "border-invalid": { "value": "{color.danger}" },
+    "check-color": { "value": "{color.on-primary}" },
+    "radius": { "value": "{radii.sm}" },
+    "border-width": { "value": "{border.width}" },
+    "label-gap": { "value": "{space.2}" },
+    "label-font-size": { "value": "{font.size.md}" },
+    "disabled-bg": { "value": "{color.disabled-bg}" },
+    "disabled-text": { "value": "{color.disabled-text}" }
   }
 }
