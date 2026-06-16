@@ -1,0 +1,39 @@
+// Spinner styles — semantic / component tokens only (CLAUDE.md §3).
+
+:host {
+  display: inline-flex;
+  color: var(--ui-spinner-color);
+}
+
+.ui-spinner__ring {
+  display: inline-block;
+  width: var(--ui-spinner-size);
+  height: var(--ui-spinner-size);
+  border: var(--ui-spinner-width) solid var(--ui-spinner-track);
+  border-top-color: currentColor;
+  border-radius: var(--ui-spinner-radius);
+  animation: ui-spinner-spin 650ms linear infinite;
+}
+
+:host(.ui-spinner--sm) .ui-spinner__ring {
+  width: var(--ui-spinner-size-sm);
+  height: var(--ui-spinner-size-sm);
+}
+
+:host(.ui-spinner--lg) .ui-spinner__ring {
+  width: var(--ui-spinner-size-lg);
+  height: var(--ui-spinner-size-lg);
+  border-width: var(--ui-spinner-width-lg);
+}
+
+@keyframes ui-spinner-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-spinner__ring {
+    animation-duration: 0s;
+  }
+}

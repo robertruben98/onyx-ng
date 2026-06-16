@@ -153,6 +153,16 @@
     "width-md": { "value": "32rem" },
     "width-lg": { "value": "48rem" }
   },
+  "spinner": {
+    "size": { "value": "1.5rem" },
+    "size-sm": { "value": "1rem" },
+    "size-lg": { "value": "2.25rem" },
+    "width": { "value": "{border.width-thick}" },
+    "width-lg": { "value": "0.1875rem" },
+    "color": { "value": "{color.primary}" },
+    "track": { "value": "{color.border}" },
+    "radius": { "value": "{radii.full}" }
+  },
   "avatar": {
     "size": { "value": "{size.control-md}" },
     "size-sm": { "value": "{size.control-sm}" },

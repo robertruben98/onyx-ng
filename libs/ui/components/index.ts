@@ -8,5 +8,6 @@ export * from "./dialog";
 export * from "./divider";
 export * from "./input";
 export * from "./radio-group";
+export * from "./spinner";
 export * from "./switch";
 export * from "./textarea";
