@@ -1,0 +1,42 @@
+// Avatar styles — semantic / component tokens only (CLAUDE.md §3).
+
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--ui-avatar-size);
+  height: var(--ui-avatar-size);
+  border-radius: var(--ui-avatar-radius);
+  background-color: var(--ui-avatar-bg);
+  color: var(--ui-avatar-text);
+  font-size: var(--ui-avatar-font-size);
+  font-weight: var(--ui-avatar-font-weight);
+  overflow: hidden;
+  user-select: none;
+}
+
+:host(.ui-avatar--sm) {
+  width: var(--ui-avatar-size-sm);
+  height: var(--ui-avatar-size-sm);
+  font-size: var(--ui-avatar-font-size-sm);
+}
+
+:host(.ui-avatar--lg) {
+  width: var(--ui-avatar-size-lg);
+  height: var(--ui-avatar-size-lg);
+  font-size: var(--ui-avatar-font-size-lg);
+}
+
+:host(.ui-avatar--square) {
+  border-radius: var(--ui-avatar-radius-square);
+}
+
+.ui-avatar__img {
+  width: inherit;
+  height: inherit;
+  object-fit: cover;
+}
+
+.ui-avatar__initials {
+  line-height: 1;
+}

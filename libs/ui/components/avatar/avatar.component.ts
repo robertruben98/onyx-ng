@@ -1,0 +1,57 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  signal,
+} from "@angular/core";
+
+export type AvatarSize = "sm" | "md" | "lg";
+export type AvatarShape = "circle" | "square";
+
+/**
+ * User avatar. Shows an image when `src` resolves, otherwise initials derived
+ * from `name`. The initials fallback exposes `role=img` + `aria-label`.
+ */
+@Component({
+  selector: "ui-avatar",
+  standalone: true,
+  templateUrl: "./avatar.component.html",
+  styleUrl: "./avatar.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[class.ui-avatar]": "true",
+    "[class.ui-avatar--sm]": "size() === 'sm'",
+    "[class.ui-avatar--lg]": "size() === 'lg'",
+    "[class.ui-avatar--square]": "shape() === 'square'",
+    "[attr.role]": "showInitials() ? 'img' : null",
+    "[attr.aria-label]": "showInitials() ? name() || null : null",
+  },
+})
+export class AvatarComponent {
+  /** Image source URL. */
+  readonly src = input("");
+  /** Person name — used for the image alt text and initials fallback. */
+  readonly name = input("");
+  /** Avatar size. */
+  readonly size = input<AvatarSize>("md");
+  /** Avatar shape. */
+  readonly shape = input<AvatarShape>("circle");
+
+  /** Whether the image failed to load. */
+  protected readonly imgError = signal(false);
+
+  /** Show initials when there is no image or it failed. */
+  protected readonly showInitials = computed(
+    () => !this.src() || this.imgError(),
+  );
+
+  /** Up-to-two-letter initials derived from the name. */
+  protected readonly initials = computed(() => {
+    const parts = this.name().trim().split(/\s+/).filter(Boolean);
+    if (!parts.length) return "";
+    const first = parts[0][0];
+    const last = parts.length > 1 ? parts[parts.length - 1][0] : "";
+    return (first + last).toUpperCase();
+  });
+}

@@ -153,6 +153,19 @@
     "width-md": { "value": "32rem" },
     "width-lg": { "value": "48rem" }
   },
+  "avatar": {
+    "size": { "value": "{size.control-md}" },
+    "size-sm": { "value": "{size.control-sm}" },
+    "size-lg": { "value": "{size.control-lg}" },
+    "bg": { "value": "{color.neutral-surface}" },
+    "text": { "value": "{color.neutral}" },
+    "radius": { "value": "{radii.full}" },
+    "radius-square": { "value": "{radii.md}" },
+    "font-size": { "value": "{font.size.md}" },
+    "font-size-sm": { "value": "{font.size.sm}" },
+    "font-size-lg": { "value": "{font.size.lg}" },
+    "font-weight": { "value": "{font.weight.medium}" }
+  },
   "divider": {
     "color": { "value": "{color.border}" },
     "thickness": { "value": "{border.width}" },
