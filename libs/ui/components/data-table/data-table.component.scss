@@ -75,6 +75,16 @@
   min-width: 0;
 }
 
+.ui-dt__cell--select {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-dt__tr--selected {
+  background-color: var(--ui-data-table-row-selected-bg);
+}
+
 .ui-dt__cell--center {
   text-align: center;
 }

@@ -3,7 +3,7 @@
   role="grid"
   [attr.aria-label]="caption() || null"
   [attr.aria-rowcount]="ariaRowCount()"
-  [attr.aria-colcount]="columns().length"
+  [attr.aria-colcount]="colCount()"
   [attr.aria-busy]="loading() ? 'true' : null"
 >
   <div
@@ -12,6 +12,18 @@
     aria-rowindex="1"
     [style.grid-template-columns]="templateColumns()"
   >
+    @if (selectable() !== "none") {
+      <div role="columnheader" class="ui-dt__th ui-dt__cell--select">
+        @if (selectable() === "multiple") {
+          <ui-checkbox
+            ariaLabel="Select all rows"
+            [ngModel]="allSelected()"
+            [indeterminate]="someSelected()"
+            (ngModelChange)="toggleAll($event)"
+          />
+        }
+      </div>
+    }
     @for (col of columns(); track col.id) {
       <div
         role="columnheader"
@@ -59,8 +71,23 @@
           role="row"
           class="ui-dt__tr"
           [attr.aria-rowindex]="i + 2"
+          [attr.aria-selected]="
+            selectable() !== 'none' ? isSelected(row) : null
+          "
+          [class.ui-dt__tr--selected]="
+            selectable() !== 'none' && isSelected(row)
+          "
           [style.grid-template-columns]="templateColumns()"
         >
+          @if (selectable() !== "none") {
+            <div role="gridcell" class="ui-dt__td ui-dt__cell--select">
+              <ui-checkbox
+                ariaLabel="Select row"
+                [ngModel]="isSelected(row)"
+                (ngModelChange)="toggleRow(row, $event)"
+              />
+            </div>
+          }
           @for (col of columns(); track col.id) {
             <div
               role="gridcell"

@@ -8,11 +8,14 @@ import {
   model,
 } from "@angular/core";
 import { NgTemplateOutlet } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { CheckboxComponent } from "../checkbox";
 
 export type RowKey = string | number;
 export type CellAlign = "start" | "center" | "end";
 export type SortDirection = "asc" | "desc";
 export type DataTableMode = "paginated" | "virtual";
+export type SelectionMode = "none" | "single" | "multiple";
 
 /** One level of the (multi-)column sort. */
 export interface SortState {
@@ -50,7 +53,7 @@ export interface DataTableColumn<T> {
 @Component({
   selector: "ui-data-table",
   standalone: true,
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, FormsModule, CheckboxComponent],
   templateUrl: "./data-table.component.html",
   styleUrl: "./data-table.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -75,6 +78,8 @@ export class DataTableComponent<T> {
   readonly mode = input<DataTableMode>("paginated");
   /** Options for the rows-per-page control. */
   readonly pageSizeOptions = input<number[]>([10, 25, 50]);
+  /** Row selection mode. */
+  readonly selectable = input<SelectionMode>("none");
 
   /** Active sort levels. Two-way bindable. */
   readonly sort = model<SortState[]>([]);
@@ -82,6 +87,8 @@ export class DataTableComponent<T> {
   readonly pageIndex = model(0);
   /** Rows per page. Two-way bindable. */
   readonly pageSize = model(10);
+  /** Selected row keys. Two-way bindable. */
+  readonly selected = model<Set<RowKey>>(new Set());
 
   /** Rows after applying the active sort. */
   protected readonly sorted = computed(() => {
@@ -134,15 +141,63 @@ export class DataTableComponent<T> {
     Math.min((this.currentPage() + 1) * this.pageSize(), this.total()),
   );
 
-  /** CSS grid track template derived from column widths. */
-  protected readonly templateColumns = computed(() =>
-    this.columns()
-      .map((c) => c.width ?? "minmax(0, 1fr)")
-      .join(" "),
+  /** CSS grid track template derived from column widths (+ selection column). */
+  protected readonly templateColumns = computed(() => {
+    const tracks = this.columns().map((c) => c.width ?? "minmax(0, 1fr)");
+    if (this.selectable() !== "none") {
+      tracks.unshift("var(--ui-data-table-select-col-width)");
+    }
+    return tracks.join(" ");
+  });
+
+  /** Column count incl. the selection column, for aria-colcount. */
+  protected readonly colCount = computed(
+    () => this.columns().length + (this.selectable() !== "none" ? 1 : 0),
   );
 
   /** Total grid rows incl. header, for aria-rowcount. */
   protected readonly ariaRowCount = computed(() => this.rows().length + 1);
+
+  /** Keys of every row in the current (sorted) dataset. */
+  private readonly allKeys = computed(() =>
+    this.sorted().map((r) => this.rowKeyOf(r)),
+  );
+  /** True when every dataset row is selected. */
+  protected readonly allSelected = computed(() => {
+    const keys = this.allKeys();
+    const sel = this.selected();
+    return keys.length > 0 && keys.every((k) => sel.has(k));
+  });
+  /** True when some-but-not-all dataset rows are selected. */
+  protected readonly someSelected = computed(() => {
+    const keys = this.allKeys();
+    const sel = this.selected();
+    const hit = keys.filter((k) => sel.has(k)).length;
+    return hit > 0 && hit < keys.length;
+  });
+
+  /** Whether a row is selected. */
+  protected isSelected(row: T): boolean {
+    return this.selected().has(this.rowKeyOf(row));
+  }
+
+  /** Toggle a single row's selection (respects single/multiple). */
+  protected toggleRow(row: T, checked: boolean): void {
+    const key = this.rowKeyOf(row);
+    if (this.selectable() === "single") {
+      this.selected.set(checked ? new Set([key]) : new Set());
+      return;
+    }
+    const next = new Set(this.selected());
+    if (checked) next.add(key);
+    else next.delete(key);
+    this.selected.set(next);
+  }
+
+  /** Select or clear all dataset rows. */
+  protected toggleAll(checked: boolean): void {
+    this.selected.set(checked ? new Set(this.allKeys()) : new Set());
+  }
 
   /** Resolve a row's stable key. */
   protected rowKeyOf(row: T): RowKey {

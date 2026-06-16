@@ -86,6 +86,18 @@ export const dataTableDoc: ComponentDoc = {
       default: "0",
       description: "Current page (0-based). Two-way bindable.",
     },
+    {
+      name: "selectable",
+      type: "'none' | 'single' | 'multiple'",
+      default: "'none'",
+      description: "Row selection mode.",
+    },
+    {
+      name: "selected",
+      type: "Set<RowKey>",
+      default: "new Set()",
+      description: "Selected row keys. Two-way bindable via [(selected)].",
+    },
   ],
   demos: dataTableDemos,
 };

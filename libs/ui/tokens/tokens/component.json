@@ -176,7 +176,8 @@
     "control-radius": { "value": "{radius}" },
     "control-padding-x": { "value": "{space.2}" },
     "control-padding-y": { "value": "{space.1}" },
-    "page-btn-size": { "value": "{size.control-sm}" }
+    "page-btn-size": { "value": "{size.control-sm}" },
+    "select-col-width": { "value": "3rem" }
   },
   "menu": {
     "gap": { "value": "{space.2}" },

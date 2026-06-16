@@ -119,12 +119,47 @@ class DataTablePaginatedDemoComponent {
   }));
 }
 
+const selectionCode = `<ui-data-table
+  caption="Team members"
+  [rowKey]="'id'"
+  [columns]="columns"
+  [rows]="rows"
+  selectable="multiple"
+  [(selected)]="selected"
+/>`;
+@Component({
+  standalone: true,
+  imports: [DataTableComponent],
+  template: `<ui-data-table
+    caption="Team members"
+    [rowKey]="'id'"
+    [columns]="columns"
+    [rows]="rows"
+    selectable="multiple"
+    [(selected)]="selected"
+  />`,
+})
+class DataTableSelectionDemoComponent {
+  protected readonly rows = ROWS;
+  protected selected = new Set<number | string>();
+  protected readonly columns: DataTableColumn<Person>[] = [
+    { id: "name", header: "Name", field: "name" },
+    { id: "email", header: "Email", field: "email" },
+    { id: "role", header: "Role", field: "role", align: "end" },
+  ];
+}
+
 export const dataTableDemos: Demo[] = [
   { title: "Basic", code: basicCode, component: DataTableBasicDemoComponent },
   {
     title: "Pagination",
     code: paginatedCode,
     component: DataTablePaginatedDemoComponent,
+  },
+  {
+    title: "Selection",
+    code: selectionCode,
+    component: DataTableSelectionDemoComponent,
   },
   {
     title: "Empty state",

@@ -316,3 +316,83 @@ describe("DataTableComponent — pagination", () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 });
+
+@Component({
+  standalone: true,
+  imports: [DataTableComponent],
+  template: `<ui-data-table
+    caption="Scores"
+    [rowKey]="'id'"
+    [columns]="columns"
+    [rows]="rows"
+    [selectable]="mode"
+    [(selected)]="chosen"
+  />`,
+})
+class SelectHostComponent {
+  readonly columns: DataTableColumn<Score>[] = [
+    { id: "name", header: "Name", field: "name" },
+  ];
+  readonly rows = SCORES; // Charlie, Alice, Bob (ids 1,2,3)
+  mode: "none" | "single" | "multiple" = "multiple";
+  chosen = new Set<number | string>();
+}
+
+describe("DataTableComponent — selection", () => {
+  it("renders no checkboxes when selectable is none", async () => {
+    await render(SelectHostComponent, {
+      componentProperties: { mode: "none" },
+    });
+    expect(screen.queryAllByRole("checkbox")).toHaveLength(0);
+  });
+
+  it("renders a select-all header checkbox plus one per row in multiple mode", async () => {
+    await render(SelectHostComponent);
+    expect(screen.getAllByRole("checkbox")).toHaveLength(4); // header + 3 rows
+  });
+
+  it("selects a row, updating the model and aria-selected", async () => {
+    const user = userEvent.setup();
+    const { fixture } = await render(SelectHostComponent);
+    const rowCheckboxes = screen.getAllByRole("checkbox").slice(1);
+    await user.click(rowCheckboxes[0]); // Charlie (id 1)
+    expect(fixture.componentInstance.chosen.has(1)).toBe(true);
+    const rows = screen.getAllByRole("row");
+    expect(rows[1]).toHaveAttribute("aria-selected", "true");
+  });
+
+  it("select-all selects every row; clearing deselects", async () => {
+    const user = userEvent.setup();
+    const { fixture } = await render(SelectHostComponent);
+    const headerCheckbox = screen.getAllByRole("checkbox")[0];
+    await user.click(headerCheckbox);
+    expect(fixture.componentInstance.chosen.size).toBe(3);
+    await user.click(headerCheckbox);
+    expect(fixture.componentInstance.chosen.size).toBe(0);
+  });
+
+  it("header checkbox is indeterminate on partial selection", async () => {
+    const user = userEvent.setup();
+    await render(SelectHostComponent);
+    const checkboxes = screen.getAllByRole("checkbox");
+    await user.click(checkboxes[1]); // one row
+    expect((checkboxes[0] as HTMLInputElement).indeterminate).toBe(true);
+  });
+
+  it("single mode keeps at most one selected", async () => {
+    const user = userEvent.setup();
+    const { fixture } = await render(SelectHostComponent, {
+      componentProperties: { mode: "single" },
+    });
+    const rowCheckboxes = screen.getAllByRole("checkbox"); // no header in single
+    await user.click(rowCheckboxes[0]);
+    await user.click(rowCheckboxes[1]);
+    expect(fixture.componentInstance.chosen.size).toBe(1);
+    expect(fixture.componentInstance.chosen.has(2)).toBe(true);
+  });
+
+  it("has no axe violations with selection", async () => {
+    const { container } = await render(SelectHostComponent);
+    expect(await axe(container)).toHaveNoViolations();
+  });
+});
