@@ -5,6 +5,8 @@
   [attr.aria-rowcount]="ariaRowCount()"
   [attr.aria-colcount]="colCount()"
   [attr.aria-busy]="loading() ? 'true' : null"
+  [style.max-height]="maxHeight() || null"
+  [style.overflow-y]="maxHeight() ? 'auto' : null"
 >
   <div
     class="ui-dt__head"

@@ -454,3 +454,28 @@ describe("DataTableComponent — virtual scroll", () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 });
+
+describe("DataTableComponent — sticky header", () => {
+  it("applies max-height and internal scroll when maxHeight is set", async () => {
+    @Component({
+      standalone: true,
+      imports: [DataTableComponent],
+      template: `<ui-data-table
+        caption="t"
+        [columns]="cols"
+        [rows]="rows"
+        maxHeight="200px"
+      />`,
+    })
+    class MaxHeightHostComponent {
+      readonly cols: DataTableColumn<Item>[] = [
+        { id: "label", header: "Label", field: "label" },
+      ];
+      readonly rows = ITEMS;
+    }
+    await render(MaxHeightHostComponent);
+    const grid = screen.getByRole("grid");
+    expect(grid.style.maxHeight).toBe("200px");
+    expect(grid.style.overflowY).toBe("auto");
+  });
+});

@@ -110,6 +110,13 @@ export const dataTableDoc: ComponentDoc = {
       default: "'400px'",
       description: "Virtual scroll viewport height.",
     },
+    {
+      name: "maxHeight",
+      type: "string",
+      default: "''",
+      description:
+        "Constrains paginated height; body scrolls with a sticky header.",
+    },
   ],
   demos: dataTableDemos,
 };

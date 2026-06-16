@@ -85,6 +85,8 @@ export class DataTableComponent<T> {
   readonly rowHeight = input(44);
   /** Virtual scroll viewport height (CSS length). */
   readonly viewportHeight = input("400px");
+  /** Max height for paginated mode; enables internal scroll with sticky header. */
+  readonly maxHeight = input("");
 
   /** Active sort levels. Two-way bindable. */
   readonly sort = model<SortState[]>([]);
