@@ -8,6 +8,7 @@ import {
   radioGroupDoc,
   badgeDoc,
   alertDoc,
+  dialogDoc,
 } from "@onyx/ui/components";
 
 export const COMPONENT_DOCS: ComponentDoc[] = [
@@ -19,4 +20,5 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
   radioGroupDoc,
   badgeDoc,
   alertDoc,
+  dialogDoc,
 ];

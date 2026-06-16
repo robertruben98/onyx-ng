@@ -133,5 +133,24 @@
     "warning-accent": { "value": "{color.warning}" },
     "danger-bg": { "value": "{color.danger-surface}" },
     "danger-accent": { "value": "{color.danger}" }
+  },
+  "dialog": {
+    "bg": { "value": "{color.surface}" },
+    "text": { "value": "{color.text}" },
+    "radius": { "value": "{radius}" },
+    "shadow": {
+      "value": "0 10px 38px -10px rgba(15, 23, 42, 0.35), 0 10px 20px -15px rgba(15, 23, 42, 0.2)"
+    },
+    "border": { "value": "{color.border}" },
+    "padding-x": { "value": "{space.5}" },
+    "padding-y": { "value": "{space.4}" },
+    "gap": { "value": "{space.4}" },
+    "header-gap": { "value": "{space.3}" },
+    "title-font-size": { "value": "{font.size.lg}" },
+    "title-font-weight": { "value": "{font.weight.medium}" },
+    "close-size": { "value": "{font.size.lg}" },
+    "width-sm": { "value": "20rem" },
+    "width-md": { "value": "32rem" },
+    "width-lg": { "value": "48rem" }
   }
 }

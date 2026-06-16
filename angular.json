@@ -20,6 +20,7 @@
             "inlineStyleLanguage": "scss",
             "assets": [],
             "styles": [
+              "node_modules/@angular/cdk/overlay-prebuilt.css",
               "libs/ui/tokens/dist/tokens.css",
               "libs/ui/themes/dark.css",
               "libs/ui/themes/acme.css"

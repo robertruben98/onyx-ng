@@ -20,6 +20,7 @@
     "useDefineForClassFields": false,
     "paths": {
       "@onyx/ui/components": ["libs/ui/components/index.ts"],
+      "@onyx/ui/primitives": ["libs/ui/primitives/index.ts"],
       "@onyx/ui/docs-model": ["libs/ui/docs-model/index.ts"]
     }
   },

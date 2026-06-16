@@ -7,6 +7,7 @@ module.exports = {
   testPathIgnorePatterns: ["/node_modules/", "/dist/"],
   moduleNameMapper: {
     "^@onyx/ui/components$": "<rootDir>/libs/ui/components/index.ts",
+    "^@onyx/ui/primitives$": "<rootDir>/libs/ui/primitives/index.ts",
   },
   transform: {
     "^.+\\.(ts|mjs|js|html)$": [
