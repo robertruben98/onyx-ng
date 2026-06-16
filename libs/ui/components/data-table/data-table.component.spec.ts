@@ -455,6 +455,100 @@ describe("DataTableComponent — virtual scroll", () => {
   });
 });
 
+describe("DataTableComponent — keyboard navigation", () => {
+  function focusCell(
+    container: Element,
+    row: number,
+    col: number,
+  ): HTMLElement {
+    const cell = container.querySelector<HTMLElement>(
+      `[data-row="${row}"][data-col="${col}"]`,
+    )!;
+    cell.focus();
+    return cell;
+  }
+  const at = () => ({
+    row: document.activeElement?.getAttribute("data-row"),
+    col: document.activeElement?.getAttribute("data-col"),
+  });
+
+  it("makes only the active cell tabbable (roving tabindex)", async () => {
+    const { container } = await render(SortHostComponent);
+    expect(
+      container.querySelector('[data-row="0"][data-col="0"]'),
+    ).toHaveAttribute("tabindex", "0");
+    expect(
+      container.querySelector('[data-row="0"][data-col="1"]'),
+    ).toHaveAttribute("tabindex", "-1");
+  });
+
+  it("moves the focus with arrow keys (2D)", async () => {
+    const user = userEvent.setup();
+    const { container } = await render(SortHostComponent);
+    focusCell(container, 0, 0);
+    await user.keyboard("{ArrowRight}");
+    expect(at()).toEqual({ row: "0", col: "1" });
+    await user.keyboard("{ArrowDown}");
+    expect(at()).toEqual({ row: "1", col: "1" });
+    await user.keyboard("{ArrowLeft}");
+    expect(at()).toEqual({ row: "1", col: "0" });
+    await user.keyboard("{ArrowUp}");
+    expect(at()).toEqual({ row: "0", col: "0" });
+  });
+
+  it("supports Home/End and Ctrl+Home/Ctrl+End", async () => {
+    const user = userEvent.setup();
+    const { container } = await render(SortHostComponent);
+    focusCell(container, 0, 0);
+    await user.keyboard("{End}");
+    expect(at()).toEqual({ row: "0", col: "1" });
+    await user.keyboard("{Home}");
+    expect(at()).toEqual({ row: "0", col: "0" });
+    await user.keyboard("{Control>}{End}{/Control}");
+    expect(at()).toEqual({ row: "3", col: "1" }); // last row (3 rows), last col
+    await user.keyboard("{Control>}{Home}{/Control}");
+    expect(at()).toEqual({ row: "0", col: "0" });
+  });
+
+  it("activates a sortable header cell with Enter", async () => {
+    const user = userEvent.setup();
+    const { container } = await render(SortHostComponent);
+    focusCell(container, 0, 0); // Name header
+    await user.keyboard("{Enter}");
+    expect(screen.getByRole("columnheader", { name: /Name/ })).toHaveAttribute(
+      "aria-sort",
+      "ascending",
+    );
+  });
+
+  it("resets the active cell to the header after sorting", async () => {
+    const user = userEvent.setup();
+    const { container } = await render(SortHostComponent);
+    focusCell(container, 0, 0);
+    await user.keyboard("{ArrowDown}{ArrowRight}"); // active cell now (1,1)
+    expect(
+      container.querySelector('[data-row="1"][data-col="1"]'),
+    ).toHaveAttribute("tabindex", "0");
+    // Sorting changes the row set → roving focus resets to (0,0).
+    await user.click(
+      within(screen.getByRole("columnheader", { name: /Name/ })).getByRole(
+        "button",
+      ),
+    );
+    expect(
+      container.querySelector('[data-row="0"][data-col="0"]'),
+    ).toHaveAttribute("tabindex", "0");
+    expect(
+      container.querySelector('[data-row="1"][data-col="1"]'),
+    ).toHaveAttribute("tabindex", "-1");
+  });
+
+  it("has no axe violations with keyboard wiring", async () => {
+    const { container } = await render(SortHostComponent);
+    expect(await axe(container)).toHaveNoViolations();
+  });
+});
+
 describe("DataTableComponent — sticky header", () => {
   it("applies max-height and internal scroll when maxHeight is set", async () => {
     @Component({

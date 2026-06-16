@@ -51,6 +51,8 @@ export class CheckboxComponent implements ControlValueAccessor {
   readonly invalid = input(false, { transform: booleanAttribute });
   /** Disabled via template binding (forms also drive it via setDisabledState). */
   readonly disabled = input(false, { transform: booleanAttribute });
+  /** Tab order of the native control (set to -1 inside roving-tabindex grids). */
+  readonly tabindex = input(0);
 
   /** Emitted on every change (in addition to the CVA contract). */
   readonly checkedChange = output<boolean>();

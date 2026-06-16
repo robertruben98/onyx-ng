@@ -5,7 +5,7 @@ export const dataTableDoc: ComponentDoc = {
   id: "data-table",
   title: "Data Table",
   description:
-    "Accessible role=grid data table. v1: configurable columns (field/value/template, alignment, width) with empty and loading states. Sorting, pagination, selection, virtual scroll and keyboard navigation build on top.",
+    "Accessible role=grid data table: configurable columns (field/value/template, alignment, width), single & multi-column sorting, pagination, row selection (single/multiple/select-all), CDK virtual scroll, sticky header, empty/loading states, and full 2D keyboard navigation (roving tabindex).",
   api: [
     {
       name: "columns",

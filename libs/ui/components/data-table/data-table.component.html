@@ -7,6 +7,7 @@
   [attr.aria-busy]="loading() ? 'true' : null"
   [style.max-height]="maxHeight() || null"
   [style.overflow-y]="maxHeight() ? 'auto' : null"
+  (keydown)="onGridKeydown($event)"
 >
   <div
     class="ui-dt__head"
@@ -15,10 +16,17 @@
     [style.grid-template-columns]="templateColumns()"
   >
     @if (selectable() !== "none") {
-      <div role="columnheader" class="ui-dt__th ui-dt__cell--select">
+      <div
+        role="columnheader"
+        class="ui-dt__th ui-dt__cell--select"
+        data-row="0"
+        data-col="0"
+        [attr.tabindex]="isActiveCell(0, 0) ? 0 : -1"
+      >
         @if (selectable() === "multiple") {
           <ui-checkbox
             ariaLabel="Select all rows"
+            [tabindex]="-1"
             [ngModel]="allSelected()"
             [indeterminate]="someSelected()"
             (ngModelChange)="toggleAll($event)"
@@ -26,18 +34,24 @@
         }
       </div>
     }
-    @for (col of columns(); track col.id) {
+    @for (col of columns(); track col.id; let ci = $index) {
       <div
         role="columnheader"
         class="ui-dt__th"
         [class.ui-dt__cell--center]="col.align === 'center'"
         [class.ui-dt__cell--end]="col.align === 'end'"
         [attr.aria-sort]="ariaSort(col)"
+        data-row="0"
+        [attr.data-col]="selectable() !== 'none' ? ci + 1 : ci"
+        [attr.tabindex]="
+          isActiveCell(0, selectable() !== 'none' ? ci + 1 : ci) ? 0 : -1
+        "
       >
         @if (col.sortable) {
           <button
             type="button"
             class="ui-dt__sort"
+            tabindex="-1"
             (click)="toggleSort(col, $event)"
           >
             <span>{{ col.header }}</span>
@@ -62,7 +76,10 @@
     }
   </div>
 
-  <div class="ui-dt__body">
+  <div
+    class="ui-dt__body"
+    [attr.role]="mode() === 'virtual' ? null : 'rowgroup'"
+  >
     @if (loading()) {
       <div class="ui-dt__status" role="status">Loading…</div>
     } @else if (!visibleRows().length) {
@@ -90,7 +107,7 @@
         >
           <ng-container
             [ngTemplateOutlet]="rowCells"
-            [ngTemplateOutletContext]="{ $implicit: row }"
+            [ngTemplateOutletContext]="{ $implicit: row, rowIndex: i + 1 }"
           />
         </div>
       </cdk-virtual-scroll-viewport>
@@ -110,7 +127,7 @@
         >
           <ng-container
             [ngTemplateOutlet]="rowCells"
-            [ngTemplateOutletContext]="{ $implicit: row }"
+            [ngTemplateOutletContext]="{ $implicit: row, rowIndex: i + 1 }"
           />
         </div>
       }
@@ -118,22 +135,34 @@
   </div>
 </div>
 
-<ng-template #rowCells let-row>
+<ng-template #rowCells let-row let-rowIndex="rowIndex">
   @if (selectable() !== "none") {
-    <div role="gridcell" class="ui-dt__td ui-dt__cell--select">
+    <div
+      role="gridcell"
+      class="ui-dt__td ui-dt__cell--select"
+      [attr.data-row]="rowIndex"
+      data-col="0"
+      [attr.tabindex]="isActiveCell(rowIndex, 0) ? 0 : -1"
+    >
       <ui-checkbox
         ariaLabel="Select row"
+        [tabindex]="-1"
         [ngModel]="isSelected(row)"
         (ngModelChange)="toggleRow(row, $event)"
       />
     </div>
   }
-  @for (col of columns(); track col.id) {
+  @for (col of columns(); track col.id; let ci = $index) {
     <div
       role="gridcell"
       class="ui-dt__td"
       [class.ui-dt__cell--center]="col.align === 'center'"
       [class.ui-dt__cell--end]="col.align === 'end'"
+      [attr.data-row]="rowIndex"
+      [attr.data-col]="selectable() !== 'none' ? ci + 1 : ci"
+      [attr.tabindex]="
+        isActiveCell(rowIndex, selectable() !== 'none' ? ci + 1 : ci) ? 0 : -1
+      "
     >
       @if (col.cell) {
         <ng-container

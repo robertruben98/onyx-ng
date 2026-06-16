@@ -4,6 +4,7 @@
     class="ui-checkbox__el"
     type="checkbox"
     [id]="inputId"
+    [attr.tabindex]="tabindex()"
     [checked]="checked()"
     [disabled]="disabledState()"
     [attr.aria-label]="!label() && ariaLabel() ? ariaLabel() : null"

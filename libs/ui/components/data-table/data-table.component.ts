@@ -1,15 +1,23 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   TemplateRef,
   booleanAttribute,
   computed,
+  effect,
+  inject,
   input,
   model,
+  signal,
+  viewChild,
 } from "@angular/core";
 import { NgTemplateOutlet } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { ScrollingModule } from "@angular/cdk/scrolling";
+import {
+  CdkVirtualScrollViewport,
+  ScrollingModule,
+} from "@angular/cdk/scrolling";
 import { CheckboxComponent } from "../checkbox";
 
 export type RowKey = string | number;
@@ -183,9 +191,114 @@ export class DataTableComponent<T> {
     return hit > 0 && hit < keys.length;
   });
 
+  private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly viewport = viewChild(CdkVirtualScrollViewport);
+
+  /** Active grid cell for roving-tabindex keyboard nav (row 0 = header). */
+  protected readonly activeCell = signal<{ row: number; col: number }>({
+    row: 0,
+    col: 0,
+  });
+
+  constructor() {
+    // Reset roving focus to the first header cell when the row set or layout
+    // changes (sort, page, mode, selection column) so indices never go stale.
+    effect(() => {
+      this.sorted();
+      this.currentPage();
+      this.mode();
+      this.selectable();
+      this.activeCell.set({ row: 0, col: 0 });
+    });
+  }
+
+  /** Whether (row,col) is the active cell. */
+  protected isActiveCell(row: number, col: number): boolean {
+    const a = this.activeCell();
+    return a.row === row && a.col === col;
+  }
+
   /** Whether a row is selected. */
   protected isSelected(row: T): boolean {
     return this.selected().has(this.rowKeyOf(row));
+  }
+
+  /** Grid 2D keyboard navigation (arrows / Home / End / PageUp·Down) + activate. */
+  protected onGridKeydown(event: KeyboardEvent): void {
+    const a = this.activeCell();
+    const rowMax = this.visibleRows().length; // header = 0, data rows = 1..N
+    const colMax = this.colCount() - 1;
+    let { row, col } = a;
+    switch (event.key) {
+      case "ArrowRight":
+        col = Math.min(colMax, col + 1);
+        break;
+      case "ArrowLeft":
+        col = Math.max(0, col - 1);
+        break;
+      case "ArrowDown":
+        row = Math.min(rowMax, row + 1);
+        break;
+      case "ArrowUp":
+        row = Math.max(0, row - 1);
+        break;
+      case "Home":
+        col = 0;
+        if (event.ctrlKey) row = 0;
+        break;
+      case "End":
+        col = colMax;
+        if (event.ctrlKey) row = rowMax;
+        break;
+      case "PageDown":
+        row = Math.min(rowMax, row + this.pageJump());
+        break;
+      case "PageUp":
+        row = Math.max(0, row - this.pageJump());
+        break;
+      case "Enter":
+      case " ":
+        event.preventDefault();
+        this.activateCell();
+        return;
+      default:
+        return;
+    }
+    event.preventDefault();
+    this.activeCell.set({ row, col });
+    this.focusCell(row, col);
+  }
+
+  private pageJump(): number {
+    return this.mode() === "paginated" ? this.pageSize() : 10;
+  }
+
+  private focusCell(row: number, col: number): void {
+    const sel = `[data-row="${row}"][data-col="${col}"]`;
+    const found = () => this.el.nativeElement.querySelector<HTMLElement>(sel);
+    const cell = found();
+    if (cell) {
+      cell.focus();
+      return;
+    }
+    // Virtual mode: bring the row into view, then focus (best-effort).
+    const vp = this.viewport();
+    if (vp && row > 0) {
+      vp.scrollToIndex(row - 1);
+      queueMicrotask(() => found()?.focus());
+    }
+  }
+
+  private activateCell(): void {
+    const { row, col } = this.activeCell();
+    const cell = this.el.nativeElement.querySelector<HTMLElement>(
+      `[data-row="${row}"][data-col="${col}"]`,
+    );
+    cell
+      ?.querySelector<HTMLElement>('button, input, a, [role="checkbox"]')
+      ?.click();
+    // Keep focus on the cell (roving tabindex) rather than the inner control.
+    cell?.focus();
   }
 
   /** Toggle a single row's selection (respects single/multiple). */
