@@ -153,6 +153,36 @@
     "width-md": { "value": "32rem" },
     "width-lg": { "value": "48rem" }
   },
+  "select": {
+    "height": { "value": "{size.control-md}" },
+    "bg": { "value": "{color.surface}" },
+    "text": { "value": "{color.text}" },
+    "placeholder": { "value": "{color.text-muted}" },
+    "border": { "value": "{color.border}" },
+    "border-focus": { "value": "{color.primary}" },
+    "border-width": { "value": "{border.width}" },
+    "radius": { "value": "{radius}" },
+    "padding-x": { "value": "{space.3}" },
+    "padding-y": { "value": "{space.2}" },
+    "gap": { "value": "{space.2}" },
+    "font-size": { "value": "{font.size.md}" },
+    "arrow-color": { "value": "{color.text-muted}" },
+    "disabled-bg": { "value": "{color.disabled-bg}" },
+    "disabled-text": { "value": "{color.disabled-text}" },
+    "listbox-bg": { "value": "{color.surface}" },
+    "listbox-border": { "value": "{color.border}" },
+    "listbox-radius": { "value": "{radii.lg}" },
+    "listbox-padding": { "value": "{space.1}" },
+    "listbox-max-height": { "value": "15rem" },
+    "listbox-shadow": {
+      "value": "0 10px 30px -8px rgba(15, 23, 42, 0.22), 0 4px 10px -6px rgba(15, 23, 42, 0.16)"
+    },
+    "option-padding-x": { "value": "{space.3}" },
+    "option-padding-y": { "value": "{space.2}" },
+    "option-hover-bg": { "value": "{color.surface-hover}" },
+    "option-selected-bg": { "value": "{color.primary}" },
+    "option-selected-text": { "value": "{color.on-primary}" }
+  },
   "popover": {
     "bg": { "value": "{color.surface}" },
     "text": { "value": "{color.text}" },

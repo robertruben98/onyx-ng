@@ -19,6 +19,7 @@ import {
   accordionDoc,
   tooltipDoc,
   popoverDoc,
+  selectDoc,
 } from "@onyx/ui/components";
 
 export const COMPONENT_DOCS: ComponentDoc[] = [
@@ -41,4 +42,5 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
   accordionDoc,
   tooltipDoc,
   popoverDoc,
+  selectDoc,
 ];

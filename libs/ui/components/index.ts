@@ -11,6 +11,7 @@ export * from "./input";
 export * from "./popover";
 export * from "./progress-bar";
 export * from "./radio-group";
+export * from "./select";
 export * from "./spinner";
 export * from "./switch";
 export * from "./tabs";

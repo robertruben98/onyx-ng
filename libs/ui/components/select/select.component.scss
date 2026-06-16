@@ -1,0 +1,82 @@
+// Select styles — semantic / component tokens only (CLAUDE.md §3).
+
+:host {
+  display: block;
+}
+
+.ui-select__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ui-select-gap);
+  inline-size: 100%;
+  height: var(--ui-select-height);
+  padding: var(--ui-select-padding-y) var(--ui-select-padding-x);
+  font-family: inherit;
+  font-size: var(--ui-select-font-size);
+  color: var(--ui-select-text);
+  background-color: var(--ui-select-bg);
+  border: var(--ui-select-border-width) solid var(--ui-select-border);
+  border-radius: var(--ui-select-radius);
+  cursor: pointer;
+  text-align: left;
+}
+
+.ui-select__trigger:focus-visible,
+.ui-select__trigger--open {
+  outline: none;
+  border-color: var(--ui-select-border-focus);
+  box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-focus-ring);
+}
+
+.ui-select__trigger:disabled {
+  cursor: not-allowed;
+  background-color: var(--ui-select-disabled-bg);
+  color: var(--ui-select-disabled-text);
+}
+
+.ui-select__value--placeholder {
+  color: var(--ui-select-placeholder);
+}
+
+.ui-select__arrow {
+  color: var(--ui-select-arrow-color);
+}
+
+.ui-select__listbox {
+  margin: 0;
+  padding: var(--ui-select-listbox-padding);
+  list-style: none;
+  max-height: var(--ui-select-listbox-max-height);
+  overflow-y: auto;
+  background-color: var(--ui-select-listbox-bg);
+  border: var(--ui-select-border-width) solid var(--ui-select-listbox-border);
+  border-radius: var(--ui-select-listbox-radius);
+  box-shadow: var(--ui-select-listbox-shadow);
+}
+
+.ui-select__listbox:focus {
+  outline: none;
+}
+
+.ui-select__option {
+  padding: var(--ui-select-option-padding-y) var(--ui-select-option-padding-x);
+  font-size: var(--ui-select-font-size);
+  color: var(--ui-select-text);
+  border-radius: var(--ui-select-radius);
+  cursor: pointer;
+}
+
+.ui-select__option--active {
+  background-color: var(--ui-select-option-hover-bg);
+}
+
+.ui-select__option--selected {
+  background-color: var(--ui-select-option-selected-bg);
+  color: var(--ui-select-option-selected-text);
+}
+
+.ui-select__option[aria-disabled="true"] {
+  color: var(--ui-select-disabled-text);
+  cursor: not-allowed;
+}

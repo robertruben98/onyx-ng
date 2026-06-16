@@ -1,0 +1,49 @@
+<button
+  #trigger
+  type="button"
+  role="combobox"
+  class="ui-select__trigger"
+  [attr.aria-haspopup]="'listbox'"
+  [attr.aria-expanded]="open()"
+  [attr.aria-controls]="open() ? listboxId : null"
+  [attr.aria-label]="ariaLabel() || placeholder()"
+  [class.ui-select__trigger--open]="open()"
+  [disabled]="isDisabled()"
+  (click)="toggle()"
+  (keydown)="onTriggerKeydown($event)"
+>
+  <span
+    class="ui-select__value"
+    [class.ui-select__value--placeholder]="!selectedLabel()"
+  >
+    {{ selectedLabel() || placeholder() }}
+  </span>
+  <span class="ui-select__arrow" aria-hidden="true">▾</span>
+</button>
+
+<ng-template #panel>
+  <ul
+    role="listbox"
+    [id]="listboxId"
+    class="ui-select__listbox"
+    tabindex="-1"
+    [attr.aria-activedescendant]="activeId()"
+    (keydown)="onListboxKeydown($event)"
+  >
+    @for (opt of options(); track opt.value; let i = $index) {
+      <li
+        role="option"
+        [id]="optionId(i)"
+        class="ui-select__option"
+        [class.ui-select__option--active]="i === activeIndex()"
+        [class.ui-select__option--selected]="opt.value === value()"
+        [attr.aria-selected]="opt.value === value()"
+        [attr.aria-disabled]="opt.disabled || null"
+        (click)="selectOption(i)"
+        (mouseenter)="!opt.disabled && activeIndex.set(i)"
+      >
+        {{ opt.label }}
+      </li>
+    }
+  </ul>
+</ng-template>
