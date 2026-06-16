@@ -171,7 +171,12 @@
     "cell-padding-y": { "value": "{space.2}" },
     "empty-padding": { "value": "{space.5}" },
     "sort-indicator": { "value": "{color.text-muted}" },
-    "sort-indicator-active": { "value": "{color.primary}" }
+    "sort-indicator-active": { "value": "{color.primary}" },
+    "footer-gap": { "value": "{space.3}" },
+    "control-radius": { "value": "{radius}" },
+    "control-padding-x": { "value": "{space.2}" },
+    "control-padding-y": { "value": "{space.1}" },
+    "page-btn-size": { "value": "{size.control-sm}" }
   },
   "menu": {
     "gap": { "value": "{space.2}" },

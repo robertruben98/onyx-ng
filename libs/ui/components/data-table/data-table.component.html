@@ -86,3 +86,48 @@
     }
   </div>
 </div>
+
+@if (showFooter()) {
+  <div class="ui-dt__footer">
+    <label class="ui-dt__page-size">
+      <span>Rows per page</span>
+      <select
+        class="ui-dt__select"
+        [value]="pageSize()"
+        (change)="changePageSize($event)"
+      >
+        @for (size of pageSizeOptions(); track size) {
+          <option [value]="size">{{ size }}</option>
+        }
+      </select>
+    </label>
+
+    <span class="ui-dt__range" aria-live="polite">
+      {{ rangeStart() }}–{{ rangeEnd() }} of {{ total() }}
+    </span>
+
+    <div class="ui-dt__pager">
+      <button
+        type="button"
+        class="ui-dt__page-btn"
+        aria-label="Previous page"
+        [disabled]="currentPage() === 0"
+        (click)="prevPage()"
+      >
+        ‹
+      </button>
+      <span class="ui-dt__page-status">
+        Page {{ currentPage() + 1 }} of {{ pageCount() }}
+      </span>
+      <button
+        type="button"
+        class="ui-dt__page-btn"
+        aria-label="Next page"
+        [disabled]="currentPage() >= pageCount() - 1"
+        (click)="nextPage()"
+      >
+        ›
+      </button>
+    </div>
+  </div>
+}

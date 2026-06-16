@@ -12,6 +12,7 @@ import { NgTemplateOutlet } from "@angular/common";
 export type RowKey = string | number;
 export type CellAlign = "start" | "center" | "end";
 export type SortDirection = "asc" | "desc";
+export type DataTableMode = "paginated" | "virtual";
 
 /** One level of the (multi-)column sort. */
 export interface SortState {
@@ -70,9 +71,17 @@ export class DataTableComponent<T> {
   readonly caption = input("");
   /** Allow additive multi-column sort via Shift+click. */
   readonly multiSort = input(false, { transform: booleanAttribute });
+  /** Layout mode: paginated footer vs virtual scroll. */
+  readonly mode = input<DataTableMode>("paginated");
+  /** Options for the rows-per-page control. */
+  readonly pageSizeOptions = input<number[]>([10, 25, 50]);
 
   /** Active sort levels. Two-way bindable. */
   readonly sort = model<SortState[]>([]);
+  /** Current page (0-based). Two-way bindable. */
+  readonly pageIndex = model(0);
+  /** Rows per page. Two-way bindable. */
+  readonly pageSize = model(10);
 
   /** Rows after applying the active sort. */
   protected readonly sorted = computed(() => {
@@ -94,8 +103,36 @@ export class DataTableComponent<T> {
     });
   });
 
-  /** Rows currently rendered (later narrowed by pagination/virtual). */
-  protected readonly visibleRows = computed(() => this.sorted());
+  /** Total rows after sorting (pre-pagination). */
+  protected readonly total = computed(() => this.sorted().length);
+  /** Number of pages (≥ 1). */
+  protected readonly pageCount = computed(() =>
+    Math.max(1, Math.ceil(this.total() / this.pageSize())),
+  );
+  /** Page index clamped to the valid range. */
+  protected readonly currentPage = computed(() =>
+    Math.min(Math.max(0, this.pageIndex()), this.pageCount() - 1),
+  );
+
+  /** Rows currently rendered (sorted, then paged in paginated mode). */
+  protected readonly visibleRows = computed(() => {
+    if (this.mode() === "virtual") return this.sorted();
+    const start = this.currentPage() * this.pageSize();
+    return this.sorted().slice(start, start + this.pageSize());
+  });
+
+  /** Whether the pagination footer is shown. */
+  protected readonly showFooter = computed(
+    () => this.mode() === "paginated" && !this.loading() && this.total() > 0,
+  );
+  /** 1-based index of the first row on the current page. */
+  protected readonly rangeStart = computed(() =>
+    this.total() ? this.currentPage() * this.pageSize() + 1 : 0,
+  );
+  /** 1-based index of the last row on the current page. */
+  protected readonly rangeEnd = computed(() =>
+    Math.min((this.currentPage() + 1) * this.pageSize(), this.total()),
+  );
 
   /** CSS grid track template derived from column widths. */
   protected readonly templateColumns = computed(() =>
@@ -154,6 +191,23 @@ export class DataTableComponent<T> {
     } else {
       this.sort.set(next ? [next] : []);
     }
+  }
+
+  /** Go to the previous page. */
+  protected prevPage(): void {
+    this.pageIndex.set(Math.max(0, this.currentPage() - 1));
+  }
+
+  /** Go to the next page. */
+  protected nextPage(): void {
+    this.pageIndex.set(Math.min(this.pageCount() - 1, this.currentPage() + 1));
+  }
+
+  /** Change the page size and return to the first page. */
+  protected changePageSize(event: Event): void {
+    const size = Number((event.target as HTMLSelectElement).value);
+    this.pageSize.set(size);
+    this.pageIndex.set(0);
   }
 
   private sortValue(col: DataTableColumn<T>, row: T): unknown {

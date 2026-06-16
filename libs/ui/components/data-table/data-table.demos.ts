@@ -85,8 +85,47 @@ class DataTableLoadingDemoComponent {
   ];
 }
 
+const paginatedCode = `<ui-data-table
+  caption="Catalogue"
+  [rowKey]="'id'"
+  [columns]="columns"
+  [rows]="rows"
+  [pageSize]="6"
+  [pageSizeOptions]="[6, 12, 24]"
+/>`;
+@Component({
+  standalone: true,
+  imports: [DataTableComponent],
+  template: `<ui-data-table
+    caption="Catalogue"
+    [rowKey]="'id'"
+    [columns]="columns"
+    [rows]="rows"
+    [pageSize]="6"
+    [pageSizeOptions]="[6, 12, 24]"
+  />`,
+})
+class DataTablePaginatedDemoComponent {
+  protected readonly columns: DataTableColumn<Person>[] = [
+    { id: "name", header: "Name", field: "name", sortable: true },
+    { id: "email", header: "Email", field: "email" },
+    { id: "role", header: "Role", field: "role", sortable: true, align: "end" },
+  ];
+  protected readonly rows: Person[] = Array.from({ length: 24 }, (_, i) => ({
+    id: i + 1,
+    name: `Member ${i + 1}`,
+    email: `member${i + 1}@onyx.dev`,
+    role: i % 2 ? "Engineer" : "Lead",
+  }));
+}
+
 export const dataTableDemos: Demo[] = [
   { title: "Basic", code: basicCode, component: DataTableBasicDemoComponent },
+  {
+    title: "Pagination",
+    code: paginatedCode,
+    component: DataTablePaginatedDemoComponent,
+  },
   {
     title: "Empty state",
     code: emptyCode,

@@ -62,6 +62,30 @@ export const dataTableDoc: ComponentDoc = {
       default: "false",
       description: "Makes a column's header a sort toggle (asc → desc → none).",
     },
+    {
+      name: "mode",
+      type: "'paginated' | 'virtual'",
+      default: "'paginated'",
+      description: "Layout mode (pagination footer vs virtual scroll).",
+    },
+    {
+      name: "pageSize",
+      type: "number",
+      default: "10",
+      description: "Rows per page. Two-way bindable.",
+    },
+    {
+      name: "pageSizeOptions",
+      type: "number[]",
+      default: "[10, 25, 50]",
+      description: "Choices for the rows-per-page control.",
+    },
+    {
+      name: "pageIndex",
+      type: "number",
+      default: "0",
+      description: "Current page (0-based). Two-way bindable.",
+    },
   ],
   demos: dataTableDemos,
 };

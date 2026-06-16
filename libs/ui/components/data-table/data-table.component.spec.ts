@@ -227,3 +227,92 @@ describe("DataTableComponent — sorting", () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 });
+
+interface Item {
+  id: number;
+  label: string;
+}
+const ITEMS: Item[] = Array.from({ length: 12 }, (_, i) => ({
+  id: i + 1,
+  label: `Item ${i + 1}`,
+}));
+
+@Component({
+  standalone: true,
+  imports: [DataTableComponent],
+  template: `<ui-data-table
+    caption="Items"
+    [rowKey]="'id'"
+    [columns]="columns"
+    [rows]="rows()"
+    [pageSize]="5"
+    [pageSizeOptions]="[5, 10]"
+    [loading]="loading()"
+  />`,
+})
+class PageHostComponent {
+  readonly columns: DataTableColumn<Item>[] = [
+    { id: "label", header: "Label", field: "label" },
+  ];
+  readonly rows = signal<Item[]>(ITEMS);
+  readonly loading = signal(false);
+}
+
+function dataRowCount(): number {
+  return screen.getAllByRole("row").length - 1; // minus header
+}
+
+describe("DataTableComponent — pagination", () => {
+  it("shows only the first page and a range readout", async () => {
+    await render(PageHostComponent);
+    expect(dataRowCount()).toBe(5);
+    expect(screen.getByText(/1–5 of 12/)).toBeInTheDocument();
+    expect(screen.getByText("Page 1 of 3")).toBeInTheDocument();
+  });
+
+  it("navigates with next / previous", async () => {
+    const user = userEvent.setup();
+    await render(PageHostComponent);
+    await user.click(screen.getByRole("button", { name: "Next page" }));
+    expect(screen.getByText(/6–10 of 12/)).toBeInTheDocument();
+    expect(screen.getByText("Item 6")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Previous page" }));
+    expect(screen.getByText(/1–5 of 12/)).toBeInTheDocument();
+  });
+
+  it("disables prev on the first page and next on the last", async () => {
+    const user = userEvent.setup();
+    await render(PageHostComponent);
+    expect(
+      screen.getByRole("button", { name: "Previous page" }),
+    ).toBeDisabled();
+    await user.click(screen.getByRole("button", { name: "Next page" }));
+    await user.click(screen.getByRole("button", { name: "Next page" }));
+    expect(screen.getByText("Page 3 of 3")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Next page" })).toBeDisabled();
+    expect(dataRowCount()).toBe(2); // 12 - 10
+  });
+
+  it("changes page size and resets to the first page", async () => {
+    const user = userEvent.setup();
+    await render(PageHostComponent);
+    await user.click(screen.getByRole("button", { name: "Next page" }));
+    await user.selectOptions(screen.getByRole("combobox"), "10");
+    expect(dataRowCount()).toBe(10);
+    expect(screen.getByText("Page 1 of 2")).toBeInTheDocument();
+  });
+
+  it("hides the footer while loading", async () => {
+    const { fixture } = await render(PageHostComponent);
+    fixture.componentInstance.loading.set(true);
+    fixture.detectChanges();
+    expect(
+      screen.queryByRole("button", { name: "Next page" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("has no axe violations with pagination", async () => {
+    const { container } = await render(PageHostComponent);
+    expect(await axe(container)).toHaveNoViolations();
+  });
+});
