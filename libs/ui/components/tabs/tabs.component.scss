@@ -1,0 +1,51 @@
+// Tabs styles — semantic / component tokens only (CLAUDE.md §3).
+
+:host {
+  display: block;
+}
+
+.ui-tabs__list {
+  display: flex;
+  gap: var(--ui-tabs-gap);
+  border-bottom: var(--ui-tabs-border-width) solid var(--ui-tabs-border);
+}
+
+.ui-tabs__tab {
+  padding: var(--ui-tabs-padding-y) var(--ui-tabs-padding-x);
+  font-family: inherit;
+  font-size: var(--ui-tabs-font-size);
+  font-weight: var(--ui-tabs-font-weight);
+  color: var(--ui-tabs-text);
+  background: transparent;
+  border: none;
+  border-bottom: var(--ui-tabs-active-indicator) solid transparent;
+  margin-bottom: calc(-1 * var(--ui-tabs-border-width));
+  cursor: pointer;
+  transition:
+    color 150ms ease,
+    border-color 150ms ease;
+}
+
+.ui-tabs__tab:hover:not(:disabled) {
+  color: var(--ui-tabs-text-active);
+}
+
+.ui-tabs__tab:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-focus-ring);
+  border-radius: var(--ui-tabs-radius);
+}
+
+.ui-tabs__tab:disabled {
+  color: var(--ui-tabs-text-disabled);
+  cursor: not-allowed;
+}
+
+.ui-tabs__tab--active {
+  color: var(--ui-tabs-text-active);
+  border-bottom-color: var(--ui-tabs-indicator-color);
+}
+
+.ui-tabs__panels {
+  padding: var(--ui-tabs-panel-padding-y) var(--ui-tabs-panel-padding-x);
+}

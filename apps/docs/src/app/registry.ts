@@ -15,6 +15,7 @@ import {
   spinnerDoc,
   tagDoc,
   progressBarDoc,
+  tabsDoc,
 } from "@onyx/ui/components";
 
 export const COMPONENT_DOCS: ComponentDoc[] = [
@@ -33,4 +34,5 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
   spinnerDoc,
   tagDoc,
   progressBarDoc,
+  tabsDoc,
 ];

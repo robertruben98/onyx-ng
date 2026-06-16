@@ -11,5 +11,6 @@ export * from "./progress-bar";
 export * from "./radio-group";
 export * from "./spinner";
 export * from "./switch";
+export * from "./tabs";
 export * from "./tag";
 export * from "./textarea";
