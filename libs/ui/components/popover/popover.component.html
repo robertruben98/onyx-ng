@@ -1,0 +1,11 @@
+<div
+  class="ui-popover__panel"
+  role="dialog"
+  tabindex="-1"
+  cdkFocusInitial
+  [attr.aria-label]="label() || null"
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
+>
+  <ng-container [ngTemplateOutlet]="content()" />
+</div>

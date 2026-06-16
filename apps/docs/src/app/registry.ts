@@ -18,6 +18,7 @@ import {
   tabsDoc,
   accordionDoc,
   tooltipDoc,
+  popoverDoc,
 } from "@onyx/ui/components";
 
 export const COMPONENT_DOCS: ComponentDoc[] = [
@@ -39,4 +40,5 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
   tabsDoc,
   accordionDoc,
   tooltipDoc,
+  popoverDoc,
 ];

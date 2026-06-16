@@ -1,0 +1,22 @@
+import { Component } from "@angular/core";
+import { Demo } from "@onyx/ui/docs-model";
+import { PopoverDirective } from "./popover.directive";
+
+const basicCode = `<button type="button" [uiPopover]="menu" uiPopoverLabel="Quick actions">
+  Actions
+</button>
+<ng-template #menu>
+  <p>Choose an action for this item.</p>
+  <button type="button">Rename</button>
+  <button type="button">Delete</button>
+</ng-template>`;
+@Component({
+  standalone: true,
+  imports: [PopoverDirective],
+  template: basicCode,
+})
+class PopoverBasicDemoComponent {}
+
+export const popoverDemos: Demo[] = [
+  { title: "Basic", code: basicCode, component: PopoverBasicDemoComponent },
+];
