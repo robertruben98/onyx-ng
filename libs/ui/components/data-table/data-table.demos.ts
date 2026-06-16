@@ -20,13 +20,14 @@ const basicCode = `<ui-data-table
   [rowKey]="'id'"
   [columns]="columns"
   [rows]="rows"
+  [multiSort]="true"
 />
 
-// columns
+// columns (Shift+click headers for multi-column sort)
 [
-  { id: 'name',  header: 'Name',  field: 'name' },
-  { id: 'email', header: 'Email', field: 'email' },
-  { id: 'role',  header: 'Role',  field: 'role', align: 'end' },
+  { id: 'name',  header: 'Name',  field: 'name',  sortable: true },
+  { id: 'email', header: 'Email', field: 'email', sortable: true },
+  { id: 'role',  header: 'Role',  field: 'role',  sortable: true, align: 'end' },
 ]`;
 @Component({
   standalone: true,
@@ -36,14 +37,15 @@ const basicCode = `<ui-data-table
     [rowKey]="'id'"
     [columns]="columns"
     [rows]="rows"
+    [multiSort]="true"
   />`,
 })
 class DataTableBasicDemoComponent {
   protected readonly rows = ROWS;
   protected readonly columns: DataTableColumn<Person>[] = [
-    { id: "name", header: "Name", field: "name" },
-    { id: "email", header: "Email", field: "email" },
-    { id: "role", header: "Role", field: "role", align: "end" },
+    { id: "name", header: "Name", field: "name", sortable: true },
+    { id: "email", header: "Email", field: "email", sortable: true },
+    { id: "role", header: "Role", field: "role", sortable: true, align: "end" },
   ];
 }
 

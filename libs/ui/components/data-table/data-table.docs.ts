@@ -44,6 +44,24 @@ export const dataTableDoc: ComponentDoc = {
       default: "''",
       description: "Accessible name for the grid.",
     },
+    {
+      name: "multiSort",
+      type: "boolean",
+      default: "false",
+      description: "Allow additive multi-column sort via Shift+click.",
+    },
+    {
+      name: "sort",
+      type: "SortState[]",
+      default: "[]",
+      description: "Active sort levels. Two-way bindable via [(sort)].",
+    },
+    {
+      name: "column.sortable",
+      type: "boolean",
+      default: "false",
+      description: "Makes a column's header a sort toggle (asc → desc → none).",
+    },
   ],
   demos: dataTableDemos,
 };

@@ -18,8 +18,32 @@
         class="ui-dt__th"
         [class.ui-dt__cell--center]="col.align === 'center'"
         [class.ui-dt__cell--end]="col.align === 'end'"
+        [attr.aria-sort]="ariaSort(col)"
       >
-        {{ col.header }}
+        @if (col.sortable) {
+          <button
+            type="button"
+            class="ui-dt__sort"
+            (click)="toggleSort(col, $event)"
+          >
+            <span>{{ col.header }}</span>
+            <span class="ui-dt__sort-icon" aria-hidden="true">
+              @switch (sortDirectionOf(col)) {
+                @case ("asc") {
+                  ↑
+                }
+                @case ("desc") {
+                  ↓
+                }
+                @default {
+                  ↕
+                }
+              }
+            </span>
+          </button>
+        } @else {
+          {{ col.header }}
+        }
       </div>
     }
   </div>

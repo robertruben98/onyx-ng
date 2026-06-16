@@ -1,5 +1,6 @@
 import { Component, signal } from "@angular/core";
 import { render, screen, within } from "@testing-library/angular";
+import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 import { DataTableComponent, DataTableColumn } from "./data-table.component";
 
@@ -101,6 +102,128 @@ describe("DataTableComponent — foundation", () => {
 
   it("has no axe violations", async () => {
     const { container } = await render(HostComponent);
+    expect(await axe(container)).toHaveNoViolations();
+  });
+});
+
+interface Score {
+  id: number;
+  name: string;
+  points: number;
+}
+
+const SCORE_COLUMNS: DataTableColumn<Score>[] = [
+  { id: "name", header: "Name", field: "name", sortable: true },
+  { id: "points", header: "Points", field: "points", sortable: true },
+];
+
+const SCORES: Score[] = [
+  { id: 1, name: "Charlie", points: 30 },
+  { id: 2, name: "Alice", points: 10 },
+  { id: 3, name: "Bob", points: 20 },
+];
+
+@Component({
+  standalone: true,
+  imports: [DataTableComponent],
+  template: `<ui-data-table
+    caption="Scores"
+    [rowKey]="'id'"
+    [columns]="columns"
+    [rows]="rows"
+    [multiSort]="multi"
+  />`,
+})
+class SortHostComponent {
+  readonly columns = SCORE_COLUMNS;
+  readonly rows = SCORES;
+  multi = false;
+}
+
+function names(): string[] {
+  return screen
+    .getAllByRole("row")
+    .slice(1)
+    .map((r) => r.querySelector(".ui-dt__td")?.textContent?.trim() ?? "");
+}
+
+describe("DataTableComponent — sorting", () => {
+  it("renders sortable headers as buttons with aria-sort=none", async () => {
+    await render(SortHostComponent);
+    const header = screen.getByRole("columnheader", { name: /Name/ });
+    expect(header).toHaveAttribute("aria-sort", "none");
+    expect(within(header).getByRole("button")).toBeInTheDocument();
+  });
+
+  it("cycles ascending → descending → none on click", async () => {
+    const user = userEvent.setup();
+    await render(SortHostComponent);
+    const nameBtn = within(
+      screen.getByRole("columnheader", { name: /Name/ }),
+    ).getByRole("button");
+
+    await user.click(nameBtn);
+    expect(names()).toEqual(["Alice", "Bob", "Charlie"]);
+    expect(screen.getByRole("columnheader", { name: /Name/ })).toHaveAttribute(
+      "aria-sort",
+      "ascending",
+    );
+
+    await user.click(nameBtn);
+    expect(names()).toEqual(["Charlie", "Bob", "Alice"]);
+    expect(screen.getByRole("columnheader", { name: /Name/ })).toHaveAttribute(
+      "aria-sort",
+      "descending",
+    );
+
+    await user.click(nameBtn);
+    expect(names()).toEqual(["Charlie", "Alice", "Bob"]); // back to source order
+    expect(screen.getByRole("columnheader", { name: /Name/ })).toHaveAttribute(
+      "aria-sort",
+      "none",
+    );
+  });
+
+  it("sorts numerically by a numeric field", async () => {
+    const user = userEvent.setup();
+    await render(SortHostComponent);
+    const pointsBtn = within(
+      screen.getByRole("columnheader", { name: /Points/ }),
+    ).getByRole("button");
+    await user.click(pointsBtn);
+    expect(names()).toEqual(["Alice", "Bob", "Charlie"]); // 10,20,30
+  });
+
+  it("replaces sort when not in multi mode", async () => {
+    const user = userEvent.setup();
+    await render(SortHostComponent);
+    await user.click(
+      within(screen.getByRole("columnheader", { name: /Name/ })).getByRole(
+        "button",
+      ),
+    );
+    await user.click(
+      within(screen.getByRole("columnheader", { name: /Points/ })).getByRole(
+        "button",
+      ),
+    );
+    expect(screen.getByRole("columnheader", { name: /Name/ })).toHaveAttribute(
+      "aria-sort",
+      "none",
+    );
+    expect(
+      screen.getByRole("columnheader", { name: /Points/ }),
+    ).toHaveAttribute("aria-sort", "ascending");
+  });
+
+  it("has no axe violations when sorted", async () => {
+    const user = userEvent.setup();
+    const { container } = await render(SortHostComponent);
+    await user.click(
+      within(screen.getByRole("columnheader", { name: /Name/ })).getByRole(
+        "button",
+      ),
+    );
     expect(await axe(container)).toHaveNoViolations();
   });
 });
