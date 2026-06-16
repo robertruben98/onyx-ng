@@ -1,13 +1,13 @@
 {
   "color": {
-    "primary": { "value": "{blue.500}" },
-    "primary-hover": { "value": "{blue.600}" },
-    "primary-active": { "value": "{blue.700}" },
+    "primary": { "value": "{emerald.500}" },
+    "primary-hover": { "value": "{emerald.600}" },
+    "primary-active": { "value": "{emerald.700}" },
     "on-primary": { "value": "{white}" },
     "surface": { "value": "{white}" },
-    "surface-hover": { "value": "{blue.50}" },
-    "text": { "value": "{slate.900}" },
-    "text-muted": { "value": "{slate.400}" },
+    "surface-hover": { "value": "{slate.100}" },
+    "text": { "value": "{slate.700}" },
+    "text-muted": { "value": "{slate.500}" },
     "border": { "value": "{slate.200}" },
     "danger": { "value": "{red.600}" },
     "danger-surface": { "value": "{red.50}" },
@@ -23,7 +23,7 @@
     "disabled-text": { "value": "{slate.400}" }
   },
   "focus": {
-    "ring": { "value": "{blue.600}" },
+    "ring": { "value": "{color.primary}" },
     "ring-width": { "value": "{border.width-thick}" },
     "ring-offset": { "value": "{border.width-thick}" }
   },

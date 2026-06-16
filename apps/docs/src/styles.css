@@ -1,0 +1,62 @@
+/*
+ * Docs site chrome (app layer). Free to use raw values / primitive vars here —
+ * this is NOT a component (CLAUDE.md §2: component styles stay token-only).
+ * Tracks the active theme through the semantic --ui-* variables.
+ */
+:root {
+  --docs-page-bg: var(--ui-slate-50);
+  --docs-topbar-bg: rgba(255, 255, 255, 0.8);
+  --docs-code-bg: var(--ui-slate-100);
+  --docs-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.1);
+  --docs-shadow-panel: 0 1px 3px rgba(15, 23, 42, 0.08);
+  --docs-radius: 0.75rem;
+  --docs-font:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --docs-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+.app-dark {
+  --docs-page-bg: var(--ui-slate-950);
+  --docs-topbar-bg: rgba(15, 23, 42, 0.72);
+  --docs-code-bg: var(--ui-slate-800);
+  --docs-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --docs-shadow-panel: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--docs-font);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  background: var(--docs-page-bg);
+  color: var(--ui-color-text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--ui-color-text);
+  letter-spacing: -0.011em;
+  line-height: 1.25;
+}
+
+a {
+  color: var(--ui-color-primary);
+}
+
+code {
+  font-family: var(--docs-mono);
+}

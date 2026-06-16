@@ -137,9 +137,9 @@
   "dialog": {
     "bg": { "value": "{color.surface}" },
     "text": { "value": "{color.text}" },
-    "radius": { "value": "{radius}" },
+    "radius": { "value": "{radii.xl}" },
     "shadow": {
-      "value": "0 10px 38px -10px rgba(15, 23, 42, 0.35), 0 10px 20px -15px rgba(15, 23, 42, 0.2)"
+      "value": "0 20px 40px -12px rgba(15, 23, 42, 0.28), 0 8px 18px -10px rgba(15, 23, 42, 0.18)"
     },
     "border": { "value": "{color.border}" },
     "padding-x": { "value": "{space.5}" },

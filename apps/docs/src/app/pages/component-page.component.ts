@@ -31,9 +31,23 @@ import { DemoBlockComponent } from "../ui/demo-block.component";
   `,
   styles: [
     `
+      article > h1 {
+        margin: 0 0 0.5rem;
+        font-size: 2rem;
+        font-weight: 700;
+      }
       .docs-lead {
-        color: var(--ui-color-text);
-        opacity: 0.8;
+        margin: 0 0 2rem;
+        max-width: 60ch;
+        font-size: 1.05rem;
+        color: var(--ui-color-text-muted);
+      }
+      article > h2 {
+        margin: 2.5rem 0 1rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--ui-color-border);
+        font-size: 1.35rem;
+        font-weight: 700;
       }
     `,
   ],

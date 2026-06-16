@@ -29,13 +29,28 @@ import { Preset, ThemeService } from "./theme.service";
         gap: 0.5rem;
         align-items: center;
       }
-      .docs-theme__toggle {
+      .docs-theme__toggle,
+      .docs-theme__preset select {
         cursor: pointer;
-        padding: 0.375rem 0.75rem;
+        padding: 0.4rem 0.75rem;
         border-radius: 0.5rem;
         border: 1px solid var(--ui-color-border);
         background: var(--ui-color-surface);
         color: var(--ui-color-text);
+        font: inherit;
+        font-size: 0.85rem;
+        transition:
+          border-color 0.15s ease,
+          background-color 0.15s ease;
+      }
+      .docs-theme__toggle:hover,
+      .docs-theme__preset select:hover {
+        border-color: var(--ui-color-primary);
+      }
+      .docs-theme__toggle:focus-visible,
+      .docs-theme__preset select:focus-visible {
+        outline: 2px solid var(--ui-focus-ring);
+        outline-offset: 2px;
       }
       .docs-visually-hidden {
         position: absolute;

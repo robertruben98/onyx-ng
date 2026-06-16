@@ -9,6 +9,7 @@ import { COMPONENT_DOCS } from "../registry";
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <nav class="docs-sidebar" aria-label="Components">
+      <p class="docs-sidebar__label">Components</p>
       <ul>
         @for (doc of docs; track doc.id) {
           <li>
@@ -25,6 +26,14 @@ import { COMPONENT_DOCS } from "../registry";
   `,
   styles: [
     `
+      .docs-sidebar__label {
+        margin: 0 0 0.5rem 0.75rem;
+        font-size: 0.6875rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ui-color-text-muted);
+      }
       .docs-sidebar ul {
         list-style: none;
         margin: 0;
@@ -35,15 +44,30 @@ import { COMPONENT_DOCS } from "../registry";
       }
       .docs-sidebar a {
         display: block;
-        padding: 0.375rem 0.75rem;
-        border-radius: 0.375rem;
+        padding: 0.4375rem 0.75rem;
+        border-radius: 0.5rem;
         color: var(--ui-color-text);
         text-decoration: none;
+        font-size: 0.9rem;
+        transition:
+          background-color 0.15s ease,
+          color 0.15s ease;
+      }
+      .docs-sidebar a:hover {
+        background: var(--ui-color-surface-hover);
       }
       .docs-sidebar a.is-active {
-        background: var(--ui-color-surface-hover);
+        background: color-mix(
+          in srgb,
+          var(--ui-color-primary) 12%,
+          transparent
+        );
         color: var(--ui-color-primary);
         font-weight: 600;
+      }
+      .docs-sidebar a:focus-visible {
+        outline: 2px solid var(--ui-focus-ring);
+        outline-offset: 2px;
       }
     `,
   ],

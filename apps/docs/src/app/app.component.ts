@@ -10,12 +10,19 @@ import { ThemeControlsComponent } from "./theme/theme-controls.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <header class="docs-topbar">
-      <span class="docs-brand">Onyx UI</span>
-      <docs-theme-controls />
+      <div class="docs-topbar__inner">
+        <span class="docs-brand">
+          <span class="docs-brand__dot" aria-hidden="true"></span>
+          Onyx <span class="docs-brand__accent">UI</span>
+        </span>
+        <docs-theme-controls />
+      </div>
     </header>
     <div class="docs-layout">
       <aside class="docs-aside"><docs-sidebar /></aside>
-      <main class="docs-main"><router-outlet /></main>
+      <main class="docs-main">
+        <div class="docs-panel"><router-outlet /></div>
+      </main>
     </div>
   `,
   styles: [
@@ -23,32 +30,77 @@ import { ThemeControlsComponent } from "./theme/theme-controls.component";
       :host {
         display: block;
         min-height: 100vh;
-        background: var(--ui-color-surface);
-        color: var(--ui-color-text);
       }
       .docs-topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: var(--docs-topbar-bg);
+        backdrop-filter: saturate(180%) blur(8px);
+        border-bottom: 1px solid var(--ui-color-border);
+      }
+      .docs-topbar__inner {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
         padding: 0.75rem 1.5rem;
-        border-bottom: 1px solid var(--ui-color-border);
       }
       .docs-brand {
-        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 700;
         font-size: 1.125rem;
+        letter-spacing: -0.02em;
+      }
+      .docs-brand__dot {
+        width: 0.7rem;
+        height: 0.7rem;
+        border-radius: 9999px;
+        background: var(--ui-color-primary);
+        box-shadow: 0 0 0 4px
+          color-mix(in srgb, var(--ui-color-primary) 22%, transparent);
+      }
+      .docs-brand__accent {
+        color: var(--ui-color-primary);
       }
       .docs-layout {
         display: grid;
-        grid-template-columns: 220px 1fr;
+        grid-template-columns: 248px minmax(0, 1fr);
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+        align-items: start;
       }
       .docs-aside {
-        padding: 1rem;
-        border-right: 1px solid var(--ui-color-border);
-        min-height: calc(100vh - 56px);
+        position: sticky;
+        top: 4.25rem;
+        padding: 1.5rem 0;
+        max-height: calc(100vh - 4.25rem);
+        overflow-y: auto;
       }
       .docs-main {
-        padding: 1.5rem 2rem;
-        max-width: 880px;
+        padding: 1.5rem 0 4rem;
+        min-width: 0;
+      }
+      .docs-panel {
+        background: var(--ui-color-surface);
+        border: 1px solid var(--ui-color-border);
+        border-radius: var(--docs-radius);
+        box-shadow: var(--docs-shadow-panel);
+        padding: 2rem 2.25rem;
+      }
+      @media (max-width: 720px) {
+        .docs-layout {
+          grid-template-columns: 1fr;
+        }
+        .docs-aside {
+          position: static;
+          max-height: none;
+        }
       }
     `,
   ],
