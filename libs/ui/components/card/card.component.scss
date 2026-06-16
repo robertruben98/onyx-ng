@@ -1,0 +1,38 @@
+// Card styles — semantic / component tokens only (CLAUDE.md §3).
+
+:host {
+  display: block;
+  background-color: var(--ui-card-bg);
+  color: var(--ui-card-text);
+  border: var(--ui-card-border-width) solid transparent;
+  border-radius: var(--ui-card-radius);
+  overflow: hidden;
+}
+
+:host(.ui-card--elevated) {
+  box-shadow: var(--ui-card-shadow);
+}
+
+:host(.ui-card--outlined) {
+  border-color: var(--ui-card-border);
+}
+
+.ui-card__header,
+.ui-card__body,
+.ui-card__footer {
+  padding: var(--ui-card-padding-y) var(--ui-card-padding-x);
+}
+
+.ui-card__header:not(:empty) {
+  border-bottom: var(--ui-card-border-width) solid var(--ui-card-border);
+  font-weight: var(--ui-card-header-font-weight);
+}
+
+.ui-card__footer:not(:empty) {
+  border-top: var(--ui-card-border-width) solid var(--ui-card-border);
+}
+
+.ui-card__header:empty,
+.ui-card__footer:empty {
+  display: none;
+}

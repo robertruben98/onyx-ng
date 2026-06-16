@@ -9,6 +9,7 @@ import {
   badgeDoc,
   alertDoc,
   dialogDoc,
+  cardDoc,
 } from "@onyx/ui/components";
 
 export const COMPONENT_DOCS: ComponentDoc[] = [
@@ -21,4 +22,5 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
   badgeDoc,
   alertDoc,
   dialogDoc,
+  cardDoc,
 ];
