@@ -1,0 +1,8 @@
+// Accordion container styles — semantic / component tokens only (CLAUDE.md §3).
+
+:host {
+  display: block;
+  border: var(--ui-accordion-border-width) solid var(--ui-accordion-border);
+  border-radius: var(--ui-accordion-radius);
+  overflow: hidden;
+}

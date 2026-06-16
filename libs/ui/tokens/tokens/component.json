@@ -153,6 +153,22 @@
     "width-md": { "value": "32rem" },
     "width-lg": { "value": "48rem" }
   },
+  "accordion": {
+    "border": { "value": "{color.border}" },
+    "border-width": { "value": "{border.width}" },
+    "radius": { "value": "{radii.lg}" },
+    "gap": { "value": "{space.3}" },
+    "padding-x": { "value": "{space.4}" },
+    "padding-y": { "value": "{space.3}" },
+    "panel-padding-x": { "value": "{space.4}" },
+    "panel-padding-y": { "value": "{space.3}" },
+    "font-size": { "value": "{font.size.md}" },
+    "header-font-weight": { "value": "{font.weight.medium}" },
+    "header-text": { "value": "{color.text}" },
+    "header-bg-hover": { "value": "{color.surface-hover}" },
+    "panel-text": { "value": "{color.text}" },
+    "text-disabled": { "value": "{color.disabled-text}" }
+  },
   "tabs": {
     "gap": { "value": "{space.1}" },
     "border": { "value": "{color.border}" },
