@@ -7,6 +7,7 @@ export * from "./checkbox";
 export * from "./dialog";
 export * from "./divider";
 export * from "./input";
+export * from "./progress-bar";
 export * from "./radio-group";
 export * from "./spinner";
 export * from "./switch";
