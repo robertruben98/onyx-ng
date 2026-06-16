@@ -69,6 +69,37 @@ import { COMPONENT_DOCS } from "../registry";
         outline: 2px solid var(--ui-focus-ring);
         outline-offset: 2px;
       }
+      /* On mobile the sidebar collapses to a horizontal scrollable chip strip */
+      @media (max-width: 720px) {
+        .docs-sidebar__label {
+          display: none;
+        }
+        .docs-sidebar ul {
+          flex-direction: row;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          gap: 0.375rem;
+          padding: 0.25rem 0 0.5rem;
+          /* hide scrollbar but keep scroll functionality */
+          scrollbar-width: none;
+        }
+        .docs-sidebar ul::-webkit-scrollbar {
+          display: none;
+        }
+        .docs-sidebar li {
+          flex-shrink: 0;
+        }
+        .docs-sidebar a {
+          font-size: 0.8125rem;
+          padding: 0.3rem 0.65rem;
+          white-space: nowrap;
+          border: 1px solid var(--ui-color-border);
+        }
+        .docs-sidebar a.is-active {
+          border-color: var(--ui-color-primary);
+        }
+      }
     `,
   ],
 })

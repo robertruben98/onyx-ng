@@ -92,14 +92,37 @@ import { ThemeControlsComponent } from "./theme/theme-controls.component";
         border-radius: var(--docs-radius);
         box-shadow: var(--docs-shadow-panel);
         padding: 2rem 2.25rem;
+        /* prevent content inside from pushing past the card edge */
+        overflow: hidden;
       }
       @media (max-width: 720px) {
         .docs-layout {
           grid-template-columns: 1fr;
+          gap: 0;
+          padding: 0 0.75rem;
         }
         .docs-aside {
           position: static;
           max-height: none;
+          padding: 0.75rem 0 0;
+        }
+        .docs-main {
+          padding: 1rem 0 3rem;
+        }
+        .docs-panel {
+          padding: 1.25rem 1rem;
+          border-radius: 0.5rem;
+        }
+        .docs-topbar__inner {
+          padding: 0.625rem 0.75rem;
+        }
+      }
+      @media (max-width: 480px) {
+        .docs-layout {
+          padding: 0 0.5rem;
+        }
+        .docs-panel {
+          padding: 1rem 0.75rem;
         }
       }
     `,

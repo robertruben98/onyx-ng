@@ -49,6 +49,19 @@ import { DemoBlockComponent } from "../ui/demo-block.component";
         font-size: 1.35rem;
         font-weight: 700;
       }
+      @media (max-width: 480px) {
+        article > h1 {
+          font-size: 1.5rem;
+        }
+        .docs-lead {
+          font-size: 0.9375rem;
+          margin-bottom: 1.5rem;
+        }
+        article > h2 {
+          font-size: 1.1rem;
+          margin-top: 1.75rem;
+        }
+      }
     `,
   ],
 })

@@ -36,7 +36,8 @@ import {
       .docs-code pre {
         margin: 0;
         padding: 1rem;
-        overflow: auto;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
         background: var(--ui-color-surface-hover);
         border-radius: 0.5rem;
       }
@@ -44,6 +45,14 @@ import {
         font-family: ui-monospace, monospace;
         font-size: 0.8125rem;
         white-space: pre;
+      }
+      @media (max-width: 480px) {
+        .docs-code pre {
+          padding: 0.75rem;
+        }
+        .docs-code code {
+          font-size: 0.75rem;
+        }
       }
     `,
   ],

@@ -60,3 +60,26 @@ a {
 code {
   font-family: var(--docs-mono);
 }
+
+/* ── Mobile baseline ───────────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  body {
+    /* prevent the whole page from scrolling sideways */
+    overflow-x: hidden;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  h2 {
+    font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 0.875rem;
+  }
+  h1 {
+    font-size: 1.35rem;
+  }
+}

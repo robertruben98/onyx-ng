@@ -48,6 +48,9 @@ import { CodeBlockComponent } from "./code-block.component";
         flex-wrap: wrap;
         gap: 0.75rem;
         align-items: center;
+        /* prevent demo content from overflowing on narrow viewports */
+        overflow: hidden;
+        min-width: 0;
       }
       .docs-demo__toggle {
         margin: 0.5rem 0;
@@ -57,6 +60,11 @@ import { CodeBlockComponent } from "./code-block.component";
         border: 1px solid var(--ui-color-border);
         background: var(--ui-color-surface);
         color: var(--ui-color-text);
+      }
+      @media (max-width: 480px) {
+        .docs-demo__preview {
+          padding: 1rem;
+        }
       }
     `,
   ],

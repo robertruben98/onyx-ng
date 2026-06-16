@@ -59,6 +59,13 @@ import { Preset, ThemeService } from "./theme.service";
         overflow: hidden;
         clip: rect(0 0 0 0);
       }
+      @media (max-width: 480px) {
+        .docs-theme__toggle,
+        .docs-theme__preset select {
+          padding: 0.3rem 0.5rem;
+          font-size: 0.8rem;
+        }
+      }
     `,
   ],
 })
