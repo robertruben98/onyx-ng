@@ -153,6 +153,26 @@
     "width-md": { "value": "32rem" },
     "width-lg": { "value": "48rem" }
   },
+  "data-table": {
+    "bg": { "value": "{color.surface}" },
+    "text": { "value": "{color.text}" },
+    "muted-text": { "value": "{color.text-muted}" },
+    "border": { "value": "{color.border}" },
+    "row-border": { "value": "{color.border}" },
+    "border-width": { "value": "{border.width}" },
+    "radius": { "value": "{radii.lg}" },
+    "font-size": { "value": "{font.size.md}" },
+    "header-bg": { "value": "{color.surface-hover}" },
+    "header-text": { "value": "{color.text}" },
+    "header-font-weight": { "value": "{font.weight.medium}" },
+    "row-hover-bg": { "value": "{color.surface-hover}" },
+    "row-selected-bg": { "value": "{color.info-surface}" },
+    "cell-padding-x": { "value": "{space.3}" },
+    "cell-padding-y": { "value": "{space.2}" },
+    "empty-padding": { "value": "{space.5}" },
+    "sort-indicator": { "value": "{color.text-muted}" },
+    "sort-indicator-active": { "value": "{color.primary}" }
+  },
   "menu": {
     "gap": { "value": "{space.2}" },
     "radius": { "value": "{radii.md}" },

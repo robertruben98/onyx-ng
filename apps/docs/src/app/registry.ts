@@ -21,6 +21,7 @@ import {
   popoverDoc,
   selectDoc,
   menuDoc,
+  dataTableDoc,
 } from "@onyx/ui/components";
 
 export const COMPONENT_DOCS: ComponentDoc[] = [
@@ -45,4 +46,5 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
   popoverDoc,
   selectDoc,
   menuDoc,
+  dataTableDoc,
 ];

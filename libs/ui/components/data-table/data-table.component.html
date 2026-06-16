@@ -1,0 +1,64 @@
+<div
+  class="ui-dt__grid"
+  role="grid"
+  [attr.aria-label]="caption() || null"
+  [attr.aria-rowcount]="ariaRowCount()"
+  [attr.aria-colcount]="columns().length"
+  [attr.aria-busy]="loading() ? 'true' : null"
+>
+  <div
+    class="ui-dt__head"
+    role="row"
+    aria-rowindex="1"
+    [style.grid-template-columns]="templateColumns()"
+  >
+    @for (col of columns(); track col.id) {
+      <div
+        role="columnheader"
+        class="ui-dt__th"
+        [class.ui-dt__cell--center]="col.align === 'center'"
+        [class.ui-dt__cell--end]="col.align === 'end'"
+      >
+        {{ col.header }}
+      </div>
+    }
+  </div>
+
+  <div class="ui-dt__body">
+    @if (loading()) {
+      <div class="ui-dt__status" role="status">Loading…</div>
+    } @else if (!visibleRows().length) {
+      <div class="ui-dt__status">{{ emptyText() }}</div>
+    } @else {
+      @for (row of visibleRows(); track rowKeyOf(row); let i = $index) {
+        <div
+          role="row"
+          class="ui-dt__tr"
+          [attr.aria-rowindex]="i + 2"
+          [style.grid-template-columns]="templateColumns()"
+        >
+          @for (col of columns(); track col.id) {
+            <div
+              role="gridcell"
+              class="ui-dt__td"
+              [class.ui-dt__cell--center]="col.align === 'center'"
+              [class.ui-dt__cell--end]="col.align === 'end'"
+            >
+              @if (col.cell) {
+                <ng-container
+                  [ngTemplateOutlet]="col.cell"
+                  [ngTemplateOutletContext]="{
+                    $implicit: row,
+                    value: cellValue(col, row),
+                  }"
+                />
+              } @else {
+                {{ cellValue(col, row) }}
+              }
+            </div>
+          }
+        </div>
+      }
+    }
+  </div>
+</div>

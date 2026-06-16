@@ -1,0 +1,63 @@
+// DataTable styles — semantic / component tokens only (CLAUDE.md §3).
+
+:host {
+  display: block;
+}
+
+.ui-dt__grid {
+  border: var(--ui-data-table-border-width) solid var(--ui-data-table-border);
+  border-radius: var(--ui-data-table-radius);
+  background-color: var(--ui-data-table-bg);
+  color: var(--ui-data-table-text);
+  font-size: var(--ui-data-table-font-size);
+  overflow: hidden;
+}
+
+.ui-dt__head {
+  display: grid;
+  background-color: var(--ui-data-table-header-bg);
+  color: var(--ui-data-table-header-text);
+  border-bottom: var(--ui-data-table-border-width) solid
+    var(--ui-data-table-border);
+}
+
+.ui-dt__th {
+  padding: var(--ui-data-table-cell-padding-y)
+    var(--ui-data-table-cell-padding-x);
+  font-weight: var(--ui-data-table-header-font-weight);
+  text-align: left;
+}
+
+.ui-dt__tr {
+  display: grid;
+  border-bottom: var(--ui-data-table-border-width) solid
+    var(--ui-data-table-row-border);
+}
+
+.ui-dt__tr:last-child {
+  border-bottom: none;
+}
+
+.ui-dt__tr:hover {
+  background-color: var(--ui-data-table-row-hover-bg);
+}
+
+.ui-dt__td {
+  padding: var(--ui-data-table-cell-padding-y)
+    var(--ui-data-table-cell-padding-x);
+  min-width: 0;
+}
+
+.ui-dt__cell--center {
+  text-align: center;
+}
+
+.ui-dt__cell--end {
+  text-align: right;
+}
+
+.ui-dt__status {
+  padding: var(--ui-data-table-empty-padding);
+  text-align: center;
+  color: var(--ui-data-table-muted-text);
+}
