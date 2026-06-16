@@ -4,6 +4,7 @@ export * from "./button";
 export * from "./card";
 export * from "./checkbox";
 export * from "./dialog";
+export * from "./divider";
 export * from "./input";
 export * from "./radio-group";
 export * from "./switch";

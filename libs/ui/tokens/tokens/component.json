@@ -153,6 +153,13 @@
     "width-md": { "value": "32rem" },
     "width-lg": { "value": "48rem" }
   },
+  "divider": {
+    "color": { "value": "{color.border}" },
+    "thickness": { "value": "{border.width}" },
+    "gap": { "value": "{space.3}" },
+    "label-size": { "value": "{font.size.sm}" },
+    "label-color": { "value": "{color.text-muted}" }
+  },
   "card": {
     "bg": { "value": "{color.surface}" },
     "text": { "value": "{color.text}" },

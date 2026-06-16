@@ -1,0 +1,33 @@
+// Divider styles — semantic / component tokens only (CLAUDE.md §3).
+
+:host {
+  display: block;
+  color: var(--ui-divider-label-color);
+}
+
+:host(.ui-divider--horizontal:not(.ui-divider--labelled)) {
+  border-top: var(--ui-divider-thickness) solid var(--ui-divider-color);
+}
+
+:host(.ui-divider--vertical:not(.ui-divider--labelled)) {
+  display: inline-block;
+  align-self: stretch;
+  min-height: 1em;
+  border-left: var(--ui-divider-thickness) solid var(--ui-divider-color);
+}
+
+:host(.ui-divider--labelled) {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-divider-gap);
+}
+
+.ui-divider__line {
+  flex: 1;
+  border-top: var(--ui-divider-thickness) solid var(--ui-divider-color);
+}
+
+.ui-divider__label {
+  font-size: var(--ui-divider-label-size);
+  color: var(--ui-divider-label-color);
+}
