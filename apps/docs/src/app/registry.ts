@@ -20,6 +20,7 @@ import {
   tooltipDoc,
   popoverDoc,
   selectDoc,
+  menuDoc,
 } from "@onyx/ui/components";
 
 export const COMPONENT_DOCS: ComponentDoc[] = [
@@ -43,4 +44,5 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
   tooltipDoc,
   popoverDoc,
   selectDoc,
+  menuDoc,
 ];
