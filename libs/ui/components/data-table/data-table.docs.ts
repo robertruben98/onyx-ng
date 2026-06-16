@@ -98,6 +98,18 @@ export const dataTableDoc: ComponentDoc = {
       default: "new Set()",
       description: "Selected row keys. Two-way bindable via [(selected)].",
     },
+    {
+      name: "rowHeight",
+      type: "number",
+      default: "44",
+      description: "Row height in px (virtual mode item size).",
+    },
+    {
+      name: "viewportHeight",
+      type: "string",
+      default: "'400px'",
+      description: "Virtual scroll viewport height.",
+    },
   ],
   demos: dataTableDemos,
 };

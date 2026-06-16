@@ -396,3 +396,61 @@ describe("DataTableComponent — selection", () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 });
+
+@Component({
+  standalone: true,
+  imports: [DataTableComponent],
+  template: `<ui-data-table
+    caption="Items"
+    [rowKey]="'id'"
+    [columns]="columns"
+    [rows]="rows"
+    mode="virtual"
+    [rowHeight]="40"
+    viewportHeight="200px"
+  />`,
+})
+class VirtualHostComponent {
+  readonly columns: DataTableColumn<Item>[] = [
+    { id: "label", header: "Label", field: "label" },
+  ];
+  readonly rows: Item[] = Array.from({ length: 1000 }, (_, i) => ({
+    id: i + 1,
+    label: `Item ${i + 1}`,
+  }));
+}
+
+// NOTE (declared limit): jsdom has no layout, so CDK virtual scroll does not
+// truly virtualize here. These tests assert the viewport wiring + that the
+// pagination footer is absent + axe — not the count of rendered rows.
+describe("DataTableComponent — virtual scroll", () => {
+  it("renders a CDK virtual-scroll viewport in virtual mode", async () => {
+    const { container } = await render(VirtualHostComponent);
+    expect(
+      container.querySelector("cdk-virtual-scroll-viewport"),
+    ).toBeInTheDocument();
+  });
+
+  it("does not render the pagination footer in virtual mode", async () => {
+    await render(VirtualHostComponent);
+    expect(
+      screen.queryByRole("button", { name: "Next page" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("keeps the grid and header semantics", async () => {
+    await render(VirtualHostComponent);
+    expect(screen.getByRole("grid", { name: "Items" })).toHaveAttribute(
+      "aria-rowcount",
+      "1001",
+    );
+    expect(
+      screen.getByRole("columnheader", { name: "Label" }),
+    ).toBeInTheDocument();
+  });
+
+  it("has no axe violations in virtual mode", async () => {
+    const { container } = await render(VirtualHostComponent);
+    expect(await axe(container)).toHaveNoViolations();
+  });
+});

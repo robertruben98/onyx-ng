@@ -149,12 +149,53 @@ class DataTableSelectionDemoComponent {
   ];
 }
 
+const virtualCode = `<ui-data-table
+  caption="10 000 rows"
+  [rowKey]="'id'"
+  [columns]="columns"
+  [rows]="rows"
+  mode="virtual"
+  [rowHeight]="40"
+  viewportHeight="320px"
+/>`;
+@Component({
+  standalone: true,
+  imports: [DataTableComponent],
+  template: `<ui-data-table
+    caption="10 000 rows"
+    [rowKey]="'id'"
+    [columns]="columns"
+    [rows]="rows"
+    mode="virtual"
+    [rowHeight]="40"
+    viewportHeight="320px"
+  />`,
+})
+class DataTableVirtualDemoComponent {
+  protected readonly columns: DataTableColumn<Person>[] = [
+    { id: "name", header: "Name", field: "name" },
+    { id: "email", header: "Email", field: "email" },
+    { id: "role", header: "Role", field: "role", align: "end" },
+  ];
+  protected readonly rows: Person[] = Array.from({ length: 10000 }, (_, i) => ({
+    id: i + 1,
+    name: `Member ${i + 1}`,
+    email: `member${i + 1}@onyx.dev`,
+    role: i % 2 ? "Engineer" : "Lead",
+  }));
+}
+
 export const dataTableDemos: Demo[] = [
   { title: "Basic", code: basicCode, component: DataTableBasicDemoComponent },
   {
     title: "Pagination",
     code: paginatedCode,
     component: DataTablePaginatedDemoComponent,
+  },
+  {
+    title: "Virtual scroll",
+    code: virtualCode,
+    component: DataTableVirtualDemoComponent,
   },
   {
     title: "Selection",

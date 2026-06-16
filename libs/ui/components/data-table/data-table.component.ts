@@ -9,6 +9,7 @@ import {
 } from "@angular/core";
 import { NgTemplateOutlet } from "@angular/common";
 import { FormsModule } from "@angular/forms";
+import { ScrollingModule } from "@angular/cdk/scrolling";
 import { CheckboxComponent } from "../checkbox";
 
 export type RowKey = string | number;
@@ -53,7 +54,7 @@ export interface DataTableColumn<T> {
 @Component({
   selector: "ui-data-table",
   standalone: true,
-  imports: [NgTemplateOutlet, FormsModule, CheckboxComponent],
+  imports: [NgTemplateOutlet, FormsModule, ScrollingModule, CheckboxComponent],
   templateUrl: "./data-table.component.html",
   styleUrl: "./data-table.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -80,6 +81,10 @@ export class DataTableComponent<T> {
   readonly pageSizeOptions = input<number[]>([10, 25, 50]);
   /** Row selection mode. */
   readonly selectable = input<SelectionMode>("none");
+  /** Row height in px (CDK virtual scroll item size). */
+  readonly rowHeight = input(44);
+  /** Virtual scroll viewport height (CSS length). */
+  readonly viewportHeight = input("400px");
 
   /** Active sort levels. Two-way bindable. */
   readonly sort = model<SortState[]>([]);

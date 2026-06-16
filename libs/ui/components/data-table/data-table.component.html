@@ -65,6 +65,33 @@
       <div class="ui-dt__status" role="status">Loading…</div>
     } @else if (!visibleRows().length) {
       <div class="ui-dt__status">{{ emptyText() }}</div>
+    } @else if (mode() === "virtual") {
+      <cdk-virtual-scroll-viewport
+        class="ui-dt__viewport"
+        role="rowgroup"
+        [itemSize]="rowHeight()"
+        [style.height]="viewportHeight()"
+      >
+        <div
+          *cdkVirtualFor="let row of visibleRows(); let i = index"
+          role="row"
+          class="ui-dt__tr"
+          [attr.aria-rowindex]="i + 2"
+          [attr.aria-selected]="
+            selectable() !== 'none' ? isSelected(row) : null
+          "
+          [class.ui-dt__tr--selected]="
+            selectable() !== 'none' && isSelected(row)
+          "
+          [style.height.px]="rowHeight()"
+          [style.grid-template-columns]="templateColumns()"
+        >
+          <ng-container
+            [ngTemplateOutlet]="rowCells"
+            [ngTemplateOutletContext]="{ $implicit: row }"
+          />
+        </div>
+      </cdk-virtual-scroll-viewport>
     } @else {
       @for (row of visibleRows(); track rowKeyOf(row); let i = $index) {
         <div
@@ -79,40 +106,47 @@
           "
           [style.grid-template-columns]="templateColumns()"
         >
-          @if (selectable() !== "none") {
-            <div role="gridcell" class="ui-dt__td ui-dt__cell--select">
-              <ui-checkbox
-                ariaLabel="Select row"
-                [ngModel]="isSelected(row)"
-                (ngModelChange)="toggleRow(row, $event)"
-              />
-            </div>
-          }
-          @for (col of columns(); track col.id) {
-            <div
-              role="gridcell"
-              class="ui-dt__td"
-              [class.ui-dt__cell--center]="col.align === 'center'"
-              [class.ui-dt__cell--end]="col.align === 'end'"
-            >
-              @if (col.cell) {
-                <ng-container
-                  [ngTemplateOutlet]="col.cell"
-                  [ngTemplateOutletContext]="{
-                    $implicit: row,
-                    value: cellValue(col, row),
-                  }"
-                />
-              } @else {
-                {{ cellValue(col, row) }}
-              }
-            </div>
-          }
+          <ng-container
+            [ngTemplateOutlet]="rowCells"
+            [ngTemplateOutletContext]="{ $implicit: row }"
+          />
         </div>
       }
     }
   </div>
 </div>
+
+<ng-template #rowCells let-row>
+  @if (selectable() !== "none") {
+    <div role="gridcell" class="ui-dt__td ui-dt__cell--select">
+      <ui-checkbox
+        ariaLabel="Select row"
+        [ngModel]="isSelected(row)"
+        (ngModelChange)="toggleRow(row, $event)"
+      />
+    </div>
+  }
+  @for (col of columns(); track col.id) {
+    <div
+      role="gridcell"
+      class="ui-dt__td"
+      [class.ui-dt__cell--center]="col.align === 'center'"
+      [class.ui-dt__cell--end]="col.align === 'end'"
+    >
+      @if (col.cell) {
+        <ng-container
+          [ngTemplateOutlet]="col.cell"
+          [ngTemplateOutletContext]="{
+            $implicit: row,
+            value: cellValue(col, row),
+          }"
+        />
+      } @else {
+        {{ cellValue(col, row) }}
+      }
+    </div>
+  }
+</ng-template>
 
 @if (showFooter()) {
   <div class="ui-dt__footer">

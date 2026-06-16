@@ -75,6 +75,11 @@
   min-width: 0;
 }
 
+.ui-dt__viewport {
+  display: block;
+  contain: strict;
+}
+
 .ui-dt__cell--select {
   display: flex;
   align-items: center;
