@@ -1,0 +1,11 @@
+<span class="ui-tag__label"><ng-content /></span>
+@if (removable()) {
+  <button
+    type="button"
+    class="ui-tag__remove"
+    [attr.aria-label]="removeLabel()"
+    (click)="remove()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+}

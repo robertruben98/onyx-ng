@@ -153,6 +153,25 @@
     "width-md": { "value": "32rem" },
     "width-lg": { "value": "48rem" }
   },
+  "tag": {
+    "radius": { "value": "{radii.sm}" },
+    "padding-x": { "value": "{space.2}" },
+    "padding-y": { "value": "{space.1}" },
+    "gap": { "value": "{space.1}" },
+    "font-size": { "value": "{font.size.sm}" },
+    "font-weight": { "value": "{font.weight.medium}" },
+    "close-size": { "value": "{font.size.md}" },
+    "neutral-bg": { "value": "{color.neutral-surface}" },
+    "neutral-text": { "value": "{color.neutral}" },
+    "info-bg": { "value": "{color.info-surface}" },
+    "info-text": { "value": "{color.info}" },
+    "success-bg": { "value": "{color.success-surface}" },
+    "success-text": { "value": "{color.success}" },
+    "warning-bg": { "value": "{color.warning-surface}" },
+    "warning-text": { "value": "{color.warning}" },
+    "danger-bg": { "value": "{color.danger-surface}" },
+    "danger-text": { "value": "{color.danger}" }
+  },
   "spinner": {
     "size": { "value": "1.5rem" },
     "size-sm": { "value": "1rem" },

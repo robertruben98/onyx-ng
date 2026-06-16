@@ -1,0 +1,52 @@
+// Tag styles — semantic / component tokens only (CLAUDE.md §3).
+
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ui-tag-gap);
+  padding: var(--ui-tag-padding-y) var(--ui-tag-padding-x);
+  font-size: var(--ui-tag-font-size);
+  font-weight: var(--ui-tag-font-weight);
+  line-height: 1;
+  border-radius: var(--ui-tag-radius);
+}
+
+.ui-tag__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: var(--ui-tag-close-size);
+  line-height: 1;
+  color: inherit;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.ui-tag__remove:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-focus-ring);
+  border-radius: var(--ui-tag-radius);
+}
+
+:host(.ui-tag--neutral) {
+  background-color: var(--ui-tag-neutral-bg);
+  color: var(--ui-tag-neutral-text);
+}
+:host(.ui-tag--info) {
+  background-color: var(--ui-tag-info-bg);
+  color: var(--ui-tag-info-text);
+}
+:host(.ui-tag--success) {
+  background-color: var(--ui-tag-success-bg);
+  color: var(--ui-tag-success-text);
+}
+:host(.ui-tag--warning) {
+  background-color: var(--ui-tag-warning-bg);
+  color: var(--ui-tag-warning-text);
+}
+:host(.ui-tag--danger) {
+  background-color: var(--ui-tag-danger-bg);
+  color: var(--ui-tag-danger-text);
+}

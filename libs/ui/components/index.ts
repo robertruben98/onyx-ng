@@ -10,4 +10,5 @@ export * from "./input";
 export * from "./radio-group";
 export * from "./spinner";
 export * from "./switch";
+export * from "./tag";
 export * from "./textarea";

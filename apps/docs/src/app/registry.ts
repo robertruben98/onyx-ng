@@ -13,6 +13,7 @@ import {
   dividerDoc,
   avatarDoc,
   spinnerDoc,
+  tagDoc,
 } from "@onyx/ui/components";
 
 export const COMPONENT_DOCS: ComponentDoc[] = [
@@ -29,4 +30,5 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
   dividerDoc,
   avatarDoc,
   spinnerDoc,
+  tagDoc,
 ];
