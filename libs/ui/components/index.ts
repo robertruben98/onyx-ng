@@ -15,3 +15,4 @@ export * from "./switch";
 export * from "./tabs";
 export * from "./tag";
 export * from "./textarea";
+export * from "./tooltip";

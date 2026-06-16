@@ -17,6 +17,7 @@ import {
   progressBarDoc,
   tabsDoc,
   accordionDoc,
+  tooltipDoc,
 } from "@onyx/ui/components";
 
 export const COMPONENT_DOCS: ComponentDoc[] = [
@@ -37,4 +38,5 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
   progressBarDoc,
   tabsDoc,
   accordionDoc,
+  tooltipDoc,
 ];

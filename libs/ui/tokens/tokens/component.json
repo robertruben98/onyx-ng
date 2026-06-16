@@ -153,6 +153,18 @@
     "width-md": { "value": "32rem" },
     "width-lg": { "value": "48rem" }
   },
+  "tooltip": {
+    "bg": { "value": "{color.text}" },
+    "text": { "value": "{color.surface}" },
+    "radius": { "value": "{radii.md}" },
+    "padding-x": { "value": "{space.2}" },
+    "padding-y": { "value": "{space.1}" },
+    "font-size": { "value": "{font.size.sm}" },
+    "max-width": { "value": "16rem" },
+    "shadow": {
+      "value": "0 4px 12px -2px rgba(15, 23, 42, 0.25)"
+    }
+  },
   "accordion": {
     "border": { "value": "{color.border}" },
     "border-width": { "value": "{border.width}" },
