@@ -1,19 +1,20 @@
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import { ButtonComponent } from "@onyx/ui/components";
 import { Preset, ThemeService } from "./theme.service";
 
 @Component({
   selector: "docs-theme-controls",
   standalone: true,
+  imports: [ButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <button
-      type="button"
-      class="docs-theme__toggle"
-      [attr.aria-pressed]="theme.dark()"
-      (click)="theme.setDark(!theme.dark())"
+    <ui-button
+      variant="secondary"
+      size="sm"
+      (clicked)="theme.setDark(!theme.dark())"
     >
       {{ theme.dark() ? "🌙 Dark" : "☀ Light" }}
-    </button>
+    </ui-button>
     <label class="docs-theme__preset">
       <span class="docs-visually-hidden">Theme preset</span>
       <select [value]="theme.preset()" (change)="onPreset($event)">
@@ -29,10 +30,10 @@ import { Preset, ThemeService } from "./theme.service";
         gap: 0.5rem;
         align-items: center;
       }
-      .docs-theme__toggle,
       .docs-theme__preset select {
         cursor: pointer;
-        padding: 0.4rem 0.75rem;
+        height: 2rem;
+        padding: 0 0.6rem;
         border-radius: 0.5rem;
         border: 1px solid var(--ui-color-border);
         background: var(--ui-color-surface);
@@ -43,11 +44,9 @@ import { Preset, ThemeService } from "./theme.service";
           border-color 0.15s ease,
           background-color 0.15s ease;
       }
-      .docs-theme__toggle:hover,
       .docs-theme__preset select:hover {
         border-color: var(--ui-color-primary);
       }
-      .docs-theme__toggle:focus-visible,
       .docs-theme__preset select:focus-visible {
         outline: 2px solid var(--ui-focus-ring);
         outline-offset: 2px;
@@ -60,9 +59,8 @@ import { Preset, ThemeService } from "./theme.service";
         clip: rect(0 0 0 0);
       }
       @media (max-width: 480px) {
-        .docs-theme__toggle,
         .docs-theme__preset select {
-          padding: 0.3rem 0.5rem;
+          padding: 0 0.4rem;
           font-size: 0.8rem;
         }
       }

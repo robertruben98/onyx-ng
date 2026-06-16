@@ -21,6 +21,7 @@ import { DemoBlockComponent } from "../ui/demo-block.component";
       <article>
         <h1>{{ d.title }}</h1>
         <p class="docs-lead">{{ d.description }}</p>
+        <h2>Examples</h2>
         @for (demo of d.demos; track demo.title) {
           <docs-demo-block [demo]="demo" />
         }

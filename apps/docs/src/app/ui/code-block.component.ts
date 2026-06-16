@@ -4,16 +4,23 @@ import {
   input,
   signal,
 } from "@angular/core";
+import { ButtonComponent } from "@onyx/ui/components";
 
 @Component({
   selector: "docs-code-block",
   standalone: true,
+  imports: [ButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="docs-code">
-      <button type="button" class="docs-code__copy" (click)="copy()">
+      <ui-button
+        class="docs-code__copy"
+        variant="secondary"
+        size="sm"
+        (clicked)="copy()"
+      >
         {{ copied() ? "Copied" : "Copy" }}
-      </button>
+      </ui-button>
       <pre><code>{{ code() }}</code></pre>
     </div>
   `,
@@ -26,12 +33,7 @@ import {
         position: absolute;
         top: 0.5rem;
         right: 0.5rem;
-        cursor: pointer;
-        padding: 0.25rem 0.5rem;
-        border-radius: 0.375rem;
-        border: 1px solid var(--ui-color-border);
-        background: var(--ui-color-surface);
-        color: var(--ui-color-text);
+        z-index: 1;
       }
       .docs-code pre {
         margin: 0;

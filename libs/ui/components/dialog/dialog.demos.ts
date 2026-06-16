@@ -1,31 +1,32 @@
 import { Component, signal } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
+import { ButtonComponent } from "../button";
 import { DialogComponent } from "./dialog.component";
 
-const basicCode = `<button type="button" (click)="open.set(true)">Open dialog</button>
+const basicCode = `<ui-button (clicked)="open.set(true)">Open dialog</ui-button>
 <ui-dialog [(open)]="open" heading="Confirm action">
   <p>This action cannot be undone. Do you want to continue?</p>
   <div uiDialogFooter>
-    <button type="button" (click)="open.set(false)">Cancel</button>
-    <button type="button" (click)="open.set(false)">Confirm</button>
+    <ui-button variant="secondary" (clicked)="open.set(false)">Cancel</ui-button>
+    <ui-button (clicked)="open.set(false)">Confirm</ui-button>
   </div>
 </ui-dialog>`;
 @Component({
   standalone: true,
-  imports: [DialogComponent],
+  imports: [DialogComponent, ButtonComponent],
   template: basicCode,
 })
 class DialogBasicDemoComponent {
   protected readonly open = signal(false);
 }
 
-const sizesCode = `<button type="button" (click)="open.set(true)">Open large dialog</button>
+const sizesCode = `<ui-button variant="secondary" (clicked)="open.set(true)">Open large dialog</ui-button>
 <ui-dialog [(open)]="open" heading="Terms" size="lg">
   <p>A wider panel for long-form content.</p>
 </ui-dialog>`;
 @Component({
   standalone: true,
-  imports: [DialogComponent],
+  imports: [DialogComponent, ButtonComponent],
   template: sizesCode,
 })
 class DialogSizesDemoComponent {
