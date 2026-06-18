@@ -16,5 +16,25 @@
     "spinner-size": { "value": "{font.size.md}" },
     "spinner-width": { "value": "{border.width-thick}" },
     "spinner-radius": { "value": "{radius.full}" }
+  },
+  "alert": {
+    "padding-x": { "value": "{space.4}" },
+    "padding-y": { "value": "{space.3}" },
+    "radius": { "value": "{radius}" },
+    "border-width": { "value": "{border.width}" },
+    "font-size": { "value": "{font.size.md}" },
+    "icon-size": { "value": "{font.size.lg}" },
+    "info-bg": { "value": "{color.info-bg}" },
+    "info-text": { "value": "{color.info-text}" },
+    "info-border": { "value": "{color.info-border}" },
+    "success-bg": { "value": "{color.success-bg}" },
+    "success-text": { "value": "{color.success-text}" },
+    "success-border": { "value": "{color.success-border}" },
+    "warning-bg": { "value": "{color.warning-bg}" },
+    "warning-text": { "value": "{color.warning-text}" },
+    "warning-border": { "value": "{color.warning-border}" },
+    "danger-bg": { "value": "{color.danger-bg}" },
+    "danger-text": { "value": "{color.danger-text}" },
+    "danger-border": { "value": "{color.danger-border}" }
   }
 }
