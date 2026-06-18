@@ -3,3 +3,4 @@ export * from "./card";
 export * from "./skeleton";
 export * from "./alert";
 export * from "./badge";
+export * from "./divider";

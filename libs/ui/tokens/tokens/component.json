@@ -221,5 +221,22 @@
     "danger-text": {
       "value": "{color.badge-danger-text}"
     }
+  },
+  "divider": {
+    "color": {
+      "value": "{color.border}"
+    },
+    "thickness": {
+      "value": "{border.width}"
+    },
+    "spacing": {
+      "value": "{space.4}"
+    },
+    "label-color": {
+      "value": "{color.text-muted}"
+    },
+    "label-font-size": {
+      "value": "{font.size.sm}"
+    }
   }
 }

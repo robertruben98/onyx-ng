@@ -92,6 +92,12 @@
     },
     "badge-danger-text": {
       "value": "{red.800}"
+    },
+    "border": {
+      "value": "{slate.200}"
+    },
+    "text-muted": {
+      "value": "{slate.400}"
     }
   },
   "focus": {
