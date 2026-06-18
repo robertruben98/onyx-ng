@@ -8,7 +8,17 @@
     "surface-hover": { "value": "{blue.50}" },
     "text": { "value": "{slate.900}" },
     "disabled-bg": { "value": "{slate.100}" },
-    "disabled-text": { "value": "{slate.400}" }
+    "disabled-text": { "value": "{slate.400}" },
+    "badge-neutral-bg": { "value": "{slate.100}" },
+    "badge-neutral-text": { "value": "{slate.700}" },
+    "badge-info-bg": { "value": "{blue.100}" },
+    "badge-info-text": { "value": "{blue.800}" },
+    "badge-success-bg": { "value": "{green.50}" },
+    "badge-success-text": { "value": "{green.800}" },
+    "badge-warning-bg": { "value": "{yellow.50}" },
+    "badge-warning-text": { "value": "{yellow.800}" },
+    "badge-danger-bg": { "value": "{red.50}" },
+    "badge-danger-text": { "value": "{red.800}" }
   },
   "focus": {
     "ring": { "value": "{blue.600}" },
