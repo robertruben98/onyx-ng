@@ -32,5 +32,14 @@
     "spinner-size": { "value": "{font.size.md}" },
     "spinner-width": { "value": "{border.width-thick}" },
     "spinner-radius": { "value": "{radius.full}" }
+  },
+  "skeleton": {
+    "bg": { "value": "{slate.200}" },
+    "bg-shine": { "value": "{slate.50}" },
+    "radius": { "value": "{radius.md}" },
+    "radius-circle": { "value": "{radius.full}" },
+    "line-height": { "value": "{space.3}" },
+    "line-gap": { "value": "{space.2}" },
+    "duration": { "value": "1.5s" }
   }
 }
