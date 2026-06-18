@@ -8,7 +8,19 @@
     "surface-hover": { "value": "{blue.50}" },
     "text": { "value": "{slate.900}" },
     "disabled-bg": { "value": "{slate.100}" },
-    "disabled-text": { "value": "{slate.400}" }
+    "disabled-text": { "value": "{slate.400}" },
+    "info-bg": { "value": "{blue.50}" },
+    "info-text": { "value": "{blue.700}" },
+    "info-border": { "value": "{blue.600}" },
+    "success-bg": { "value": "{green.50}" },
+    "success-text": { "value": "{green.700}" },
+    "success-border": { "value": "{green.600}" },
+    "warning-bg": { "value": "{yellow.50}" },
+    "warning-text": { "value": "{yellow.800}" },
+    "warning-border": { "value": "{yellow.600}" },
+    "danger-bg": { "value": "{red.50}" },
+    "danger-text": { "value": "{red.700}" },
+    "danger-border": { "value": "{red.600}" }
   },
   "focus": {
     "ring": { "value": "{blue.600}" },
