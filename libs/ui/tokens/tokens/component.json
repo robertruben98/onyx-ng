@@ -159,5 +159,67 @@
     "danger-border": {
       "value": "{color.danger-border}"
     }
+  },
+  "badge": {
+    "font-size-sm": {
+      "value": "{font.size.sm}"
+    },
+    "font-size-md": {
+      "value": "{font.size.md}"
+    },
+    "font-weight": {
+      "value": "{font.weight.medium}"
+    },
+    "padding-x-sm": {
+      "value": "{space.2}"
+    },
+    "padding-y-sm": {
+      "value": "{space.1}"
+    },
+    "padding-x-md": {
+      "value": "{space.3}"
+    },
+    "padding-y-md": {
+      "value": "{space.2}"
+    },
+    "radius": {
+      "value": "{radius.full}"
+    },
+    "dot-size-sm": {
+      "value": "{space.2}"
+    },
+    "dot-size-md": {
+      "value": "{space.3}"
+    },
+    "neutral-bg": {
+      "value": "{color.badge-neutral-bg}"
+    },
+    "neutral-text": {
+      "value": "{color.badge-neutral-text}"
+    },
+    "info-bg": {
+      "value": "{color.badge-info-bg}"
+    },
+    "info-text": {
+      "value": "{color.badge-info-text}"
+    },
+    "success-bg": {
+      "value": "{color.badge-success-bg}"
+    },
+    "success-text": {
+      "value": "{color.badge-success-text}"
+    },
+    "warning-bg": {
+      "value": "{color.badge-warning-bg}"
+    },
+    "warning-text": {
+      "value": "{color.badge-warning-text}"
+    },
+    "danger-bg": {
+      "value": "{color.badge-danger-bg}"
+    },
+    "danger-text": {
+      "value": "{color.badge-danger-text}"
+    }
   }
 }
