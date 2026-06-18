@@ -1,4 +1,20 @@
 {
+  "card": {
+    "bg": { "value": "{color.surface}" },
+    "border-color": { "value": "{color.surface-hover}" },
+    "border-width": { "value": "{border.width}" },
+    "radius": { "value": "{radius}" },
+    "padding": { "value": "{space.4}" },
+    "shadow": {
+      "value": "0 1px 3px 0 rgba(0,0,0,.10), 0 1px 2px -1px rgba(0,0,0,.10)"
+    },
+    "shadow-hover": {
+      "value": "0 4px 6px -1px rgba(0,0,0,.10), 0 2px 4px -2px rgba(0,0,0,.10)"
+    },
+    "text": { "value": "{color.text}" },
+    "header-border-color": { "value": "{color.surface-hover}" },
+    "footer-border-color": { "value": "{color.surface-hover}" }
+  },
   "button": {
     "bg": { "value": "{color.primary}" },
     "bg-hover": { "value": "{color.primary-hover}" },
