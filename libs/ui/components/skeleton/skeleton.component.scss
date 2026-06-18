@@ -1,0 +1,79 @@
+// Skeleton styles — semantic / component tokens only (no primitives, no raw values).
+// The shimmer animation is disabled automatically via prefers-reduced-motion.
+
+:host {
+  display: block;
+}
+
+// --- Shared shimmer block ---------------------------------------------------
+
+.ui-skeleton__line,
+.ui-skeleton__block {
+  display: block;
+  background-color: var(--ui-skeleton-bg);
+  background-image: linear-gradient(
+    90deg,
+    var(--ui-skeleton-bg) 0%,
+    var(--ui-skeleton-bg-shine) 50%,
+    var(--ui-skeleton-bg) 100%
+  );
+  background-size: 200% 100%;
+  animation: ui-skeleton-shimmer var(--ui-skeleton-duration) ease-in-out
+    infinite;
+}
+
+// --- Text variant (multiple line blocks) ------------------------------------
+
+:host(.ui-skeleton--text) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-skeleton-line-gap);
+}
+
+:host(.ui-skeleton--text) .ui-skeleton__line {
+  height: var(--ui-skeleton-line-height);
+  border-radius: var(--ui-skeleton-radius);
+  width: 100%;
+}
+
+// Last line in a multi-line text skeleton is shorter (visual convention).
+:host(.ui-skeleton--text) .ui-skeleton__line:last-child:not(:first-child) {
+  width: 75%;
+}
+
+// --- Circle variant (avatar placeholder) ------------------------------------
+
+:host(.ui-skeleton--circle) .ui-skeleton__block {
+  width: var(--ui-size-control-md);
+  height: var(--ui-size-control-md);
+  border-radius: var(--ui-skeleton-radius-circle);
+}
+
+// --- Rect variant (card / image placeholder) --------------------------------
+
+:host(.ui-skeleton--rect) .ui-skeleton__block {
+  width: 100%;
+  height: var(--ui-size-control-lg);
+  border-radius: var(--ui-skeleton-radius);
+}
+
+// --- Shimmer keyframe -------------------------------------------------------
+
+@keyframes ui-skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+// --- Reduced-motion: disable animation entirely ----------------------------
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-skeleton__line,
+  .ui-skeleton__block {
+    animation: none;
+    background-image: none;
+  }
+}
