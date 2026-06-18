@@ -8,7 +8,9 @@
     "surface-hover": { "value": "{blue.50}" },
     "text": { "value": "{slate.900}" },
     "disabled-bg": { "value": "{slate.100}" },
-    "disabled-text": { "value": "{slate.400}" }
+    "disabled-text": { "value": "{slate.400}" },
+    "border": { "value": "{slate.200}" },
+    "text-muted": { "value": "{slate.400}" }
   },
   "focus": {
     "ring": { "value": "{blue.600}" },

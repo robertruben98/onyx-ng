@@ -16,5 +16,12 @@
     "spinner-size": { "value": "{font.size.md}" },
     "spinner-width": { "value": "{border.width-thick}" },
     "spinner-radius": { "value": "{radius.full}" }
+  },
+  "divider": {
+    "color": { "value": "{color.border}" },
+    "thickness": { "value": "{border.width}" },
+    "spacing": { "value": "{space.4}" },
+    "label-color": { "value": "{color.text-muted}" },
+    "label-font-size": { "value": "{font.size.sm}" }
   }
 }
