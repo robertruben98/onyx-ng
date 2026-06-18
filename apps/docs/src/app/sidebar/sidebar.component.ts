@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterLink, RouterLinkActive } from "@angular/router";
-import { COMPONENT_DOCS } from "../registry";
+import { NAV } from "../nav";
 
 @Component({
   selector: "docs-sidebar",
@@ -8,31 +8,37 @@ import { COMPONENT_DOCS } from "../registry";
   imports: [RouterLink, RouterLinkActive],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <nav class="docs-sidebar" aria-label="Components">
-      <p class="docs-sidebar__label">Components</p>
-      <ul>
-        @for (doc of docs; track doc.id) {
-          <li>
-            <a
-              [routerLink]="['/components', doc.id]"
-              routerLinkActive="is-active"
-            >
-              {{ doc.title }}
-            </a>
-          </li>
-        }
-      </ul>
+    <nav class="docs-sidebar" aria-label="Documentation">
+      @for (section of nav; track section.title) {
+        <p class="docs-sidebar__label">{{ section.title }}</p>
+        <ul>
+          @for (item of section.items; track item.path) {
+            <li>
+              <a
+                [routerLink]="item.path"
+                routerLinkActive="is-active"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                {{ item.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      }
     </nav>
   `,
   styles: [
     `
       .docs-sidebar__label {
-        margin: 0 0 0.5rem 0.75rem;
+        margin: 1.25rem 0 0.5rem 0.75rem;
         font-size: 0.6875rem;
         font-weight: 700;
         letter-spacing: 0.08em;
         text-transform: uppercase;
         color: var(--ui-color-text-muted);
+      }
+      .docs-sidebar__label:first-child {
+        margin-top: 0;
       }
       .docs-sidebar ul {
         list-style: none;
@@ -81,7 +87,6 @@ import { COMPONENT_DOCS } from "../registry";
           -webkit-overflow-scrolling: touch;
           gap: 0.375rem;
           padding: 0.25rem 0 0.5rem;
-          /* hide scrollbar but keep scroll functionality */
           scrollbar-width: none;
         }
         .docs-sidebar ul::-webkit-scrollbar {
@@ -104,5 +109,5 @@ import { COMPONENT_DOCS } from "../registry";
   ],
 })
 export class SidebarComponent {
-  protected readonly docs = COMPONENT_DOCS;
+  protected readonly nav = NAV;
 }

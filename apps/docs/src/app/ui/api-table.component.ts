@@ -51,15 +51,42 @@ import { ApiRow } from "../doc-model";
       .docs-api td {
         text-align: left;
         padding: 0.5rem 0.75rem;
-        border-bottom: 1px solid var(--ui-color-border);
         vertical-align: top;
+      }
+      .docs-api thead th {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ui-color-text-muted);
+        border-bottom: 2px solid var(--ui-color-border);
+      }
+      .docs-api tbody td {
+        border-bottom: 1px solid
+          color-mix(in srgb, var(--ui-color-border) 60%, transparent);
+      }
+      /* Zebra striping for scannability. */
+      .docs-api tbody tr:nth-child(even) td {
+        background: color-mix(
+          in srgb,
+          var(--ui-color-surface-hover) 45%,
+          transparent
+        );
+      }
+      .docs-api tbody tr:hover td {
+        background: var(--ui-color-surface-hover);
       }
       .docs-api th:last-child,
       .docs-api td:last-child {
         min-width: 160px;
       }
       .docs-api code {
-        font-family: ui-monospace, monospace;
+        font-family: var(--docs-mono, ui-monospace, monospace);
+      }
+      /* Emphasize the property Name column. */
+      .docs-api tbody td:first-child code {
+        font-weight: 600;
+        color: var(--ui-color-text);
       }
       @media (max-width: 480px) {
         .docs-api {

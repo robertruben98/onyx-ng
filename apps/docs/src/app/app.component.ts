@@ -1,21 +1,50 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { RouterOutlet } from "@angular/router";
+import { RouterLink, RouterOutlet } from "@angular/router";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 import { ThemeControlsComponent } from "./theme/theme-controls.component";
+import { SearchComponent } from "./search/search.component";
 
 @Component({
   selector: "docs-root",
   standalone: true,
-  imports: [RouterOutlet, SidebarComponent, ThemeControlsComponent],
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    SidebarComponent,
+    ThemeControlsComponent,
+    SearchComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <header class="docs-topbar">
       <div class="docs-topbar__inner">
-        <span class="docs-brand">
+        <a
+          class="docs-brand"
+          routerLink="/introduction"
+          aria-label="Onyx UI home"
+        >
           <span class="docs-brand__dot" aria-hidden="true"></span>
           Onyx <span class="docs-brand__accent">UI</span>
-        </span>
-        <docs-theme-controls />
+          <span class="docs-brand__ver">v0.0.0</span>
+        </a>
+        <div class="docs-topbar__actions">
+          <docs-search />
+          <a
+            class="docs-topbar__gh"
+            href="https://github.com/robertruben98/onyx-ng"
+            target="_blank"
+            rel="noopener"
+            aria-label="GitHub repository"
+          >
+            <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.33c-2.23.49-2.7-1.07-2.7-1.07-.36-.93-.89-1.18-.89-1.18-.73-.5.05-.49.05-.49.8.06 1.23.83 1.23.83.71 1.23 1.87.87 2.33.67.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"
+              />
+            </svg>
+          </a>
+          <docs-theme-controls />
+        </div>
       </div>
     </header>
     <div class="docs-layout">
@@ -54,6 +83,47 @@ import { ThemeControlsComponent } from "./theme/theme-controls.component";
         font-weight: 700;
         font-size: 1.125rem;
         letter-spacing: -0.02em;
+        text-decoration: none;
+        color: var(--ui-color-text);
+      }
+      .docs-brand:focus-visible {
+        outline: 2px solid var(--ui-focus-ring);
+        outline-offset: 4px;
+        border-radius: 0.4rem;
+      }
+      .docs-brand__ver {
+        font-size: 0.6875rem;
+        font-weight: 600;
+        color: var(--ui-color-text-muted);
+        background: var(--ui-color-surface-hover);
+        padding: 0.1rem 0.4rem;
+        border-radius: 9999px;
+        letter-spacing: 0;
+      }
+      .docs-topbar__actions {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .docs-topbar__gh {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.5rem;
+        color: var(--ui-color-text-muted);
+        transition:
+          background-color 0.15s ease,
+          color 0.15s ease;
+      }
+      .docs-topbar__gh:hover {
+        background: var(--ui-color-surface-hover);
+        color: var(--ui-color-text);
+      }
+      .docs-topbar__gh:focus-visible {
+        outline: 2px solid var(--ui-focus-ring);
+        outline-offset: 2px;
       }
       .docs-brand__dot {
         width: 0.7rem;

@@ -8,10 +8,13 @@ describe("CodeBlockComponent", () => {
       value: { writeText },
       configurable: true,
     });
-    await render(CodeBlockComponent, {
+    const { container } = await render(CodeBlockComponent, {
       componentInputs: { code: "<ui-button>Hi</ui-button>" },
     });
-    expect(screen.getByText("<ui-button>Hi</ui-button>")).toBeInTheDocument();
+    // Highlighting splits the source across <span> tokens; the rendered
+    // textContent must still reconstruct the original code verbatim.
+    const codeEl = container.querySelector("code");
+    expect(codeEl?.textContent).toBe("<ui-button>Hi</ui-button>");
     fireEvent.click(screen.getByRole("button", { name: /copy/i }));
     await new Promise((r) => setTimeout(r, 0));
     expect(writeText).toHaveBeenCalledWith("<ui-button>Hi</ui-button>");

@@ -16,14 +16,48 @@
     "Helvetica Neue", Arial, sans-serif;
   --docs-mono:
     ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  /* Syntax highlight palette (light) */
+  --docs-hl-comment: #64748b;
+  --docs-hl-string: #16a34a;
+  --docs-hl-tag: #db2777;
+  --docs-hl-attr: #9333ea;
+  --docs-hl-keyword: #2563eb;
+  --docs-hl-num: #c2410c;
 }
 
 .app-dark {
   --docs-page-bg: var(--ui-slate-950);
   --docs-topbar-bg: rgba(15, 23, 42, 0.72);
-  --docs-code-bg: var(--ui-slate-800);
+  --docs-code-bg: var(--ui-slate-900, #0f172a);
   --docs-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
   --docs-shadow-panel: 0 1px 3px rgba(0, 0, 0, 0.5);
+  /* Syntax highlight palette (dark) */
+  --docs-hl-comment: #94a3b8;
+  --docs-hl-string: #4ade80;
+  --docs-hl-tag: #f472b6;
+  --docs-hl-attr: #c084fc;
+  --docs-hl-keyword: #60a5fa;
+  --docs-hl-num: #fb923c;
+}
+
+.hl-comment {
+  color: var(--docs-hl-comment);
+  font-style: italic;
+}
+.hl-string {
+  color: var(--docs-hl-string);
+}
+.hl-tag {
+  color: var(--docs-hl-tag);
+}
+.hl-attr {
+  color: var(--docs-hl-attr);
+}
+.hl-keyword {
+  color: var(--docs-hl-keyword);
+}
+.hl-num {
+  color: var(--docs-hl-num);
 }
 
 * {
