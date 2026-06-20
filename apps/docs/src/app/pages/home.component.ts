@@ -28,7 +28,9 @@ interface Feature {
         without touching a single component.
       </p>
       <div class="hero__cta">
-        <onyx-button size="lg" routerLink="/installation">Get started</onyx-button>
+        <onyx-button size="lg" routerLink="/installation"
+          >Get started</onyx-button
+        >
         <onyx-button
           size="lg"
           variant="secondary"
@@ -279,7 +281,7 @@ export class HomeComponent {
     },
   ];
   protected readonly snippet = `import { Component } from '@angular/core';
-import { OnyxButtonComponent } from '@onyx/ui/components';
+import { OnyxButtonComponent } from '@robertruben98/onyx-ui';
 
 @Component({
   selector: 'app-demo',

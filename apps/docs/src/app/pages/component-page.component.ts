@@ -164,6 +164,6 @@ export class ComponentPageComponent {
     const d = this.doc();
     if (!d) return "";
     const className = "Onyx" + d.title.replace(/\s+/g, "") + "Component";
-    return `import { ${className} } from '@onyx/ui/components';`;
+    return `import { ${className} } from '@robertruben98/onyx-ui';`;
   });
 }
