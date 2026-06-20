@@ -138,9 +138,7 @@
     "bg": { "value": "{color.surface}" },
     "text": { "value": "{color.text}" },
     "radius": { "value": "{radii.xl}" },
-    "shadow": {
-      "value": "0 20px 40px -12px rgba(15, 23, 42, 0.28), 0 8px 18px -10px rgba(15, 23, 42, 0.18)"
-    },
+    "shadow": { "value": "{shadow.lg}" },
     "border": { "value": "{color.border}" },
     "padding-x": { "value": "{space.5}" },
     "padding-y": { "value": "{space.4}" },
@@ -200,9 +198,7 @@
     "item-text": { "value": "{color.text}" },
     "item-hover-bg": { "value": "{color.surface-hover}" },
     "item-disabled-text": { "value": "{color.disabled-text}" },
-    "shadow": {
-      "value": "0 10px 30px -8px rgba(15, 23, 42, 0.22), 0 4px 10px -6px rgba(15, 23, 42, 0.16)"
-    }
+    "shadow": { "value": "{shadow.base}" }
   },
   "select": {
     "height": { "value": "{size.control-md}" },
@@ -225,9 +221,7 @@
     "listbox-radius": { "value": "{radii.lg}" },
     "listbox-padding": { "value": "{space.1}" },
     "listbox-max-height": { "value": "15rem" },
-    "listbox-shadow": {
-      "value": "0 10px 30px -8px rgba(15, 23, 42, 0.22), 0 4px 10px -6px rgba(15, 23, 42, 0.16)"
-    },
+    "listbox-shadow": { "value": "{shadow.base}" },
     "option-padding-x": { "value": "{space.3}" },
     "option-padding-y": { "value": "{space.2}" },
     "option-hover-bg": { "value": "{color.surface-hover}" },
@@ -243,9 +237,7 @@
     "padding-x": { "value": "{space.4}" },
     "padding-y": { "value": "{space.3}" },
     "max-width": { "value": "20rem" },
-    "shadow": {
-      "value": "0 10px 30px -8px rgba(15, 23, 42, 0.22), 0 4px 10px -6px rgba(15, 23, 42, 0.16)"
-    }
+    "shadow": { "value": "{shadow.base}" }
   },
   "tooltip": {
     "bg": { "value": "{color.text}" },
@@ -255,9 +247,7 @@
     "padding-y": { "value": "{space.1}" },
     "font-size": { "value": "{font.size.sm}" },
     "max-width": { "value": "16rem" },
-    "shadow": {
-      "value": "0 4px 12px -2px rgba(15, 23, 42, 0.25)"
-    }
+    "shadow": { "value": "{shadow.sm}" }
   },
   "accordion": {
     "border": { "value": "{color.border}" },
@@ -357,8 +347,6 @@
     "padding-x": { "value": "{space.5}" },
     "padding-y": { "value": "{space.4}" },
     "header-font-weight": { "value": "{font.weight.medium}" },
-    "shadow": {
-      "value": "0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.12)"
-    }
+    "shadow": { "value": "{shadow.xs}" }
   }
 }

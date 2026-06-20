@@ -16,7 +16,12 @@ interface TokenRow {
 @Component({
   selector: "docs-theming",
   standalone: true,
-  imports: [OnyxButtonComponent, OnyxBadgeComponent, OnyxTagComponent, CodeBlockComponent],
+  imports: [
+    OnyxButtonComponent,
+    OnyxBadgeComponent,
+    OnyxTagComponent,
+    CodeBlockComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <article class="guide">
@@ -106,7 +111,7 @@ interface TokenRow {
       <h2>Dark mode</h2>
       <p>
         Dark mode is the same mechanism: a class that re-maps semantic tokens.
-        Toggle <code>app-dark</code> on <code>&lt;html&gt;</code>.
+        Toggle <code>onyx-dark</code> on <code>&lt;html&gt;</code>.
       </p>
       <docs-code-block [code]="darkCss" language="css" />
     </article>
@@ -294,14 +299,14 @@ export class ThemingComponent {
   ];
 
   protected readonly preset = `/* acme.css — one file, no component edits */
-.ui-theme-acme {
+.onyx-theme-acme {
   --ui-color-primary: #7c3aed;
   --ui-color-primary-hover: #6d28d9;
   --ui-focus-ring: #8b5cf6;
   --ui-radius: 9999px;
 }`;
 
-  protected readonly darkCss = `.app-dark {
+  protected readonly darkCss = `.onyx-dark {
   --ui-color-surface: #0f172a;
   --ui-color-text: #e2e8f0;
   --ui-color-border: #1e293b;

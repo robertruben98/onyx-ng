@@ -52,7 +52,7 @@ import { CodeBlockComponent } from "../ui/code-block.component";
       <h2>4. Enable dark mode</h2>
       <p>
         Dark mode is a class on the document root that re-maps semantic tokens —
-        components never branch on theme. Toggle <code>app-dark</code> on
+        components never branch on theme. Toggle <code>onyx-dark</code> on
         <code>&lt;html&gt;</code>:
       </p>
       <docs-code-block [code]="dark" language="ts" />
@@ -149,5 +149,5 @@ export class LoginComponent {
 }`;
 
   protected readonly dark = `// Toggle dark mode from anywhere
-document.documentElement.classList.toggle('app-dark');`;
+document.documentElement.classList.toggle('onyx-dark');`;
 }
