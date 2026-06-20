@@ -8,19 +8,19 @@ export const popoverDoc: ComponentDoc = {
     "Directive that toggles a focus-trapped dialog popover anchored to its trigger. Dismisses on outside click or Escape and restores focus. Built on the overlay primitive.",
   api: [
     {
-      name: "uiPopover",
+      name: "onyxPopover",
       type: "TemplateRef",
       default: "(required)",
       description: "Content template rendered inside the popover.",
     },
     {
-      name: "uiPopoverPlacement",
+      name: "onyxPopoverPlacement",
       type: "'top' | 'bottom' | 'left' | 'right'",
       default: "'bottom'",
       description: "Preferred placement.",
     },
     {
-      name: "uiPopoverLabel",
+      name: "onyxPopoverLabel",
       type: "string",
       default: "''",
       description: "Accessible label for the popover dialog.",

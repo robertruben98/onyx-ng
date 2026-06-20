@@ -19,7 +19,7 @@ export interface RadioOption {
 let nextId = 0;
 
 @Component({
-  selector: "ui-radio-group",
+  selector: "onyx-radio-group",
   standalone: true,
   templateUrl: "./radio-group.component.html",
   styleUrl: "./radio-group.component.scss",

@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 import { TooltipDirective } from "./tooltip.directive";
 
-const tpl = `<button type="button" [uiTooltip]="text">Hover me</button>`;
+const tpl = `<button type="button" [onyxTooltip]="text">Hover me</button>`;
 
 function renderTooltip(text = "Helpful hint") {
   return render(tpl, {

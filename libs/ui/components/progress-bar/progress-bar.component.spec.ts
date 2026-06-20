@@ -4,7 +4,7 @@ import { ProgressBarComponent } from "./progress-bar.component";
 
 describe("ProgressBarComponent", () => {
   it("exposes role=progressbar with ARIA value attributes", async () => {
-    await render(`<ui-progress-bar [value]="40" label="Upload" />`, {
+    await render(`<onyx-progress-bar [value]="40" label="Upload" />`, {
       imports: [ProgressBarComponent],
     });
     const bar = screen.getByRole("progressbar", { name: "Upload" });
@@ -14,7 +14,7 @@ describe("ProgressBarComponent", () => {
   });
 
   it("clamps the fill width to 0–100%", async () => {
-    const { container } = await render(`<ui-progress-bar [value]="150" />`, {
+    const { container } = await render(`<onyx-progress-bar [value]="150" />`, {
       imports: [ProgressBarComponent],
     });
     const fill = container.querySelector(".ui-progress__fill") as HTMLElement;
@@ -23,7 +23,7 @@ describe("ProgressBarComponent", () => {
 
   it("computes percentage against a custom max", async () => {
     const { container } = await render(
-      `<ui-progress-bar [value]="1" [max]="4" />`,
+      `<onyx-progress-bar [value]="1" [max]="4" />`,
       { imports: [ProgressBarComponent] },
     );
     const fill = container.querySelector(".ui-progress__fill") as HTMLElement;
@@ -31,7 +31,7 @@ describe("ProgressBarComponent", () => {
   });
 
   it("omits aria-valuenow when indeterminate", async () => {
-    await render(`<ui-progress-bar [indeterminate]="true" label="Loading" />`, {
+    await render(`<onyx-progress-bar [indeterminate]="true" label="Loading" />`, {
       imports: [ProgressBarComponent],
     });
     expect(screen.getByRole("progressbar")).not.toHaveAttribute(
@@ -40,10 +40,10 @@ describe("ProgressBarComponent", () => {
   });
 
   it.each([
-    ["determinate", `<ui-progress-bar [value]="60" label="Progress" />`],
+    ["determinate", `<onyx-progress-bar [value]="60" label="Progress" />`],
     [
       "indeterminate",
-      `<ui-progress-bar [indeterminate]="true" label="Loading" />`,
+      `<onyx-progress-bar [indeterminate]="true" label="Loading" />`,
     ],
   ])("has no axe violations (%s)", async (_name, tpl) => {
     const { container } = await render(tpl, {

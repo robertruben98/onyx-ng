@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
 import { PopoverDirective } from "./popover.directive";
 
-const basicCode = `<button type="button" [uiPopover]="menu" uiPopoverLabel="Quick actions">
+const basicCode = `<button type="button" [onyxPopover]="menu" onyxPopoverLabel="Quick actions">
   Actions
 </button>
 <ng-template #menu>

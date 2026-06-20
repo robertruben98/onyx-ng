@@ -58,7 +58,7 @@ import { CodeBlockComponent } from "../ui/code-block.component";
       <docs-code-block [code]="dark" language="ts" />
 
       <div class="guide__next">
-        <ui-button routerLink="/theming">Continue to Theming →</ui-button>
+        <onyx-button routerLink="/theming">Continue to Theming →</onyx-button>
       </div>
     </article>
   `,
@@ -140,8 +140,8 @@ import { ButtonComponent, InputComponent } from '@onyx/ui/components';
   standalone: true,
   imports: [ButtonComponent, InputComponent],
   template: \`
-    <ui-input placeholder="Email" />
-    <ui-button (clicked)="submit()">Sign in</ui-button>
+    <onyx-input placeholder="Email" />
+    <onyx-button (clicked)="submit()">Sign in</onyx-button>
   \`,
 })
 export class LoginComponent {

@@ -28,7 +28,7 @@ let nextId = 0;
  * Nothing here is hand-rolled (CLAUDE.md §6/§9).
  */
 @Component({
-  selector: "ui-dialog",
+  selector: "onyx-dialog",
   standalone: true,
   imports: [A11yModule],
   templateUrl: "./dialog.component.html",

@@ -32,7 +32,7 @@ let nextSelectId = 0;
  * primitive (CDK) with full keyboard support and `aria-activedescendant`.
  */
 @Component({
-  selector: "ui-select",
+  selector: "onyx-select",
   standalone: true,
   templateUrl: "./select.component.html",
   styleUrl: "./select.component.scss",

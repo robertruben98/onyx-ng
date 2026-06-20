@@ -5,11 +5,11 @@ import { TabsComponent } from "./tabs.component";
 import { TabComponent } from "./tab.component";
 
 const tpl = `
-  <ui-tabs ariaLabel="Sections" [(selectedIndex)]="index">
-    <ui-tab label="One">First panel</ui-tab>
-    <ui-tab label="Two">Second panel</ui-tab>
-    <ui-tab label="Three" [disabled]="true">Third panel</ui-tab>
-  </ui-tabs>`;
+  <onyx-tabs ariaLabel="Sections" [(selectedIndex)]="index">
+    <onyx-tab label="One">First panel</onyx-tab>
+    <onyx-tab label="Two">Second panel</onyx-tab>
+    <onyx-tab label="Three" [disabled]="true">Third panel</onyx-tab>
+  </onyx-tabs>`;
 
 function renderTabs(index = 0) {
   return render(tpl, {

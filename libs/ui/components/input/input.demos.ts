@@ -2,12 +2,12 @@ import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
 import { InputComponent } from "./input.component";
 
-const basicCode = `<ui-input label="Email" placeholder="you@example.com" type="email" />`;
+const basicCode = `<onyx-input label="Email" placeholder="you@example.com" type="email" />`;
 @Component({ standalone: true, imports: [InputComponent], template: basicCode })
 class InputBasicDemoComponent {}
 
-const statesCode = `<ui-input label="Invalid" [invalid]="true" />
-<ui-input label="Disabled" [disabled]="true" />`;
+const statesCode = `<onyx-input label="Invalid" [invalid]="true" />
+<onyx-input label="Disabled" [disabled]="true" />`;
 @Component({
   standalone: true,
   imports: [InputComponent],
@@ -15,9 +15,9 @@ const statesCode = `<ui-input label="Invalid" [invalid]="true" />
 })
 class InputStatesDemoComponent {}
 
-const sizesCode = `<ui-input size="sm" label="Small" placeholder="sm" />
-<ui-input size="md" label="Medium" placeholder="md" />
-<ui-input size="lg" label="Large" placeholder="lg" />`;
+const sizesCode = `<onyx-input size="sm" label="Small" placeholder="sm" />
+<onyx-input size="md" label="Medium" placeholder="md" />
+<onyx-input size="lg" label="Large" placeholder="lg" />`;
 @Component({
   standalone: true,
   imports: [InputComponent],

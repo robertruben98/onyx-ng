@@ -7,12 +7,12 @@ const axeOptions = { rules: { region: { enabled: false } } };
 
 describe("TagComponent", () => {
   it("projects its content", async () => {
-    await render(`<ui-tag>Frontend</ui-tag>`, { imports: [TagComponent] });
+    await render(`<onyx-tag>Frontend</onyx-tag>`, { imports: [TagComponent] });
     expect(screen.getByText("Frontend")).toBeInTheDocument();
   });
 
   it("has no remove button unless removable", async () => {
-    await render(`<ui-tag>Tag</ui-tag>`, { imports: [TagComponent] });
+    await render(`<onyx-tag>Tag</onyx-tag>`, { imports: [TagComponent] });
     expect(screen.queryByRole("button")).not.toBeInTheDocument();
   });
 
@@ -20,7 +20,7 @@ describe("TagComponent", () => {
     const user = userEvent.setup();
     const removed = jest.fn();
     await render(
-      `<ui-tag [removable]="true" removeLabel="Quitar" (removed)="removed()">Tag</ui-tag>`,
+      `<onyx-tag [removable]="true" removeLabel="Quitar" (removed)="removed()">Tag</onyx-tag>`,
       { imports: [TagComponent], componentProperties: { removed } },
     );
     await user.click(screen.getByRole("button", { name: /quitar/i }));
@@ -31,7 +31,7 @@ describe("TagComponent", () => {
     const user = userEvent.setup();
     const removed = jest.fn();
     await render(
-      `<ui-tag [removable]="true" (removed)="removed()">Tag</ui-tag>`,
+      `<onyx-tag [removable]="true" (removed)="removed()">Tag</onyx-tag>`,
       { imports: [TagComponent], componentProperties: { removed } },
     );
     await user.tab();
@@ -44,7 +44,7 @@ describe("TagComponent", () => {
     "has no axe violations (%s)",
     async (variant) => {
       const { container } = await render(
-        `<ui-tag [variant]="variant" [removable]="true">Tag</ui-tag>`,
+        `<onyx-tag [variant]="variant" [removable]="true">Tag</onyx-tag>`,
         { imports: [TagComponent], componentProperties: { variant } },
       );
       expect(await axe(container, axeOptions)).toHaveNoViolations();

@@ -13,7 +13,7 @@ const ITEMS: MenuItem[] = [
 
 function renderMenu(onSelect = jest.fn()) {
   return render(
-    `<ui-menu [items]="items" (itemSelect)="onSelect($event)">Actions</ui-menu>`,
+    `<onyx-menu [items]="items" (itemSelect)="onSelect($event)">Actions</onyx-menu>`,
     {
       imports: [MenuComponent],
       componentProperties: { items: ITEMS, onSelect },

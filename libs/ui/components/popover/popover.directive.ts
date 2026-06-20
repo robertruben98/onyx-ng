@@ -18,9 +18,9 @@ import { PopoverComponent } from "./popover.component";
  * delegated to the overlay primitive (CDK).
  */
 @Directive({
-  selector: "[uiPopover]",
+  selector: "[onyxPopover]",
   standalone: true,
-  exportAs: "uiPopover",
+  exportAs: "onyxPopover",
   host: {
     "(click)": "toggle()",
     "aria-haspopup": "dialog",
@@ -33,14 +33,14 @@ export class PopoverDirective {
 
   /** Content template rendered inside the popover. */
   readonly content = input.required<TemplateRef<unknown>>({
-    alias: "uiPopover",
+    alias: "onyxPopover",
   });
   /** Preferred placement. */
   readonly placement = input<UiOverlayPlacement>("bottom", {
-    alias: "uiPopoverPlacement",
+    alias: "onyxPopoverPlacement",
   });
   /** Accessible label for the popover. */
-  readonly label = input("", { alias: "uiPopoverLabel" });
+  readonly label = input("", { alias: "onyxPopoverLabel" });
 
   /** Whether the popover is currently open. */
   readonly open = signal(false);

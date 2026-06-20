@@ -3,14 +3,14 @@ import { Demo } from "@onyx/ui/docs-model";
 import { ButtonComponent } from "../button";
 import { DialogComponent } from "./dialog.component";
 
-const basicCode = `<ui-button (clicked)="open.set(true)">Open dialog</ui-button>
-<ui-dialog [(open)]="open" heading="Confirm action">
+const basicCode = `<onyx-button (clicked)="open.set(true)">Open dialog</onyx-button>
+<onyx-dialog [(open)]="open" heading="Confirm action">
   <p>This action cannot be undone. Do you want to continue?</p>
   <div uiDialogFooter>
-    <ui-button variant="secondary" (clicked)="open.set(false)">Cancel</ui-button>
-    <ui-button (clicked)="open.set(false)">Confirm</ui-button>
+    <onyx-button variant="secondary" (clicked)="open.set(false)">Cancel</onyx-button>
+    <onyx-button (clicked)="open.set(false)">Confirm</onyx-button>
   </div>
-</ui-dialog>`;
+</onyx-dialog>`;
 @Component({
   standalone: true,
   imports: [DialogComponent, ButtonComponent],
@@ -20,10 +20,10 @@ class DialogBasicDemoComponent {
   protected readonly open = signal(false);
 }
 
-const sizesCode = `<ui-button variant="secondary" (clicked)="open.set(true)">Open large dialog</ui-button>
-<ui-dialog [(open)]="open" heading="Terms" size="lg">
+const sizesCode = `<onyx-button variant="secondary" (clicked)="open.set(true)">Open large dialog</onyx-button>
+<onyx-dialog [(open)]="open" heading="Terms" size="lg">
   <p>A wider panel for long-form content.</p>
-</ui-dialog>`;
+</onyx-dialog>`;
 @Component({
   standalone: true,
   imports: [DialogComponent, ButtonComponent],

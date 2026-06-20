@@ -16,7 +16,7 @@ export type AlertVariant =
   | "danger";
 
 @Component({
-  selector: "ui-alert",
+  selector: "onyx-alert",
   standalone: true,
   templateUrl: "./alert.component.html",
   styleUrl: "./alert.component.scss",

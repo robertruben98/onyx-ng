@@ -13,7 +13,7 @@ import { AccordionItemComponent } from "./accordion-item.component";
  * to allow several open at once. Projects `ui-accordion-item` children.
  */
 @Component({
-  selector: "ui-accordion",
+  selector: "onyx-accordion",
   standalone: true,
   template: `<ng-content />`,
   styleUrl: "./accordion.component.scss",

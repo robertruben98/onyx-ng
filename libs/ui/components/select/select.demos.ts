@@ -3,7 +3,7 @@ import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { Demo } from "@onyx/ui/docs-model";
 import { SelectComponent, SelectOption } from "./select.component";
 
-const basicCode = `<ui-select [formControl]="framework" [options]="options" />`;
+const basicCode = `<onyx-select [formControl]="framework" [options]="options" />`;
 @Component({
   standalone: true,
   imports: [SelectComponent, ReactiveFormsModule],

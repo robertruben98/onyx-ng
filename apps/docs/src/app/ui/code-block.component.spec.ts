@@ -9,14 +9,14 @@ describe("CodeBlockComponent", () => {
       configurable: true,
     });
     const { container } = await render(CodeBlockComponent, {
-      componentInputs: { code: "<ui-button>Hi</ui-button>" },
+      componentInputs: { code: "<onyx-button>Hi</onyx-button>" },
     });
     // Highlighting splits the source across <span> tokens; the rendered
     // textContent must still reconstruct the original code verbatim.
     const codeEl = container.querySelector("code");
-    expect(codeEl?.textContent).toBe("<ui-button>Hi</ui-button>");
+    expect(codeEl?.textContent).toBe("<onyx-button>Hi</onyx-button>");
     fireEvent.click(screen.getByRole("button", { name: /copy/i }));
     await new Promise((r) => setTimeout(r, 0));
-    expect(writeText).toHaveBeenCalledWith("<ui-button>Hi</ui-button>");
+    expect(writeText).toHaveBeenCalledWith("<onyx-button>Hi</onyx-button>");
   });
 });

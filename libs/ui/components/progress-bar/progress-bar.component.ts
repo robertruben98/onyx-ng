@@ -12,7 +12,7 @@ import {
  * `indeterminate`. Exposes `role=progressbar` with the matching ARIA values.
  */
 @Component({
-  selector: "ui-progress-bar",
+  selector: "onyx-progress-bar",
   standalone: true,
   templateUrl: "./progress-bar.component.html",
   styleUrl: "./progress-bar.component.scss",

@@ -15,7 +15,7 @@ const ROWS: Person[] = [
   { id: 3, name: "Alan Turing", email: "alan@onyx.dev", role: "Engineer" },
 ];
 
-const basicCode = `<ui-data-table
+const basicCode = `<onyx-data-table
   caption="Team members"
   [rowKey]="'id'"
   [columns]="columns"
@@ -32,7 +32,7 @@ const basicCode = `<ui-data-table
 @Component({
   standalone: true,
   imports: [DataTableComponent],
-  template: `<ui-data-table
+  template: `<onyx-data-table
     caption="Team members"
     [rowKey]="'id'"
     [columns]="columns"
@@ -49,11 +49,11 @@ class DataTableBasicDemoComponent {
   ];
 }
 
-const emptyCode = `<ui-data-table caption="Team" [columns]="columns" [rows]="[]" emptyText="No members yet" />`;
+const emptyCode = `<onyx-data-table caption="Team" [columns]="columns" [rows]="[]" emptyText="No members yet" />`;
 @Component({
   standalone: true,
   imports: [DataTableComponent],
-  template: `<ui-data-table
+  template: `<onyx-data-table
     caption="Team"
     [columns]="columns"
     [rows]="[]"
@@ -67,11 +67,11 @@ class DataTableEmptyDemoComponent {
   ];
 }
 
-const loadingCode = `<ui-data-table caption="Team" [columns]="columns" [rows]="[]" [loading]="true" />`;
+const loadingCode = `<onyx-data-table caption="Team" [columns]="columns" [rows]="[]" [loading]="true" />`;
 @Component({
   standalone: true,
   imports: [DataTableComponent],
-  template: `<ui-data-table
+  template: `<onyx-data-table
     caption="Team"
     [columns]="columns"
     [rows]="[]"
@@ -85,7 +85,7 @@ class DataTableLoadingDemoComponent {
   ];
 }
 
-const paginatedCode = `<ui-data-table
+const paginatedCode = `<onyx-data-table
   caption="Catalogue"
   [rowKey]="'id'"
   [columns]="columns"
@@ -96,7 +96,7 @@ const paginatedCode = `<ui-data-table
 @Component({
   standalone: true,
   imports: [DataTableComponent],
-  template: `<ui-data-table
+  template: `<onyx-data-table
     caption="Catalogue"
     [rowKey]="'id'"
     [columns]="columns"
@@ -119,7 +119,7 @@ class DataTablePaginatedDemoComponent {
   }));
 }
 
-const selectionCode = `<ui-data-table
+const selectionCode = `<onyx-data-table
   caption="Team members"
   [rowKey]="'id'"
   [columns]="columns"
@@ -130,7 +130,7 @@ const selectionCode = `<ui-data-table
 @Component({
   standalone: true,
   imports: [DataTableComponent],
-  template: `<ui-data-table
+  template: `<onyx-data-table
     caption="Team members"
     [rowKey]="'id'"
     [columns]="columns"
@@ -149,7 +149,7 @@ class DataTableSelectionDemoComponent {
   ];
 }
 
-const virtualCode = `<ui-data-table
+const virtualCode = `<onyx-data-table
   caption="10 000 rows"
   [rowKey]="'id'"
   [columns]="columns"
@@ -161,7 +161,7 @@ const virtualCode = `<ui-data-table
 @Component({
   standalone: true,
   imports: [DataTableComponent],
-  template: `<ui-data-table
+  template: `<onyx-data-table
     caption="10 000 rows"
     [rowKey]="'id'"
     [columns]="columns"

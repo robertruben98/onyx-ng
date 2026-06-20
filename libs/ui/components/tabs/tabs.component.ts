@@ -16,7 +16,7 @@ import { TabComponent } from "./tab.component";
  * (arrows / Home / End) with roving tabindex.
  */
 @Component({
-  selector: "ui-tabs",
+  selector: "onyx-tabs",
   standalone: true,
   templateUrl: "./tabs.component.html",
   styleUrl: "./tabs.component.scss",

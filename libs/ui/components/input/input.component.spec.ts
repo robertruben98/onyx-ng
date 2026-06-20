@@ -11,12 +11,12 @@ const axeOptions = { rules: { region: { enabled: false } } };
 
 describe("InputComponent", () => {
   it("associates a visible label with the input", async () => {
-    await render(`<ui-input label="Email" />`, { imports: [InputComponent] });
+    await render(`<onyx-input label="Email" />`, { imports: [InputComponent] });
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
   });
 
   it("falls back to ariaLabel when no visible label is given", async () => {
-    await render(`<ui-input ariaLabel="Search" />`, {
+    await render(`<onyx-input ariaLabel="Search" />`, {
       imports: [InputComponent],
     });
     expect(screen.getByLabelText("Search")).toBeInTheDocument();
@@ -26,7 +26,7 @@ describe("InputComponent", () => {
     const user = userEvent.setup();
     const valueChange = jest.fn();
     await render(
-      `<ui-input label="Name" (valueChange)="valueChange($event)" />`,
+      `<onyx-input label="Name" (valueChange)="valueChange($event)" />`,
       {
         imports: [InputComponent],
         componentProperties: { valueChange },
@@ -39,13 +39,13 @@ describe("InputComponent", () => {
 
   it("is reachable by keyboard", async () => {
     const user = userEvent.setup();
-    await render(`<ui-input label="Name" />`, { imports: [InputComponent] });
+    await render(`<onyx-input label="Name" />`, { imports: [InputComponent] });
     await user.tab();
     expect(screen.getByLabelText("Name")).toHaveFocus();
   });
 
   it("reflects invalid state via aria-invalid", async () => {
-    await render(`<ui-input label="Name" [invalid]="true" />`, {
+    await render(`<onyx-input label="Name" [invalid]="true" />`, {
       imports: [InputComponent],
     });
     expect(screen.getByLabelText("Name")).toHaveAttribute(
@@ -58,7 +58,7 @@ describe("InputComponent", () => {
     const user = userEvent.setup();
     const valueChange = jest.fn();
     await render(
-      `<ui-input label="Name" [disabled]="true" (valueChange)="valueChange($event)" />`,
+      `<onyx-input label="Name" [disabled]="true" (valueChange)="valueChange($event)" />`,
       { imports: [InputComponent], componentProperties: { valueChange } },
     );
     const el = screen.getByLabelText("Name");
@@ -71,7 +71,7 @@ describe("InputComponent", () => {
     @Component({
       standalone: true,
       imports: [InputComponent, FormsModule],
-      template: `<ui-input
+      template: `<onyx-input
         label="Name"
         [ngModel]="model()"
         (ngModelChange)="model.set($event)"
@@ -99,7 +99,7 @@ describe("InputComponent", () => {
   });
 
   it("has no axe violations (default)", async () => {
-    const { container } = await render(`<ui-input label="Email" />`, {
+    const { container } = await render(`<onyx-input label="Email" />`, {
       imports: [InputComponent],
     });
     expect(await axe(container, axeOptions)).toHaveNoViolations();
@@ -107,7 +107,7 @@ describe("InputComponent", () => {
 
   it("has no axe violations (invalid)", async () => {
     const { container } = await render(
-      `<ui-input label="Email" [invalid]="true" />`,
+      `<onyx-input label="Email" [invalid]="true" />`,
       { imports: [InputComponent] },
     );
     expect(await axe(container, axeOptions)).toHaveNoViolations();
@@ -115,7 +115,7 @@ describe("InputComponent", () => {
 
   it("has no axe violations (disabled)", async () => {
     const { container } = await render(
-      `<ui-input label="Email" [disabled]="true" />`,
+      `<onyx-input label="Email" [disabled]="true" />`,
       { imports: [InputComponent] },
     );
     expect(await axe(container, axeOptions)).toHaveNoViolations();

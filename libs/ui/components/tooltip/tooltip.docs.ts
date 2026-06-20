@@ -8,13 +8,13 @@ export const tooltipDoc: ComponentDoc = {
     "Directive that shows a positioned tooltip on hover/focus, hides on leave/blur/Escape, and wires aria-describedby. Built on the overlay primitive.",
   api: [
     {
-      name: "uiTooltip",
+      name: "onyxTooltip",
       type: "string",
       default: "(required)",
       description: "Tooltip text.",
     },
     {
-      name: "uiTooltipPlacement",
+      name: "onyxTooltipPlacement",
       type: "'top' | 'bottom' | 'left' | 'right'",
       default: "'top'",
       description: "Preferred placement.",

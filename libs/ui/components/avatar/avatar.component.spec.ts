@@ -5,7 +5,7 @@ import { AvatarComponent } from "./avatar.component";
 describe("AvatarComponent", () => {
   it("renders an image with the name as alt text", async () => {
     await render(
-      `<ui-avatar src="https://example.com/a.png" name="Ada Lovelace" />`,
+      `<onyx-avatar src="https://example.com/a.png" name="Ada Lovelace" />`,
       { imports: [AvatarComponent] },
     );
     const img = screen.getByRole("img", { name: "Ada Lovelace" });
@@ -13,7 +13,7 @@ describe("AvatarComponent", () => {
   });
 
   it("falls back to initials when there is no image", async () => {
-    await render(`<ui-avatar name="Ada Lovelace" />`, {
+    await render(`<onyx-avatar name="Ada Lovelace" />`, {
       imports: [AvatarComponent],
     });
     const el = screen.getByRole("img", { name: "Ada Lovelace" });
@@ -21,7 +21,7 @@ describe("AvatarComponent", () => {
   });
 
   it("derives a single initial from a one-word name", async () => {
-    await render(`<ui-avatar name="Grace" />`, {
+    await render(`<onyx-avatar name="Grace" />`, {
       imports: [AvatarComponent],
     });
     expect(screen.getByRole("img", { name: "Grace" })).toHaveTextContent("G");
@@ -29,7 +29,7 @@ describe("AvatarComponent", () => {
 
   it("shows initials after the image errors", async () => {
     const { container } = await render(
-      `<ui-avatar src="broken.png" name="Ada Lovelace" />`,
+      `<onyx-avatar src="broken.png" name="Ada Lovelace" />`,
       { imports: [AvatarComponent] },
     );
     const img = container.querySelector("img")!;
@@ -41,7 +41,7 @@ describe("AvatarComponent", () => {
     "has no axe violations (size %s)",
     async (size) => {
       const { container } = await render(
-        `<ui-avatar [size]="size" name="Ada Lovelace" />`,
+        `<onyx-avatar [size]="size" name="Ada Lovelace" />`,
         { imports: [AvatarComponent], componentProperties: { size } },
       );
       expect(await axe(container)).toHaveNoViolations();

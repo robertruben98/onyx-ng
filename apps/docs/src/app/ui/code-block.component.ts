@@ -16,14 +16,14 @@ import { highlight } from "./highlight";
   template: `
     <div class="docs-code">
       <span class="docs-code__lang" aria-hidden="true">{{ language() }}</span>
-      <ui-button
+      <onyx-button
         class="docs-code__copy"
         variant="secondary"
         size="sm"
         (clicked)="copy()"
       >
         {{ copied() ? "Copied" : "Copy" }}
-      </ui-button>
+      </onyx-button>
       <pre><code [innerHTML]="html()"></code></pre>
     </div>
   `,

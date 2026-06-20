@@ -32,7 +32,7 @@ let nextMenuId = 0;
  * focus moved onto items and full keyboard navigation.
  */
 @Component({
-  selector: "ui-menu",
+  selector: "onyx-menu",
   standalone: true,
   templateUrl: "./menu.component.html",
   styleUrl: "./menu.component.scss",

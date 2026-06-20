@@ -9,7 +9,7 @@ const axeOptions = { rules: { region: { enabled: false } } };
 
 describe("SwitchComponent", () => {
   it("exposes a switch with an accessible name from the label", async () => {
-    await render(`<ui-switch label="Notifications" />`, {
+    await render(`<onyx-switch label="Notifications" />`, {
       imports: [SwitchComponent],
     });
     expect(
@@ -18,7 +18,7 @@ describe("SwitchComponent", () => {
   });
 
   it("falls back to ariaLabel when no visible label is given", async () => {
-    await render(`<ui-switch ariaLabel="Dark mode" />`, {
+    await render(`<onyx-switch ariaLabel="Dark mode" />`, {
       imports: [SwitchComponent],
     });
     expect(
@@ -30,7 +30,7 @@ describe("SwitchComponent", () => {
     const user = userEvent.setup();
     const checkedChange = jest.fn();
     await render(
-      `<ui-switch label="A" (checkedChange)="checkedChange($event)" />`,
+      `<onyx-switch label="A" (checkedChange)="checkedChange($event)" />`,
       { imports: [SwitchComponent], componentProperties: { checkedChange } },
     );
     await user.click(screen.getByRole("switch"));
@@ -41,7 +41,7 @@ describe("SwitchComponent", () => {
     const user = userEvent.setup();
     const checkedChange = jest.fn();
     await render(
-      `<ui-switch label="A" (checkedChange)="checkedChange($event)" />`,
+      `<onyx-switch label="A" (checkedChange)="checkedChange($event)" />`,
       { imports: [SwitchComponent], componentProperties: { checkedChange } },
     );
     await user.tab();
@@ -54,7 +54,7 @@ describe("SwitchComponent", () => {
     const user = userEvent.setup();
     const checkedChange = jest.fn();
     await render(
-      `<ui-switch label="A" [disabled]="true" (checkedChange)="checkedChange($event)" />`,
+      `<onyx-switch label="A" [disabled]="true" (checkedChange)="checkedChange($event)" />`,
       { imports: [SwitchComponent], componentProperties: { checkedChange } },
     );
     const sw = screen.getByRole("switch");
@@ -67,7 +67,7 @@ describe("SwitchComponent", () => {
     @Component({
       standalone: true,
       imports: [SwitchComponent, FormsModule],
-      template: `<ui-switch
+      template: `<onyx-switch
         label="A"
         [ngModel]="model()"
         (ngModelChange)="model.set($event)"
@@ -91,7 +91,7 @@ describe("SwitchComponent", () => {
   });
 
   it("has no axe violations (default)", async () => {
-    const { container } = await render(`<ui-switch label="A" />`, {
+    const { container } = await render(`<onyx-switch label="A" />`, {
       imports: [SwitchComponent],
     });
     expect(await axe(container, axeOptions)).toHaveNoViolations();
@@ -99,7 +99,7 @@ describe("SwitchComponent", () => {
 
   it("has no axe violations (disabled)", async () => {
     const { container } = await render(
-      `<ui-switch label="A" [disabled]="true" />`,
+      `<onyx-switch label="A" [disabled]="true" />`,
       { imports: [SwitchComponent] },
     );
     expect(await axe(container, axeOptions)).toHaveNoViolations();

@@ -28,14 +28,14 @@ interface Feature {
         without touching a single component.
       </p>
       <div class="hero__cta">
-        <ui-button size="lg" routerLink="/installation">Get started</ui-button>
-        <ui-button
+        <onyx-button size="lg" routerLink="/installation">Get started</onyx-button>
+        <onyx-button
           size="lg"
           variant="secondary"
           routerLink="/components/button"
         >
           Browse components
-        </ui-button>
+        </onyx-button>
       </div>
       <div class="hero__stats">
         <div class="stat">
@@ -70,9 +70,9 @@ interface Feature {
       </p>
       <docs-code-block [code]="snippet" language="ts" />
       <div class="quickstart__cta">
-        <ui-button variant="text" routerLink="/installation">
+        <onyx-button variant="text" routerLink="/installation">
           Full installation guide →
-        </ui-button>
+        </onyx-button>
       </div>
     </section>
   `,
@@ -285,7 +285,7 @@ import { ButtonComponent } from '@onyx/ui/components';
   selector: 'app-demo',
   standalone: true,
   imports: [ButtonComponent],
-  template: \`<ui-button (clicked)="save()">Save</ui-button>\`,
+  template: \`<onyx-button (clicked)="save()">Save</onyx-button>\`,
 })
 export class DemoComponent {
   save() { /* ... */ }

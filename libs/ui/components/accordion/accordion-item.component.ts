@@ -15,7 +15,7 @@ let nextItemId = 0;
  * `aria-controls`) and a `role=region` panel. Coordinated by `ui-accordion`.
  */
 @Component({
-  selector: "ui-accordion-item",
+  selector: "onyx-accordion-item",
   standalone: true,
   templateUrl: "./accordion-item.component.html",
   styleUrl: "./accordion-item.component.scss",

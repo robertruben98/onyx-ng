@@ -7,7 +7,7 @@ export type SpinnerSize = "sm" | "md" | "lg";
  * `label`; the spinning ring itself is decorative (`aria-hidden`).
  */
 @Component({
-  selector: "ui-spinner",
+  selector: "onyx-spinner",
   standalone: true,
   templateUrl: "./spinner.component.html",
   styleUrl: "./spinner.component.scss",

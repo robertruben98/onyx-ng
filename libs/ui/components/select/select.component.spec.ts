@@ -16,7 +16,7 @@ const OPTIONS: SelectOption[] = [
 @Component({
   standalone: true,
   imports: [SelectComponent, ReactiveFormsModule],
-  template: `<ui-select [formControl]="ctrl" [options]="options" />`,
+  template: `<onyx-select [formControl]="ctrl" [options]="options" />`,
 })
 class HostComponent {
   readonly ctrl = new FormControl<string | null>(null);

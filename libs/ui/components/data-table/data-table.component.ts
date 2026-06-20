@@ -60,7 +60,7 @@ export interface DataTableColumn<T> {
  * pagination, selection, virtual scroll and keyboard nav layer on top.
  */
 @Component({
-  selector: "ui-data-table",
+  selector: "onyx-data-table",
   standalone: true,
   imports: [NgTemplateOutlet, FormsModule, ScrollingModule, CheckboxComponent],
   templateUrl: "./data-table.component.html",

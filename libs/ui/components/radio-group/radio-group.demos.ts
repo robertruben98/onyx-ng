@@ -7,7 +7,7 @@ const sizeOptions: RadioOption[] = [
   { label: "Medium", value: "md" },
   { label: "Large", value: "lg" },
 ];
-const basicCode = `<ui-radio-group label="Size" [options]="options" />`;
+const basicCode = `<onyx-radio-group label="Size" [options]="options" />`;
 @Component({
   standalone: true,
   imports: [RadioGroupComponent],

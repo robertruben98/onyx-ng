@@ -11,7 +11,7 @@ const axeOptions = { rules: { region: { enabled: false } } };
 
 describe("CheckboxComponent", () => {
   it("exposes a checkbox with an accessible name from the label", async () => {
-    await render(`<ui-checkbox label="Accept terms" />`, {
+    await render(`<onyx-checkbox label="Accept terms" />`, {
       imports: [CheckboxComponent],
     });
     expect(
@@ -20,7 +20,7 @@ describe("CheckboxComponent", () => {
   });
 
   it("falls back to ariaLabel when no visible label is given", async () => {
-    await render(`<ui-checkbox ariaLabel="Select row" />`, {
+    await render(`<onyx-checkbox ariaLabel="Select row" />`, {
       imports: [CheckboxComponent],
     });
     expect(
@@ -32,7 +32,7 @@ describe("CheckboxComponent", () => {
     const user = userEvent.setup();
     const checkedChange = jest.fn();
     await render(
-      `<ui-checkbox label="A" (checkedChange)="checkedChange($event)" />`,
+      `<onyx-checkbox label="A" (checkedChange)="checkedChange($event)" />`,
       { imports: [CheckboxComponent], componentProperties: { checkedChange } },
     );
     await user.click(screen.getByRole("checkbox"));
@@ -44,7 +44,7 @@ describe("CheckboxComponent", () => {
     const user = userEvent.setup();
     const checkedChange = jest.fn();
     await render(
-      `<ui-checkbox label="A" (checkedChange)="checkedChange($event)" />`,
+      `<onyx-checkbox label="A" (checkedChange)="checkedChange($event)" />`,
       { imports: [CheckboxComponent], componentProperties: { checkedChange } },
     );
     await user.tab();
@@ -57,7 +57,7 @@ describe("CheckboxComponent", () => {
     const user = userEvent.setup();
     const checkedChange = jest.fn();
     await render(
-      `<ui-checkbox label="A" [disabled]="true" (checkedChange)="checkedChange($event)" />`,
+      `<onyx-checkbox label="A" [disabled]="true" (checkedChange)="checkedChange($event)" />`,
       { imports: [CheckboxComponent], componentProperties: { checkedChange } },
     );
     const box = screen.getByRole("checkbox");
@@ -67,7 +67,7 @@ describe("CheckboxComponent", () => {
   });
 
   it("reflects the indeterminate state on the native control", async () => {
-    await render(`<ui-checkbox label="A" [indeterminate]="true" />`, {
+    await render(`<onyx-checkbox label="A" [indeterminate]="true" />`, {
       imports: [CheckboxComponent],
     });
     const box = screen.getByRole<HTMLInputElement>("checkbox");
@@ -75,7 +75,7 @@ describe("CheckboxComponent", () => {
   });
 
   it("reflects invalid via aria-invalid", async () => {
-    await render(`<ui-checkbox label="A" [invalid]="true" />`, {
+    await render(`<onyx-checkbox label="A" [invalid]="true" />`, {
       imports: [CheckboxComponent],
     });
     expect(screen.getByRole("checkbox")).toHaveAttribute(
@@ -88,7 +88,7 @@ describe("CheckboxComponent", () => {
     @Component({
       standalone: true,
       imports: [CheckboxComponent, FormsModule],
-      template: `<ui-checkbox
+      template: `<onyx-checkbox
         label="A"
         [ngModel]="model()"
         (ngModelChange)="model.set($event)"
@@ -112,7 +112,7 @@ describe("CheckboxComponent", () => {
   });
 
   it("has no axe violations (default)", async () => {
-    const { container } = await render(`<ui-checkbox label="A" />`, {
+    const { container } = await render(`<onyx-checkbox label="A" />`, {
       imports: [CheckboxComponent],
     });
     expect(await axe(container, axeOptions)).toHaveNoViolations();
@@ -120,7 +120,7 @@ describe("CheckboxComponent", () => {
 
   it("has no axe violations (disabled)", async () => {
     const { container } = await render(
-      `<ui-checkbox label="A" [disabled]="true" />`,
+      `<onyx-checkbox label="A" [disabled]="true" />`,
       { imports: [CheckboxComponent] },
     );
     expect(await axe(container, axeOptions)).toHaveNoViolations();
@@ -128,7 +128,7 @@ describe("CheckboxComponent", () => {
 
   it("has no axe violations (indeterminate)", async () => {
     const { container } = await render(
-      `<ui-checkbox label="A" [indeterminate]="true" />`,
+      `<onyx-checkbox label="A" [indeterminate]="true" />`,
       { imports: [CheckboxComponent] },
     );
     expect(await axe(container, axeOptions)).toHaveNoViolations();

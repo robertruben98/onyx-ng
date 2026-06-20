@@ -7,7 +7,7 @@ export type CardVariant = "elevated" | "outlined";
  * project content via `[uiCardHeader]`, default slot, and `[uiCardFooter]`.
  */
 @Component({
-  selector: "ui-card",
+  selector: "onyx-card",
   standalone: true,
   templateUrl: "./card.component.html",
   styleUrl: "./card.component.scss",

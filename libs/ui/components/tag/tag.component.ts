@@ -13,7 +13,7 @@ export type TagVariant = "neutral" | "info" | "success" | "warning" | "danger";
  * `removed`. Variants map to semantic feedback-role tokens.
  */
 @Component({
-  selector: "ui-tag",
+  selector: "onyx-tag",
   standalone: true,
   templateUrl: "./tag.component.html",
   styleUrl: "./tag.component.scss",

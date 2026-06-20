@@ -8,8 +8,8 @@ const axeOptions = { rules: { region: { enabled: false } } };
 const tpl = `
   <button
     type="button"
-    [uiPopover]="content"
-    uiPopoverLabel="Details"
+    [onyxPopover]="content"
+    onyxPopoverLabel="Details"
   >
     Open
   </button>

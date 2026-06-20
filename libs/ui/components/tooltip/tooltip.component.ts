@@ -6,7 +6,7 @@ import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
  * `aria-describedby`.
  */
 @Component({
-  selector: "ui-tooltip",
+  selector: "onyx-tooltip",
   standalone: true,
   template: `{{ text() }}`,
   styleUrl: "./tooltip.component.scss",

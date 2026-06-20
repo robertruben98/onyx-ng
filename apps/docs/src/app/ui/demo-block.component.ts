@@ -27,14 +27,14 @@ import { CodeBlockComponent } from "./code-block.component";
           <ng-container [ngComponentOutlet]="demo().component" />
         </div>
         <div class="docs-demo__bar">
-          <ui-button
+          <onyx-button
             variant="text"
             size="sm"
             [attr.aria-expanded]="open()"
             (clicked)="open.set(!open())"
           >
             {{ open() ? "Hide code" : "Show code" }}
-          </ui-button>
+          </onyx-button>
         </div>
         @if (open()) {
           <docs-code-block [code]="demo().code" />

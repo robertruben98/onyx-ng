@@ -8,7 +8,7 @@ export type BadgeVariant =
   | "danger";
 
 @Component({
-  selector: "ui-badge",
+  selector: "onyx-badge",
   standalone: true,
   templateUrl: "./badge.component.html",
   styleUrl: "./badge.component.scss",

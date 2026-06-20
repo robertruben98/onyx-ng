@@ -2,10 +2,10 @@ import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
 import { AlertComponent } from "./alert.component";
 
-const variantsCode = `<ui-alert variant="info" title="Info">An informational message.</ui-alert>
-<ui-alert variant="success" title="Success">It worked.</ui-alert>
-<ui-alert variant="warning" title="Warning">Careful now.</ui-alert>
-<ui-alert variant="danger" title="Error">Something broke.</ui-alert>`;
+const variantsCode = `<onyx-alert variant="info" title="Info">An informational message.</onyx-alert>
+<onyx-alert variant="success" title="Success">It worked.</onyx-alert>
+<onyx-alert variant="warning" title="Warning">Careful now.</onyx-alert>
+<onyx-alert variant="danger" title="Error">Something broke.</onyx-alert>`;
 @Component({
   standalone: true,
   imports: [AlertComponent],
@@ -13,7 +13,7 @@ const variantsCode = `<ui-alert variant="info" title="Info">An informational mes
 })
 class AlertVariantsDemoComponent {}
 
-const dismissCode = `<ui-alert variant="info" [dismissible]="true">Dismiss me.</ui-alert>`;
+const dismissCode = `<onyx-alert variant="info" [dismissible]="true">Dismiss me.</onyx-alert>`;
 @Component({
   standalone: true,
   imports: [AlertComponent],

@@ -23,7 +23,7 @@ const ROWS: Person[] = [
 @Component({
   standalone: true,
   imports: [DataTableComponent],
-  template: `<ui-data-table
+  template: `<onyx-data-table
     caption="People"
     [columns]="columns"
     [rows]="rows()"
@@ -72,7 +72,7 @@ describe("DataTableComponent — foundation", () => {
     @Component({
       standalone: true,
       imports: [DataTableComponent],
-      template: `<ui-data-table caption="t" [columns]="cols" [rows]="rows" />`,
+      template: `<onyx-data-table caption="t" [columns]="cols" [rows]="rows" />`,
     })
     class ValueAccessorHostComponent {
       readonly cols: DataTableColumn<Person>[] = [
@@ -126,7 +126,7 @@ const SCORES: Score[] = [
 @Component({
   standalone: true,
   imports: [DataTableComponent],
-  template: `<ui-data-table
+  template: `<onyx-data-table
     caption="Scores"
     [rowKey]="'id'"
     [columns]="columns"
@@ -240,7 +240,7 @@ const ITEMS: Item[] = Array.from({ length: 12 }, (_, i) => ({
 @Component({
   standalone: true,
   imports: [DataTableComponent],
-  template: `<ui-data-table
+  template: `<onyx-data-table
     caption="Items"
     [rowKey]="'id'"
     [columns]="columns"
@@ -320,7 +320,7 @@ describe("DataTableComponent — pagination", () => {
 @Component({
   standalone: true,
   imports: [DataTableComponent],
-  template: `<ui-data-table
+  template: `<onyx-data-table
     caption="Scores"
     [rowKey]="'id'"
     [columns]="columns"
@@ -400,7 +400,7 @@ describe("DataTableComponent — selection", () => {
 @Component({
   standalone: true,
   imports: [DataTableComponent],
-  template: `<ui-data-table
+  template: `<onyx-data-table
     caption="Items"
     [rowKey]="'id'"
     [columns]="columns"
@@ -554,7 +554,7 @@ describe("DataTableComponent — sticky header", () => {
     @Component({
       standalone: true,
       imports: [DataTableComponent],
-      template: `<ui-data-table
+      template: `<onyx-data-table
         caption="t"
         [columns]="cols"
         [rows]="rows"

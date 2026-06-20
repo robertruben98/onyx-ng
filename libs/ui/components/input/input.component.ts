@@ -23,7 +23,7 @@ export type InputSize = "sm" | "md" | "lg";
 let nextId = 0;
 
 @Component({
-  selector: "ui-input",
+  selector: "onyx-input",
   standalone: true,
   templateUrl: "./input.component.html",
   styleUrl: "./input.component.scss",

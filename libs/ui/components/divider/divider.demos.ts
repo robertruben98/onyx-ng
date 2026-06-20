@@ -3,7 +3,7 @@ import { Demo } from "@onyx/ui/docs-model";
 import { DividerComponent } from "./divider.component";
 
 const basicCode = `<p>Above</p>
-<ui-divider />
+<onyx-divider />
 <p>Below</p>`;
 @Component({
   standalone: true,
@@ -12,7 +12,7 @@ const basicCode = `<p>Above</p>
 })
 class DividerBasicDemoComponent {}
 
-const labelCode = `<ui-divider label="OR" />`;
+const labelCode = `<onyx-divider label="OR" />`;
 @Component({
   standalone: true,
   imports: [DividerComponent],

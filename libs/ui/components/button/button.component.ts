@@ -12,7 +12,7 @@ export type ButtonSize = 'sm' | 'md' | 'lg';
 export type ButtonType = 'button' | 'submit' | 'reset';
 
 @Component({
-  selector: 'ui-button',
+  selector: 'onyx-button',
   standalone: true,
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss',

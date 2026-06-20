@@ -6,7 +6,7 @@ const axeOptions = { rules: { region: { enabled: false } } };
 
 describe("CardComponent", () => {
   it("projects default content", async () => {
-    await render(`<ui-card>Body content</ui-card>`, {
+    await render(`<onyx-card>Body content</onyx-card>`, {
       imports: [CardComponent],
     });
     expect(screen.getByText("Body content")).toBeInTheDocument();
@@ -14,11 +14,11 @@ describe("CardComponent", () => {
 
   it("projects header and footer slots", async () => {
     await render(
-      `<ui-card>
+      `<onyx-card>
         <span uiCardHeader>Header</span>
         Body
         <span uiCardFooter>Footer</span>
-      </ui-card>`,
+      </onyx-card>`,
       { imports: [CardComponent] },
     );
     expect(screen.getByText("Header")).toBeInTheDocument();
@@ -27,17 +27,17 @@ describe("CardComponent", () => {
 
   it("applies the variant class to the host", async () => {
     const { container } = await render(
-      `<ui-card variant="outlined">Body</ui-card>`,
+      `<onyx-card variant="outlined">Body</onyx-card>`,
       { imports: [CardComponent] },
     );
-    expect(container.querySelector("ui-card")).toHaveClass("ui-card--outlined");
+    expect(container.querySelector("onyx-card")).toHaveClass("ui-card--outlined");
   });
 
   it.each(["elevated", "outlined"] as const)(
     "has no axe violations (%s)",
     async (variant) => {
       const { container } = await render(
-        `<ui-card [variant]="variant"><span uiCardHeader>Title</span>Content<span uiCardFooter>Actions</span></ui-card>`,
+        `<onyx-card [variant]="variant"><span uiCardHeader>Title</span>Content<span uiCardFooter>Actions</span></onyx-card>`,
         { imports: [CardComponent], componentProperties: { variant } },
       );
       expect(await axe(container, axeOptions)).toHaveNoViolations();

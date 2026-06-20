@@ -13,7 +13,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 let nextId = 0;
 
 @Component({
-  selector: "ui-switch",
+  selector: "onyx-switch",
   standalone: true,
   templateUrl: "./switch.component.html",
   styleUrl: "./switch.component.scss",

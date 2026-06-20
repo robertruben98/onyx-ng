@@ -14,7 +14,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 let nextId = 0;
 
 @Component({
-  selector: "ui-textarea",
+  selector: "onyx-textarea",
   standalone: true,
   templateUrl: "./textarea.component.html",
   styleUrl: "./textarea.component.scss",

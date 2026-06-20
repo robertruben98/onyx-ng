@@ -24,7 +24,7 @@
         [attr.tabindex]="isActiveCell(0, 0) ? 0 : -1"
       >
         @if (selectable() === "multiple") {
-          <ui-checkbox
+          <onyx-checkbox
             ariaLabel="Select all rows"
             [tabindex]="-1"
             [ngModel]="allSelected()"
@@ -144,7 +144,7 @@
       data-col="0"
       [attr.tabindex]="isActiveCell(rowIndex, 0) ? 0 : -1"
     >
-      <ui-checkbox
+      <onyx-checkbox
         ariaLabel="Select row"
         [tabindex]="-1"
         [ngModel]="isSelected(row)"

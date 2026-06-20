@@ -58,11 +58,11 @@ interface TokenRow {
         elements re-theme instantly — no recompile, no component changes.
       </p>
       <div class="preview">
-        <ui-button>Primary</ui-button>
-        <ui-button variant="secondary">Secondary</ui-button>
-        <ui-button variant="text">Text</ui-button>
-        <ui-badge>New</ui-badge>
-        <ui-tag>Stable</ui-tag>
+        <onyx-button>Primary</onyx-button>
+        <onyx-button variant="secondary">Secondary</onyx-button>
+        <onyx-button variant="text">Text</onyx-button>
+        <onyx-badge>New</onyx-badge>
+        <onyx-tag>Stable</onyx-tag>
       </div>
 
       <h2>Key semantic tokens</h2>

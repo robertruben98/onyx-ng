@@ -13,7 +13,7 @@ import { A11yModule } from "@angular/cdk/a11y";
  * `role=dialog`.
  */
 @Component({
-  selector: "ui-popover",
+  selector: "onyx-popover",
   standalone: true,
   imports: [NgTemplateOutlet, A11yModule],
   templateUrl: "./popover.component.html",

@@ -9,14 +9,14 @@ const axeOptions = { rules: { region: { enabled: false } } };
 
 describe("TextareaComponent", () => {
   it("associates a visible label with the control", async () => {
-    await render(`<ui-textarea label="Bio" />`, {
+    await render(`<onyx-textarea label="Bio" />`, {
       imports: [TextareaComponent],
     });
     expect(screen.getByLabelText("Bio")).toBeInTheDocument();
   });
 
   it("falls back to ariaLabel when no visible label is given", async () => {
-    await render(`<ui-textarea ariaLabel="Notes" />`, {
+    await render(`<onyx-textarea ariaLabel="Notes" />`, {
       imports: [TextareaComponent],
     });
     expect(screen.getByLabelText("Notes")).toBeInTheDocument();
@@ -26,7 +26,7 @@ describe("TextareaComponent", () => {
     const user = userEvent.setup();
     const valueChange = jest.fn();
     await render(
-      `<ui-textarea label="Bio" (valueChange)="valueChange($event)" />`,
+      `<onyx-textarea label="Bio" (valueChange)="valueChange($event)" />`,
       {
         imports: [TextareaComponent],
         componentProperties: { valueChange },
@@ -38,7 +38,7 @@ describe("TextareaComponent", () => {
 
   it("is reachable by keyboard", async () => {
     const user = userEvent.setup();
-    await render(`<ui-textarea label="Bio" />`, {
+    await render(`<onyx-textarea label="Bio" />`, {
       imports: [TextareaComponent],
     });
     await user.tab();
@@ -46,7 +46,7 @@ describe("TextareaComponent", () => {
   });
 
   it("reflects invalid via aria-invalid", async () => {
-    await render(`<ui-textarea label="Bio" [invalid]="true" />`, {
+    await render(`<onyx-textarea label="Bio" [invalid]="true" />`, {
       imports: [TextareaComponent],
     });
     expect(screen.getByLabelText("Bio")).toHaveAttribute(
@@ -59,7 +59,7 @@ describe("TextareaComponent", () => {
     const user = userEvent.setup();
     const valueChange = jest.fn();
     await render(
-      `<ui-textarea label="Bio" [disabled]="true" (valueChange)="valueChange($event)" />`,
+      `<onyx-textarea label="Bio" [disabled]="true" (valueChange)="valueChange($event)" />`,
       { imports: [TextareaComponent], componentProperties: { valueChange } },
     );
     const el = screen.getByLabelText("Bio");
@@ -72,7 +72,7 @@ describe("TextareaComponent", () => {
     @Component({
       standalone: true,
       imports: [TextareaComponent, FormsModule],
-      template: `<ui-textarea
+      template: `<onyx-textarea
         label="Bio"
         [ngModel]="model()"
         (ngModelChange)="model.set($event)"
@@ -100,7 +100,7 @@ describe("TextareaComponent", () => {
   });
 
   it("has no axe violations (default)", async () => {
-    const { container } = await render(`<ui-textarea label="Bio" />`, {
+    const { container } = await render(`<onyx-textarea label="Bio" />`, {
       imports: [TextareaComponent],
     });
     expect(await axe(container, axeOptions)).toHaveNoViolations();
@@ -108,7 +108,7 @@ describe("TextareaComponent", () => {
 
   it("has no axe violations (invalid)", async () => {
     const { container } = await render(
-      `<ui-textarea label="Bio" [invalid]="true" />`,
+      `<onyx-textarea label="Bio" [invalid]="true" />`,
       { imports: [TextareaComponent] },
     );
     expect(await axe(container, axeOptions)).toHaveNoViolations();

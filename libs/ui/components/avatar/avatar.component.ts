@@ -14,7 +14,7 @@ export type AvatarShape = "circle" | "square";
  * from `name`. The initials fallback exposes `role=img` + `aria-label`.
  */
 @Component({
-  selector: "ui-avatar",
+  selector: "onyx-avatar",
   standalone: true,
   templateUrl: "./avatar.component.html",
   styleUrl: "./avatar.component.scss",

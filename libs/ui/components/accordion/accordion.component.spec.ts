@@ -6,11 +6,11 @@ import { AccordionItemComponent } from "./accordion-item.component";
 
 function renderAccordion(multi = false) {
   return render(
-    `<ui-accordion [multi]="multi">
-      <ui-accordion-item heading="One">First body</ui-accordion-item>
-      <ui-accordion-item heading="Two">Second body</ui-accordion-item>
-      <ui-accordion-item heading="Three" [disabled]="true">Third body</ui-accordion-item>
-    </ui-accordion>`,
+    `<onyx-accordion [multi]="multi">
+      <onyx-accordion-item heading="One">First body</onyx-accordion-item>
+      <onyx-accordion-item heading="Two">Second body</onyx-accordion-item>
+      <onyx-accordion-item heading="Three" [disabled]="true">Third body</onyx-accordion-item>
+    </onyx-accordion>`,
     {
       imports: [AccordionComponent, AccordionItemComponent],
       componentProperties: { multi },

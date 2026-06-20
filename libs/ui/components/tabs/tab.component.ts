@@ -13,7 +13,7 @@ let nextTabId = 0;
  * Rendered and coordinated by the parent `ui-tabs`.
  */
 @Component({
-  selector: "ui-tab",
+  selector: "onyx-tab",
   standalone: true,
   template: `
     <div

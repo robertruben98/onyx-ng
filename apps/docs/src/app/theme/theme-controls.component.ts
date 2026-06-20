@@ -8,13 +8,13 @@ import { Preset, ThemeService } from "./theme.service";
   imports: [ButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <ui-button
+    <onyx-button
       variant="secondary"
       size="sm"
       (clicked)="theme.setDark(!theme.dark())"
     >
       {{ theme.dark() ? "🌙 Dark" : "☀ Light" }}
-    </ui-button>
+    </onyx-button>
     <label class="docs-theme__preset">
       <span class="docs-visually-hidden">Theme preset</span>
       <select [value]="theme.preset()" (change)="onPreset($event)">

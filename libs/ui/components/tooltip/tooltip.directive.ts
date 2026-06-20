@@ -18,7 +18,7 @@ let nextTooltipId = 0;
  * Positioning is delegated to the overlay primitive (CDK).
  */
 @Directive({
-  selector: "[uiTooltip]",
+  selector: "[onyxTooltip]",
   standalone: true,
   host: {
     "(mouseenter)": "show()",
@@ -33,10 +33,10 @@ export class TooltipDirective {
   private readonly elementRef = inject(ElementRef<HTMLElement>);
 
   /** Tooltip text. */
-  readonly text = input.required<string>({ alias: "uiTooltip" });
+  readonly text = input.required<string>({ alias: "onyxTooltip" });
   /** Preferred placement. */
   readonly placement = input<UiOverlayPlacement>("top", {
-    alias: "uiTooltipPlacement",
+    alias: "onyxTooltipPlacement",
   });
 
   private overlayRef?: OverlayRef;

@@ -22,7 +22,7 @@ const focusableInTests = {
 // Host wires a real trigger button so focus-restoration can be asserted.
 const hostTemplate = `
   <button id="trigger" type="button" (click)="open = true">Open</button>
-  <ui-dialog
+  <onyx-dialog
     [(open)]="open"
     [heading]="heading"
     [ariaLabel]="ariaLabel"
@@ -34,7 +34,7 @@ const hostTemplate = `
     <div uiDialogFooter>
       <button type="button" (click)="open = false">Cancel</button>
     </div>
-  </ui-dialog>`;
+  </onyx-dialog>`;
 
 interface HostProps {
   open: boolean;

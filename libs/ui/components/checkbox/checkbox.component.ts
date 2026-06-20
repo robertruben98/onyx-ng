@@ -18,7 +18,7 @@ export type CheckboxSize = "sm" | "md" | "lg";
 let nextId = 0;
 
 @Component({
-  selector: "ui-checkbox",
+  selector: "onyx-checkbox",
   standalone: true,
   templateUrl: "./checkbox.component.html",
   styleUrl: "./checkbox.component.scss",
