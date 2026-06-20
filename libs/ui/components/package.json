@@ -6,25 +6,25 @@
   "sideEffects": false,
   "files": [
     "fesm2022",
-    "*.d.ts",
-    "*.d.ts.map",
     "*/",
     "styles",
     "package.json",
     "!libs/**",
     "!**/*.spec.*",
     "!**/*.docs.*",
-    "!**/*.demos.*"
+    "!**/*.demos.*",
+    "!robertruben98-onyx-ui.d.ts.map",
+    "*.d.ts",
+    "!*.d.ts.map"
   ],
   "peerDependencies": {
-    "@angular/animations": ">=19.0.0",
     "@angular/cdk": ">=19.0.0",
     "@angular/common": ">=19.0.0",
     "@angular/core": ">=19.0.0",
     "@angular/forms": ">=19.0.0",
     "@angular/platform-browser": ">=19.0.0",
-    "@angular/router": ">=19.0.0",
     "rxjs": ">=7.0.0",
+    "tslib": "^2.3.0",
     "zone.js": ">=0.15.0"
   },
   "publishConfig": {
