@@ -145,10 +145,10 @@ Un componente está "done" cuando **todo** lo siguiente se cumple:
 Estos son los comandos que el evaluador del `/goal` ejecuta cada turno:
 
 ```bash
-nx build onyx-tokens                  # compila tokens -> CSS vars
-nx test onyx-components --watch=false # tests de interacción + a11y (jest-axe)
-nx lint onyx-components               # ESLint + Stylelint (incl. regla de tokens)
-nx run onyx-components:typecheck      # tsc --noEmit
+nx build ui-tokens                  # compila tokens -> CSS vars
+nx test ui-components --watch=false # tests de interacción + a11y (jest-axe)
+nx lint ui-components               # ESLint + Stylelint (incl. regla de tokens)
+nx run ui-components:typecheck      # tsc --noEmit
 nx build docs                       # el sitio de documentación compila
 ```
 
