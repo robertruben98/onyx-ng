@@ -7,24 +7,33 @@ const axeOptions = { rules: { region: { enabled: false } } };
 
 describe("OnyxAlertComponent", () => {
   it("projects content and renders the title", async () => {
-    await render(`<onyx-alert title="Heads up">Something happened</onyx-alert>`, {
-      imports: [OnyxAlertComponent],
-    });
+    await render(
+      `<onyx-alert title="Heads up">Something happened</onyx-alert>`,
+      {
+        imports: [OnyxAlertComponent],
+      },
+    );
     expect(screen.getByText("Heads up")).toBeInTheDocument();
     expect(screen.getByText("Something happened")).toBeInTheDocument();
   });
 
   it("uses role=status for non-danger variants", async () => {
-    await render(`<onyx-alert variant="info">Info</onyx-alert>`, {
-      imports: [OnyxAlertComponent],
-    });
+    const { container } = await render(
+      `<onyx-alert variant="info">Info</onyx-alert>`,
+      { imports: [OnyxAlertComponent] },
+    );
+    const host = container.querySelector("onyx-alert")!;
+    expect(host).toHaveAttribute("role", "status");
     expect(screen.getByRole("status")).toBeInTheDocument();
   });
 
   it("uses role=alert for the danger variant", async () => {
-    await render(`<onyx-alert variant="danger">Error</onyx-alert>`, {
-      imports: [OnyxAlertComponent],
-    });
+    const { container } = await render(
+      `<onyx-alert variant="danger">Error</onyx-alert>`,
+      { imports: [OnyxAlertComponent] },
+    );
+    const host = container.querySelector("onyx-alert")!;
+    expect(host).toHaveAttribute("role", "alert");
     expect(screen.getByRole("alert")).toBeInTheDocument();
   });
 

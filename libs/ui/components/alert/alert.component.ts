@@ -29,6 +29,7 @@ export type AlertVariant =
     "[class.ui-alert--warning]": "variant() === 'warning'",
     "[class.ui-alert--danger]": "variant() === 'danger'",
     "[hidden]": "hidden()",
+    "[attr.role]": "role()",
   },
 })
 export class OnyxAlertComponent {

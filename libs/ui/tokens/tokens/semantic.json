@@ -24,8 +24,7 @@
   },
   "focus": {
     "ring": { "value": "{color.primary}" },
-    "ring-width": { "value": "{border.width-thick}" },
-    "ring-offset": { "value": "{border.width-thick}" }
+    "ring-width": { "value": "{border.width-thick}" }
   },
   "radius": { "value": "{radii.md}" }
 }

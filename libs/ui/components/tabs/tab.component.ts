@@ -34,7 +34,12 @@ export class OnyxTabComponent {
   readonly disabled = input(false, { transform: booleanAttribute });
 
   /** Whether this tab's panel is currently shown (set by the parent). */
-  readonly active = signal(false);
+  protected readonly active = signal(false);
+
+  /** Called by the parent OnyxTabsComponent to activate/deactivate this tab. */
+  setActive(value: boolean): void {
+    this.active.set(value);
+  }
 
   private readonly uid = nextTabId++;
   readonly tabId = `ui-tab-${this.uid}`;

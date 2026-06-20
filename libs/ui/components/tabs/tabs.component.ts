@@ -38,7 +38,7 @@ export class OnyxTabsComponent {
     // Reflect the selection onto each child panel.
     effect(() => {
       const selected = this.selectedIndex();
-      this.tabs().forEach((tab, i) => tab.active.set(i === selected));
+      this.tabs().forEach((tab, i) => tab.setActive(i === selected));
     });
   }
 
