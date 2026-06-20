@@ -96,4 +96,34 @@ describe("OnyxSelectComponent", () => {
     await screen.findByRole("listbox");
     expect(await axe(document.body, axeOptions)).toHaveNoViolations();
   });
+
+  it("reflects invalid via aria-invalid on the trigger", async () => {
+    await render(`<onyx-select [invalid]="true" [options]="[]" />`, {
+      imports: [OnyxSelectComponent],
+    });
+    expect(screen.getByRole("combobox")).toHaveAttribute(
+      "aria-invalid",
+      "true",
+    );
+  });
+
+  it("renders a visible label linked to the trigger", async () => {
+    await render(`<onyx-select label="Country" [options]="[]" />`, {
+      imports: [OnyxSelectComponent],
+    });
+    const label = screen.getByText("Country");
+    const trigger = screen.getByRole("combobox");
+    expect(label.tagName).toBe("LABEL");
+    expect((label as HTMLLabelElement).htmlFor).toBe(trigger.id);
+  });
+
+  it("applies the size host class", async () => {
+    const { fixture } = await render(
+      `<onyx-select size="sm" [options]="[]" />`,
+      { imports: [OnyxSelectComponent] },
+    );
+    expect(fixture.nativeElement.firstElementChild).toHaveClass(
+      "ui-select--sm",
+    );
+  });
 });
