@@ -84,7 +84,9 @@
 // --- Disabled -------------------------------------------------------------
 :host(.ui-switch--disabled) .ui-switch__wrap {
   cursor: not-allowed;
-  opacity: 0.6;
+}
+:host(.ui-switch--disabled) .ui-switch__track {
+  background-color: var(--ui-color-disabled-bg);
 }
 :host(.ui-switch--disabled) .ui-switch__label {
   color: var(--ui-switch-disabled-text);
