@@ -80,8 +80,8 @@
 
 .ui-dt__th:focus-visible,
 .ui-dt__td:focus-visible {
-  outline: var(--ui-focus-ring-width) solid var(--ui-focus-ring);
-  outline-offset: calc(-1 * var(--ui-focus-ring-width));
+  outline: none;
+  box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-focus-ring);
 }
 
 .ui-dt__viewport {
