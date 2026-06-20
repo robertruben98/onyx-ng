@@ -1,19 +1,19 @@
 import { render, screen } from "@testing-library/angular";
 import { axe } from "jest-axe";
-import { BadgeComponent } from "./badge.component";
+import { OnyxBadgeComponent } from "./badge.component";
 
 // Disable the "region" rule — isolated component test, no page landmark needed.
 const axeOptions = { rules: { region: { enabled: false } } };
 
-describe("BadgeComponent", () => {
+describe("OnyxBadgeComponent", () => {
   // B1: renders with correct ARIA role and content
   it('renders with role="status"', async () => {
-    await render(`<ui-badge>Active</ui-badge>`, { imports: [BadgeComponent] });
+    await render(`<onyx-badge>Active</onyx-badge>`, { imports: [OnyxBadgeComponent] });
     expect(screen.getByRole("status")).toBeInTheDocument();
   });
 
   it("renders projected text inside the badge label", async () => {
-    await render(`<ui-badge>Pending</ui-badge>`, { imports: [BadgeComponent] });
+    await render(`<onyx-badge>Pending</onyx-badge>`, { imports: [OnyxBadgeComponent] });
     expect(screen.getByText("Pending")).toBeInTheDocument();
   });
 
@@ -22,8 +22,8 @@ describe("BadgeComponent", () => {
     'applies the correct class for variant "%s"',
     async (variant) => {
       const { container } = await render(
-        `<ui-badge [variant]="variant">Label</ui-badge>`,
-        { imports: [BadgeComponent], componentProperties: { variant } },
+        `<onyx-badge [variant]="variant">Label</onyx-badge>`,
+        { imports: [OnyxBadgeComponent], componentProperties: { variant } },
       );
       const badge = container.querySelector(".ui-badge") as HTMLElement;
       expect(badge).toHaveClass(`ui-badge--${variant}`);
@@ -32,16 +32,16 @@ describe("BadgeComponent", () => {
 
   // B3: size CSS classes
   it("applies ui-badge--sm class when size is sm", async () => {
-    const { container } = await render(`<ui-badge size="sm">Label</ui-badge>`, {
-      imports: [BadgeComponent],
+    const { container } = await render(`<onyx-badge size="sm">Label</onyx-badge>`, {
+      imports: [OnyxBadgeComponent],
     });
     const badge = container.querySelector(".ui-badge") as HTMLElement;
     expect(badge).toHaveClass("ui-badge--sm");
   });
 
   it("applies ui-badge--md class when size is md (default)", async () => {
-    const { container } = await render(`<ui-badge>Label</ui-badge>`, {
-      imports: [BadgeComponent],
+    const { container } = await render(`<onyx-badge>Label</onyx-badge>`, {
+      imports: [OnyxBadgeComponent],
     });
     const badge = container.querySelector(".ui-badge") as HTMLElement;
     expect(badge).toHaveClass("ui-badge--md");
@@ -50,8 +50,8 @@ describe("BadgeComponent", () => {
   // B4: dot mode
   it("applies ui-badge--dot class and hides label text when dot is true", async () => {
     const { container } = await render(
-      `<ui-badge [dot]="true">Online</ui-badge>`,
-      { imports: [BadgeComponent] },
+      `<onyx-badge [dot]="true">Online</onyx-badge>`,
+      { imports: [OnyxBadgeComponent] },
     );
     const badge = container.querySelector(".ui-badge") as HTMLElement;
     expect(badge).toHaveClass("ui-badge--dot");
@@ -61,8 +61,8 @@ describe("BadgeComponent", () => {
   });
 
   it("shows label text without aria-hidden when dot is false", async () => {
-    const { container } = await render(`<ui-badge>Active</ui-badge>`, {
-      imports: [BadgeComponent],
+    const { container } = await render(`<onyx-badge>Active</onyx-badge>`, {
+      imports: [OnyxBadgeComponent],
     });
     const label = container.querySelector(".ui-badge__label");
     expect(label).not.toHaveAttribute("aria-hidden");
@@ -73,8 +73,8 @@ describe("BadgeComponent", () => {
     'has no axe violations for variant "%s"',
     async (variant) => {
       const { container } = await render(
-        `<ui-badge [variant]="variant">Label</ui-badge>`,
-        { imports: [BadgeComponent], componentProperties: { variant } },
+        `<onyx-badge [variant]="variant">Label</onyx-badge>`,
+        { imports: [OnyxBadgeComponent], componentProperties: { variant } },
       );
       expect(await axe(container, axeOptions)).toHaveNoViolations();
     },
@@ -82,8 +82,8 @@ describe("BadgeComponent", () => {
 
   it("has no axe violations in dot mode", async () => {
     const { container } = await render(
-      `<ui-badge [dot]="true">Online</ui-badge>`,
-      { imports: [BadgeComponent] },
+      `<onyx-badge [dot]="true">Online</onyx-badge>`,
+      { imports: [OnyxBadgeComponent] },
     );
     expect(await axe(container, axeOptions)).toHaveNoViolations();
   });

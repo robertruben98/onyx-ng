@@ -8,7 +8,7 @@ import {
 export type SkeletonVariant = "text" | "circle" | "rect";
 
 @Component({
-  selector: "ui-skeleton",
+  selector: "onyx-skeleton",
   standalone: true,
   templateUrl: "./skeleton.component.html",
   styleUrl: "./skeleton.component.scss",
@@ -20,7 +20,7 @@ export type SkeletonVariant = "text" | "circle" | "rect";
     "[class.ui-skeleton--rect]": "variant() === 'rect'",
   },
 })
-export class SkeletonComponent {
+export class OnyxSkeletonComponent {
   /** Shape preset: text (line blocks), circle (avatar), rect (card/image). */
   readonly variant = input<SkeletonVariant>("text");
 

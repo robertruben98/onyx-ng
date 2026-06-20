@@ -8,7 +8,7 @@ import {
 } from "@angular/core";
 
 @Component({
-  selector: "ui-card",
+  selector: "onyx-card",
   standalone: true,
   templateUrl: "./card.component.html",
   styleUrl: "./card.component.scss",
@@ -26,7 +26,7 @@ import {
     "(keydown.space)": "handleKeyActivation($event)",
   },
 })
-export class CardComponent {
+export class OnyxCardComponent {
   /** When true the card is clickable and receives focus. */
   readonly interactive = input(false, { transform: booleanAttribute });
   /** Suppresses interaction when combined with `interactive`. */

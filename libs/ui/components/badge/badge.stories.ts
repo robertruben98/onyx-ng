@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/angular";
-import { BadgeComponent } from "./badge.component";
+import { OnyxBadgeComponent } from "./badge.component";
 
-const meta: Meta<BadgeComponent> = {
+const meta: Meta<OnyxBadgeComponent> = {
   title: "Components/Badge",
-  component: BadgeComponent,
+  component: OnyxBadgeComponent,
   tags: ["autodocs"],
   argTypes: {
     variant: {
@@ -20,16 +20,16 @@ const meta: Meta<BadgeComponent> = {
   },
   render: (args) => ({
     props: args,
-    template: `<ui-badge
+    template: `<onyx-badge
         [variant]="variant"
         [size]="size"
         [dot]="dot"
-      >Badge</ui-badge>`,
+      >Badge</onyx-badge>`,
   }),
 };
 export default meta;
 
-type Story = StoryObj<BadgeComponent>;
+type Story = StoryObj<OnyxBadgeComponent>;
 
 export const Neutral: Story = { args: { variant: "neutral" } };
 export const Info: Story = { args: { variant: "info" } };
@@ -41,6 +41,6 @@ export const DotMode: Story = {
   args: { variant: "success", dot: true },
   render: (args) => ({
     props: args,
-    template: `<ui-badge [variant]="variant" [size]="size" [dot]="dot">Online</ui-badge>`,
+    template: `<onyx-badge [variant]="variant" [size]="size" [dot]="dot">Online</onyx-badge>`,
   }),
 };

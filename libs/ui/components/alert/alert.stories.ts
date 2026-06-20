@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/angular";
-import { AlertComponent } from "./alert.component";
+import { OnyxAlertComponent } from "./alert.component";
 
-const meta: Meta<AlertComponent> = {
+const meta: Meta<OnyxAlertComponent> = {
   title: "Components/Alert",
-  component: AlertComponent,
+  component: OnyxAlertComponent,
   tags: ["autodocs"],
   argTypes: {
     variant: {
@@ -18,14 +18,14 @@ const meta: Meta<AlertComponent> = {
   },
   render: (args) => ({
     props: args,
-    template: `<ui-alert [variant]="variant" [dismissible]="dismissible">
+    template: `<onyx-alert [variant]="variant" [dismissible]="dismissible">
       This is an alert message.
-    </ui-alert>`,
+    </onyx-alert>`,
   }),
 };
 export default meta;
 
-type Story = StoryObj<AlertComponent>;
+type Story = StoryObj<OnyxAlertComponent>;
 
 export const Info: Story = { args: { variant: "info" } };
 export const Success: Story = { args: { variant: "success" } };
@@ -38,9 +38,9 @@ export const WithIcon: Story = {
   args: { variant: "success" },
   render: (args) => ({
     props: args,
-    template: `<ui-alert [variant]="variant">
+    template: `<onyx-alert [variant]="variant">
       <span slot="icon">&#10003;</span>
       Your changes have been saved.
-    </ui-alert>`,
+    </onyx-alert>`,
   }),
 };

@@ -9,7 +9,7 @@ import {
 export type DividerOrientation = "horizontal" | "vertical";
 
 @Component({
-  selector: "ui-divider",
+  selector: "onyx-divider",
   standalone: true,
   templateUrl: "./divider.component.html",
   styleUrl: "./divider.component.scss",
@@ -23,7 +23,7 @@ export type DividerOrientation = "horizontal" | "vertical";
     "[attr.aria-hidden]": 'decorative() ? "true" : null',
   },
 })
-export class DividerComponent {
+export class OnyxDividerComponent {
   /** Visual and semantic orientation. */
   readonly orientation = input<DividerOrientation>("horizontal");
 

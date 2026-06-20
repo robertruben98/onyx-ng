@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/angular";
-import { CardComponent } from "./card.component";
+import { OnyxCardComponent } from "./card.component";
 
-const meta: Meta<CardComponent> = {
+const meta: Meta<OnyxCardComponent> = {
   title: "Components/Card",
-  component: CardComponent,
+  component: OnyxCardComponent,
   tags: ["autodocs"],
   argTypes: {
     interactive: { control: "boolean" },
@@ -16,17 +16,17 @@ const meta: Meta<CardComponent> = {
   render: (args) => ({
     props: args,
     template: `
-      <ui-card [interactive]="interactive" [disabled]="disabled">
+      <onyx-card [interactive]="interactive" [disabled]="disabled">
         <span slot="header">Card Header</span>
         <p>Card body content goes here. This is the default projection slot.</p>
         <span slot="footer">Card Footer</span>
-      </ui-card>
+      </onyx-card>
     `,
   }),
 };
 export default meta;
 
-type Story = StoryObj<CardComponent>;
+type Story = StoryObj<OnyxCardComponent>;
 
 export const Default: Story = { args: { interactive: false, disabled: false } };
 export const Interactive: Story = {
@@ -37,6 +37,6 @@ export const NoSlots: Story = {
   args: { interactive: false, disabled: false },
   render: (args) => ({
     props: args,
-    template: `<ui-card [interactive]="interactive" [disabled]="disabled">Body only — no header or footer.</ui-card>`,
+    template: `<onyx-card [interactive]="interactive" [disabled]="disabled">Body only — no header or footer.</onyx-card>`,
   }),
 };

@@ -16,14 +16,14 @@ export type BadgeVariant =
 export type BadgeSize = "sm" | "md";
 
 @Component({
-  selector: "ui-badge",
+  selector: "onyx-badge",
   standalone: true,
   imports: [NgClass],
   templateUrl: "./badge.component.html",
   styleUrl: "./badge.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BadgeComponent {
+export class OnyxBadgeComponent {
   /** Visual variant — maps to a color scheme. */
   readonly variant = input<BadgeVariant>("neutral");
   /** Control size. */

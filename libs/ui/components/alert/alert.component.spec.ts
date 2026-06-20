@@ -1,40 +1,40 @@
 import { render, screen } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
-import { AlertComponent } from "./alert.component";
+import { OnyxAlertComponent } from "./alert.component";
 
 // Isolated component test — disable region rule (no landmark needed here).
 const axeOptions = { rules: { region: { enabled: false } } };
 
-describe("AlertComponent", () => {
+describe("OnyxAlertComponent", () => {
   // B1: correct ARIA role based on severity
   it("uses role=alert for danger variant (assertive)", async () => {
     await render(
-      `<ui-alert variant="danger">Something went wrong.</ui-alert>`,
+      `<onyx-alert variant="danger">Something went wrong.</onyx-alert>`,
       {
-        imports: [AlertComponent],
+        imports: [OnyxAlertComponent],
       },
     );
     expect(screen.getByRole("alert")).toBeInTheDocument();
   });
 
   it("uses role=alert for warning variant (assertive)", async () => {
-    await render(`<ui-alert variant="warning">Check your input.</ui-alert>`, {
-      imports: [AlertComponent],
+    await render(`<onyx-alert variant="warning">Check your input.</onyx-alert>`, {
+      imports: [OnyxAlertComponent],
     });
     expect(screen.getByRole("alert")).toBeInTheDocument();
   });
 
   it("uses role=status for info variant (polite)", async () => {
-    await render(`<ui-alert variant="info">Information here.</ui-alert>`, {
-      imports: [AlertComponent],
+    await render(`<onyx-alert variant="info">Information here.</onyx-alert>`, {
+      imports: [OnyxAlertComponent],
     });
     expect(screen.getByRole("status")).toBeInTheDocument();
   });
 
   it("uses role=status for success variant (polite)", async () => {
-    await render(`<ui-alert variant="success">Operation done.</ui-alert>`, {
-      imports: [AlertComponent],
+    await render(`<onyx-alert variant="success">Operation done.</onyx-alert>`, {
+      imports: [OnyxAlertComponent],
     });
     expect(screen.getByRole("status")).toBeInTheDocument();
   });
@@ -44,10 +44,10 @@ describe("AlertComponent", () => {
     "applies variant class ui-alert--%s",
     async (variant) => {
       const { container } = await render(
-        `<ui-alert [variant]="variant">Message</ui-alert>`,
-        { imports: [AlertComponent], componentProperties: { variant } },
+        `<onyx-alert [variant]="variant">Message</onyx-alert>`,
+        { imports: [OnyxAlertComponent], componentProperties: { variant } },
       );
-      expect(container.querySelector("ui-alert")).toHaveClass(
+      expect(container.querySelector("onyx-alert")).toHaveClass(
         `ui-alert--${variant}`,
       );
     },
@@ -55,8 +55,8 @@ describe("AlertComponent", () => {
 
   // B3: dismiss button shown only when dismissible input is true
   it("does NOT render a dismiss button by default", async () => {
-    await render(`<ui-alert>Default message.</ui-alert>`, {
-      imports: [AlertComponent],
+    await render(`<onyx-alert>Default message.</onyx-alert>`, {
+      imports: [OnyxAlertComponent],
     });
     expect(
       screen.queryByRole("button", { name: /dismiss/i }),
@@ -64,8 +64,8 @@ describe("AlertComponent", () => {
   });
 
   it("renders a dismiss button when dismissible is true", async () => {
-    await render(`<ui-alert [dismissible]="true">Dismiss me.</ui-alert>`, {
-      imports: [AlertComponent],
+    await render(`<onyx-alert [dismissible]="true">Dismiss me.</onyx-alert>`, {
+      imports: [OnyxAlertComponent],
     });
     expect(
       screen.getByRole("button", { name: /dismiss/i }),
@@ -76,8 +76,8 @@ describe("AlertComponent", () => {
     const user = userEvent.setup();
     const dismissed = jest.fn();
     await render(
-      `<ui-alert [dismissible]="true" (dismissed)="dismissed()">Dismiss me.</ui-alert>`,
-      { imports: [AlertComponent], componentProperties: { dismissed } },
+      `<onyx-alert [dismissible]="true" (dismissed)="dismissed()">Dismiss me.</onyx-alert>`,
+      { imports: [OnyxAlertComponent], componentProperties: { dismissed } },
     );
     await user.click(screen.getByRole("button", { name: /dismiss/i }));
     expect(dismissed).toHaveBeenCalledTimes(1);
@@ -86,8 +86,8 @@ describe("AlertComponent", () => {
   // B4: icon slot content projection
   it("projects icon slot content", async () => {
     await render(
-      `<ui-alert><span slot="icon" data-testid="icon">!</span>Message</ui-alert>`,
-      { imports: [AlertComponent] },
+      `<onyx-alert><span slot="icon" data-testid="icon">!</span>Message</onyx-alert>`,
+      { imports: [OnyxAlertComponent] },
     );
     expect(screen.getByTestId("icon")).toBeInTheDocument();
   });
@@ -97,8 +97,8 @@ describe("AlertComponent", () => {
     const user = userEvent.setup();
     const dismissed = jest.fn();
     await render(
-      `<ui-alert [dismissible]="true" (dismissed)="dismissed()">Dismiss me.</ui-alert>`,
-      { imports: [AlertComponent], componentProperties: { dismissed } },
+      `<onyx-alert [dismissible]="true" (dismissed)="dismissed()">Dismiss me.</onyx-alert>`,
+      { imports: [OnyxAlertComponent], componentProperties: { dismissed } },
     );
     await user.tab();
     const btn = screen.getByRole("button", { name: /dismiss/i });
@@ -111,8 +111,8 @@ describe("AlertComponent", () => {
     const user = userEvent.setup();
     const dismissed = jest.fn();
     await render(
-      `<ui-alert [dismissible]="true" (dismissed)="dismissed()">Dismiss me.</ui-alert>`,
-      { imports: [AlertComponent], componentProperties: { dismissed } },
+      `<onyx-alert [dismissible]="true" (dismissed)="dismissed()">Dismiss me.</onyx-alert>`,
+      { imports: [OnyxAlertComponent], componentProperties: { dismissed } },
     );
     await user.tab();
     await user.keyboard(" ");
@@ -124,8 +124,8 @@ describe("AlertComponent", () => {
     "has no axe violations (%s variant)",
     async (variant) => {
       const { container } = await render(
-        `<ui-alert [variant]="variant">Alert message for ${variant}.</ui-alert>`,
-        { imports: [AlertComponent], componentProperties: { variant } },
+        `<onyx-alert [variant]="variant">Alert message for ${variant}.</onyx-alert>`,
+        { imports: [OnyxAlertComponent], componentProperties: { variant } },
       );
       expect(await axe(container, axeOptions)).toHaveNoViolations();
     },
@@ -133,17 +133,17 @@ describe("AlertComponent", () => {
 
   it("has no axe violations when dismissible", async () => {
     const { container } = await render(
-      `<ui-alert [dismissible]="true">You can dismiss this.</ui-alert>`,
-      { imports: [AlertComponent] },
+      `<onyx-alert [dismissible]="true">You can dismiss this.</onyx-alert>`,
+      { imports: [OnyxAlertComponent] },
     );
     expect(await axe(container, axeOptions)).toHaveNoViolations();
   });
 
   // Default variant is info
   it("defaults to info variant", async () => {
-    const { container } = await render(`<ui-alert>Default.</ui-alert>`, {
-      imports: [AlertComponent],
+    const { container } = await render(`<onyx-alert>Default.</onyx-alert>`, {
+      imports: [OnyxAlertComponent],
     });
-    expect(container.querySelector("ui-alert")).toHaveClass("ui-alert--info");
+    expect(container.querySelector("onyx-alert")).toHaveClass("ui-alert--info");
   });
 });

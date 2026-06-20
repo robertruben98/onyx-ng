@@ -16,12 +16,13 @@ const ASSERTIVE_VARIANTS: ReadonlySet<AlertVariant> = new Set([
 ]);
 
 @Component({
-  selector: "ui-alert",
+  selector: "onyx-alert",
   standalone: true,
   templateUrl: "./alert.component.html",
   styleUrl: "./alert.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
+    "[attr.role]": "ariaRole()",
     "[class.ui-alert]": "true",
     "[class.ui-alert--info]": "variant() === 'info'",
     "[class.ui-alert--success]": "variant() === 'success'",
@@ -29,7 +30,7 @@ const ASSERTIVE_VARIANTS: ReadonlySet<AlertVariant> = new Set([
     "[class.ui-alert--danger]": "variant() === 'danger'",
   },
 })
-export class AlertComponent {
+export class OnyxAlertComponent {
   /** Visual and semantic variant — drives colors and ARIA live region role. */
   readonly variant = input<AlertVariant>("info");
 
