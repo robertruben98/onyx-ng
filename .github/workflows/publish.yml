@@ -24,6 +24,7 @@ jobs:
           registry-url: "https://npm.pkg.github.com"
       - run: npm ci
       - run: npm run build:tokens
+      - run: npx nx build ui-components
       - run: npm test -- --ci
       - run: npx semantic-release
         env:

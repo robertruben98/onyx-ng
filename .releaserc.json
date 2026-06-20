@@ -12,6 +12,9 @@
       }
     ],
     ["@semantic-release/npm", { "pkgRoot": "dist/onyx-ui" }],
-    "@semantic-release/github"
+    [
+      "@semantic-release/github",
+      { "failComment": false, "successComment": false, "labels": false, "releasedLabels": false }
+    ]
   ]
 }
