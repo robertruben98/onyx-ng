@@ -1,0 +1,106 @@
+// Global encapsulation is intentional: projected native elements carrying the
+// item directive cannot receive emulated component scope attributes. Every
+// rule remains scoped to an onyx-grid host and its direct internal grid.
+
+onyx-grid.onyx-grid-host {
+  display: block;
+  container: onyx-grid / inline-size;
+}
+
+.onyx-grid-host > .onyx-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    var(--onyx-grid-columns),
+    minmax(var(--ui-grid-track-min), var(--ui-grid-track-max))
+  );
+  gap: var(--ui-grid-gap-md);
+}
+
+.onyx-grid-host--dense > .onyx-grid {
+  grid-auto-flow: dense;
+}
+
+.onyx-grid-host--gap-none > .onyx-grid {
+  gap: var(--ui-grid-gap-none);
+}
+
+.onyx-grid-host--gap-xs > .onyx-grid {
+  gap: var(--ui-grid-gap-xs);
+}
+
+.onyx-grid-host--gap-sm > .onyx-grid {
+  gap: var(--ui-grid-gap-sm);
+}
+
+.onyx-grid-host--gap-lg > .onyx-grid {
+  gap: var(--ui-grid-gap-lg);
+}
+
+.onyx-grid-host--gap-xl > .onyx-grid {
+  gap: var(--ui-grid-gap-xl);
+}
+
+.onyx-grid-host > .onyx-grid > [onyxGridItem] {
+  grid-column: var(--onyx-grid-item-span);
+  min-width: var(--ui-grid-item-min-width);
+}
+
+@container onyx-grid (min-width: 30rem) {
+  .onyx-grid-host > .onyx-grid {
+    grid-template-columns: repeat(
+      var(--onyx-grid-columns-sm, var(--onyx-grid-columns)),
+      minmax(var(--ui-grid-track-min), var(--ui-grid-track-max))
+    );
+  }
+
+  .onyx-grid-host > .onyx-grid > [onyxGridItem] {
+    grid-column: var(
+      --onyx-grid-item-span-sm,
+      var(--onyx-grid-item-span)
+    );
+  }
+}
+
+@container onyx-grid (min-width: 48rem) {
+  .onyx-grid-host > .onyx-grid {
+    grid-template-columns: repeat(
+      var(
+        --onyx-grid-columns-md,
+        var(--onyx-grid-columns-sm, var(--onyx-grid-columns))
+      ),
+      minmax(var(--ui-grid-track-min), var(--ui-grid-track-max))
+    );
+  }
+
+  .onyx-grid-host > .onyx-grid > [onyxGridItem] {
+    grid-column: var(
+      --onyx-grid-item-span-md,
+      var(--onyx-grid-item-span-sm, var(--onyx-grid-item-span))
+    );
+  }
+}
+
+@container onyx-grid (min-width: 64rem) {
+  .onyx-grid-host > .onyx-grid {
+    grid-template-columns: repeat(
+      var(
+        --onyx-grid-columns-lg,
+        var(
+          --onyx-grid-columns-md,
+          var(--onyx-grid-columns-sm, var(--onyx-grid-columns))
+        )
+      ),
+      minmax(var(--ui-grid-track-min), var(--ui-grid-track-max))
+    );
+  }
+
+  .onyx-grid-host > .onyx-grid > [onyxGridItem] {
+    grid-column: var(
+      --onyx-grid-item-span-lg,
+      var(
+        --onyx-grid-item-span-md,
+        var(--onyx-grid-item-span-sm, var(--onyx-grid-item-span))
+      )
+    );
+  }
+}

@@ -10,6 +10,7 @@ import { alertDoc } from "../../../../libs/ui/components/alert/alert.docs";
 import { dialogDoc } from "../../../../libs/ui/components/dialog/dialog.docs";
 import { cardDoc } from "../../../../libs/ui/components/card/card.docs";
 import { dividerDoc } from "../../../../libs/ui/components/divider/divider.docs";
+import { gridDoc } from "../../../../libs/ui/components/grid/grid.docs";
 import { avatarDoc } from "../../../../libs/ui/components/avatar/avatar.docs";
 import { spinnerDoc } from "../../../../libs/ui/components/spinner/spinner.docs";
 import { tagDoc } from "../../../../libs/ui/components/tag/tag.docs";
@@ -35,6 +36,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
   dialogDoc,
   cardDoc,
   dividerDoc,
+  gridDoc,
   avatarDoc,
   spinnerDoc,
   tagDoc,
