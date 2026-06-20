@@ -1036,6 +1036,35 @@
       "value": "{color.primary}"
     }
   },
+  "grid": {
+    "gap-none": {
+      "value": "0"
+    },
+    "gap-xs": {
+      "value": "{space.1}"
+    },
+    "gap-sm": {
+      "value": "{space.2}"
+    },
+    "gap-md": {
+      "value": "{space.3}"
+    },
+    "gap-lg": {
+      "value": "{space.4}"
+    },
+    "gap-xl": {
+      "value": "{space.5}"
+    },
+    "track-min": {
+      "value": "0"
+    },
+    "track-max": {
+      "value": "1fr"
+    },
+    "item-min-width": {
+      "value": "0"
+    }
+  },
   "card": {
     "bg": {
       "value": "{color.surface}"
