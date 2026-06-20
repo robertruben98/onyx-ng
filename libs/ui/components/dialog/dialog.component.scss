@@ -18,6 +18,7 @@
   padding: var(--ui-dialog-padding-y) var(--ui-dialog-padding-x);
   background-color: var(--ui-dialog-bg);
   color: var(--ui-dialog-text);
+  border: var(--ui-dialog-border-width) solid var(--ui-dialog-border);
   border-radius: var(--ui-dialog-radius);
   box-shadow: var(--ui-dialog-shadow);
 }

@@ -34,6 +34,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .ui-spinner__ring {
-    animation-duration: 0s;
+    animation: none;
   }
 }
