@@ -18,6 +18,7 @@ import { tagDoc } from "../../../../libs/ui/components/tag/tag.docs";
 import { progressBarDoc } from "../../../../libs/ui/components/progress-bar/progress-bar.docs";
 import { tabsDoc } from "../../../../libs/ui/components/tabs/tabs.docs";
 import { accordionDoc } from "../../../../libs/ui/components/accordion/accordion.docs";
+import { sliderDoc } from "../../../../libs/ui/components/slider/slider.docs";
 import { tooltipDoc } from "../../../../libs/ui/components/tooltip/tooltip.docs";
 import { popoverDoc } from "../../../../libs/ui/components/popover/popover.docs";
 import { selectDoc } from "../../../../libs/ui/components/select/select.docs";
@@ -45,6 +46,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
   progressBarDoc,
   tabsDoc,
   accordionDoc,
+  sliderDoc,
   tooltipDoc,
   popoverDoc,
   selectDoc,

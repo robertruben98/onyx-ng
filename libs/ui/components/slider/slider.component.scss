@@ -1,0 +1,87 @@
+// Slider styles — references ONLY semantic / component tokens (CLAUDE.md §3).
+// Native range input remains the interactive control; the track is styled with
+// existing semantic tokens so theme remapping stays centralized.
+
+:host {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--ui-switch-label-gap);
+}
+
+.ui-slider__label {
+  font-size: var(--ui-switch-label-font-size);
+  color: var(--ui-color-text);
+}
+
+.ui-slider__frame {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--ui-switch-label-gap);
+}
+
+.ui-slider__el {
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  height: var(--ui-switch-track-height);
+  border-radius: var(--ui-switch-radius);
+  background: var(--ui-slider-track-background);
+  cursor: pointer;
+}
+
+.ui-slider__el:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-focus-ring);
+}
+
+.ui-slider__el:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.ui-slider__el::-webkit-slider-runnable-track {
+  height: var(--ui-switch-track-height);
+  background: transparent;
+  border: none;
+}
+
+.ui-slider__el::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: var(--ui-switch-thumb-size);
+  height: var(--ui-switch-thumb-size);
+  margin-top: calc(
+    (var(--ui-switch-track-height) - var(--ui-switch-thumb-size)) / 2
+  );
+  background-color: var(--ui-switch-thumb-color);
+  border: none;
+  border-radius: var(--ui-switch-radius);
+  box-shadow: 0 0 0 var(--ui-switch-padding) var(--ui-progress-track-bg);
+}
+
+.ui-slider__el::-moz-range-track {
+  height: var(--ui-switch-track-height);
+  background: transparent;
+  border: none;
+}
+
+.ui-slider__el::-moz-range-thumb {
+  width: var(--ui-switch-thumb-size);
+  height: var(--ui-switch-thumb-size);
+  background-color: var(--ui-switch-thumb-color);
+  border: none;
+  border-radius: var(--ui-switch-radius);
+  box-shadow: 0 0 0 var(--ui-switch-padding) var(--ui-progress-track-bg);
+}
+
+.ui-slider__value {
+  min-width: 3ch;
+  font-size: var(--ui-switch-label-font-size);
+  color: var(--ui-color-text);
+  text-align: end;
+}
+
+:host(.ui-slider--disabled) .ui-slider__label,
+:host(.ui-slider--disabled) .ui-slider__value {
+  color: var(--ui-switch-disabled-text);
+}
