@@ -29,7 +29,7 @@ algo está mal en la arquitectura de tokens.**
 - **`inject()`** en lugar de inyección por constructor.
 - **`ChangeDetectionStrategy.OnPush`** obligatorio en todos los componentes.
 - **Nuevo control flow** (`@if`, `@for`, `@switch`), nunca `*ngIf`/`*ngFor`.
-- Prefijo de selector: **`ui-`** (ej. `ui-button`, `ui-dialog`).
+- Prefijo de selector: **`onyx-`** (ej. `onyx-button`, `onyx-dialog`).
 - Las primitivas de comportamiento (overlay, focus trap, posicionamiento)
   **envuelven `@angular/cdk`**. No se reimplementan a mano.
 - Monorepo **Nx**. Límites de módulo respetados (un componente no importa de
