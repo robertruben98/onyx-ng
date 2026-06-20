@@ -4,6 +4,18 @@
   "description": "Onyx NG — Angular design-system component library (token-driven).",
   "license": "MIT",
   "sideEffects": false,
+  "files": [
+    "fesm2022",
+    "*.d.ts",
+    "*.d.ts.map",
+    "*/",
+    "styles",
+    "package.json",
+    "!libs/**",
+    "!**/*.spec.*",
+    "!**/*.docs.*",
+    "!**/*.demos.*"
+  ],
   "peerDependencies": {
     "@angular/animations": ">=19.0.0",
     "@angular/cdk": ">=19.0.0",
@@ -13,10 +25,8 @@
     "@angular/platform-browser": ">=19.0.0",
     "@angular/router": ">=19.0.0",
     "rxjs": ">=7.0.0",
-    "tslib": ">=2.0.0",
     "zone.js": ">=0.15.0"
   },
-  "dependencies": {},
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   }
