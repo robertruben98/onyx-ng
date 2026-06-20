@@ -1,0 +1,7 @@
+@if (variant() === "text") {
+  @for (i of lineRange(); track i) {
+    <span class="ui-skeleton__line"></span>
+  }
+} @else {
+  <span class="ui-skeleton__block"></span>
+}

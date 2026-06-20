@@ -1,38 +1,78 @@
-// Badge styles — references ONLY semantic / component tokens (CLAUDE.md §3).
-// Variants map to feedback-role tokens; light/dark via token re-mapping.
+// Badge styles — references ONLY component tokens (CLAUDE.md §3).
+// Variant colors are mapped via semantic tokens re-exported as component tokens.
+// Light / dark / custom themes remap the underlying semantic tokens; no
+// conditional logic here.
 
-:host {
-  display: inline-flex;
-}
-
-.ui-badge__el {
+.ui-badge {
   display: inline-flex;
   align-items: center;
-  padding: var(--ui-badge-padding-y) var(--ui-badge-padding-x);
-  font-size: var(--ui-badge-font-size);
+  gap: var(--ui-badge-padding-y-sm);
+  border-radius: var(--ui-badge-radius);
+  font-family: inherit;
   font-weight: var(--ui-badge-font-weight);
   line-height: 1;
-  border-radius: var(--ui-badge-radius);
   white-space: nowrap;
 }
 
-:host(.ui-badge--neutral) .ui-badge__el {
+// --- Sizes ----------------------------------------------------------------
+.ui-badge--sm {
+  padding: var(--ui-badge-padding-y-sm) var(--ui-badge-padding-x-sm);
+  font-size: var(--ui-badge-font-size-sm);
+}
+
+.ui-badge--md {
+  padding: var(--ui-badge-padding-y-md) var(--ui-badge-padding-x-md);
+  font-size: var(--ui-badge-font-size-md);
+}
+
+// --- Variants -------------------------------------------------------------
+.ui-badge--neutral {
   background-color: var(--ui-badge-neutral-bg);
   color: var(--ui-badge-neutral-text);
 }
-:host(.ui-badge--info) .ui-badge__el {
+
+.ui-badge--info {
   background-color: var(--ui-badge-info-bg);
   color: var(--ui-badge-info-text);
 }
-:host(.ui-badge--success) .ui-badge__el {
+
+.ui-badge--success {
   background-color: var(--ui-badge-success-bg);
   color: var(--ui-badge-success-text);
 }
-:host(.ui-badge--warning) .ui-badge__el {
+
+.ui-badge--warning {
   background-color: var(--ui-badge-warning-bg);
   color: var(--ui-badge-warning-text);
 }
-:host(.ui-badge--danger) .ui-badge__el {
+
+.ui-badge--danger {
   background-color: var(--ui-badge-danger-bg);
   color: var(--ui-badge-danger-text);
+}
+
+// --- Dot mode -------------------------------------------------------------
+.ui-badge--dot {
+  padding: var(--ui-badge-padding-y-sm);
+}
+
+.ui-badge__dot {
+  display: inline-block;
+  border-radius: var(--ui-badge-radius);
+}
+
+.ui-badge--dot.ui-badge--sm .ui-badge__dot {
+  width: var(--ui-badge-dot-size-sm);
+  height: var(--ui-badge-dot-size-sm);
+  background-color: currentColor;
+}
+
+.ui-badge--dot.ui-badge--md .ui-badge__dot {
+  width: var(--ui-badge-dot-size-md);
+  height: var(--ui-badge-dot-size-md);
+  background-color: currentColor;
+}
+
+.ui-badge__label {
+  // visually visible by default; aria-hidden applied in dot mode
 }

@@ -1,24 +1,53 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  booleanAttribute,
+  computed,
+  input,
+  output,
+} from "@angular/core";
 
-export type CardVariant = "elevated" | "outlined";
-
-/**
- * Surface container with optional header/footer slots. Pure presentation —
- * project content via `[uiCardHeader]`, default slot, and `[uiCardFooter]`.
- */
 @Component({
-  selector: "onyx-card",
+  selector: "ui-card",
   standalone: true,
   templateUrl: "./card.component.html",
   styleUrl: "./card.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
+    role: "article",
     "[class.ui-card]": "true",
-    "[class.ui-card--elevated]": "variant() === 'elevated'",
-    "[class.ui-card--outlined]": "variant() === 'outlined'",
+    "[class.ui-card--interactive]": "interactive()",
+    "[class.ui-card--disabled]": "disabled()",
+    // Only focusable when interactive and not disabled.
+    "[attr.tabindex]": "isInteractive() ? 0 : null",
+    "[attr.aria-disabled]": 'interactive() && disabled() ? "true" : null',
+    "(click)": "handleClick($event)",
+    "(keydown.enter)": "handleKeyActivation($event)",
+    "(keydown.space)": "handleKeyActivation($event)",
   },
 })
-export class OnyxCardComponent {
-  /** Visual variant. */
-  readonly variant = input<CardVariant>("elevated");
+export class CardComponent {
+  /** When true the card is clickable and receives focus. */
+  readonly interactive = input(false, { transform: booleanAttribute });
+  /** Suppresses interaction when combined with `interactive`. */
+  readonly disabled = input(false, { transform: booleanAttribute });
+
+  /** Emitted on pointer-click or keyboard activation when interactive. */
+  readonly clicked = output<MouseEvent | KeyboardEvent>();
+
+  /** True only when interactive and not disabled. */
+  protected readonly isInteractive = computed(
+    () => this.interactive() && !this.disabled(),
+  );
+
+  protected handleClick(event: MouseEvent): void {
+    if (!this.isInteractive()) return;
+    this.clicked.emit(event);
+  }
+
+  protected handleKeyActivation(event: KeyboardEvent): void {
+    if (!this.isInteractive()) return;
+    event.preventDefault();
+    this.clicked.emit(event);
+  }
 }

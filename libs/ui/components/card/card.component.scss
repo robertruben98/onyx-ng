@@ -1,38 +1,57 @@
-// Card styles — semantic / component tokens only (CLAUDE.md §3).
+// Card styles — semantic/component tokens only (stylelint-declaration-strict-value).
+// Light/dark/theme adaptation happens via token re-mapping in the active theme preset.
 
 :host {
   display: block;
   background-color: var(--ui-card-bg);
   color: var(--ui-card-text);
-  border: var(--ui-card-border-width) solid transparent;
+  border: var(--ui-card-border-width) solid var(--ui-card-border-color);
   border-radius: var(--ui-card-radius);
+  box-shadow: var(--ui-card-shadow);
   overflow: hidden;
 }
 
-:host(.ui-card--elevated) {
-  box-shadow: var(--ui-card-shadow);
+:host(.ui-card--interactive) {
+  cursor: pointer;
+  transition:
+    box-shadow 150ms ease,
+    background-color 150ms ease;
 }
 
-:host(.ui-card--outlined) {
-  border-color: var(--ui-card-border);
+:host(.ui-card--interactive):hover:not(.ui-card--disabled) {
+  box-shadow: var(--ui-card-shadow-hover);
+  background-color: var(--ui-color-surface-hover);
 }
 
-.ui-card__header,
-.ui-card__body,
+:host(.ui-card--interactive):focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-focus-ring);
+}
+
+:host(.ui-card--disabled) {
+  cursor: not-allowed;
+  background-color: var(--ui-color-disabled-bg);
+  color: var(--ui-color-disabled-text);
+}
+
+// --- Slots -------------------------------------------------------------------
+
+.ui-card__header {
+  &:not(:empty) {
+    padding: var(--ui-card-padding);
+    border-bottom: var(--ui-card-border-width) solid
+      var(--ui-card-header-border-color);
+  }
+}
+
+.ui-card__body {
+  padding: var(--ui-card-padding);
+}
+
 .ui-card__footer {
-  padding: var(--ui-card-padding-y) var(--ui-card-padding-x);
-}
-
-.ui-card__header:not(:empty) {
-  border-bottom: var(--ui-card-border-width) solid var(--ui-card-border);
-  font-weight: var(--ui-card-header-font-weight);
-}
-
-.ui-card__footer:not(:empty) {
-  border-top: var(--ui-card-border-width) solid var(--ui-card-border);
-}
-
-.ui-card__header:empty,
-.ui-card__footer:empty {
-  display: none;
+  &:not(:empty) {
+    padding: var(--ui-card-padding);
+    border-top: var(--ui-card-border-width) solid
+      var(--ui-card-footer-border-color);
+  }
 }

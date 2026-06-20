@@ -1,29 +1,45 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  booleanAttribute,
+  computed,
+  input,
+} from "@angular/core";
 
 export type DividerOrientation = "horizontal" | "vertical";
 
-/**
- * Visual separator. Renders a plain rule, or a labelled rule when `label` is
- * set. Exposes `role=separator` with the matching `aria-orientation`.
- */
 @Component({
-  selector: "onyx-divider",
+  selector: "ui-divider",
   standalone: true,
   templateUrl: "./divider.component.html",
   styleUrl: "./divider.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    role: "separator",
-    "[attr.aria-orientation]": "orientation()",
     "[class.ui-divider]": "true",
-    "[class.ui-divider--horizontal]": "orientation() === 'horizontal'",
     "[class.ui-divider--vertical]": "orientation() === 'vertical'",
-    "[class.ui-divider--labelled]": "!!label()",
+    "[class.ui-divider--decorative]": "decorative()",
+    "[attr.role]": "hostRole()",
+    "[attr.aria-orientation]": "hostAriaOrientation()",
+    "[attr.aria-hidden]": 'decorative() ? "true" : null',
   },
 })
-export class OnyxDividerComponent {
-  /** Layout orientation. */
+export class DividerComponent {
+  /** Visual and semantic orientation. */
   readonly orientation = input<DividerOrientation>("horizontal");
-  /** Optional centered label (horizontal only). */
-  readonly label = input("");
+
+  /**
+   * Decorative mode: the divider is purely visual. Sets `role="presentation"`
+   * and `aria-hidden="true"` so assistive technologies skip it.
+   */
+  readonly decorative = input(false, { transform: booleanAttribute });
+
+  /** Resolved ARIA role: presentation for decorative, separator otherwise. */
+  protected readonly hostRole = computed(() =>
+    this.decorative() ? "presentation" : "separator",
+  );
+
+  /** Expose aria-orientation only for meaningful (non-decorative) separators. */
+  protected readonly hostAriaOrientation = computed(() =>
+    this.decorative() ? null : this.orientation(),
+  );
 }

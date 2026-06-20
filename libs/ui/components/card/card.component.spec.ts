@@ -1,46 +1,122 @@
 import { render, screen } from "@testing-library/angular";
+import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
-import { OnyxCardComponent } from "./card.component";
+import { CardComponent } from "./card.component";
 
+// Isolated component not inside a landmark — disable the region rule.
 const axeOptions = { rules: { region: { enabled: false } } };
 
-describe("OnyxCardComponent", () => {
-  it("projects default content", async () => {
-    await render(`<onyx-card>Body content</onyx-card>`, {
-      imports: [OnyxCardComponent],
+describe("CardComponent", () => {
+  // B1: basic content projection
+  it("projects body content into the default slot", async () => {
+    await render(`<ui-card><p>Card body</p></ui-card>`, {
+      imports: [CardComponent],
     });
-    expect(screen.getByText("Body content")).toBeInTheDocument();
+    expect(screen.getByText("Card body")).toBeInTheDocument();
   });
 
-  it("projects header and footer slots", async () => {
+  it("projects named header slot", async () => {
+    await render(`<ui-card><span slot="header">My Header</span></ui-card>`, {
+      imports: [CardComponent],
+    });
+    expect(screen.getByText("My Header")).toBeInTheDocument();
+  });
+
+  it("projects named footer slot", async () => {
+    await render(`<ui-card><span slot="footer">My Footer</span></ui-card>`, {
+      imports: [CardComponent],
+    });
+    expect(screen.getByText("My Footer")).toBeInTheDocument();
+  });
+
+  // B2: ARIA role
+  it('has role="article" by default', async () => {
+    await render(`<ui-card>Content</ui-card>`, { imports: [CardComponent] });
+    expect(screen.getByRole("article")).toBeInTheDocument();
+  });
+
+  // B3: interactive mode — clickable with clicked output
+  it("emits clicked when interactive card is clicked", async () => {
+    const user = userEvent.setup();
+    const clicked = jest.fn();
     await render(
-      `<onyx-card>
-        <span uiCardHeader>Header</span>
-        Body
-        <span uiCardFooter>Footer</span>
-      </onyx-card>`,
-      { imports: [OnyxCardComponent] },
+      `<ui-card [interactive]="true" (clicked)="clicked()">Click me</ui-card>`,
+      { imports: [CardComponent], componentProperties: { clicked } },
     );
-    expect(screen.getByText("Header")).toBeInTheDocument();
-    expect(screen.getByText("Footer")).toBeInTheDocument();
+    const card = screen.getByRole("article");
+    await user.click(card);
+    expect(clicked).toHaveBeenCalledTimes(1);
   });
 
-  it("applies the variant class to the host", async () => {
+  it("is keyboard focusable and operable (Enter / Space) when interactive", async () => {
+    const user = userEvent.setup();
+    const clicked = jest.fn();
+    await render(
+      `<ui-card [interactive]="true" (clicked)="clicked()">Card</ui-card>`,
+      { imports: [CardComponent], componentProperties: { clicked } },
+    );
+    const card = screen.getByRole("article");
+    await user.tab();
+    expect(card).toHaveFocus();
+    await user.keyboard("{Enter}");
+    await user.keyboard(" ");
+    expect(clicked).toHaveBeenCalledTimes(2);
+  });
+
+  it("does NOT emit clicked when not interactive", async () => {
+    const user = userEvent.setup();
+    const clicked = jest.fn();
+    await render(`<ui-card (clicked)="clicked()">Card</ui-card>`, {
+      imports: [CardComponent],
+      componentProperties: { clicked },
+    });
+    await user.click(screen.getByRole("article"));
+    expect(clicked).not.toHaveBeenCalled();
+  });
+
+  // B4: disabled state
+  it("does NOT emit clicked when interactive but disabled", async () => {
+    const user = userEvent.setup();
+    const clicked = jest.fn();
+    await render(
+      `<ui-card [interactive]="true" [disabled]="true" (clicked)="clicked()">Card</ui-card>`,
+      { imports: [CardComponent], componentProperties: { clicked } },
+    );
+    await user.click(screen.getByRole("article"));
+    expect(clicked).not.toHaveBeenCalled();
+  });
+
+  it("exposes aria-disabled when interactive and disabled", async () => {
+    await render(
+      `<ui-card [interactive]="true" [disabled]="true">Card</ui-card>`,
+      { imports: [CardComponent] },
+    );
+    const card = screen.getByRole("article");
+    expect(card).toHaveAttribute("aria-disabled", "true");
+  });
+
+  // B5: axe a11y
+  it("has no axe violations (default state)", async () => {
     const { container } = await render(
-      `<onyx-card variant="outlined">Body</onyx-card>`,
-      { imports: [OnyxCardComponent] },
+      `<ui-card>Default card content</ui-card>`,
+      { imports: [CardComponent] },
     );
-    expect(container.querySelector("onyx-card")).toHaveClass("ui-card--outlined");
+    expect(await axe(container, axeOptions)).toHaveNoViolations();
   });
 
-  it.each(["elevated", "outlined"] as const)(
-    "has no axe violations (%s)",
-    async (variant) => {
-      const { container } = await render(
-        `<onyx-card [variant]="variant"><span uiCardHeader>Title</span>Content<span uiCardFooter>Actions</span></onyx-card>`,
-        { imports: [OnyxCardComponent], componentProperties: { variant } },
-      );
-      expect(await axe(container, axeOptions)).toHaveNoViolations();
-    },
-  );
+  it("has no axe violations (interactive state)", async () => {
+    const { container } = await render(
+      `<ui-card [interactive]="true">Interactive card</ui-card>`,
+      { imports: [CardComponent] },
+    );
+    expect(await axe(container, axeOptions)).toHaveNoViolations();
+  });
+
+  it("has no axe violations (disabled interactive state)", async () => {
+    const { container } = await render(
+      `<ui-card [interactive]="true" [disabled]="true">Disabled card</ui-card>`,
+      { imports: [CardComponent] },
+    );
+    expect(await axe(container, axeOptions)).toHaveNoViolations();
+  });
 });

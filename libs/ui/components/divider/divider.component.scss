@@ -1,33 +1,48 @@
-// Divider styles — semantic / component tokens only (CLAUDE.md §3).
+// Divider styles — ONLY semantic / component tokens (no raw values).
+// Orientation and decorative variants handled via host classes.
 
 :host {
-  display: block;
-  color: var(--ui-divider-label-color);
-}
-
-:host(.ui-divider--horizontal:not(.ui-divider--labelled)) {
-  border-top: var(--ui-divider-thickness) solid var(--ui-divider-color);
-}
-
-:host(.ui-divider--vertical:not(.ui-divider--labelled)) {
-  display: inline-block;
-  align-self: stretch;
-  min-height: 1em;
-  border-left: var(--ui-divider-thickness) solid var(--ui-divider-color);
-}
-
-:host(.ui-divider--labelled) {
   display: flex;
   align-items: center;
-  gap: var(--ui-divider-gap);
+  width: 100%;
+  gap: var(--ui-divider-spacing);
+  color: var(--ui-divider-color);
 }
 
-.ui-divider__line {
+:host::before,
+:host::after {
+  content: "";
   flex: 1;
   border-top: var(--ui-divider-thickness) solid var(--ui-divider-color);
 }
 
+// When there is no projected content the label span stays empty;
+// collapse it so the two lines meet flush without a gap.
+.ui-divider__label:empty {
+  display: none;
+}
+
+// Remove the pseudo-element lines when no label (empty label span is hidden,
+// but :host still has gap — simpler to keep both lines and rely on flex).
+
 .ui-divider__label {
-  font-size: var(--ui-divider-label-size);
+  flex-shrink: 0;
+  font-size: var(--ui-divider-label-font-size);
   color: var(--ui-divider-label-color);
+  white-space: nowrap;
+}
+
+// --- Vertical orientation -------------------------------------------------
+:host(.ui-divider--vertical) {
+  flex-direction: column;
+  width: auto;
+  height: 100%;
+}
+
+:host(.ui-divider--vertical)::before,
+:host(.ui-divider--vertical)::after {
+  border-top: none;
+  border-left: var(--ui-divider-thickness) solid var(--ui-divider-color);
+  flex: 1;
+  width: 0;
 }

@@ -1,82 +1,81 @@
-// Alert styles — references ONLY semantic / component tokens (CLAUDE.md §3).
-// Variants map to feedback-role tokens; light/dark via token re-mapping.
+// Alert styles — semantic tokens only; never raw colors/sizes (CLAUDE.md §3).
+// Light/dark/theme variants come from token re-mapping in the active theme.
 
 :host {
   display: block;
 }
 
-.ui-alert__el {
+.ui-alert__container {
   display: flex;
   align-items: flex-start;
-  gap: var(--ui-alert-gap);
+  gap: var(--ui-space-3);
   padding: var(--ui-alert-padding-y) var(--ui-alert-padding-x);
-  font-size: var(--ui-alert-font-size);
-  color: var(--ui-alert-text);
+  border: var(--ui-alert-border-width) solid transparent;
   border-radius: var(--ui-alert-radius);
-  border-left: var(--ui-alert-accent-width) solid transparent;
+  font-size: var(--ui-alert-font-size);
+}
+
+.ui-alert__icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  font-size: var(--ui-alert-icon-size);
+  line-height: 1;
 }
 
 .ui-alert__body {
   flex: 1;
+  min-width: 0;
 }
 
-.ui-alert__title {
-  margin: 0;
-  font-weight: var(--ui-alert-title-font-weight);
-}
-
-.ui-alert__content {
-  margin: 0;
-}
-
-.ui-alert__close {
+.ui-alert__dismiss {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
-  padding: 0;
-  font-size: var(--ui-alert-close-size);
-  line-height: 1;
-  color: inherit;
   background: transparent;
   border: none;
-  border-radius: var(--ui-alert-radius);
   cursor: pointer;
+  padding: 0;
+  font-size: var(--ui-alert-icon-size);
+  line-height: 1;
+  color: inherit;
+  opacity: 0.7;
+  transition: opacity 150ms ease;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-focus-ring);
+    border-radius: var(--ui-alert-radius);
+  }
 }
 
-.ui-alert__close:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-focus-ring);
-}
+// --- Variants ---------------------------------------------------------------
 
-// --- Variants -------------------------------------------------------------
-:host(.ui-alert--neutral) .ui-alert__el {
-  background-color: var(--ui-alert-neutral-bg);
-  border-left-color: var(--ui-alert-neutral-accent);
-}
-:host(.ui-alert--info) .ui-alert__el {
+:host(.ui-alert--info) .ui-alert__container {
   background-color: var(--ui-alert-info-bg);
-  border-left-color: var(--ui-alert-info-accent);
-}
-:host(.ui-alert--success) .ui-alert__el {
-  background-color: var(--ui-alert-success-bg);
-  border-left-color: var(--ui-alert-success-accent);
-}
-:host(.ui-alert--warning) .ui-alert__el {
-  background-color: var(--ui-alert-warning-bg);
-  border-left-color: var(--ui-alert-warning-accent);
-}
-:host(.ui-alert--danger) .ui-alert__el {
-  background-color: var(--ui-alert-danger-bg);
-  border-left-color: var(--ui-alert-danger-accent);
+  color: var(--ui-alert-info-text);
+  border-color: var(--ui-alert-info-border);
 }
 
-:host(.ui-alert--info) .ui-alert__title {
-  color: var(--ui-alert-info-accent);
+:host(.ui-alert--success) .ui-alert__container {
+  background-color: var(--ui-alert-success-bg);
+  color: var(--ui-alert-success-text);
+  border-color: var(--ui-alert-success-border);
 }
-:host(.ui-alert--success) .ui-alert__title {
-  color: var(--ui-alert-success-accent);
+
+:host(.ui-alert--warning) .ui-alert__container {
+  background-color: var(--ui-alert-warning-bg);
+  color: var(--ui-alert-warning-text);
+  border-color: var(--ui-alert-warning-border);
 }
-:host(.ui-alert--warning) .ui-alert__title {
-  color: var(--ui-alert-warning-accent);
-}
-:host(.ui-alert--danger) .ui-alert__title {
-  color: var(--ui-alert-danger-accent);
+
+:host(.ui-alert--danger) .ui-alert__container {
+  background-color: var(--ui-alert-danger-bg);
+  color: var(--ui-alert-danger-text);
+  border-color: var(--ui-alert-danger-border);
 }
