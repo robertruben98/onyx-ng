@@ -1,0 +1,25 @@
+@if (label()) {
+  <label class="ui-slider__label" [attr.for]="inputId">{{ label() }}</label>
+}
+<div class="ui-slider__frame">
+  <input
+    #control
+    class="ui-slider__el"
+    type="range"
+    [id]="inputId"
+    [attr.min]="lowerBound()"
+    [attr.max]="upperBound()"
+    [attr.step]="normalizedStep()"
+    [value]="value()"
+    [disabled]="disabledState()"
+    [attr.role]="'slider'"
+    [attr.aria-label]="!label() && ariaLabel() ? ariaLabel() : null"
+    [attr.aria-valuemin]="lowerBound()"
+    [attr.aria-valuemax]="upperBound()"
+    [attr.aria-valuenow]="value()"
+    (input)="handleInput($event)"
+    (keydown)="handleKeydown($event)"
+    (blur)="handleBlur()"
+  />
+  <output class="ui-slider__value" [attr.for]="inputId">{{ value() }}</output>
+</div>

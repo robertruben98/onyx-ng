@@ -15,6 +15,7 @@ export * from "./menu";
 export * from "./popover";
 export * from "./progress-bar";
 export * from "./radio-group";
+export * from "./slider";
 export * from "./select";
 export * from "./skeleton";
 export * from "./spinner";
