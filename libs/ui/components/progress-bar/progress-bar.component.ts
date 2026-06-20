@@ -23,6 +23,7 @@ import {
     "[attr.aria-valuemax]": "max()",
     "[attr.aria-valuenow]": "indeterminate() ? null : value()",
     "[attr.aria-label]": "label() || null",
+    "[attr.aria-busy]": "indeterminate() ? 'true' : null",
     "[class.ui-progress]": "true",
     "[class.ui-progress--indeterminate]": "indeterminate()",
   },

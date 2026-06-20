@@ -40,11 +40,44 @@ describe("OnyxProgressBarComponent", () => {
   });
 
   it("omits aria-valuenow when indeterminate", async () => {
-    await render(`<onyx-progress-bar [indeterminate]="true" label="Loading" />`, {
-      imports: [OnyxProgressBarComponent],
-    });
+    await render(
+      `<onyx-progress-bar [indeterminate]="true" label="Loading" />`,
+      {
+        imports: [OnyxProgressBarComponent],
+      },
+    );
     expect(screen.getByRole("progressbar")).not.toHaveAttribute(
       "aria-valuenow",
+    );
+  });
+
+  it("sets aria-busy=true when indeterminate", async () => {
+    await render(
+      `<onyx-progress-bar [indeterminate]="true" label="Loading" />`,
+      {
+        imports: [OnyxProgressBarComponent],
+      },
+    );
+    expect(screen.getByRole("progressbar")).toHaveAttribute(
+      "aria-busy",
+      "true",
+    );
+  });
+
+  it("does not set aria-busy when determinate", async () => {
+    await render(`<onyx-progress-bar [value]="50" label="Progress" />`, {
+      imports: [OnyxProgressBarComponent],
+    });
+    expect(screen.getByRole("progressbar")).not.toHaveAttribute("aria-busy");
+  });
+
+  it("sets aria-label from label input", async () => {
+    await render(`<onyx-progress-bar [value]="30" label="Loading files" />`, {
+      imports: [OnyxProgressBarComponent],
+    });
+    expect(screen.getByRole("progressbar")).toHaveAttribute(
+      "aria-label",
+      "Loading files",
     );
   });
 
