@@ -68,7 +68,9 @@ export class OnyxPopoverDirective {
       panelClass: "ui-popover__pane",
     });
     this.overlayRef = ref;
-    const instance = ref.attach(new ComponentPortal(OnyxPopoverComponent)).instance;
+    const instance = ref.attach(
+      new ComponentPortal(OnyxPopoverComponent),
+    ).instance;
     instance.content.set(this.content());
     instance.label.set(this.label());
 
@@ -88,5 +90,6 @@ export class OnyxPopoverDirective {
     this.overlayRef.dispose();
     this.overlayRef = undefined;
     this.open.set(false);
+    this.elementRef.nativeElement.focus();
   }
 }

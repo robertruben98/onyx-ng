@@ -81,6 +81,24 @@ describe("OnyxPopoverDirective", () => {
     );
   });
 
+  it("restores focus to the trigger after close()", async () => {
+    const user = userEvent.setup();
+    await renderPopover();
+    const trigger = screen.getByRole("button", { name: "Open" });
+    await user.click(trigger);
+    await screen.findByRole("dialog");
+    // Move focus into the popover
+    const actionBtn = screen.getByRole("button", { name: "Action" });
+    actionBtn.focus();
+    expect(document.activeElement).toBe(actionBtn);
+    // Close via Escape
+    await user.keyboard("{Escape}");
+    await waitFor(() =>
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument(),
+    );
+    expect(document.activeElement).toBe(trigger);
+  });
+
   it("has no axe violations while open", async () => {
     const user = userEvent.setup();
     await renderPopover();
