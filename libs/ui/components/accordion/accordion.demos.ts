@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
-import { AccordionComponent } from "./accordion.component";
-import { AccordionItemComponent } from "./accordion-item.component";
+import { OnyxAccordionComponent } from "./accordion.component";
+import { OnyxAccordionItemComponent } from "./accordion-item.component";
 
 const basicCode = `<onyx-accordion>
   <onyx-accordion-item heading="Shipping">Free over $50, 2–4 business days.</onyx-accordion-item>
@@ -10,7 +10,7 @@ const basicCode = `<onyx-accordion>
 </onyx-accordion>`;
 @Component({
   standalone: true,
-  imports: [AccordionComponent, AccordionItemComponent],
+  imports: [OnyxAccordionComponent, OnyxAccordionItemComponent],
   template: basicCode,
 })
 class AccordionBasicDemoComponent {}
@@ -21,7 +21,7 @@ const multiCode = `<onyx-accordion [multi]="true">
 </onyx-accordion>`;
 @Component({
   standalone: true,
-  imports: [AccordionComponent, AccordionItemComponent],
+  imports: [OnyxAccordionComponent, OnyxAccordionItemComponent],
   template: multiCode,
 })
 class AccordionMultiDemoComponent {}

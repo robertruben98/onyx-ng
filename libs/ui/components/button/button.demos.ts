@@ -1,13 +1,13 @@
 import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
-import { ButtonComponent } from "./button.component";
+import { OnyxButtonComponent } from "./button.component";
 
 const variantsCode = `<onyx-button variant="primary">Primary</onyx-button>
 <onyx-button variant="secondary">Secondary</onyx-button>
 <onyx-button variant="text">Text</onyx-button>`;
 @Component({
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [OnyxButtonComponent],
   template: variantsCode,
 })
 class ButtonVariantsDemoComponent {}
@@ -17,7 +17,7 @@ const sizesCode = `<onyx-button size="sm">Small</onyx-button>
 <onyx-button size="lg">Large</onyx-button>`;
 @Component({
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [OnyxButtonComponent],
   template: sizesCode,
 })
 class ButtonSizesDemoComponent {}
@@ -28,7 +28,7 @@ const statesCode = `<onyx-button [disabled]="true">Disabled</onyx-button>
 <onyx-button variant="secondary" [loading]="true">Loading</onyx-button>`;
 @Component({
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [OnyxButtonComponent],
   template: statesCode,
 })
 class ButtonStatesDemoComponent {}

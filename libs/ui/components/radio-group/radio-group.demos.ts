@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
-import { RadioGroupComponent, RadioOption } from "./radio-group.component";
+import { OnyxRadioGroupComponent, RadioOption } from "./radio-group.component";
 
 const sizeOptions: RadioOption[] = [
   { label: "Small", value: "sm" },
@@ -10,7 +10,7 @@ const sizeOptions: RadioOption[] = [
 const basicCode = `<onyx-radio-group label="Size" [options]="options" />`;
 @Component({
   standalone: true,
-  imports: [RadioGroupComponent],
+  imports: [OnyxRadioGroupComponent],
   template: basicCode,
 })
 class RadioBasicDemoComponent {

@@ -31,7 +31,7 @@ let nextId = 0;
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputComponent),
+      useExisting: forwardRef(() => OnyxInputComponent),
       multi: true,
     },
   ],
@@ -43,7 +43,7 @@ let nextId = 0;
     "[class.ui-input--disabled]": "disabledState()",
   },
 })
-export class InputComponent implements ControlValueAccessor {
+export class OnyxInputComponent implements ControlValueAccessor {
   /** Native input type. */
   readonly type = input<InputType>("text");
   /** Control size. */

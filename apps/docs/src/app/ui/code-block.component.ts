@@ -5,13 +5,13 @@ import {
   input,
   signal,
 } from "@angular/core";
-import { ButtonComponent } from "@onyx/ui/components";
+import { OnyxButtonComponent } from "@onyx/ui/components";
 import { highlight } from "./highlight";
 
 @Component({
   selector: "docs-code-block",
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [OnyxButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="docs-code">

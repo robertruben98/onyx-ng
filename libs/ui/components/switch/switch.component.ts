@@ -21,7 +21,7 @@ let nextId = 0;
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SwitchComponent),
+      useExisting: forwardRef(() => OnyxSwitchComponent),
       multi: true,
     },
   ],
@@ -31,7 +31,7 @@ let nextId = 0;
     "[class.ui-switch--disabled]": "disabledState()",
   },
 })
-export class SwitchComponent implements ControlValueAccessor {
+export class OnyxSwitchComponent implements ControlValueAccessor {
   /** Visible label — when set, wraps the control in a <label>. */
   readonly label = input("");
   /** Accessible name when no visible label is provided. */

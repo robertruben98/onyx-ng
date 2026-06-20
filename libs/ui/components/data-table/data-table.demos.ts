@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
-import { DataTableComponent, DataTableColumn } from "./data-table.component";
+import { OnyxDataTableComponent, DataTableColumn } from "./data-table.component";
 
 interface Person {
   id: number;
@@ -31,7 +31,7 @@ const basicCode = `<onyx-data-table
 ]`;
 @Component({
   standalone: true,
-  imports: [DataTableComponent],
+  imports: [OnyxDataTableComponent],
   template: `<onyx-data-table
     caption="Team members"
     [rowKey]="'id'"
@@ -52,7 +52,7 @@ class DataTableBasicDemoComponent {
 const emptyCode = `<onyx-data-table caption="Team" [columns]="columns" [rows]="[]" emptyText="No members yet" />`;
 @Component({
   standalone: true,
-  imports: [DataTableComponent],
+  imports: [OnyxDataTableComponent],
   template: `<onyx-data-table
     caption="Team"
     [columns]="columns"
@@ -70,7 +70,7 @@ class DataTableEmptyDemoComponent {
 const loadingCode = `<onyx-data-table caption="Team" [columns]="columns" [rows]="[]" [loading]="true" />`;
 @Component({
   standalone: true,
-  imports: [DataTableComponent],
+  imports: [OnyxDataTableComponent],
   template: `<onyx-data-table
     caption="Team"
     [columns]="columns"
@@ -95,7 +95,7 @@ const paginatedCode = `<onyx-data-table
 />`;
 @Component({
   standalone: true,
-  imports: [DataTableComponent],
+  imports: [OnyxDataTableComponent],
   template: `<onyx-data-table
     caption="Catalogue"
     [rowKey]="'id'"
@@ -129,7 +129,7 @@ const selectionCode = `<onyx-data-table
 />`;
 @Component({
   standalone: true,
-  imports: [DataTableComponent],
+  imports: [OnyxDataTableComponent],
   template: `<onyx-data-table
     caption="Team members"
     [rowKey]="'id'"
@@ -160,7 +160,7 @@ const virtualCode = `<onyx-data-table
 />`;
 @Component({
   standalone: true,
-  imports: [DataTableComponent],
+  imports: [OnyxDataTableComponent],
   template: `<onyx-data-table
     caption="10 000 rows"
     [rowKey]="'id'"

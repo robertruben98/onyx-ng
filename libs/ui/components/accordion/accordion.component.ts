@@ -6,7 +6,7 @@ import {
   input,
 } from "@angular/core";
 import { ACCORDION_HOST, AccordionHost } from "./accordion-host";
-import { AccordionItemComponent } from "./accordion-item.component";
+import { OnyxAccordionItemComponent } from "./accordion-item.component";
 
 /**
  * Vertical stack of collapsible sections. Single-open by default; set `multi`
@@ -19,15 +19,15 @@ import { AccordionItemComponent } from "./accordion-item.component";
   styleUrl: "./accordion.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { "[class.ui-accordion]": "true" },
-  providers: [{ provide: ACCORDION_HOST, useExisting: AccordionComponent }],
+  providers: [{ provide: ACCORDION_HOST, useExisting: OnyxAccordionComponent }],
 })
-export class AccordionComponent implements AccordionHost {
+export class OnyxAccordionComponent implements AccordionHost {
   /** Allow multiple items to be expanded simultaneously. */
   readonly multi = input(false, { transform: booleanAttribute });
 
-  private readonly items = contentChildren(AccordionItemComponent);
+  private readonly items = contentChildren(OnyxAccordionItemComponent);
 
-  toggleItem(item: AccordionItemComponent): void {
+  toggleItem(item: OnyxAccordionItemComponent): void {
     const willExpand = !item.expanded();
     if (!this.multi() && willExpand) {
       this.items().forEach((i) => {

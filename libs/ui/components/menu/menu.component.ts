@@ -39,7 +39,7 @@ let nextMenuId = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { "[class.ui-menu]": "true" },
 })
-export class MenuComponent {
+export class OnyxMenuComponent {
   private readonly overlay = inject(UiOverlay);
   private readonly viewContainerRef = inject(ViewContainerRef);
 

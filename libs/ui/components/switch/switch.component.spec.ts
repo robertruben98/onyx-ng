@@ -3,14 +3,14 @@ import { FormsModule } from "@angular/forms";
 import { render, screen, waitFor } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
-import { SwitchComponent } from "./switch.component";
+import { OnyxSwitchComponent } from "./switch.component";
 
 const axeOptions = { rules: { region: { enabled: false } } };
 
-describe("SwitchComponent", () => {
+describe("OnyxSwitchComponent", () => {
   it("exposes a switch with an accessible name from the label", async () => {
     await render(`<onyx-switch label="Notifications" />`, {
-      imports: [SwitchComponent],
+      imports: [OnyxSwitchComponent],
     });
     expect(
       screen.getByRole("switch", { name: /notifications/i }),
@@ -19,7 +19,7 @@ describe("SwitchComponent", () => {
 
   it("falls back to ariaLabel when no visible label is given", async () => {
     await render(`<onyx-switch ariaLabel="Dark mode" />`, {
-      imports: [SwitchComponent],
+      imports: [OnyxSwitchComponent],
     });
     expect(
       screen.getByRole("switch", { name: /dark mode/i }),
@@ -31,7 +31,7 @@ describe("SwitchComponent", () => {
     const checkedChange = jest.fn();
     await render(
       `<onyx-switch label="A" (checkedChange)="checkedChange($event)" />`,
-      { imports: [SwitchComponent], componentProperties: { checkedChange } },
+      { imports: [OnyxSwitchComponent], componentProperties: { checkedChange } },
     );
     await user.click(screen.getByRole("switch"));
     expect(checkedChange).toHaveBeenLastCalledWith(true);
@@ -42,7 +42,7 @@ describe("SwitchComponent", () => {
     const checkedChange = jest.fn();
     await render(
       `<onyx-switch label="A" (checkedChange)="checkedChange($event)" />`,
-      { imports: [SwitchComponent], componentProperties: { checkedChange } },
+      { imports: [OnyxSwitchComponent], componentProperties: { checkedChange } },
     );
     await user.tab();
     expect(screen.getByRole("switch")).toHaveFocus();
@@ -55,7 +55,7 @@ describe("SwitchComponent", () => {
     const checkedChange = jest.fn();
     await render(
       `<onyx-switch label="A" [disabled]="true" (checkedChange)="checkedChange($event)" />`,
-      { imports: [SwitchComponent], componentProperties: { checkedChange } },
+      { imports: [OnyxSwitchComponent], componentProperties: { checkedChange } },
     );
     const sw = screen.getByRole("switch");
     expect(sw).toBeDisabled();
@@ -66,7 +66,7 @@ describe("SwitchComponent", () => {
   describe("ControlValueAccessor (ngModel)", () => {
     @Component({
       standalone: true,
-      imports: [SwitchComponent, FormsModule],
+      imports: [OnyxSwitchComponent, FormsModule],
       template: `<onyx-switch
         label="A"
         [ngModel]="model()"
@@ -92,7 +92,7 @@ describe("SwitchComponent", () => {
 
   it("has no axe violations (default)", async () => {
     const { container } = await render(`<onyx-switch label="A" />`, {
-      imports: [SwitchComponent],
+      imports: [OnyxSwitchComponent],
     });
     expect(await axe(container, axeOptions)).toHaveNoViolations();
   });
@@ -100,7 +100,7 @@ describe("SwitchComponent", () => {
   it("has no axe violations (disabled)", async () => {
     const { container } = await render(
       `<onyx-switch label="A" [disabled]="true" />`,
-      { imports: [SwitchComponent] },
+      { imports: [OnyxSwitchComponent] },
     );
     expect(await axe(container, axeOptions)).toHaveNoViolations();
   });

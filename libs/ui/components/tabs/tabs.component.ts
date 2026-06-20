@@ -8,7 +8,7 @@ import {
   model,
   viewChildren,
 } from "@angular/core";
-import { TabComponent } from "./tab.component";
+import { OnyxTabComponent } from "./tab.component";
 
 /**
  * Tabbed interface. Renders a `role=tablist` of triggers from the projected
@@ -23,13 +23,13 @@ import { TabComponent } from "./tab.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { "[class.ui-tabs]": "true" },
 })
-export class TabsComponent {
+export class OnyxTabsComponent {
   /** Accessible label for the tab list. */
   readonly ariaLabel = input("");
   /** Selected tab index. Two-way bindable. */
   readonly selectedIndex = model(0);
 
-  protected readonly tabs = contentChildren(TabComponent);
+  protected readonly tabs = contentChildren(OnyxTabComponent);
   private readonly triggers =
     viewChildren<ElementRef<HTMLButtonElement>>("trigger");
 

@@ -21,7 +21,7 @@ export type DividerOrientation = "horizontal" | "vertical";
     "[class.ui-divider--labelled]": "!!label()",
   },
 })
-export class DividerComponent {
+export class OnyxDividerComponent {
   /** Layout orientation. */
   readonly orientation = input<DividerOrientation>("horizontal");
   /** Optional centered label (horizontal only). */

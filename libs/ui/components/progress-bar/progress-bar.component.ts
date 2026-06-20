@@ -27,7 +27,7 @@ import {
     "[class.ui-progress--indeterminate]": "indeterminate()",
   },
 })
-export class ProgressBarComponent {
+export class OnyxProgressBarComponent {
   /** Current value. */
   readonly value = input(0, { transform: numberAttribute });
   /** Maximum value. */

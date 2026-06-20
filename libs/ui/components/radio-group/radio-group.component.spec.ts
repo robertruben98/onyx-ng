@@ -3,7 +3,7 @@ import { FormsModule } from "@angular/forms";
 import { render, screen, waitFor } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
-import { RadioGroupComponent, RadioOption } from "./radio-group.component";
+import { OnyxRadioGroupComponent, RadioOption } from "./radio-group.component";
 
 const axeOptions = { rules: { region: { enabled: false } } };
 const OPTIONS: RadioOption[] = [
@@ -12,10 +12,10 @@ const OPTIONS: RadioOption[] = [
   { label: "Large", value: "lg" },
 ];
 
-describe("RadioGroupComponent", () => {
+describe("OnyxRadioGroupComponent", () => {
   it("renders a named radiogroup with one radio per option", async () => {
     await render(`<onyx-radio-group label="Size" [options]="options" />`, {
-      imports: [RadioGroupComponent],
+      imports: [OnyxRadioGroupComponent],
       componentProperties: { options: OPTIONS },
     });
     expect(
@@ -30,7 +30,7 @@ describe("RadioGroupComponent", () => {
     await render(
       `<onyx-radio-group label="Size" [options]="options" (valueChange)="valueChange($event)" />`,
       {
-        imports: [RadioGroupComponent],
+        imports: [OnyxRadioGroupComponent],
         componentProperties: { options: OPTIONS, valueChange },
       },
     );
@@ -44,7 +44,7 @@ describe("RadioGroupComponent", () => {
     await render(
       `<onyx-radio-group label="Size" [options]="options" (valueChange)="valueChange($event)" />`,
       {
-        imports: [RadioGroupComponent],
+        imports: [OnyxRadioGroupComponent],
         componentProperties: { options: OPTIONS, valueChange },
       },
     );
@@ -57,7 +57,7 @@ describe("RadioGroupComponent", () => {
 
   it("disables an individual option", async () => {
     await render(`<onyx-radio-group label="Size" [options]="options" />`, {
-      imports: [RadioGroupComponent],
+      imports: [OnyxRadioGroupComponent],
       componentProperties: {
         options: [
           ...OPTIONS,
@@ -72,7 +72,7 @@ describe("RadioGroupComponent", () => {
     await render(
       `<onyx-radio-group label="Size" [options]="options" [disabled]="true" />`,
       {
-        imports: [RadioGroupComponent],
+        imports: [OnyxRadioGroupComponent],
         componentProperties: { options: OPTIONS },
       },
     );
@@ -82,7 +82,7 @@ describe("RadioGroupComponent", () => {
   describe("ControlValueAccessor (ngModel)", () => {
     @Component({
       standalone: true,
-      imports: [RadioGroupComponent, FormsModule],
+      imports: [OnyxRadioGroupComponent, FormsModule],
       template: `<onyx-radio-group
         label="Size"
         [options]="options"
@@ -114,7 +114,7 @@ describe("RadioGroupComponent", () => {
     const { container } = await render(
       `<onyx-radio-group label="Size" [options]="options" />`,
       {
-        imports: [RadioGroupComponent],
+        imports: [OnyxRadioGroupComponent],
         componentProperties: { options: OPTIONS },
       },
     );

@@ -18,7 +18,7 @@ export type CardVariant = "elevated" | "outlined";
     "[class.ui-card--outlined]": "variant() === 'outlined'",
   },
 })
-export class CardComponent {
+export class OnyxCardComponent {
   /** Visual variant. */
   readonly variant = input<CardVariant>("elevated");
 }

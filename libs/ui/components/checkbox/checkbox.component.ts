@@ -26,7 +26,7 @@ let nextId = 0;
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CheckboxComponent),
+      useExisting: forwardRef(() => OnyxCheckboxComponent),
       multi: true,
     },
   ],
@@ -38,7 +38,7 @@ let nextId = 0;
     "[class.ui-checkbox--disabled]": "disabledState()",
   },
 })
-export class CheckboxComponent implements ControlValueAccessor {
+export class OnyxCheckboxComponent implements ControlValueAccessor {
   /** Control size. */
   readonly size = input<CheckboxSize>("md");
   /** Visible label — when set, wraps the control in a <label>. */

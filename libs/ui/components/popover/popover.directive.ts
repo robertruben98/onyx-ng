@@ -10,7 +10,7 @@ import {
 import { ComponentPortal } from "@angular/cdk/portal";
 import type { OverlayRef } from "@angular/cdk/overlay";
 import { UiOverlay, UiOverlayPlacement } from "@onyx/ui/primitives";
-import { PopoverComponent } from "./popover.component";
+import { OnyxPopoverComponent } from "./popover.component";
 
 /**
  * Toggles a popover anchored to its host on click. Dismisses on outside click
@@ -27,7 +27,7 @@ import { PopoverComponent } from "./popover.component";
     "[attr.aria-expanded]": "open()",
   },
 })
-export class PopoverDirective {
+export class OnyxPopoverDirective {
   private readonly overlay = inject(UiOverlay);
   private readonly elementRef = inject(ElementRef<HTMLElement>);
 
@@ -68,7 +68,7 @@ export class PopoverDirective {
       panelClass: "ui-popover__pane",
     });
     this.overlayRef = ref;
-    const instance = ref.attach(new ComponentPortal(PopoverComponent)).instance;
+    const instance = ref.attach(new ComponentPortal(OnyxPopoverComponent)).instance;
     instance.content.set(this.content());
     instance.label.set(this.label());
 

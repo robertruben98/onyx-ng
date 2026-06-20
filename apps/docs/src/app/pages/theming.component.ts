@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import {
-  ButtonComponent,
-  BadgeComponent,
-  TagComponent,
+  OnyxButtonComponent,
+  OnyxBadgeComponent,
+  OnyxTagComponent,
 } from "@onyx/ui/components";
 import { CodeBlockComponent } from "../ui/code-block.component";
 
@@ -16,7 +16,7 @@ interface TokenRow {
 @Component({
   selector: "docs-theming",
   standalone: true,
-  imports: [ButtonComponent, BadgeComponent, TagComponent, CodeBlockComponent],
+  imports: [OnyxButtonComponent, OnyxBadgeComponent, OnyxTagComponent, CodeBlockComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <article class="guide">

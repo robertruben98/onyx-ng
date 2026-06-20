@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
-import { TabsComponent } from "./tabs.component";
-import { TabComponent } from "./tab.component";
+import { OnyxTabsComponent } from "./tabs.component";
+import { OnyxTabComponent } from "./tab.component";
 
 const basicCode = `<onyx-tabs ariaLabel="Account">
   <onyx-tab label="Profile">Your public profile details.</onyx-tab>
@@ -10,7 +10,7 @@ const basicCode = `<onyx-tabs ariaLabel="Account">
 </onyx-tabs>`;
 @Component({
   standalone: true,
-  imports: [TabsComponent, TabComponent],
+  imports: [OnyxTabsComponent, OnyxTabComponent],
   template: basicCode,
 })
 class TabsBasicDemoComponent {}

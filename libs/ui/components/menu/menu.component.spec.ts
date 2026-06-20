@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
-import { MenuComponent, MenuItem } from "./menu.component";
+import { OnyxMenuComponent, MenuItem } from "./menu.component";
 
 const axeOptions = { rules: { region: { enabled: false } } };
 
@@ -15,13 +15,13 @@ function renderMenu(onSelect = jest.fn()) {
   return render(
     `<onyx-menu [items]="items" (itemSelect)="onSelect($event)">Actions</onyx-menu>`,
     {
-      imports: [MenuComponent],
+      imports: [OnyxMenuComponent],
       componentProperties: { items: ITEMS, onSelect },
     },
   );
 }
 
-describe("MenuComponent", () => {
+describe("OnyxMenuComponent", () => {
   it("renders a collapsed trigger with aria-haspopup=menu", async () => {
     await renderMenu();
     const trigger = screen.getByRole("button", { name: "Actions" });

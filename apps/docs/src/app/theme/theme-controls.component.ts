@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
-import { ButtonComponent } from "@onyx/ui/components";
+import { OnyxButtonComponent } from "@onyx/ui/components";
 import { Preset, ThemeService } from "./theme.service";
 
 @Component({
   selector: "docs-theme-controls",
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [OnyxButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <onyx-button

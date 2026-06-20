@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
 
 /**
- * Floating tooltip surface attached to an overlay by `TooltipDirective`.
+ * Floating tooltip surface attached to an overlay by `OnyxTooltipDirective`.
  * Exposes `role=tooltip` and the id the trigger references via
  * `aria-describedby`.
  */
@@ -17,7 +17,7 @@ import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
     "[class.ui-tooltip]": "true",
   },
 })
-export class TooltipComponent {
+export class OnyxTooltipComponent {
   /** Tooltip text. */
   readonly text = signal("");
   /** Element id referenced by the trigger's aria-describedby. */

@@ -31,7 +31,7 @@ export type AlertVariant =
     "[hidden]": "hidden()",
   },
 })
-export class AlertComponent {
+export class OnyxAlertComponent {
   /** Visual variant (semantic role). */
   readonly variant = input<AlertVariant>("info");
   /** Optional bold title rendered above the content. */

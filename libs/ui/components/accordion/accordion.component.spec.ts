@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
-import { AccordionComponent } from "./accordion.component";
-import { AccordionItemComponent } from "./accordion-item.component";
+import { OnyxAccordionComponent } from "./accordion.component";
+import { OnyxAccordionItemComponent } from "./accordion-item.component";
 
 function renderAccordion(multi = false) {
   return render(
@@ -12,13 +12,13 @@ function renderAccordion(multi = false) {
       <onyx-accordion-item heading="Three" [disabled]="true">Third body</onyx-accordion-item>
     </onyx-accordion>`,
     {
-      imports: [AccordionComponent, AccordionItemComponent],
+      imports: [OnyxAccordionComponent, OnyxAccordionItemComponent],
       componentProperties: { multi },
     },
   );
 }
 
-describe("AccordionComponent", () => {
+describe("OnyxAccordionComponent", () => {
   it("starts collapsed with aria-expanded=false", async () => {
     await renderAccordion();
     for (const name of ["One", "Two", "Three"]) {

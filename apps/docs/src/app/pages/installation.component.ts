@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { ButtonComponent } from "@onyx/ui/components";
+import { OnyxButtonComponent } from "@onyx/ui/components";
 import { CodeBlockComponent } from "../ui/code-block.component";
 
 @Component({
   selector: "docs-installation",
   standalone: true,
-  imports: [RouterLink, ButtonComponent, CodeBlockComponent],
+  imports: [RouterLink, OnyxButtonComponent, CodeBlockComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <article class="guide">
@@ -133,12 +133,12 @@ export class InstallationComponent {
 ]`;
 
   protected readonly usage = `import { Component } from '@angular/core';
-import { ButtonComponent, InputComponent } from '@onyx/ui/components';
+import { OnyxButtonComponent, OnyxInputComponent } from '@onyx/ui/components';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ButtonComponent, InputComponent],
+  imports: [OnyxButtonComponent, OnyxInputComponent],
   template: \`
     <onyx-input placeholder="Email" />
     <onyx-button (clicked)="submit()">Sign in</onyx-button>

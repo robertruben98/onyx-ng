@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/angular";
 import { axe } from "jest-axe";
-import { BadgeComponent } from "./badge.component";
+import { OnyxBadgeComponent } from "./badge.component";
 
 const axeOptions = { rules: { region: { enabled: false } } };
 
-describe("BadgeComponent", () => {
+describe("OnyxBadgeComponent", () => {
   it("projects its content", async () => {
-    await render(`<onyx-badge>New</onyx-badge>`, { imports: [BadgeComponent] });
+    await render(`<onyx-badge>New</onyx-badge>`, { imports: [OnyxBadgeComponent] });
     expect(screen.getByText("New")).toBeInTheDocument();
   });
 
@@ -14,7 +14,7 @@ describe("BadgeComponent", () => {
     const { container } = await render(
       `<onyx-badge variant="success">OK</onyx-badge>`,
       {
-        imports: [BadgeComponent],
+        imports: [OnyxBadgeComponent],
       },
     );
     expect(container.querySelector("onyx-badge")).toHaveClass(
@@ -24,7 +24,7 @@ describe("BadgeComponent", () => {
 
   it("defaults to the neutral variant", async () => {
     const { container } = await render(`<onyx-badge>Default</onyx-badge>`, {
-      imports: [BadgeComponent],
+      imports: [OnyxBadgeComponent],
     });
     expect(container.querySelector("onyx-badge")).toHaveClass(
       "ui-badge--neutral",
@@ -36,7 +36,7 @@ describe("BadgeComponent", () => {
     async (variant) => {
       const { container } = await render(
         `<onyx-badge [variant]="variant">Label</onyx-badge>`,
-        { imports: [BadgeComponent], componentProperties: { variant } },
+        { imports: [OnyxBadgeComponent], componentProperties: { variant } },
       );
       expect(await axe(container, axeOptions)).toHaveNoViolations();
     },

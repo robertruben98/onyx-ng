@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
-import { AlertComponent } from "./alert.component";
+import { OnyxAlertComponent } from "./alert.component";
 
 const variantsCode = `<onyx-alert variant="info" title="Info">An informational message.</onyx-alert>
 <onyx-alert variant="success" title="Success">It worked.</onyx-alert>
@@ -8,7 +8,7 @@ const variantsCode = `<onyx-alert variant="info" title="Info">An informational m
 <onyx-alert variant="danger" title="Error">Something broke.</onyx-alert>`;
 @Component({
   standalone: true,
-  imports: [AlertComponent],
+  imports: [OnyxAlertComponent],
   template: variantsCode,
 })
 class AlertVariantsDemoComponent {}
@@ -16,7 +16,7 @@ class AlertVariantsDemoComponent {}
 const dismissCode = `<onyx-alert variant="info" [dismissible]="true">Dismiss me.</onyx-alert>`;
 @Component({
   standalone: true,
-  imports: [AlertComponent],
+  imports: [OnyxAlertComponent],
   template: dismissCode,
 })
 class AlertDismissDemoComponent {}

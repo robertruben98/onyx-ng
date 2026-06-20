@@ -1,13 +1,13 @@
 import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
-import { MenuComponent, MenuItem } from "./menu.component";
+import { OnyxMenuComponent, MenuItem } from "./menu.component";
 
 const basicCode = `<onyx-menu [items]="items" (itemSelect)="onSelect($event)">
   Actions
 </onyx-menu>`;
 @Component({
   standalone: true,
-  imports: [MenuComponent],
+  imports: [OnyxMenuComponent],
   template: basicCode,
 })
 class MenuBasicDemoComponent {

@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
-import { TabsComponent } from "./tabs.component";
-import { TabComponent } from "./tab.component";
+import { OnyxTabsComponent } from "./tabs.component";
+import { OnyxTabComponent } from "./tab.component";
 
 const tpl = `
   <onyx-tabs ariaLabel="Sections" [(selectedIndex)]="index">
@@ -13,12 +13,12 @@ const tpl = `
 
 function renderTabs(index = 0) {
   return render(tpl, {
-    imports: [TabsComponent, TabComponent],
+    imports: [OnyxTabsComponent, OnyxTabComponent],
     componentProperties: { index },
   });
 }
 
-describe("TabsComponent", () => {
+describe("OnyxTabsComponent", () => {
   it("renders a tablist with one tab per child", async () => {
     await renderTabs();
     expect(

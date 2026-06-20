@@ -41,12 +41,12 @@ let nextSelectId = 0;
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SelectComponent),
+      useExisting: forwardRef(() => OnyxSelectComponent),
       multi: true,
     },
   ],
 })
-export class SelectComponent implements ControlValueAccessor {
+export class OnyxSelectComponent implements ControlValueAccessor {
   private readonly overlay = inject(UiOverlay);
   private readonly viewContainerRef = inject(ViewContainerRef);
 

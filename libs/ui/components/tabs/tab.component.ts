@@ -27,7 +27,7 @@ let nextTabId = 0;
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TabComponent {
+export class OnyxTabComponent {
   /** Trigger label shown in the tab list. */
   readonly label = input.required<string>();
   /** Whether this tab is disabled. */

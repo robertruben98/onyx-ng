@@ -25,7 +25,7 @@ let nextItemId = 0;
     "[class.ui-accordion-item--expanded]": "expanded()",
   },
 })
-export class AccordionItemComponent {
+export class OnyxAccordionItemComponent {
   private readonly host = inject(ACCORDION_HOST, { optional: true });
 
   /** Header text. */

@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
-import { CardComponent } from "./card.component";
+import { OnyxCardComponent } from "./card.component";
 
 const basicCode = `<onyx-card>
   <strong uiCardHeader>Project Atlas</strong>
@@ -9,7 +9,7 @@ const basicCode = `<onyx-card>
 </onyx-card>`;
 @Component({
   standalone: true,
-  imports: [CardComponent],
+  imports: [OnyxCardComponent],
   template: basicCode,
 })
 class CardBasicDemoComponent {}
@@ -18,7 +18,7 @@ const variantsCode = `<onyx-card variant="elevated">Elevated surface</onyx-card>
 <onyx-card variant="outlined">Outlined surface</onyx-card>`;
 @Component({
   standalone: true,
-  imports: [CardComponent],
+  imports: [OnyxCardComponent],
   template: variantsCode,
 })
 class CardVariantsDemoComponent {}

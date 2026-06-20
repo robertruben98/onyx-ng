@@ -28,7 +28,7 @@ export type ButtonType = 'button' | 'submit' | 'reset';
     '[class.ui-button--disabled]': 'disabled()'
   }
 })
-export class ButtonComponent {
+export class OnyxButtonComponent {
   /** Visual variant. */
   readonly variant = input<ButtonVariant>('primary');
   /** Control size. */

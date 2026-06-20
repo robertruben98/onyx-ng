@@ -1,13 +1,13 @@
 import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
-import { AvatarComponent } from "./avatar.component";
+import { OnyxAvatarComponent } from "./avatar.component";
 
 const initialsCode = `<onyx-avatar name="Ada Lovelace" />
 <onyx-avatar name="Grace Hopper" />
 <onyx-avatar name="Alan Turing" shape="square" />`;
 @Component({
   standalone: true,
-  imports: [AvatarComponent],
+  imports: [OnyxAvatarComponent],
   template: initialsCode,
 })
 class AvatarInitialsDemoComponent {}
@@ -17,7 +17,7 @@ const sizesCode = `<onyx-avatar size="sm" name="Ada Lovelace" />
 <onyx-avatar size="lg" name="Ada Lovelace" />`;
 @Component({
   standalone: true,
-  imports: [AvatarComponent],
+  imports: [OnyxAvatarComponent],
   template: sizesCode,
 })
 class AvatarSizesDemoComponent {}

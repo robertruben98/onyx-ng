@@ -35,7 +35,7 @@ let nextId = 0;
   styleUrl: "./dialog.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogComponent {
+export class OnyxDialogComponent {
   private readonly overlay = inject(UiOverlay);
   private readonly viewContainerRef = inject(ViewContainerRef);
 

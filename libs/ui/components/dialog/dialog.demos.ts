@@ -1,7 +1,7 @@
 import { Component, signal } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
-import { ButtonComponent } from "../button";
-import { DialogComponent } from "./dialog.component";
+import { OnyxButtonComponent } from "../button";
+import { OnyxDialogComponent } from "./dialog.component";
 
 const basicCode = `<onyx-button (clicked)="open.set(true)">Open dialog</onyx-button>
 <onyx-dialog [(open)]="open" heading="Confirm action">
@@ -13,7 +13,7 @@ const basicCode = `<onyx-button (clicked)="open.set(true)">Open dialog</onyx-but
 </onyx-dialog>`;
 @Component({
   standalone: true,
-  imports: [DialogComponent, ButtonComponent],
+  imports: [OnyxDialogComponent, OnyxButtonComponent],
   template: basicCode,
 })
 class DialogBasicDemoComponent {
@@ -26,7 +26,7 @@ const sizesCode = `<onyx-button variant="secondary" (clicked)="open.set(true)">O
 </onyx-dialog>`;
 @Component({
   standalone: true,
-  imports: [DialogComponent, ButtonComponent],
+  imports: [OnyxDialogComponent, OnyxButtonComponent],
   template: sizesCode,
 })
 class DialogSizesDemoComponent {

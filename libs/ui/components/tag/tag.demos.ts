@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
-import { TagComponent } from "./tag.component";
+import { OnyxTagComponent } from "./tag.component";
 
 const variantsCode = `<onyx-tag variant="neutral">Neutral</onyx-tag>
 <onyx-tag variant="info">Info</onyx-tag>
@@ -9,7 +9,7 @@ const variantsCode = `<onyx-tag variant="neutral">Neutral</onyx-tag>
 <onyx-tag variant="danger">Danger</onyx-tag>`;
 @Component({
   standalone: true,
-  imports: [TagComponent],
+  imports: [OnyxTagComponent],
   template: variantsCode,
 })
 class TagVariantsDemoComponent {}
@@ -18,7 +18,7 @@ const removableCode = `<onyx-tag variant="info" [removable]="true">Angular</onyx
 <onyx-tag variant="success" [removable]="true">Signals</onyx-tag>`;
 @Component({
   standalone: true,
-  imports: [TagComponent],
+  imports: [OnyxTagComponent],
   template: removableCode,
 })
 class TagRemovableDemoComponent {}

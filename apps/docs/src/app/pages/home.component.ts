@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { ButtonComponent } from "@onyx/ui/components";
+import { OnyxButtonComponent } from "@onyx/ui/components";
 import { COMPONENT_DOCS } from "../registry";
 import { CodeBlockComponent } from "../ui/code-block.component";
 
@@ -13,7 +13,7 @@ interface Feature {
 @Component({
   selector: "docs-home",
   standalone: true,
-  imports: [RouterLink, ButtonComponent, CodeBlockComponent],
+  imports: [RouterLink, OnyxButtonComponent, CodeBlockComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="hero">
@@ -279,12 +279,12 @@ export class HomeComponent {
     },
   ];
   protected readonly snippet = `import { Component } from '@angular/core';
-import { ButtonComponent } from '@onyx/ui/components';
+import { OnyxButtonComponent } from '@onyx/ui/components';
 
 @Component({
   selector: 'app-demo',
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [OnyxButtonComponent],
   template: \`<onyx-button (clicked)="save()">Save</onyx-button>\`,
 })
 export class DemoComponent {

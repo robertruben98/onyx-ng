@@ -8,7 +8,7 @@ import { NgTemplateOutlet } from "@angular/common";
 import { A11yModule } from "@angular/cdk/a11y";
 
 /**
- * Floating popover surface attached to an overlay by `PopoverDirective`.
+ * Floating popover surface attached to an overlay by `OnyxPopoverDirective`.
  * Renders projected template content, traps focus (CDK) and exposes
  * `role=dialog`.
  */
@@ -20,7 +20,7 @@ import { A11yModule } from "@angular/cdk/a11y";
   styleUrl: "./popover.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PopoverComponent {
+export class OnyxPopoverComponent {
   /** Content template to render inside the popover. */
   readonly content = signal<TemplateRef<unknown> | null>(null);
   /** Accessible label for the popover dialog. */

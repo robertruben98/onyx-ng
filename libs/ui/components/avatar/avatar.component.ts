@@ -28,7 +28,7 @@ export type AvatarShape = "circle" | "square";
     "[attr.aria-label]": "showInitials() ? name() || null : null",
   },
 })
-export class AvatarComponent {
+export class OnyxAvatarComponent {
   /** Image source URL. */
   readonly src = input("");
   /** Person name — used for the image alt text and initials fallback. */

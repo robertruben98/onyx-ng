@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
-import { PopoverDirective } from "./popover.directive";
+import { OnyxPopoverDirective } from "./popover.directive";
 
 const axeOptions = { rules: { region: { enabled: false } } };
 
@@ -19,10 +19,10 @@ const tpl = `
   </ng-template>`;
 
 function renderPopover() {
-  return render(tpl, { imports: [PopoverDirective] });
+  return render(tpl, { imports: [OnyxPopoverDirective] });
 }
 
-describe("PopoverDirective", () => {
+describe("OnyxPopoverDirective", () => {
   it("is collapsed initially", async () => {
     await renderPopover();
     expect(screen.getByRole("button", { name: "Open" })).toHaveAttribute(

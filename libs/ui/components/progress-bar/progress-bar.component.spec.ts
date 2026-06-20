@@ -1,11 +1,11 @@
 import { render, screen } from "@testing-library/angular";
 import { axe } from "jest-axe";
-import { ProgressBarComponent } from "./progress-bar.component";
+import { OnyxProgressBarComponent } from "./progress-bar.component";
 
-describe("ProgressBarComponent", () => {
+describe("OnyxProgressBarComponent", () => {
   it("exposes role=progressbar with ARIA value attributes", async () => {
     await render(`<onyx-progress-bar [value]="40" label="Upload" />`, {
-      imports: [ProgressBarComponent],
+      imports: [OnyxProgressBarComponent],
     });
     const bar = screen.getByRole("progressbar", { name: "Upload" });
     expect(bar).toHaveAttribute("aria-valuenow", "40");
@@ -15,7 +15,7 @@ describe("ProgressBarComponent", () => {
 
   it("clamps the fill width to 0–100%", async () => {
     const { container } = await render(`<onyx-progress-bar [value]="150" />`, {
-      imports: [ProgressBarComponent],
+      imports: [OnyxProgressBarComponent],
     });
     const fill = container.querySelector(".ui-progress__fill") as HTMLElement;
     expect(fill.style.width).toBe("100%");
@@ -24,7 +24,7 @@ describe("ProgressBarComponent", () => {
   it("computes percentage against a custom max", async () => {
     const { container } = await render(
       `<onyx-progress-bar [value]="1" [max]="4" />`,
-      { imports: [ProgressBarComponent] },
+      { imports: [OnyxProgressBarComponent] },
     );
     const fill = container.querySelector(".ui-progress__fill") as HTMLElement;
     expect(fill.style.width).toBe("25%");
@@ -32,7 +32,7 @@ describe("ProgressBarComponent", () => {
 
   it("omits aria-valuenow when indeterminate", async () => {
     await render(`<onyx-progress-bar [indeterminate]="true" label="Loading" />`, {
-      imports: [ProgressBarComponent],
+      imports: [OnyxProgressBarComponent],
     });
     expect(screen.getByRole("progressbar")).not.toHaveAttribute(
       "aria-valuenow",
@@ -47,7 +47,7 @@ describe("ProgressBarComponent", () => {
     ],
   ])("has no axe violations (%s)", async (_name, tpl) => {
     const { container } = await render(tpl, {
-      imports: [ProgressBarComponent],
+      imports: [OnyxProgressBarComponent],
     });
     expect(await axe(container)).toHaveNoViolations();
   });

@@ -20,7 +20,7 @@ export type SpinnerSize = "sm" | "md" | "lg";
     "[class.ui-spinner--lg]": "size() === 'lg'",
   },
 })
-export class SpinnerComponent {
+export class OnyxSpinnerComponent {
   /** Spinner size. */
   readonly size = input<SpinnerSize>("md");
   /** Accessible label announced by assistive tech. */

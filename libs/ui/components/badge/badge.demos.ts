@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
-import { BadgeComponent } from "./badge.component";
+import { OnyxBadgeComponent } from "./badge.component";
 
 const variantsCode = `<onyx-badge variant="neutral">Neutral</onyx-badge>
 <onyx-badge variant="info">Info</onyx-badge>
@@ -9,7 +9,7 @@ const variantsCode = `<onyx-badge variant="neutral">Neutral</onyx-badge>
 <onyx-badge variant="danger">Danger</onyx-badge>`;
 @Component({
   standalone: true,
-  imports: [BadgeComponent],
+  imports: [OnyxBadgeComponent],
   template: variantsCode,
 })
 class BadgeVariantsDemoComponent {}

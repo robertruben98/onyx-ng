@@ -3,7 +3,7 @@ import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { render, screen, waitFor } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
-import { SelectComponent, SelectOption } from "./select.component";
+import { OnyxSelectComponent, SelectOption } from "./select.component";
 
 const axeOptions = { rules: { region: { enabled: false } } };
 
@@ -15,7 +15,7 @@ const OPTIONS: SelectOption[] = [
 
 @Component({
   standalone: true,
-  imports: [SelectComponent, ReactiveFormsModule],
+  imports: [OnyxSelectComponent, ReactiveFormsModule],
   template: `<onyx-select [formControl]="ctrl" [options]="options" />`,
 })
 class HostComponent {
@@ -27,7 +27,7 @@ function renderSelect() {
   return render(HostComponent);
 }
 
-describe("SelectComponent", () => {
+describe("OnyxSelectComponent", () => {
   it("shows the placeholder and a collapsed combobox", async () => {
     await renderSelect();
     const trigger = screen.getByRole("combobox");
