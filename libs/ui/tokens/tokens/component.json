@@ -1065,6 +1065,26 @@
       "value": "0"
     }
   },
+  "stack": {
+    "gap-none": {
+      "value": "0"
+    },
+    "gap-xs": {
+      "value": "{space.1}"
+    },
+    "gap-sm": {
+      "value": "{space.2}"
+    },
+    "gap-md": {
+      "value": "{space.3}"
+    },
+    "gap-lg": {
+      "value": "{space.4}"
+    },
+    "gap-xl": {
+      "value": "{space.5}"
+    }
+  },
   "card": {
     "bg": {
       "value": "{color.surface}"

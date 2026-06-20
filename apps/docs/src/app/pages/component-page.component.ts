@@ -163,7 +163,7 @@ export class ComponentPageComponent {
   protected readonly importSnippet = computed(() => {
     const d = this.doc();
     if (!d) return "";
-    const className = d.title.replace(/\s+/g, "") + "Component";
+    const className = "Onyx" + d.title.replace(/\s+/g, "") + "Component";
     return `import { ${className} } from '@onyx/ui/components';`;
   });
 }
