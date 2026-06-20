@@ -45,8 +45,8 @@ Load the global stylesheets **in this exact order** — `tokens.css` defines all
 In `angular.json` → `styles`:
 
 ```json
-"styles/tokens.css",
-"styles/themes/dark.css"
+"node_modules/@robertruben98/onyx-ui/styles/tokens.css",
+"node_modules/@robertruben98/onyx-ui/styles/themes/dark.css"
 ```
 
 Or in `styles.scss`:

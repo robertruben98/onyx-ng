@@ -122,18 +122,18 @@ import { CodeBlockComponent } from "../ui/code-block.component";
   ],
 })
 export class InstallationComponent {
-  protected readonly install = `npm install @onyx/ui @angular/cdk`;
+  protected readonly install = `npm install @robertruben98/onyx-ui @angular/cdk`;
 
   protected readonly styles = `// angular.json → projects.app.architect.build.options
 "styles": [
   "node_modules/@angular/cdk/overlay-prebuilt.css",
-  "node_modules/@onyx/ui/tokens/tokens.css",
-  "node_modules/@onyx/ui/themes/dark.css",   // optional: dark mode
+  "node_modules/@robertruben98/onyx-ui/styles/tokens.css",
+  "node_modules/@robertruben98/onyx-ui/styles/themes/dark.css",   // optional: dark mode
   "src/styles.css"
 ]`;
 
   protected readonly usage = `import { Component } from '@angular/core';
-import { OnyxButtonComponent, OnyxInputComponent } from '@onyx/ui/components';
+import { OnyxButtonComponent, OnyxInputComponent } from '@robertruben98/onyx-ui';
 
 @Component({
   selector: 'app-login',
