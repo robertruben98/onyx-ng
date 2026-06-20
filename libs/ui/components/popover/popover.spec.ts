@@ -1,3 +1,4 @@
+import { By } from "@angular/platform-browser";
 import { render, screen, waitFor } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
@@ -97,6 +98,38 @@ describe("OnyxPopoverDirective", () => {
       expect(screen.queryByRole("dialog")).not.toBeInTheDocument(),
     );
     expect(document.activeElement).toBe(trigger);
+  });
+
+  it("ignores non-Escape overlay key events and repeated show calls", async () => {
+    const user = userEvent.setup();
+    const { fixture } = await renderPopover();
+    const trigger = screen.getByRole("button", { name: "Open" });
+    await user.click(trigger);
+    await screen.findByRole("dialog");
+    const directive = fixture.debugElement.query(
+      By.directive(OnyxPopoverDirective),
+    ).injector.get(OnyxPopoverDirective);
+    const internals = directive as unknown as { show(): void };
+
+    internals.show();
+    screen
+      .getByRole("dialog")
+      .dispatchEvent(
+        new KeyboardEvent("keydown", { key: "Enter", bubbles: true }),
+      );
+
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
+  it("close() is a no-op while already closed", async () => {
+    const { fixture } = await renderPopover();
+    const directive = fixture.debugElement
+      .query(By.directive(OnyxPopoverDirective))
+      .injector.get(OnyxPopoverDirective);
+
+    directive.close();
+
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
   it("has no axe violations while open", async () => {
