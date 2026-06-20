@@ -5,5 +5,10 @@
     "types": []
   },
   "include": ["src/**/*.ts", "../../libs/ui/**/*.ts"],
-  "exclude": ["../../libs/ui/**/*.spec.ts", "src/**/*.spec.ts"]
+  "exclude": [
+    "../../libs/ui/**/*.spec.ts",
+    "../../libs/ui/**/*.stories.ts",
+    "src/**/*.spec.ts",
+    "src/**/*.stories.ts"
+  ]
 }
