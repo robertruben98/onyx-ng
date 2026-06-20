@@ -104,6 +104,22 @@ An ng-packagr patch is committed under `patches/` and applied automatically via 
 
 ---
 
+## Dependency updates
+
+Dependabot checks npm packages and GitHub Actions every Monday. Minor and patch updates are grouped by ecosystem; major updates remain separate so their migration and compatibility impact can be reviewed independently.
+
+Angular major upgrades must:
+
+1. Update Angular framework, CLI, CDK, compiler, and build packages together.
+2. Follow the official Angular update guide and document required migrations in the PR.
+3. Keep the library compatible with the Angular versions declared in its peer dependencies.
+4. Pass tests, lint, typecheck, token generation, library packaging, and the docs build before merge.
+5. Include a release note when the supported Angular range or public behavior changes.
+
+Dependency PRs are not auto-merged. A maintainer must confirm the CI result and review lockfile or workflow changes before merge.
+
+---
+
 ## Pull requests
 
 - Open PRs against the `main` branch.
