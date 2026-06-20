@@ -1,0 +1,35 @@
+<div class="ui-empty-state__visual" aria-hidden="true">
+  <ng-content select="[slot=icon],[slot=illustration]" />
+</div>
+
+<div class="ui-empty-state__content">
+  <h2 class="ui-empty-state__title" [id]="titleId">
+    <ng-content select="[slot=title]" />
+  </h2>
+  <p class="ui-empty-state__description" [id]="descriptionId">
+    <ng-content select="[slot=description]" />
+  </p>
+</div>
+
+<div class="ui-empty-state__actions">
+  <button
+    #primaryButton
+    class="ui-empty-state__action ui-empty-state__action--primary"
+    type="button"
+    [hidden]="!hasPrimaryAction()"
+    [disabled]="disabled()"
+    (click)="handlePrimaryAction($event)"
+  >
+    <ng-content select="[slot=primary-action]" />
+  </button>
+  <button
+    #secondaryButton
+    class="ui-empty-state__action ui-empty-state__action--secondary"
+    type="button"
+    [hidden]="!hasSecondaryAction()"
+    [disabled]="disabled()"
+    (click)="handleSecondaryAction($event)"
+  >
+    <ng-content select="[slot=secondary-action]" />
+  </button>
+</div>

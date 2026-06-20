@@ -8,6 +8,7 @@ export * from "./checkbox";
 export * from "./data-table";
 export * from "./dialog";
 export * from "./divider";
+export * from "./empty-state";
 export * from "./input";
 export * from "./menu";
 export * from "./popover";

@@ -1,0 +1,135 @@
+// EmptyState styles use component and semantic tokens only. Theme presets
+// re-map the semantic values without component-specific selectors.
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: var(--ui-empty-state-full-width);
+  max-width: var(--ui-empty-state-max-width);
+  padding: var(--ui-empty-state-padding-y) var(--ui-empty-state-padding-x);
+  gap: var(--ui-empty-state-gap);
+  color: var(--ui-empty-state-color);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.ui-empty-state__visual {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--ui-empty-state-visual-size);
+  height: var(--ui-empty-state-visual-size);
+  color: var(--ui-color-primary);
+
+  &:has([slot="icon"], [slot="illustration"]) {
+    display: flex;
+  }
+}
+
+.ui-empty-state__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ui-empty-state-content-gap);
+}
+
+.ui-empty-state__title,
+.ui-empty-state__description {
+  margin: 0;
+}
+
+.ui-empty-state__title {
+  font-size: var(--ui-empty-state-title-font-size);
+  font-weight: var(--ui-empty-state-title-font-weight);
+
+  &:empty {
+    display: none;
+  }
+}
+
+.ui-empty-state__description {
+  color: var(--ui-empty-state-description-color);
+  font-size: var(--ui-empty-state-description-font-size);
+
+  &:empty {
+    display: none;
+  }
+}
+
+.ui-empty-state__actions {
+  display: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--ui-empty-state-actions-gap);
+
+  &:has(.ui-empty-state__action:not(:empty)) {
+    display: flex;
+  }
+}
+
+.ui-empty-state__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--ui-empty-state-action-height);
+  padding: var(--ui-empty-state-action-padding-y)
+    var(--ui-empty-state-action-padding-x);
+  border: var(--ui-empty-state-action-border-width) solid transparent;
+  border-radius: var(--ui-empty-state-action-radius);
+  font: inherit;
+  font-size: var(--ui-empty-state-action-font-size);
+  font-weight: var(--ui-empty-state-action-font-weight);
+  cursor: pointer;
+
+  &[hidden],
+  &:empty {
+    display: none;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-focus-ring);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: var(--ui-color-disabled-bg);
+    color: var(--ui-color-disabled-text);
+    border-color: transparent;
+  }
+}
+
+.ui-empty-state__action--primary {
+  background-color: var(--ui-empty-state-primary-bg);
+  color: var(--ui-empty-state-primary-text);
+
+  &:hover:not(:disabled) {
+    background-color: var(--ui-empty-state-primary-bg-hover);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--ui-empty-state-primary-bg-active);
+  }
+}
+
+.ui-empty-state__action--secondary {
+  background-color: var(--ui-empty-state-secondary-bg);
+  color: var(--ui-empty-state-secondary-text);
+  border-color: var(--ui-empty-state-secondary-border);
+
+  &:hover:not(:disabled) {
+    background-color: var(--ui-empty-state-secondary-bg-hover);
+  }
+}
+
+@media (max-width: 30rem) {
+  .ui-empty-state__actions,
+  .ui-empty-state__action {
+    width: var(--ui-empty-state-full-width);
+  }
+
+  .ui-empty-state__actions {
+    flex-direction: column;
+  }
+}
