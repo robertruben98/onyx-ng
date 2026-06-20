@@ -29,7 +29,7 @@ algo está mal en la arquitectura de tokens.**
 - **`inject()`** en lugar de inyección por constructor.
 - **`ChangeDetectionStrategy.OnPush`** obligatorio en todos los componentes.
 - **Nuevo control flow** (`@if`, `@for`, `@switch`), nunca `*ngIf`/`*ngFor`.
-- Prefijo de selector: **`ui-`** (ej. `ui-button`, `ui-dialog`).
+- Prefijo de selector: **`onyx-`** (ej. `onyx-button`, `onyx-dialog`).
 - Las primitivas de comportamiento (overlay, focus trap, posicionamiento)
   **envuelven `@angular/cdk`**. No se reimplementan a mano.
 - Monorepo **Nx**. Límites de módulo respetados (un componente no importa de
@@ -145,10 +145,10 @@ Un componente está "done" cuando **todo** lo siguiente se cumple:
 Estos son los comandos que el evaluador del `/goal` ejecuta cada turno:
 
 ```bash
-nx build ui-tokens                  # compila tokens -> CSS vars
-nx test ui-components --watch=false # tests de interacción + a11y (jest-axe)
-nx lint ui-components               # ESLint + Stylelint (incl. regla de tokens)
-nx run ui-components:typecheck      # tsc --noEmit
+nx build onyx-tokens                  # compila tokens -> CSS vars
+nx test onyx-components --watch=false # tests de interacción + a11y (jest-axe)
+nx lint onyx-components               # ESLint + Stylelint (incl. regla de tokens)
+nx run onyx-components:typecheck      # tsc --noEmit
 nx build docs                       # el sitio de documentación compila
 ```
 
