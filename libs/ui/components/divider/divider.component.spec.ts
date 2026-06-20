@@ -1,17 +1,17 @@
 import { render, screen } from "@testing-library/angular";
 import { axe } from "jest-axe";
-import { DividerComponent } from "./divider.component";
+import { OnyxDividerComponent } from "./divider.component";
 
-describe("DividerComponent", () => {
+describe("OnyxDividerComponent", () => {
   it("exposes role=separator with horizontal orientation by default", async () => {
-    await render(`<ui-divider />`, { imports: [DividerComponent] });
+    await render(`<onyx-divider />`, { imports: [OnyxDividerComponent] });
     const sep = screen.getByRole("separator");
     expect(sep).toHaveAttribute("aria-orientation", "horizontal");
   });
 
   it("reflects vertical orientation", async () => {
-    await render(`<ui-divider orientation="vertical" />`, {
-      imports: [DividerComponent],
+    await render(`<onyx-divider orientation="vertical" />`, {
+      imports: [OnyxDividerComponent],
     });
     expect(screen.getByRole("separator")).toHaveAttribute(
       "aria-orientation",
@@ -20,21 +20,21 @@ describe("DividerComponent", () => {
   });
 
   it("renders a label when provided", async () => {
-    const { container } = await render(`<ui-divider label="OR" />`, {
-      imports: [DividerComponent],
+    const { container } = await render(`<onyx-divider label="OR" />`, {
+      imports: [OnyxDividerComponent],
     });
     expect(screen.getByText("OR")).toBeInTheDocument();
-    expect(container.querySelector("ui-divider")).toHaveClass(
+    expect(container.querySelector("onyx-divider")).toHaveClass(
       "ui-divider--labelled",
     );
   });
 
   it.each([
-    ["plain horizontal", `<ui-divider />`],
-    ["vertical", `<ui-divider orientation="vertical" />`],
-    ["labelled", `<ui-divider label="Section" />`],
+    ["plain horizontal", `<onyx-divider />`],
+    ["vertical", `<onyx-divider orientation="vertical" />`],
+    ["labelled", `<onyx-divider label="Section" />`],
   ])("has no axe violations (%s)", async (_name, tpl) => {
-    const { container } = await render(tpl, { imports: [DividerComponent] });
+    const { container } = await render(tpl, { imports: [OnyxDividerComponent] });
     expect(await axe(container)).toHaveNoViolations();
   });
 });

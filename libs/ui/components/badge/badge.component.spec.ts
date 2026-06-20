@@ -1,32 +1,32 @@
 import { render, screen } from "@testing-library/angular";
 import { axe } from "jest-axe";
-import { BadgeComponent } from "./badge.component";
+import { OnyxBadgeComponent } from "./badge.component";
 
 const axeOptions = { rules: { region: { enabled: false } } };
 
-describe("BadgeComponent", () => {
+describe("OnyxBadgeComponent", () => {
   it("projects its content", async () => {
-    await render(`<ui-badge>New</ui-badge>`, { imports: [BadgeComponent] });
+    await render(`<onyx-badge>New</onyx-badge>`, { imports: [OnyxBadgeComponent] });
     expect(screen.getByText("New")).toBeInTheDocument();
   });
 
   it("applies the variant class on the host", async () => {
     const { container } = await render(
-      `<ui-badge variant="success">OK</ui-badge>`,
+      `<onyx-badge variant="success">OK</onyx-badge>`,
       {
-        imports: [BadgeComponent],
+        imports: [OnyxBadgeComponent],
       },
     );
-    expect(container.querySelector("ui-badge")).toHaveClass(
+    expect(container.querySelector("onyx-badge")).toHaveClass(
       "ui-badge--success",
     );
   });
 
   it("defaults to the neutral variant", async () => {
-    const { container } = await render(`<ui-badge>Default</ui-badge>`, {
-      imports: [BadgeComponent],
+    const { container } = await render(`<onyx-badge>Default</onyx-badge>`, {
+      imports: [OnyxBadgeComponent],
     });
-    expect(container.querySelector("ui-badge")).toHaveClass(
+    expect(container.querySelector("onyx-badge")).toHaveClass(
       "ui-badge--neutral",
     );
   });
@@ -35,8 +35,8 @@ describe("BadgeComponent", () => {
     "has no axe violations (%s variant)",
     async (variant) => {
       const { container } = await render(
-        `<ui-badge [variant]="variant">Label</ui-badge>`,
-        { imports: [BadgeComponent], componentProperties: { variant } },
+        `<onyx-badge [variant]="variant">Label</onyx-badge>`,
+        { imports: [OnyxBadgeComponent], componentProperties: { variant } },
       );
       expect(await axe(container, axeOptions)).toHaveNoViolations();
     },

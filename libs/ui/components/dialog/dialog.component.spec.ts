@@ -2,7 +2,7 @@ import { render, screen, waitFor } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 import { InteractivityChecker } from "@angular/cdk/a11y";
-import { DialogComponent } from "./dialog.component";
+import { OnyxDialogComponent } from "./dialog.component";
 
 const axeOptions = { rules: { region: { enabled: false } } };
 
@@ -22,7 +22,7 @@ const focusableInTests = {
 // Host wires a real trigger button so focus-restoration can be asserted.
 const hostTemplate = `
   <button id="trigger" type="button" (click)="open = true">Open</button>
-  <ui-dialog
+  <onyx-dialog
     [(open)]="open"
     [heading]="heading"
     [ariaLabel]="ariaLabel"
@@ -34,7 +34,7 @@ const hostTemplate = `
     <div uiDialogFooter>
       <button type="button" (click)="open = false">Cancel</button>
     </div>
-  </ui-dialog>`;
+  </onyx-dialog>`;
 
 interface HostProps {
   open: boolean;
@@ -48,7 +48,7 @@ interface HostProps {
 function renderDialog(overrides: Partial<HostProps> = {}) {
   const closed = overrides.closed ?? jest.fn();
   return render(hostTemplate, {
-    imports: [DialogComponent],
+    imports: [OnyxDialogComponent],
     providers: [focusableInTests],
     componentProperties: {
       open: false,
@@ -62,7 +62,7 @@ function renderDialog(overrides: Partial<HostProps> = {}) {
   });
 }
 
-describe("DialogComponent", () => {
+describe("OnyxDialogComponent", () => {
   it("renders nothing until opened", async () => {
     await renderDialog({ open: false });
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();

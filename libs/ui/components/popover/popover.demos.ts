@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
-import { PopoverDirective } from "./popover.directive";
+import { OnyxPopoverDirective } from "./popover.directive";
 
-const basicCode = `<button type="button" [uiPopover]="menu" uiPopoverLabel="Quick actions">
+const basicCode = `<button type="button" [onyxPopover]="menu" onyxPopoverLabel="Quick actions">
   Actions
 </button>
 <ng-template #menu>
@@ -12,7 +12,7 @@ const basicCode = `<button type="button" [uiPopover]="menu" uiPopoverLabel="Quic
 </ng-template>`;
 @Component({
   standalone: true,
-  imports: [PopoverDirective],
+  imports: [OnyxPopoverDirective],
   template: basicCode,
 })
 class PopoverBasicDemoComponent {}

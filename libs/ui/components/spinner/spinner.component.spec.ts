@@ -1,16 +1,16 @@
 import { render, screen } from "@testing-library/angular";
 import { axe } from "jest-axe";
-import { SpinnerComponent } from "./spinner.component";
+import { OnyxSpinnerComponent } from "./spinner.component";
 
-describe("SpinnerComponent", () => {
+describe("OnyxSpinnerComponent", () => {
   it("exposes role=status with a default label", async () => {
-    await render(`<ui-spinner />`, { imports: [SpinnerComponent] });
+    await render(`<onyx-spinner />`, { imports: [OnyxSpinnerComponent] });
     expect(screen.getByRole("status")).toHaveAttribute("aria-label", "Loading");
   });
 
   it("uses a custom label", async () => {
-    await render(`<ui-spinner label="Cargando" />`, {
-      imports: [SpinnerComponent],
+    await render(`<onyx-spinner label="Cargando" />`, {
+      imports: [OnyxSpinnerComponent],
     });
     expect(screen.getByRole("status")).toHaveAttribute(
       "aria-label",
@@ -19,17 +19,17 @@ describe("SpinnerComponent", () => {
   });
 
   it("applies the size class", async () => {
-    const { container } = await render(`<ui-spinner size="lg" />`, {
-      imports: [SpinnerComponent],
+    const { container } = await render(`<onyx-spinner size="lg" />`, {
+      imports: [OnyxSpinnerComponent],
     });
-    expect(container.querySelector("ui-spinner")).toHaveClass("ui-spinner--lg");
+    expect(container.querySelector("onyx-spinner")).toHaveClass("ui-spinner--lg");
   });
 
   it.each(["sm", "md", "lg"] as const)(
     "has no axe violations (size %s)",
     async (size) => {
-      const { container } = await render(`<ui-spinner [size]="size" />`, {
-        imports: [SpinnerComponent],
+      const { container } = await render(`<onyx-spinner [size]="size" />`, {
+        imports: [OnyxSpinnerComponent],
         componentProperties: { size },
       });
       expect(await axe(container)).toHaveNoViolations();

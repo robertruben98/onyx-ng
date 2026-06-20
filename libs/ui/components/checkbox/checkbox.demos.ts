@@ -1,20 +1,20 @@
 import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
-import { CheckboxComponent } from "./checkbox.component";
+import { OnyxCheckboxComponent } from "./checkbox.component";
 
-const basicCode = `<ui-checkbox label="Accept terms" />`;
+const basicCode = `<onyx-checkbox label="Accept terms" />`;
 @Component({
   standalone: true,
-  imports: [CheckboxComponent],
+  imports: [OnyxCheckboxComponent],
   template: basicCode,
 })
 class CheckboxBasicDemoComponent {}
 
-const statesCode = `<ui-checkbox label="Indeterminate" [indeterminate]="true" />
-<ui-checkbox label="Disabled" [disabled]="true" />`;
+const statesCode = `<onyx-checkbox label="Indeterminate" [indeterminate]="true" />
+<onyx-checkbox label="Disabled" [disabled]="true" />`;
 @Component({
   standalone: true,
-  imports: [CheckboxComponent],
+  imports: [OnyxCheckboxComponent],
   template: statesCode,
 })
 class CheckboxStatesDemoComponent {}

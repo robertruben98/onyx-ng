@@ -8,7 +8,7 @@ import {
   model,
   viewChildren,
 } from "@angular/core";
-import { TabComponent } from "./tab.component";
+import { OnyxTabComponent } from "./tab.component";
 
 /**
  * Tabbed interface. Renders a `role=tablist` of triggers from the projected
@@ -16,20 +16,21 @@ import { TabComponent } from "./tab.component";
  * (arrows / Home / End) with roving tabindex.
  */
 @Component({
-  selector: "ui-tabs",
+  selector: "onyx-tabs",
   standalone: true,
   templateUrl: "./tabs.component.html",
   styleUrl: "./tabs.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { "[class.ui-tabs]": "true" },
+  exportAs: "onyxTabs",
 })
-export class TabsComponent {
+export class OnyxTabsComponent {
   /** Accessible label for the tab list. */
   readonly ariaLabel = input("");
   /** Selected tab index. Two-way bindable. */
   readonly selectedIndex = model(0);
 
-  protected readonly tabs = contentChildren(TabComponent);
+  protected readonly tabs = contentChildren(OnyxTabComponent);
   private readonly triggers =
     viewChildren<ElementRef<HTMLButtonElement>>("trigger");
 
@@ -37,7 +38,7 @@ export class TabsComponent {
     // Reflect the selection onto each child panel.
     effect(() => {
       const selected = this.selectedIndex();
-      this.tabs().forEach((tab, i) => tab.active.set(i === selected));
+      this.tabs().forEach((tab, i) => tab.setActive(i === selected));
     });
   }
 

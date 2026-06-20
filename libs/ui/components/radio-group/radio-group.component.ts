@@ -19,7 +19,7 @@ export interface RadioOption {
 let nextId = 0;
 
 @Component({
-  selector: "ui-radio-group",
+  selector: "onyx-radio-group",
   standalone: true,
   templateUrl: "./radio-group.component.html",
   styleUrl: "./radio-group.component.scss",
@@ -27,7 +27,7 @@ let nextId = 0;
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => RadioGroupComponent),
+      useExisting: forwardRef(() => OnyxRadioGroupComponent),
       multi: true,
     },
   ],
@@ -37,7 +37,7 @@ let nextId = 0;
     "[class.ui-radio-group--disabled]": "disabledState()",
   },
 })
-export class RadioGroupComponent implements ControlValueAccessor {
+export class OnyxRadioGroupComponent implements ControlValueAccessor {
   /** Options to render. */
   readonly options = input.required<RadioOption[]>();
   /** Visible group label — rendered as a <legend>. */

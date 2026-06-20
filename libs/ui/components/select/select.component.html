@@ -1,12 +1,17 @@
+@if (label()) {
+  <label class="ui-select__label" [attr.for]="triggerId">{{ label() }}</label>
+}
 <button
   #trigger
   type="button"
   role="combobox"
   class="ui-select__trigger"
+  [id]="triggerId"
   [attr.aria-haspopup]="'listbox'"
   [attr.aria-expanded]="open()"
   [attr.aria-controls]="open() ? listboxId : null"
-  [attr.aria-label]="ariaLabel() || placeholder()"
+  [attr.aria-label]="!label() ? ariaLabel() || placeholder() : null"
+  [attr.aria-invalid]="invalid() ? 'true' : null"
   [class.ui-select__trigger--open]="open()"
   [disabled]="isDisabled()"
   (click)="toggle()"

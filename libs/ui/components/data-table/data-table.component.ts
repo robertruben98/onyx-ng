@@ -18,7 +18,7 @@ import {
   CdkVirtualScrollViewport,
   ScrollingModule,
 } from "@angular/cdk/scrolling";
-import { CheckboxComponent } from "../checkbox";
+import { OnyxCheckboxComponent } from "../checkbox";
 
 export type RowKey = string | number;
 export type CellAlign = "start" | "center" | "end";
@@ -32,7 +32,7 @@ export interface SortState {
   direction: SortDirection;
 }
 
-/** Column definition for {@link DataTableComponent}. */
+/** Column definition for {@link OnyxDataTableComponent}. */
 export interface DataTableColumn<T> {
   /** Unique id (sort state, header id). */
   id: string;
@@ -60,15 +60,15 @@ export interface DataTableColumn<T> {
  * pagination, selection, virtual scroll and keyboard nav layer on top.
  */
 @Component({
-  selector: "ui-data-table",
+  selector: "onyx-data-table",
   standalone: true,
-  imports: [NgTemplateOutlet, FormsModule, ScrollingModule, CheckboxComponent],
+  imports: [NgTemplateOutlet, FormsModule, ScrollingModule, OnyxCheckboxComponent],
   templateUrl: "./data-table.component.html",
   styleUrl: "./data-table.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { "[class.ui-data-table]": "true" },
 })
-export class DataTableComponent<T> {
+export class OnyxDataTableComponent<T> {
   /** Column definitions. */
   readonly columns = input.required<DataTableColumn<T>[]>();
   /** Row data (all rows; processed client-side). */

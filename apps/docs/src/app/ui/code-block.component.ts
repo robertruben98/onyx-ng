@@ -5,25 +5,25 @@ import {
   input,
   signal,
 } from "@angular/core";
-import { ButtonComponent } from "@onyx/ui/components";
+import { OnyxButtonComponent } from "@onyx/ui/components";
 import { highlight } from "./highlight";
 
 @Component({
   selector: "docs-code-block",
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [OnyxButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="docs-code">
       <span class="docs-code__lang" aria-hidden="true">{{ language() }}</span>
-      <ui-button
+      <onyx-button
         class="docs-code__copy"
         variant="secondary"
         size="sm"
         (clicked)="copy()"
       >
         {{ copied() ? "Copied" : "Copy" }}
-      </ui-button>
+      </onyx-button>
       <pre><code [innerHTML]="html()"></code></pre>
     </div>
   `,

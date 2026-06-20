@@ -11,20 +11,24 @@ describe("ThemeService", () => {
   });
 
   it("toggles the dark class on the document root", () => {
-    expect(document.documentElement.classList.contains("app-dark")).toBe(false);
+    expect(document.documentElement.classList.contains("onyx-dark")).toBe(
+      false,
+    );
     svc.setDark(true);
-    expect(document.documentElement.classList.contains("app-dark")).toBe(true);
+    expect(document.documentElement.classList.contains("onyx-dark")).toBe(true);
     svc.setDark(false);
-    expect(document.documentElement.classList.contains("app-dark")).toBe(false);
+    expect(document.documentElement.classList.contains("onyx-dark")).toBe(
+      false,
+    );
   });
 
   it("applies a preset class and removes the previous one", () => {
     svc.setPreset("acme");
-    expect(document.documentElement.classList.contains("ui-theme-acme")).toBe(
+    expect(document.documentElement.classList.contains("onyx-theme-acme")).toBe(
       true,
     );
     svc.setPreset("default");
-    expect(document.documentElement.classList.contains("ui-theme-acme")).toBe(
+    expect(document.documentElement.classList.contains("onyx-theme-acme")).toBe(
       false,
     );
   });

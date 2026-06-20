@@ -32,14 +32,15 @@ let nextMenuId = 0;
  * focus moved onto items and full keyboard navigation.
  */
 @Component({
-  selector: "ui-menu",
+  selector: "onyx-menu",
   standalone: true,
   templateUrl: "./menu.component.html",
   styleUrl: "./menu.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { "[class.ui-menu]": "true" },
+  exportAs: "onyxMenu",
 })
-export class MenuComponent {
+export class OnyxMenuComponent {
   private readonly overlay = inject(UiOverlay);
   private readonly viewContainerRef = inject(ViewContainerRef);
 

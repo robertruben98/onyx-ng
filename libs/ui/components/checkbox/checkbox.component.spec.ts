@@ -3,16 +3,16 @@ import { FormsModule } from "@angular/forms";
 import { render, screen, waitFor } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
-import { CheckboxComponent } from "./checkbox.component";
+import { OnyxCheckboxComponent } from "./checkbox.component";
 
 // Component-level axe runs: the host is not inside a landmark, which is fine
 // for an isolated component, so the page-level "region" rule is disabled.
 const axeOptions = { rules: { region: { enabled: false } } };
 
-describe("CheckboxComponent", () => {
+describe("OnyxCheckboxComponent", () => {
   it("exposes a checkbox with an accessible name from the label", async () => {
-    await render(`<ui-checkbox label="Accept terms" />`, {
-      imports: [CheckboxComponent],
+    await render(`<onyx-checkbox label="Accept terms" />`, {
+      imports: [OnyxCheckboxComponent],
     });
     expect(
       screen.getByRole("checkbox", { name: /accept terms/i }),
@@ -20,8 +20,8 @@ describe("CheckboxComponent", () => {
   });
 
   it("falls back to ariaLabel when no visible label is given", async () => {
-    await render(`<ui-checkbox ariaLabel="Select row" />`, {
-      imports: [CheckboxComponent],
+    await render(`<onyx-checkbox ariaLabel="Select row" />`, {
+      imports: [OnyxCheckboxComponent],
     });
     expect(
       screen.getByRole("checkbox", { name: /select row/i }),
@@ -32,8 +32,8 @@ describe("CheckboxComponent", () => {
     const user = userEvent.setup();
     const checkedChange = jest.fn();
     await render(
-      `<ui-checkbox label="A" (checkedChange)="checkedChange($event)" />`,
-      { imports: [CheckboxComponent], componentProperties: { checkedChange } },
+      `<onyx-checkbox label="A" (checkedChange)="checkedChange($event)" />`,
+      { imports: [OnyxCheckboxComponent], componentProperties: { checkedChange } },
     );
     await user.click(screen.getByRole("checkbox"));
     expect(checkedChange).toHaveBeenCalledTimes(1);
@@ -44,8 +44,8 @@ describe("CheckboxComponent", () => {
     const user = userEvent.setup();
     const checkedChange = jest.fn();
     await render(
-      `<ui-checkbox label="A" (checkedChange)="checkedChange($event)" />`,
-      { imports: [CheckboxComponent], componentProperties: { checkedChange } },
+      `<onyx-checkbox label="A" (checkedChange)="checkedChange($event)" />`,
+      { imports: [OnyxCheckboxComponent], componentProperties: { checkedChange } },
     );
     await user.tab();
     expect(screen.getByRole("checkbox")).toHaveFocus();
@@ -57,8 +57,8 @@ describe("CheckboxComponent", () => {
     const user = userEvent.setup();
     const checkedChange = jest.fn();
     await render(
-      `<ui-checkbox label="A" [disabled]="true" (checkedChange)="checkedChange($event)" />`,
-      { imports: [CheckboxComponent], componentProperties: { checkedChange } },
+      `<onyx-checkbox label="A" [disabled]="true" (checkedChange)="checkedChange($event)" />`,
+      { imports: [OnyxCheckboxComponent], componentProperties: { checkedChange } },
     );
     const box = screen.getByRole("checkbox");
     expect(box).toBeDisabled();
@@ -67,16 +67,16 @@ describe("CheckboxComponent", () => {
   });
 
   it("reflects the indeterminate state on the native control", async () => {
-    await render(`<ui-checkbox label="A" [indeterminate]="true" />`, {
-      imports: [CheckboxComponent],
+    await render(`<onyx-checkbox label="A" [indeterminate]="true" />`, {
+      imports: [OnyxCheckboxComponent],
     });
     const box = screen.getByRole<HTMLInputElement>("checkbox");
     expect(box.indeterminate).toBe(true);
   });
 
   it("reflects invalid via aria-invalid", async () => {
-    await render(`<ui-checkbox label="A" [invalid]="true" />`, {
-      imports: [CheckboxComponent],
+    await render(`<onyx-checkbox label="A" [invalid]="true" />`, {
+      imports: [OnyxCheckboxComponent],
     });
     expect(screen.getByRole("checkbox")).toHaveAttribute(
       "aria-invalid",
@@ -87,8 +87,8 @@ describe("CheckboxComponent", () => {
   describe("ControlValueAccessor (ngModel)", () => {
     @Component({
       standalone: true,
-      imports: [CheckboxComponent, FormsModule],
-      template: `<ui-checkbox
+      imports: [OnyxCheckboxComponent, FormsModule],
+      template: `<onyx-checkbox
         label="A"
         [ngModel]="model()"
         (ngModelChange)="model.set($event)"
@@ -112,24 +112,24 @@ describe("CheckboxComponent", () => {
   });
 
   it("has no axe violations (default)", async () => {
-    const { container } = await render(`<ui-checkbox label="A" />`, {
-      imports: [CheckboxComponent],
+    const { container } = await render(`<onyx-checkbox label="A" />`, {
+      imports: [OnyxCheckboxComponent],
     });
     expect(await axe(container, axeOptions)).toHaveNoViolations();
   });
 
   it("has no axe violations (disabled)", async () => {
     const { container } = await render(
-      `<ui-checkbox label="A" [disabled]="true" />`,
-      { imports: [CheckboxComponent] },
+      `<onyx-checkbox label="A" [disabled]="true" />`,
+      { imports: [OnyxCheckboxComponent] },
     );
     expect(await axe(container, axeOptions)).toHaveNoViolations();
   });
 
   it("has no axe violations (indeterminate)", async () => {
     const { container } = await render(
-      `<ui-checkbox label="A" [indeterminate]="true" />`,
-      { imports: [CheckboxComponent] },
+      `<onyx-checkbox label="A" [indeterminate]="true" />`,
+      { imports: [OnyxCheckboxComponent] },
     );
     expect(await axe(container, axeOptions)).toHaveNoViolations();
   });

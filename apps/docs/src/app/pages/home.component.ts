@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { ButtonComponent } from "@onyx/ui/components";
+import { OnyxButtonComponent } from "@onyx/ui/components";
 import { COMPONENT_DOCS } from "../registry";
 import { CodeBlockComponent } from "../ui/code-block.component";
 
@@ -13,7 +13,7 @@ interface Feature {
 @Component({
   selector: "docs-home",
   standalone: true,
-  imports: [RouterLink, ButtonComponent, CodeBlockComponent],
+  imports: [RouterLink, OnyxButtonComponent, CodeBlockComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="hero">
@@ -28,14 +28,14 @@ interface Feature {
         without touching a single component.
       </p>
       <div class="hero__cta">
-        <ui-button size="lg" routerLink="/installation">Get started</ui-button>
-        <ui-button
+        <onyx-button size="lg" routerLink="/installation">Get started</onyx-button>
+        <onyx-button
           size="lg"
           variant="secondary"
           routerLink="/components/button"
         >
           Browse components
-        </ui-button>
+        </onyx-button>
       </div>
       <div class="hero__stats">
         <div class="stat">
@@ -70,9 +70,9 @@ interface Feature {
       </p>
       <docs-code-block [code]="snippet" language="ts" />
       <div class="quickstart__cta">
-        <ui-button variant="text" routerLink="/installation">
+        <onyx-button variant="text" routerLink="/installation">
           Full installation guide →
-        </ui-button>
+        </onyx-button>
       </div>
     </section>
   `,
@@ -279,13 +279,13 @@ export class HomeComponent {
     },
   ];
   protected readonly snippet = `import { Component } from '@angular/core';
-import { ButtonComponent } from '@onyx/ui/components';
+import { OnyxButtonComponent } from '@onyx/ui/components';
 
 @Component({
   selector: 'app-demo',
   standalone: true,
-  imports: [ButtonComponent],
-  template: \`<ui-button (clicked)="save()">Save</ui-button>\`,
+  imports: [OnyxButtonComponent],
+  template: \`<onyx-button (clicked)="save()">Save</onyx-button>\`,
 })
 export class DemoComponent {
   save() { /* ... */ }

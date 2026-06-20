@@ -1,0 +1,23 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "../../..",
+    "outDir": "../../../dist/out-tsc/ui-components",
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSources": true,
+    "moduleResolution": "node",
+    "types": []
+  },
+  "angularCompilerOptions": {
+    "compilationMode": "partial"
+  },
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.docs.ts",
+    "**/*.demos.ts",
+    "jest.config.ts",
+    "setup-jest.ts"
+  ],
+  "include": ["**/*.ts"]
+}

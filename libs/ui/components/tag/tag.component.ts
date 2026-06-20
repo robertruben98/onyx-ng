@@ -13,7 +13,7 @@ export type TagVariant = "neutral" | "info" | "success" | "warning" | "danger";
  * `removed`. Variants map to semantic feedback-role tokens.
  */
 @Component({
-  selector: "ui-tag",
+  selector: "onyx-tag",
   standalone: true,
   templateUrl: "./tag.component.html",
   styleUrl: "./tag.component.scss",
@@ -27,7 +27,7 @@ export type TagVariant = "neutral" | "info" | "success" | "warning" | "danger";
     "[class.ui-tag--danger]": "variant() === 'danger'",
   },
 })
-export class TagComponent {
+export class OnyxTagComponent {
   /** Visual variant (semantic role). */
   readonly variant = input<TagVariant>("neutral");
   /** Whether a remove (close) button is shown. */

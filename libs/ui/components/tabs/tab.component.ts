@@ -13,7 +13,7 @@ let nextTabId = 0;
  * Rendered and coordinated by the parent `ui-tabs`.
  */
 @Component({
-  selector: "ui-tab",
+  selector: "onyx-tab",
   standalone: true,
   template: `
     <div
@@ -27,14 +27,19 @@ let nextTabId = 0;
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TabComponent {
+export class OnyxTabComponent {
   /** Trigger label shown in the tab list. */
   readonly label = input.required<string>();
   /** Whether this tab is disabled. */
   readonly disabled = input(false, { transform: booleanAttribute });
 
   /** Whether this tab's panel is currently shown (set by the parent). */
-  readonly active = signal(false);
+  protected readonly active = signal(false);
+
+  /** Called by the parent OnyxTabsComponent to activate/deactivate this tab. */
+  setActive(value: boolean): void {
+    this.active.set(value);
+  }
 
   private readonly uid = nextTabId++;
   readonly tabId = `ui-tab-${this.uid}`;

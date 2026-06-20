@@ -14,7 +14,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 let nextId = 0;
 
 @Component({
-  selector: "ui-textarea",
+  selector: "onyx-textarea",
   standalone: true,
   templateUrl: "./textarea.component.html",
   styleUrl: "./textarea.component.scss",
@@ -22,7 +22,7 @@ let nextId = 0;
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => TextareaComponent),
+      useExisting: forwardRef(() => OnyxTextareaComponent),
       multi: true,
     },
   ],
@@ -32,7 +32,7 @@ let nextId = 0;
     "[class.ui-textarea--disabled]": "disabledState()",
   },
 })
-export class TextareaComponent implements ControlValueAccessor {
+export class OnyxTextareaComponent implements ControlValueAccessor {
   /** Number of visible text rows. */
   readonly rows = input(3, { transform: numberAttribute });
   /** Placeholder text. */

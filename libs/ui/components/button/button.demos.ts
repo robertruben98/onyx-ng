@@ -1,34 +1,34 @@
 import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
-import { ButtonComponent } from "./button.component";
+import { OnyxButtonComponent } from "./button.component";
 
-const variantsCode = `<ui-button variant="primary">Primary</ui-button>
-<ui-button variant="secondary">Secondary</ui-button>
-<ui-button variant="text">Text</ui-button>`;
+const variantsCode = `<onyx-button variant="primary">Primary</onyx-button>
+<onyx-button variant="secondary">Secondary</onyx-button>
+<onyx-button variant="text">Text</onyx-button>`;
 @Component({
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [OnyxButtonComponent],
   template: variantsCode,
 })
 class ButtonVariantsDemoComponent {}
 
-const sizesCode = `<ui-button size="sm">Small</ui-button>
-<ui-button size="md">Medium</ui-button>
-<ui-button size="lg">Large</ui-button>`;
+const sizesCode = `<onyx-button size="sm">Small</onyx-button>
+<onyx-button size="md">Medium</onyx-button>
+<onyx-button size="lg">Large</onyx-button>`;
 @Component({
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [OnyxButtonComponent],
   template: sizesCode,
 })
 class ButtonSizesDemoComponent {}
 
-const statesCode = `<ui-button [disabled]="true">Disabled</ui-button>
-<ui-button [loading]="true">Loading</ui-button>
-<ui-button variant="secondary" [disabled]="true">Disabled</ui-button>
-<ui-button variant="secondary" [loading]="true">Loading</ui-button>`;
+const statesCode = `<onyx-button [disabled]="true">Disabled</onyx-button>
+<onyx-button [loading]="true">Loading</onyx-button>
+<onyx-button variant="secondary" [disabled]="true">Disabled</onyx-button>
+<onyx-button variant="secondary" [loading]="true">Loading</onyx-button>`;
 @Component({
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [OnyxButtonComponent],
   template: statesCode,
 })
 class ButtonStatesDemoComponent {}

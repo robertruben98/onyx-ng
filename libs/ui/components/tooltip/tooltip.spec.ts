@@ -1,18 +1,18 @@
 import { render, screen, waitFor } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
-import { TooltipDirective } from "./tooltip.directive";
+import { OnyxTooltipDirective } from "./tooltip.directive";
 
-const tpl = `<button type="button" [uiTooltip]="text">Hover me</button>`;
+const tpl = `<button type="button" [onyxTooltip]="text">Hover me</button>`;
 
 function renderTooltip(text = "Helpful hint") {
   return render(tpl, {
-    imports: [TooltipDirective],
+    imports: [OnyxTooltipDirective],
     componentProperties: { text },
   });
 }
 
-describe("TooltipDirective", () => {
+describe("OnyxTooltipDirective", () => {
   it("shows a tooltip on hover and wires aria-describedby", async () => {
     const user = userEvent.setup();
     await renderTooltip("Helpful hint");

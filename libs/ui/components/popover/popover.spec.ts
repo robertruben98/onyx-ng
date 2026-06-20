@@ -1,15 +1,15 @@
 import { render, screen, waitFor } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
-import { PopoverDirective } from "./popover.directive";
+import { OnyxPopoverDirective } from "./popover.directive";
 
 const axeOptions = { rules: { region: { enabled: false } } };
 
 const tpl = `
   <button
     type="button"
-    [uiPopover]="content"
-    uiPopoverLabel="Details"
+    [onyxPopover]="content"
+    onyxPopoverLabel="Details"
   >
     Open
   </button>
@@ -19,10 +19,10 @@ const tpl = `
   </ng-template>`;
 
 function renderPopover() {
-  return render(tpl, { imports: [PopoverDirective] });
+  return render(tpl, { imports: [OnyxPopoverDirective] });
 }
 
-describe("PopoverDirective", () => {
+describe("OnyxPopoverDirective", () => {
   it("is collapsed initially", async () => {
     await renderPopover();
     expect(screen.getByRole("button", { name: "Open" })).toHaveAttribute(
@@ -79,6 +79,24 @@ describe("PopoverDirective", () => {
     await waitFor(() =>
       expect(screen.queryByRole("dialog")).not.toBeInTheDocument(),
     );
+  });
+
+  it("restores focus to the trigger after close()", async () => {
+    const user = userEvent.setup();
+    await renderPopover();
+    const trigger = screen.getByRole("button", { name: "Open" });
+    await user.click(trigger);
+    await screen.findByRole("dialog");
+    // Move focus into the popover
+    const actionBtn = screen.getByRole("button", { name: "Action" });
+    actionBtn.focus();
+    expect(document.activeElement).toBe(actionBtn);
+    // Close via Escape
+    await user.keyboard("{Escape}");
+    await waitFor(() =>
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument(),
+    );
+    expect(document.activeElement).toBe(trigger);
   });
 
   it("has no axe violations while open", async () => {

@@ -1,20 +1,20 @@
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
-import { ButtonComponent } from "@onyx/ui/components";
+import { OnyxButtonComponent } from "@onyx/ui/components";
 import { Preset, ThemeService } from "./theme.service";
 
 @Component({
   selector: "docs-theme-controls",
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [OnyxButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <ui-button
+    <onyx-button
       variant="secondary"
       size="sm"
       (clicked)="theme.setDark(!theme.dark())"
     >
       {{ theme.dark() ? "🌙 Dark" : "☀ Light" }}
-    </ui-button>
+    </onyx-button>
     <label class="docs-theme__preset">
       <span class="docs-visually-hidden">Theme preset</span>
       <select [value]="theme.preset()" (change)="onPreset($event)">

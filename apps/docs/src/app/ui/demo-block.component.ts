@@ -5,14 +5,14 @@ import {
   signal,
 } from "@angular/core";
 import { NgComponentOutlet } from "@angular/common";
-import { ButtonComponent } from "@onyx/ui/components";
+import { OnyxButtonComponent } from "@onyx/ui/components";
 import { Demo } from "../doc-model";
 import { CodeBlockComponent } from "./code-block.component";
 
 @Component({
   selector: "docs-demo-block",
   standalone: true,
-  imports: [NgComponentOutlet, CodeBlockComponent, ButtonComponent],
+  imports: [NgComponentOutlet, CodeBlockComponent, OnyxButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="docs-demo">
@@ -27,14 +27,14 @@ import { CodeBlockComponent } from "./code-block.component";
           <ng-container [ngComponentOutlet]="demo().component" />
         </div>
         <div class="docs-demo__bar">
-          <ui-button
+          <onyx-button
             variant="text"
             size="sm"
             [attr.aria-expanded]="open()"
             (clicked)="open.set(!open())"
           >
             {{ open() ? "Hide code" : "Show code" }}
-          </ui-button>
+          </onyx-button>
         </div>
         @if (open()) {
           <docs-code-block [code]="demo().code" />

@@ -16,7 +16,7 @@ export type AlertVariant =
   | "danger";
 
 @Component({
-  selector: "ui-alert",
+  selector: "onyx-alert",
   standalone: true,
   templateUrl: "./alert.component.html",
   styleUrl: "./alert.component.scss",
@@ -29,9 +29,10 @@ export type AlertVariant =
     "[class.ui-alert--warning]": "variant() === 'warning'",
     "[class.ui-alert--danger]": "variant() === 'danger'",
     "[hidden]": "hidden()",
+    "[attr.role]": "role()",
   },
 })
-export class AlertComponent {
+export class OnyxAlertComponent {
   /** Visual variant (semantic role). */
   readonly variant = input<AlertVariant>("info");
   /** Optional bold title rendered above the content. */

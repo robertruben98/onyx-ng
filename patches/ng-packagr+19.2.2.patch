@@ -1,0 +1,46 @@
+diff --git a/node_modules/ng-packagr/lib/ts/cache-compiler-host.js b/node_modules/ng-packagr/lib/ts/cache-compiler-host.js
+index 6514b53..7f01d40 100644
+--- a/node_modules/ng-packagr/lib/ts/cache-compiler-host.js
++++ b/node_modules/ng-packagr/lib/ts/cache-compiler-host.js
+@@ -63,10 +63,17 @@ function cacheCompilerHost(graph, entryPoint, compilerOptions, moduleResolutionC
+         const node = getNode(fileName);
+         entryPoint.dependsOn(node);
+     };
+-    const { flatModuleFile, destinationPath, entryFile } = entryPoint.data.entryPoint;
++    const { flatModuleFile, destinationPath, entryFile, basePath: epBasePath } = entryPoint.data.entryPoint;
+     const flatModuleFileDtsFilename = `${flatModuleFile}.d.ts`;
+     const flatModuleFileDtsPath = (0, path_1.ensureUnixPath)(path.join(destinationPath, flatModuleFileDtsFilename));
+     const hasIndexEntryFile = path.basename(entryFile.toLowerCase()) === 'index.ts';
++    // When tsconfig rootDir is a parent of basePath (e.g. workspace root),
++    // TypeScript emits files nested under the relative offset. Strip that prefix
++    // so ng-packagr's rollup step finds the files where it expects them.
++    const configuredRootDir = compilerOptions.rootDir;
++    const rootDirOffset = (configuredRootDir && epBasePath && configuredRootDir !== epBasePath)
++        ? (0, path_1.ensureUnixPath)(path.relative(configuredRootDir, epBasePath)) + '/'
++        : null;
+     return {
+         ...compilerHost,
+         // Set the parsing mode to the same as TS 5.3+ default for tsc. This provides a parse
+@@ -91,6 +98,9 @@ function cacheCompilerHost(graph, entryPoint, compilerOptions, moduleResolutionC
+         },
+         writeFile: (fileName, data, writeByteOrderMark, onError, sourceFiles) => {
+             var _a, _b, _c;
++            if (rootDirOffset) {
++                fileName = (0, path_1.ensureUnixPath)(fileName).replace(rootDirOffset, '');
++            }
+             if (fileName.includes('.ngtypecheck.')) {
+                 return;
+             }
+diff --git a/node_modules/ng-packagr/lib/ts/tsconfig.js b/node_modules/ng-packagr/lib/ts/tsconfig.js
+index 9a14337..b205fe4 100644
+--- a/node_modules/ng-packagr/lib/ts/tsconfig.js
++++ b/node_modules/ng-packagr/lib/ts/tsconfig.js
+@@ -105,7 +105,7 @@ async function initializeTsConfig(defaultTsConfig, entryPoints) {
+             flatModuleId: entryPoint.moduleId,
+             flatModuleOutFile: `${entryPoint.flatModuleFile}.js`,
+             basePath,
+-            rootDir: basePath,
++            rootDir: tsConfig.options.rootDir || basePath,
+             sourceRoot: '',
+         };
+         tsConfig.rootNames = [entryPoint.entryFilePath];

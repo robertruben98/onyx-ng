@@ -1,19 +1,19 @@
 import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
-import { SwitchComponent } from "./switch.component";
+import { OnyxSwitchComponent } from "./switch.component";
 
-const basicCode = `<ui-switch label="Enable notifications" />`;
+const basicCode = `<onyx-switch label="Enable notifications" />`;
 @Component({
   standalone: true,
-  imports: [SwitchComponent],
+  imports: [OnyxSwitchComponent],
   template: basicCode,
 })
 class SwitchBasicDemoComponent {}
 
-const disabledCode = `<ui-switch label="Disabled" [disabled]="true" />`;
+const disabledCode = `<onyx-switch label="Disabled" [disabled]="true" />`;
 @Component({
   standalone: true,
-  imports: [SwitchComponent],
+  imports: [OnyxSwitchComponent],
   template: disabledCode,
 })
 class SwitchDisabledDemoComponent {}

@@ -1,21 +1,21 @@
 import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
-import { DividerComponent } from "./divider.component";
+import { OnyxDividerComponent } from "./divider.component";
 
 const basicCode = `<p>Above</p>
-<ui-divider />
+<onyx-divider />
 <p>Below</p>`;
 @Component({
   standalone: true,
-  imports: [DividerComponent],
+  imports: [OnyxDividerComponent],
   template: basicCode,
 })
 class DividerBasicDemoComponent {}
 
-const labelCode = `<ui-divider label="OR" />`;
+const labelCode = `<onyx-divider label="OR" />`;
 @Component({
   standalone: true,
-  imports: [DividerComponent],
+  imports: [OnyxDividerComponent],
   template: labelCode,
 })
 class DividerLabelDemoComponent {}

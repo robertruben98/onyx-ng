@@ -24,6 +24,8 @@ export interface SelectOption {
   disabled?: boolean;
 }
 
+export type OnyxSelectSize = "sm" | "md" | "lg";
+
 let nextSelectId = 0;
 
 /**
@@ -32,21 +34,26 @@ let nextSelectId = 0;
  * primitive (CDK) with full keyboard support and `aria-activedescendant`.
  */
 @Component({
-  selector: "ui-select",
+  selector: "onyx-select",
   standalone: true,
   templateUrl: "./select.component.html",
   styleUrl: "./select.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { "[class.ui-select]": "true" },
+  host: {
+    "[class.ui-select]": "true",
+    "[class.ui-select--sm]": "size() === 'sm'",
+    "[class.ui-select--lg]": "size() === 'lg'",
+    "[class.ui-select--invalid]": "invalid()",
+  },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SelectComponent),
+      useExisting: forwardRef(() => OnyxSelectComponent),
       multi: true,
     },
   ],
 })
-export class SelectComponent implements ControlValueAccessor {
+export class OnyxSelectComponent implements ControlValueAccessor {
   private readonly overlay = inject(UiOverlay);
   private readonly viewContainerRef = inject(ViewContainerRef);
 
@@ -58,8 +65,15 @@ export class SelectComponent implements ControlValueAccessor {
   readonly ariaLabel = input("");
   /** Disabled state (also driven by forms via setDisabledState). */
   readonly disabled = input(false, { transform: booleanAttribute });
+  /** Invalid state — reflected via aria-invalid on the trigger and styling. */
+  readonly invalid = input(false, { transform: booleanAttribute });
+  /** Control size. */
+  readonly size = input<OnyxSelectSize>("md");
+  /** Visible label — when set, renders a <label> linked to the trigger. */
+  readonly label = input("");
 
   private readonly uid = nextSelectId++;
+  protected readonly triggerId = `ui-select-trigger-${this.uid}`;
   protected readonly listboxId = `ui-select-listbox-${this.uid}`;
 
   protected readonly value = signal<string | null>(null);

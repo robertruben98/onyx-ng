@@ -12,7 +12,7 @@ export type ButtonSize = 'sm' | 'md' | 'lg';
 export type ButtonType = 'button' | 'submit' | 'reset';
 
 @Component({
-  selector: 'ui-button',
+  selector: 'onyx-button',
   standalone: true,
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss',
@@ -28,7 +28,7 @@ export type ButtonType = 'button' | 'submit' | 'reset';
     '[class.ui-button--disabled]': 'disabled()'
   }
 })
-export class ButtonComponent {
+export class OnyxButtonComponent {
   /** Visual variant. */
   readonly variant = input<ButtonVariant>('primary');
   /** Control size. */

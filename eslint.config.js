@@ -26,17 +26,17 @@ module.exports = tseslint.config(
     rules: {
       "@angular-eslint/directive-selector": [
         "error",
-        { type: "attribute", prefix: "ui", style: "camelCase" },
+        { type: "attribute", prefix: "onyx", style: "camelCase" },
       ],
       "@angular-eslint/component-selector": [
         "error",
-        { type: "element", prefix: "ui", style: "kebab-case" },
+        { type: "element", prefix: "onyx", style: "kebab-case" },
       ],
     },
   },
   {
     // The docs app is an application, not the component library — its own
-    // chrome components use the `docs-` prefix (library components keep `ui-`).
+    // chrome components use the `docs-` prefix (library components use `onyx-`).
     files: ["apps/docs/**/*.ts"],
     rules: {
       "@angular-eslint/component-selector": [

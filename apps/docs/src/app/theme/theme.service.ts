@@ -3,7 +3,7 @@ import { Injectable, signal } from "@angular/core";
 export type Preset = "default" | "acme";
 const PRESET_CLASS: Record<Preset, string> = {
   default: "",
-  acme: "ui-theme-acme",
+  acme: "onyx-theme-acme",
 };
 
 @Injectable({ providedIn: "root" })
@@ -20,7 +20,7 @@ export class ThemeService {
 
   setDark(value: boolean): void {
     this.dark.set(value);
-    document.documentElement.classList.toggle("app-dark", value);
+    document.documentElement.classList.toggle("onyx-dark", value);
     localStorage.setItem("onyx-dark", String(value));
   }
 

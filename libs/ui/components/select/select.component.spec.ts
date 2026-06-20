@@ -3,7 +3,7 @@ import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { render, screen, waitFor } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
-import { SelectComponent, SelectOption } from "./select.component";
+import { OnyxSelectComponent, SelectOption } from "./select.component";
 
 const axeOptions = { rules: { region: { enabled: false } } };
 
@@ -15,8 +15,8 @@ const OPTIONS: SelectOption[] = [
 
 @Component({
   standalone: true,
-  imports: [SelectComponent, ReactiveFormsModule],
-  template: `<ui-select [formControl]="ctrl" [options]="options" />`,
+  imports: [OnyxSelectComponent, ReactiveFormsModule],
+  template: `<onyx-select [formControl]="ctrl" [options]="options" />`,
 })
 class HostComponent {
   readonly ctrl = new FormControl<string | null>(null);
@@ -27,7 +27,7 @@ function renderSelect() {
   return render(HostComponent);
 }
 
-describe("SelectComponent", () => {
+describe("OnyxSelectComponent", () => {
   it("shows the placeholder and a collapsed combobox", async () => {
     await renderSelect();
     const trigger = screen.getByRole("combobox");
@@ -95,5 +95,35 @@ describe("SelectComponent", () => {
     await user.click(screen.getByRole("combobox"));
     await screen.findByRole("listbox");
     expect(await axe(document.body, axeOptions)).toHaveNoViolations();
+  });
+
+  it("reflects invalid via aria-invalid on the trigger", async () => {
+    await render(`<onyx-select [invalid]="true" [options]="[]" />`, {
+      imports: [OnyxSelectComponent],
+    });
+    expect(screen.getByRole("combobox")).toHaveAttribute(
+      "aria-invalid",
+      "true",
+    );
+  });
+
+  it("renders a visible label linked to the trigger", async () => {
+    await render(`<onyx-select label="Country" [options]="[]" />`, {
+      imports: [OnyxSelectComponent],
+    });
+    const label = screen.getByText("Country");
+    const trigger = screen.getByRole("combobox");
+    expect(label.tagName).toBe("LABEL");
+    expect((label as HTMLLabelElement).htmlFor).toBe(trigger.id);
+  });
+
+  it("applies the size host class", async () => {
+    const { fixture } = await render(
+      `<onyx-select size="sm" [options]="[]" />`,
+      { imports: [OnyxSelectComponent] },
+    );
+    expect(fixture.nativeElement.firstElementChild).toHaveClass(
+      "ui-select--sm",
+    );
   });
 });

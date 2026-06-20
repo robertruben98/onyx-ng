@@ -1,18 +1,18 @@
 import { render, screen } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
-import { TagComponent } from "./tag.component";
+import { OnyxTagComponent } from "./tag.component";
 
 const axeOptions = { rules: { region: { enabled: false } } };
 
-describe("TagComponent", () => {
+describe("OnyxTagComponent", () => {
   it("projects its content", async () => {
-    await render(`<ui-tag>Frontend</ui-tag>`, { imports: [TagComponent] });
+    await render(`<onyx-tag>Frontend</onyx-tag>`, { imports: [OnyxTagComponent] });
     expect(screen.getByText("Frontend")).toBeInTheDocument();
   });
 
   it("has no remove button unless removable", async () => {
-    await render(`<ui-tag>Tag</ui-tag>`, { imports: [TagComponent] });
+    await render(`<onyx-tag>Tag</onyx-tag>`, { imports: [OnyxTagComponent] });
     expect(screen.queryByRole("button")).not.toBeInTheDocument();
   });
 
@@ -20,8 +20,8 @@ describe("TagComponent", () => {
     const user = userEvent.setup();
     const removed = jest.fn();
     await render(
-      `<ui-tag [removable]="true" removeLabel="Quitar" (removed)="removed()">Tag</ui-tag>`,
-      { imports: [TagComponent], componentProperties: { removed } },
+      `<onyx-tag [removable]="true" removeLabel="Quitar" (removed)="removed()">Tag</onyx-tag>`,
+      { imports: [OnyxTagComponent], componentProperties: { removed } },
     );
     await user.click(screen.getByRole("button", { name: /quitar/i }));
     expect(removed).toHaveBeenCalledTimes(1);
@@ -31,8 +31,8 @@ describe("TagComponent", () => {
     const user = userEvent.setup();
     const removed = jest.fn();
     await render(
-      `<ui-tag [removable]="true" (removed)="removed()">Tag</ui-tag>`,
-      { imports: [TagComponent], componentProperties: { removed } },
+      `<onyx-tag [removable]="true" (removed)="removed()">Tag</onyx-tag>`,
+      { imports: [OnyxTagComponent], componentProperties: { removed } },
     );
     await user.tab();
     expect(screen.getByRole("button")).toHaveFocus();
@@ -44,8 +44,8 @@ describe("TagComponent", () => {
     "has no axe violations (%s)",
     async (variant) => {
       const { container } = await render(
-        `<ui-tag [variant]="variant" [removable]="true">Tag</ui-tag>`,
-        { imports: [TagComponent], componentProperties: { variant } },
+        `<onyx-tag [variant]="variant" [removable]="true">Tag</onyx-tag>`,
+        { imports: [OnyxTagComponent], componentProperties: { variant } },
       );
       expect(await axe(container, axeOptions)).toHaveNoViolations();
     },

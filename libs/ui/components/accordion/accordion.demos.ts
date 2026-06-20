@@ -1,27 +1,27 @@
 import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
-import { AccordionComponent } from "./accordion.component";
-import { AccordionItemComponent } from "./accordion-item.component";
+import { OnyxAccordionComponent } from "./accordion.component";
+import { OnyxAccordionItemComponent } from "./accordion-item.component";
 
-const basicCode = `<ui-accordion>
-  <ui-accordion-item heading="Shipping">Free over $50, 2–4 business days.</ui-accordion-item>
-  <ui-accordion-item heading="Returns">30-day window, original packaging.</ui-accordion-item>
-  <ui-accordion-item heading="Warranty">Two years against defects.</ui-accordion-item>
-</ui-accordion>`;
+const basicCode = `<onyx-accordion>
+  <onyx-accordion-item heading="Shipping">Free over $50, 2–4 business days.</onyx-accordion-item>
+  <onyx-accordion-item heading="Returns">30-day window, original packaging.</onyx-accordion-item>
+  <onyx-accordion-item heading="Warranty">Two years against defects.</onyx-accordion-item>
+</onyx-accordion>`;
 @Component({
   standalone: true,
-  imports: [AccordionComponent, AccordionItemComponent],
+  imports: [OnyxAccordionComponent, OnyxAccordionItemComponent],
   template: basicCode,
 })
 class AccordionBasicDemoComponent {}
 
-const multiCode = `<ui-accordion [multi]="true">
-  <ui-accordion-item heading="Section A">Open several at once.</ui-accordion-item>
-  <ui-accordion-item heading="Section B">Multi mode is enabled.</ui-accordion-item>
-</ui-accordion>`;
+const multiCode = `<onyx-accordion [multi]="true">
+  <onyx-accordion-item heading="Section A">Open several at once.</onyx-accordion-item>
+  <onyx-accordion-item heading="Section B">Multi mode is enabled.</onyx-accordion-item>
+</onyx-accordion>`;
 @Component({
   standalone: true,
-  imports: [AccordionComponent, AccordionItemComponent],
+  imports: [OnyxAccordionComponent, OnyxAccordionItemComponent],
   template: multiCode,
 })
 class AccordionMultiDemoComponent {}

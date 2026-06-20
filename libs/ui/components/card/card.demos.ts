@@ -1,24 +1,24 @@
 import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
-import { CardComponent } from "./card.component";
+import { OnyxCardComponent } from "./card.component";
 
-const basicCode = `<ui-card>
+const basicCode = `<onyx-card>
   <strong uiCardHeader>Project Atlas</strong>
   <p>A concise summary of the card body content goes here.</p>
   <span uiCardFooter>Updated 2 hours ago</span>
-</ui-card>`;
+</onyx-card>`;
 @Component({
   standalone: true,
-  imports: [CardComponent],
+  imports: [OnyxCardComponent],
   template: basicCode,
 })
 class CardBasicDemoComponent {}
 
-const variantsCode = `<ui-card variant="elevated">Elevated surface</ui-card>
-<ui-card variant="outlined">Outlined surface</ui-card>`;
+const variantsCode = `<onyx-card variant="elevated">Elevated surface</onyx-card>
+<onyx-card variant="outlined">Outlined surface</onyx-card>`;
 @Component({
   standalone: true,
-  imports: [CardComponent],
+  imports: [OnyxCardComponent],
   template: variantsCode,
 })
 class CardVariantsDemoComponent {}

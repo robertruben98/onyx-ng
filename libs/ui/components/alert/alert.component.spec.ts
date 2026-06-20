@@ -1,36 +1,45 @@
 import { render, screen } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
-import { AlertComponent } from "./alert.component";
+import { OnyxAlertComponent } from "./alert.component";
 
 const axeOptions = { rules: { region: { enabled: false } } };
 
-describe("AlertComponent", () => {
+describe("OnyxAlertComponent", () => {
   it("projects content and renders the title", async () => {
-    await render(`<ui-alert title="Heads up">Something happened</ui-alert>`, {
-      imports: [AlertComponent],
-    });
+    await render(
+      `<onyx-alert title="Heads up">Something happened</onyx-alert>`,
+      {
+        imports: [OnyxAlertComponent],
+      },
+    );
     expect(screen.getByText("Heads up")).toBeInTheDocument();
     expect(screen.getByText("Something happened")).toBeInTheDocument();
   });
 
   it("uses role=status for non-danger variants", async () => {
-    await render(`<ui-alert variant="info">Info</ui-alert>`, {
-      imports: [AlertComponent],
-    });
+    const { container } = await render(
+      `<onyx-alert variant="info">Info</onyx-alert>`,
+      { imports: [OnyxAlertComponent] },
+    );
+    const host = container.querySelector("onyx-alert")!;
+    expect(host).toHaveAttribute("role", "status");
     expect(screen.getByRole("status")).toBeInTheDocument();
   });
 
   it("uses role=alert for the danger variant", async () => {
-    await render(`<ui-alert variant="danger">Error</ui-alert>`, {
-      imports: [AlertComponent],
-    });
+    const { container } = await render(
+      `<onyx-alert variant="danger">Error</onyx-alert>`,
+      { imports: [OnyxAlertComponent] },
+    );
+    const host = container.querySelector("onyx-alert")!;
+    expect(host).toHaveAttribute("role", "alert");
     expect(screen.getByRole("alert")).toBeInTheDocument();
   });
 
   it("has no dismiss button unless dismissible", async () => {
-    await render(`<ui-alert variant="info">Info</ui-alert>`, {
-      imports: [AlertComponent],
+    await render(`<onyx-alert variant="info">Info</onyx-alert>`, {
+      imports: [OnyxAlertComponent],
     });
     expect(screen.queryByRole("button")).not.toBeInTheDocument();
   });
@@ -39,20 +48,20 @@ describe("AlertComponent", () => {
     const user = userEvent.setup();
     const dismissed = jest.fn();
     const { container } = await render(
-      `<ui-alert variant="info" [dismissible]="true" dismissLabel="Cerrar" (dismissed)="dismissed()">Info</ui-alert>`,
-      { imports: [AlertComponent], componentProperties: { dismissed } },
+      `<onyx-alert variant="info" [dismissible]="true" dismissLabel="Cerrar" (dismissed)="dismissed()">Info</onyx-alert>`,
+      { imports: [OnyxAlertComponent], componentProperties: { dismissed } },
     );
     await user.click(screen.getByRole("button", { name: /cerrar/i }));
     expect(dismissed).toHaveBeenCalledTimes(1);
-    expect(container.querySelector("ui-alert")).toHaveAttribute("hidden");
+    expect(container.querySelector("onyx-alert")).toHaveAttribute("hidden");
   });
 
   it("dismiss button is keyboard operable", async () => {
     const user = userEvent.setup();
     const dismissed = jest.fn();
     await render(
-      `<ui-alert variant="info" [dismissible]="true" (dismissed)="dismissed()">Info</ui-alert>`,
-      { imports: [AlertComponent], componentProperties: { dismissed } },
+      `<onyx-alert variant="info" [dismissible]="true" (dismissed)="dismissed()">Info</onyx-alert>`,
+      { imports: [OnyxAlertComponent], componentProperties: { dismissed } },
     );
     await user.tab();
     expect(screen.getByRole("button")).toHaveFocus();
@@ -64,8 +73,8 @@ describe("AlertComponent", () => {
     "has no axe violations (%s variant)",
     async (variant) => {
       const { container } = await render(
-        `<ui-alert [variant]="variant" title="Title" [dismissible]="true">Body</ui-alert>`,
-        { imports: [AlertComponent], componentProperties: { variant } },
+        `<onyx-alert [variant]="variant" title="Title" [dismissible]="true">Body</onyx-alert>`,
+        { imports: [OnyxAlertComponent], componentProperties: { variant } },
       );
       expect(await axe(container, axeOptions)).toHaveNoViolations();
     },

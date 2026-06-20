@@ -80,3 +80,27 @@
   color: var(--ui-select-disabled-text);
   cursor: not-allowed;
 }
+
+// --- Label ----------------------------------------------------------------
+.ui-select__label {
+  font-size: var(--ui-input-label-font-size);
+  font-weight: var(--ui-input-label-font-weight);
+  color: var(--ui-input-text);
+}
+
+// --- Sizes ----------------------------------------------------------------
+:host(.ui-select--sm) .ui-select__trigger {
+  height: var(--ui-input-height-sm);
+}
+:host(.ui-select--lg) .ui-select__trigger {
+  height: var(--ui-input-height-lg);
+}
+
+// --- Invalid --------------------------------------------------------------
+:host(.ui-select--invalid) .ui-select__trigger {
+  border-color: var(--ui-input-border-invalid);
+}
+:host(.ui-select--invalid) .ui-select__trigger:focus-visible,
+:host(.ui-select--invalid) .ui-select__trigger--open {
+  box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-input-border-invalid);
+}

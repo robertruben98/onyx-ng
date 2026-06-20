@@ -28,14 +28,15 @@ let nextId = 0;
  * Nothing here is hand-rolled (CLAUDE.md §6/§9).
  */
 @Component({
-  selector: "ui-dialog",
+  selector: "onyx-dialog",
   standalone: true,
   imports: [A11yModule],
   templateUrl: "./dialog.component.html",
   styleUrl: "./dialog.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
+  exportAs: "onyxDialog",
 })
-export class DialogComponent {
+export class OnyxDialogComponent {
   private readonly overlay = inject(UiOverlay);
   private readonly viewContainerRef = inject(ViewContainerRef);
 

@@ -8,7 +8,7 @@ export type BadgeVariant =
   | "danger";
 
 @Component({
-  selector: "ui-badge",
+  selector: "onyx-badge",
   standalone: true,
   templateUrl: "./badge.component.html",
   styleUrl: "./badge.component.scss",
@@ -22,7 +22,7 @@ export type BadgeVariant =
     "[class.ui-badge--danger]": "variant() === 'danger'",
   },
 })
-export class BadgeComponent {
+export class OnyxBadgeComponent {
   /** Visual variant (semantic role). */
   readonly variant = input<BadgeVariant>("neutral");
 }

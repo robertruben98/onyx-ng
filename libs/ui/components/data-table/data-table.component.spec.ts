@@ -2,7 +2,7 @@ import { Component, signal } from "@angular/core";
 import { render, screen, within } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
-import { DataTableComponent, DataTableColumn } from "./data-table.component";
+import { OnyxDataTableComponent, DataTableColumn } from "./data-table.component";
 
 interface Person {
   id: number;
@@ -22,8 +22,8 @@ const ROWS: Person[] = [
 
 @Component({
   standalone: true,
-  imports: [DataTableComponent],
-  template: `<ui-data-table
+  imports: [OnyxDataTableComponent],
+  template: `<onyx-data-table
     caption="People"
     [columns]="columns"
     [rows]="rows()"
@@ -37,7 +37,7 @@ class HostComponent {
   readonly loading = signal(false);
 }
 
-describe("DataTableComponent — foundation", () => {
+describe("OnyxDataTableComponent — foundation", () => {
   it("exposes a labelled grid with row/column counts", async () => {
     await render(HostComponent);
     const grid = screen.getByRole("grid", { name: "People" });
@@ -71,8 +71,8 @@ describe("DataTableComponent — foundation", () => {
   it("supports a computed value accessor", async () => {
     @Component({
       standalone: true,
-      imports: [DataTableComponent],
-      template: `<ui-data-table caption="t" [columns]="cols" [rows]="rows" />`,
+      imports: [OnyxDataTableComponent],
+      template: `<onyx-data-table caption="t" [columns]="cols" [rows]="rows" />`,
     })
     class ValueAccessorHostComponent {
       readonly cols: DataTableColumn<Person>[] = [
@@ -125,8 +125,8 @@ const SCORES: Score[] = [
 
 @Component({
   standalone: true,
-  imports: [DataTableComponent],
-  template: `<ui-data-table
+  imports: [OnyxDataTableComponent],
+  template: `<onyx-data-table
     caption="Scores"
     [rowKey]="'id'"
     [columns]="columns"
@@ -147,7 +147,7 @@ function names(): string[] {
     .map((r) => r.querySelector(".ui-dt__td")?.textContent?.trim() ?? "");
 }
 
-describe("DataTableComponent — sorting", () => {
+describe("OnyxDataTableComponent — sorting", () => {
   it("renders sortable headers as buttons with aria-sort=none", async () => {
     await render(SortHostComponent);
     const header = screen.getByRole("columnheader", { name: /Name/ });
@@ -239,8 +239,8 @@ const ITEMS: Item[] = Array.from({ length: 12 }, (_, i) => ({
 
 @Component({
   standalone: true,
-  imports: [DataTableComponent],
-  template: `<ui-data-table
+  imports: [OnyxDataTableComponent],
+  template: `<onyx-data-table
     caption="Items"
     [rowKey]="'id'"
     [columns]="columns"
@@ -262,7 +262,7 @@ function dataRowCount(): number {
   return screen.getAllByRole("row").length - 1; // minus header
 }
 
-describe("DataTableComponent — pagination", () => {
+describe("OnyxDataTableComponent — pagination", () => {
   it("shows only the first page and a range readout", async () => {
     await render(PageHostComponent);
     expect(dataRowCount()).toBe(5);
@@ -319,8 +319,8 @@ describe("DataTableComponent — pagination", () => {
 
 @Component({
   standalone: true,
-  imports: [DataTableComponent],
-  template: `<ui-data-table
+  imports: [OnyxDataTableComponent],
+  template: `<onyx-data-table
     caption="Scores"
     [rowKey]="'id'"
     [columns]="columns"
@@ -338,7 +338,7 @@ class SelectHostComponent {
   chosen = new Set<number | string>();
 }
 
-describe("DataTableComponent — selection", () => {
+describe("OnyxDataTableComponent — selection", () => {
   it("renders no checkboxes when selectable is none", async () => {
     await render(SelectHostComponent, {
       componentProperties: { mode: "none" },
@@ -399,8 +399,8 @@ describe("DataTableComponent — selection", () => {
 
 @Component({
   standalone: true,
-  imports: [DataTableComponent],
-  template: `<ui-data-table
+  imports: [OnyxDataTableComponent],
+  template: `<onyx-data-table
     caption="Items"
     [rowKey]="'id'"
     [columns]="columns"
@@ -423,7 +423,7 @@ class VirtualHostComponent {
 // NOTE (declared limit): jsdom has no layout, so CDK virtual scroll does not
 // truly virtualize here. These tests assert the viewport wiring + that the
 // pagination footer is absent + axe — not the count of rendered rows.
-describe("DataTableComponent — virtual scroll", () => {
+describe("OnyxDataTableComponent — virtual scroll", () => {
   it("renders a CDK virtual-scroll viewport in virtual mode", async () => {
     const { container } = await render(VirtualHostComponent);
     expect(
@@ -455,7 +455,7 @@ describe("DataTableComponent — virtual scroll", () => {
   });
 });
 
-describe("DataTableComponent — keyboard navigation", () => {
+describe("OnyxDataTableComponent — keyboard navigation", () => {
   function focusCell(
     container: Element,
     row: number,
@@ -549,12 +549,12 @@ describe("DataTableComponent — keyboard navigation", () => {
   });
 });
 
-describe("DataTableComponent — sticky header", () => {
+describe("OnyxDataTableComponent — sticky header", () => {
   it("applies max-height and internal scroll when maxHeight is set", async () => {
     @Component({
       standalone: true,
-      imports: [DataTableComponent],
-      template: `<ui-data-table
+      imports: [OnyxDataTableComponent],
+      template: `<onyx-data-table
         caption="t"
         [columns]="cols"
         [rows]="rows"

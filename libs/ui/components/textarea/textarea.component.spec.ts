@@ -3,21 +3,21 @@ import { FormsModule } from "@angular/forms";
 import { render, screen, waitFor } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
-import { TextareaComponent } from "./textarea.component";
+import { OnyxTextareaComponent } from "./textarea.component";
 
 const axeOptions = { rules: { region: { enabled: false } } };
 
-describe("TextareaComponent", () => {
+describe("OnyxTextareaComponent", () => {
   it("associates a visible label with the control", async () => {
-    await render(`<ui-textarea label="Bio" />`, {
-      imports: [TextareaComponent],
+    await render(`<onyx-textarea label="Bio" />`, {
+      imports: [OnyxTextareaComponent],
     });
     expect(screen.getByLabelText("Bio")).toBeInTheDocument();
   });
 
   it("falls back to ariaLabel when no visible label is given", async () => {
-    await render(`<ui-textarea ariaLabel="Notes" />`, {
-      imports: [TextareaComponent],
+    await render(`<onyx-textarea ariaLabel="Notes" />`, {
+      imports: [OnyxTextareaComponent],
     });
     expect(screen.getByLabelText("Notes")).toBeInTheDocument();
   });
@@ -26,9 +26,9 @@ describe("TextareaComponent", () => {
     const user = userEvent.setup();
     const valueChange = jest.fn();
     await render(
-      `<ui-textarea label="Bio" (valueChange)="valueChange($event)" />`,
+      `<onyx-textarea label="Bio" (valueChange)="valueChange($event)" />`,
       {
-        imports: [TextareaComponent],
+        imports: [OnyxTextareaComponent],
         componentProperties: { valueChange },
       },
     );
@@ -38,16 +38,16 @@ describe("TextareaComponent", () => {
 
   it("is reachable by keyboard", async () => {
     const user = userEvent.setup();
-    await render(`<ui-textarea label="Bio" />`, {
-      imports: [TextareaComponent],
+    await render(`<onyx-textarea label="Bio" />`, {
+      imports: [OnyxTextareaComponent],
     });
     await user.tab();
     expect(screen.getByLabelText("Bio")).toHaveFocus();
   });
 
   it("reflects invalid via aria-invalid", async () => {
-    await render(`<ui-textarea label="Bio" [invalid]="true" />`, {
-      imports: [TextareaComponent],
+    await render(`<onyx-textarea label="Bio" [invalid]="true" />`, {
+      imports: [OnyxTextareaComponent],
     });
     expect(screen.getByLabelText("Bio")).toHaveAttribute(
       "aria-invalid",
@@ -59,8 +59,8 @@ describe("TextareaComponent", () => {
     const user = userEvent.setup();
     const valueChange = jest.fn();
     await render(
-      `<ui-textarea label="Bio" [disabled]="true" (valueChange)="valueChange($event)" />`,
-      { imports: [TextareaComponent], componentProperties: { valueChange } },
+      `<onyx-textarea label="Bio" [disabled]="true" (valueChange)="valueChange($event)" />`,
+      { imports: [OnyxTextareaComponent], componentProperties: { valueChange } },
     );
     const el = screen.getByLabelText("Bio");
     expect(el).toBeDisabled();
@@ -71,8 +71,8 @@ describe("TextareaComponent", () => {
   describe("ControlValueAccessor (ngModel)", () => {
     @Component({
       standalone: true,
-      imports: [TextareaComponent, FormsModule],
-      template: `<ui-textarea
+      imports: [OnyxTextareaComponent, FormsModule],
+      template: `<onyx-textarea
         label="Bio"
         [ngModel]="model()"
         (ngModelChange)="model.set($event)"
@@ -100,16 +100,16 @@ describe("TextareaComponent", () => {
   });
 
   it("has no axe violations (default)", async () => {
-    const { container } = await render(`<ui-textarea label="Bio" />`, {
-      imports: [TextareaComponent],
+    const { container } = await render(`<onyx-textarea label="Bio" />`, {
+      imports: [OnyxTextareaComponent],
     });
     expect(await axe(container, axeOptions)).toHaveNoViolations();
   });
 
   it("has no axe violations (invalid)", async () => {
     const { container } = await render(
-      `<ui-textarea label="Bio" [invalid]="true" />`,
-      { imports: [TextareaComponent] },
+      `<onyx-textarea label="Bio" [invalid]="true" />`,
+      { imports: [OnyxTextareaComponent] },
     );
     expect(await axe(container, axeOptions)).toHaveNoViolations();
   });

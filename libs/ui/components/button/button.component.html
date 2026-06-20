@@ -1,7 +1,8 @@
 <button
   class="ui-button__el"
   [attr.type]="type()"
-  [disabled]="disabled() || loading()"
+  [disabled]="disabled()"
+  [attr.aria-disabled]="loading() ? 'true' : null"
   [attr.aria-busy]="loading() ? 'true' : null"
   (click)="handleClick($event)"
 >

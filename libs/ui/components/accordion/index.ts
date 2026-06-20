@@ -1,3 +1,3 @@
 export * from "./accordion.component";
 export * from "./accordion-item.component";
-export * from "./accordion.docs";
+export * from "./accordion-host";

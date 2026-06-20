@@ -1,9 +1,10 @@
+/* Requires styles/tokens.css to be loaded first */
 /*
  * Dark mode preset (Aura-style).
  * Modo oscuro = re-mapeo de tokens SEMÁNTICOS bajo una clase (CLAUDE.md §3/§7).
  * No se toca ningún componente.
  */
-.app-dark {
+.onyx-dark {
   --ui-color-primary: var(--ui-emerald-400);
   --ui-color-primary-hover: var(--ui-emerald-300);
   --ui-color-primary-active: var(--ui-emerald-200);
@@ -26,4 +27,11 @@
   --ui-color-disabled-bg: var(--ui-slate-800);
   --ui-color-disabled-text: var(--ui-slate-600);
   --ui-focus-ring: var(--ui-emerald-400);
+  /* dark-aware shadows: reduce opacity so they don't look washed out on dark bg */
+  --ui-shadow-base:
+    0 10px 30px -8px rgba(0, 0, 0, 0.55), 0 4px 10px -6px rgba(0, 0, 0, 0.45);
+  --ui-shadow-lg:
+    0 20px 40px -12px rgba(0, 0, 0, 0.65), 0 8px 18px -10px rgba(0, 0, 0, 0.55);
+  --ui-shadow-sm: 0 4px 12px -2px rgba(0, 0, 0, 0.6);
+  --ui-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.5);
 }

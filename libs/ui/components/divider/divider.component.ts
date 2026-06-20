@@ -7,7 +7,7 @@ export type DividerOrientation = "horizontal" | "vertical";
  * set. Exposes `role=separator` with the matching `aria-orientation`.
  */
 @Component({
-  selector: "ui-divider",
+  selector: "onyx-divider",
   standalone: true,
   templateUrl: "./divider.component.html",
   styleUrl: "./divider.component.scss",
@@ -21,7 +21,7 @@ export type DividerOrientation = "horizontal" | "vertical";
     "[class.ui-divider--labelled]": "!!label()",
   },
 })
-export class DividerComponent {
+export class OnyxDividerComponent {
   /** Layout orientation. */
   readonly orientation = input<DividerOrientation>("horizontal");
   /** Optional centered label (horizontal only). */

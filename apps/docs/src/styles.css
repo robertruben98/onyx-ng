@@ -25,7 +25,7 @@
   --docs-hl-num: #c2410c;
 }
 
-.app-dark {
+.onyx-dark {
   --docs-page-bg: var(--ui-slate-950);
   --docs-topbar-bg: rgba(15, 23, 42, 0.72);
   --docs-code-bg: var(--ui-slate-900, #0f172a);

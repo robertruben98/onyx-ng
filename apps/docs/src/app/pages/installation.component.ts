@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { ButtonComponent } from "@onyx/ui/components";
+import { OnyxButtonComponent } from "@onyx/ui/components";
 import { CodeBlockComponent } from "../ui/code-block.component";
 
 @Component({
   selector: "docs-installation",
   standalone: true,
-  imports: [RouterLink, ButtonComponent, CodeBlockComponent],
+  imports: [RouterLink, OnyxButtonComponent, CodeBlockComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <article class="guide">
@@ -52,13 +52,13 @@ import { CodeBlockComponent } from "../ui/code-block.component";
       <h2>4. Enable dark mode</h2>
       <p>
         Dark mode is a class on the document root that re-maps semantic tokens —
-        components never branch on theme. Toggle <code>app-dark</code> on
+        components never branch on theme. Toggle <code>onyx-dark</code> on
         <code>&lt;html&gt;</code>:
       </p>
       <docs-code-block [code]="dark" language="ts" />
 
       <div class="guide__next">
-        <ui-button routerLink="/theming">Continue to Theming →</ui-button>
+        <onyx-button routerLink="/theming">Continue to Theming →</onyx-button>
       </div>
     </article>
   `,
@@ -133,15 +133,15 @@ export class InstallationComponent {
 ]`;
 
   protected readonly usage = `import { Component } from '@angular/core';
-import { ButtonComponent, InputComponent } from '@onyx/ui/components';
+import { OnyxButtonComponent, OnyxInputComponent } from '@onyx/ui/components';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ButtonComponent, InputComponent],
+  imports: [OnyxButtonComponent, OnyxInputComponent],
   template: \`
-    <ui-input placeholder="Email" />
-    <ui-button (clicked)="submit()">Sign in</ui-button>
+    <onyx-input placeholder="Email" />
+    <onyx-button (clicked)="submit()">Sign in</onyx-button>
   \`,
 })
 export class LoginComponent {
@@ -149,5 +149,5 @@ export class LoginComponent {
 }`;
 
   protected readonly dark = `// Toggle dark mode from anywhere
-document.documentElement.classList.toggle('app-dark');`;
+document.documentElement.classList.toggle('onyx-dark');`;
 }
