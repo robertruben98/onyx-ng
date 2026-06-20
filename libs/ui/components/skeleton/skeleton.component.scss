@@ -17,7 +17,7 @@
     var(--ui-skeleton-bg-shine) 50%,
     var(--ui-skeleton-bg) 100%
   );
-  background-size: 200% 100%;
+  background-size: var(--ui-skeleton-shine-size);
   animation: ui-skeleton-shimmer var(--ui-skeleton-duration) ease-in-out
     infinite;
 }
@@ -33,27 +33,27 @@
 :host(.ui-skeleton--text) .ui-skeleton__line {
   height: var(--ui-skeleton-line-height);
   border-radius: var(--ui-skeleton-radius);
-  width: 100%;
+  width: var(--ui-skeleton-line-width);
 }
 
 // Last line in a multi-line text skeleton is shorter (visual convention).
 :host(.ui-skeleton--text) .ui-skeleton__line:last-child:not(:first-child) {
-  width: 75%;
+  width: var(--ui-skeleton-line-width-last);
 }
 
 // --- Circle variant (avatar placeholder) ------------------------------------
 
 :host(.ui-skeleton--circle) .ui-skeleton__block {
-  width: var(--ui-size-control-md);
-  height: var(--ui-size-control-md);
+  width: var(--ui-skeleton-size-circle);
+  height: var(--ui-skeleton-size-circle);
   border-radius: var(--ui-skeleton-radius-circle);
 }
 
 // --- Rect variant (card / image placeholder) --------------------------------
 
 :host(.ui-skeleton--rect) .ui-skeleton__block {
-  width: 100%;
-  height: var(--ui-size-control-lg);
+  width: var(--ui-skeleton-line-width);
+  height: var(--ui-skeleton-size-rect);
   border-radius: var(--ui-skeleton-radius);
 }
 
@@ -61,10 +61,10 @@
 
 @keyframes ui-skeleton-shimmer {
   0% {
-    background-position: 200% 0;
+    background-position: var(--ui-skeleton-shine-from);
   }
   100% {
-    background-position: -200% 0;
+    background-position: var(--ui-skeleton-shine-to);
   }
 }
 

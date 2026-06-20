@@ -4,7 +4,7 @@
 :host {
   display: flex;
   align-items: center;
-  width: 100%;
+  width: var(--ui-divider-size-full);
   gap: var(--ui-divider-spacing);
   color: var(--ui-divider-color);
 }
@@ -36,7 +36,7 @@
 :host(.ui-divider--vertical) {
   flex-direction: column;
   width: auto;
-  height: 100%;
+  height: var(--ui-divider-size-full);
 }
 
 :host(.ui-divider--vertical)::before,

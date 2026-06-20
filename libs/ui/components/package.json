@@ -13,6 +13,7 @@
     "!**/*.spec.*",
     "!**/*.docs.*",
     "!**/*.demos.*",
+    "!**/*.stories.*",
     "!robertruben98-onyx-ui.d.ts.map",
     "*.d.ts",
     "!*.d.ts.map"

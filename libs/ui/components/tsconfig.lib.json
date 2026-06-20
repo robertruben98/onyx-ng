@@ -16,6 +16,7 @@
     "**/*.spec.ts",
     "**/*.docs.ts",
     "**/*.demos.ts",
+    "**/*.stories.ts",
     "jest.config.ts",
     "setup-jest.ts"
   ],
