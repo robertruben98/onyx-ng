@@ -22,6 +22,7 @@ import { OnyxTabComponent } from "./tab.component";
   styleUrl: "./tabs.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { "[class.ui-tabs]": "true" },
+  exportAs: "onyxTabs",
 })
 export class OnyxTabsComponent {
   /** Accessible label for the tab list. */

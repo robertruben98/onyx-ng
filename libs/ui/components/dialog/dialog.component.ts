@@ -34,6 +34,7 @@ let nextId = 0;
   templateUrl: "./dialog.component.html",
   styleUrl: "./dialog.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
+  exportAs: "onyxDialog",
 })
 export class OnyxDialogComponent {
   private readonly overlay = inject(UiOverlay);

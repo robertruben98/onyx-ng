@@ -38,6 +38,7 @@ let nextMenuId = 0;
   styleUrl: "./menu.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { "[class.ui-menu]": "true" },
+  exportAs: "onyxMenu",
 })
 export class OnyxMenuComponent {
   private readonly overlay = inject(UiOverlay);
