@@ -10,7 +10,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--ui-button-padding-y);
+  gap: var(--ui-button-icon-gap);
   height: var(--ui-button-height);
   padding: var(--ui-button-padding-y) var(--ui-button-padding-x);
   border: var(--ui-button-border-width) solid transparent;
@@ -20,8 +20,11 @@
   font-weight: var(--ui-button-font-weight);
   line-height: 1;
   cursor: pointer;
-  transition: background-color 150ms ease, color 150ms ease,
-    border-color 150ms ease, box-shadow 150ms ease;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
 }
 
 .ui-button__el:focus-visible {
@@ -56,6 +59,9 @@
 :host(.ui-button--secondary) .ui-button__el:hover:not(:disabled) {
   background-color: var(--ui-color-surface-hover);
 }
+:host(.ui-button--secondary) .ui-button__el:active:not(:disabled) {
+  background-color: var(--ui-color-border);
+}
 
 :host(.ui-button--text) .ui-button__el {
   background-color: transparent;
@@ -63,6 +69,9 @@
 }
 :host(.ui-button--text) .ui-button__el:hover:not(:disabled) {
   background-color: var(--ui-color-surface-hover);
+}
+:host(.ui-button--text) .ui-button__el:active:not(:disabled) {
+  background-color: var(--ui-color-border);
 }
 
 // --- Sizes ----------------------------------------------------------------
