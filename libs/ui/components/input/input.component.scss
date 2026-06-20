@@ -15,6 +15,7 @@
 }
 
 .ui-input__el {
+  inline-size: 100%;
   height: var(--ui-input-height);
   padding: 0 var(--ui-input-padding-x);
   font-family: inherit;
