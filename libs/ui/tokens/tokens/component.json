@@ -289,7 +289,7 @@
       "value": "{space.2}"
     },
     "radius": {
-      "value": "{radius.full}"
+      "value": "{radii.full}"
     },
     "dot-size-sm": {
       "value": "{space.2}"
@@ -1090,7 +1090,7 @@
       "value": "{color.surface}"
     },
     "border-color": {
-      "value": "{color.surface-hover}"
+      "value": "{color.border}"
     },
     "border-width": {
       "value": "{border.width}"
@@ -1102,10 +1102,10 @@
       "value": "{space.4}"
     },
     "shadow": {
-      "value": "0 1px 3px 0 rgba(0,0,0,.10), 0 1px 2px -1px rgba(0,0,0,.10)"
+      "value": "{shadow.xs}"
     },
     "shadow-hover": {
-      "value": "0 4px 6px -1px rgba(0,0,0,.10), 0 2px 4px -2px rgba(0,0,0,.10)"
+      "value": "{shadow.sm}"
     },
     "text": {
       "value": "{color.text}"
@@ -1125,10 +1125,10 @@
       "value": "{slate.50}"
     },
     "radius": {
-      "value": "{radius.md}"
+      "value": "{radii.md}"
     },
     "radius-circle": {
-      "value": "{radius.full}"
+      "value": "{radii.full}"
     },
     "line-height": {
       "value": "{space.3}"

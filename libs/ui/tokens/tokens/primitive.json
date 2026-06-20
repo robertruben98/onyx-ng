@@ -260,16 +260,5 @@
     "800": {
       "value": "#854d0e"
     }
-  },
-  "radius": {
-    "sm": {
-      "value": "0.25rem"
-    },
-    "md": {
-      "value": "0.5rem"
-    },
-    "full": {
-      "value": "9999px"
-    }
   }
 }

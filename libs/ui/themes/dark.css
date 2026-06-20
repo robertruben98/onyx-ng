@@ -26,6 +26,30 @@
   --ui-color-neutral-surface: var(--ui-slate-800);
   --ui-color-disabled-bg: var(--ui-slate-800);
   --ui-color-disabled-text: var(--ui-slate-600);
+  /* status semantic tokens — bg/text/border */
+  --ui-color-info-bg: var(--ui-slate-800);
+  --ui-color-info-text: var(--ui-blue-400);
+  --ui-color-info-border: var(--ui-blue-600);
+  --ui-color-success-bg: var(--ui-slate-800);
+  --ui-color-success-text: var(--ui-green-400);
+  --ui-color-success-border: var(--ui-green-600);
+  --ui-color-warning-bg: var(--ui-slate-800);
+  --ui-color-warning-text: var(--ui-amber-400);
+  --ui-color-warning-border: var(--ui-amber-500);
+  --ui-color-danger-bg: var(--ui-slate-800);
+  --ui-color-danger-text: var(--ui-red-400);
+  --ui-color-danger-border: var(--ui-red-600);
+  /* badge semantic tokens */
+  --ui-color-badge-neutral-bg: var(--ui-slate-800);
+  --ui-color-badge-neutral-text: var(--ui-slate-400);
+  --ui-color-badge-info-bg: var(--ui-slate-800);
+  --ui-color-badge-info-text: var(--ui-blue-400);
+  --ui-color-badge-success-bg: var(--ui-slate-800);
+  --ui-color-badge-success-text: var(--ui-green-400);
+  --ui-color-badge-warning-bg: var(--ui-slate-800);
+  --ui-color-badge-warning-text: var(--ui-amber-400);
+  --ui-color-badge-danger-bg: var(--ui-slate-800);
+  --ui-color-badge-danger-text: var(--ui-red-400);
   --ui-focus-ring: var(--ui-emerald-400);
   /* dark-aware shadows: reduce opacity so they don't look washed out on dark bg */
   --ui-shadow-base:
