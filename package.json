@@ -9,7 +9,8 @@
     "typecheck": "tsc -p libs/ui/components/tsconfig.json --noEmit",
     "lint": "eslint . && npm run lint:tokens",
     "lint:tokens": "stylelint \"libs/ui/components/**/*.scss\"",
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@angular/animations": "^19.0.0",
@@ -43,6 +44,7 @@
     "jest-preset-angular": "^14.4.0",
     "ng-packagr": "^19.2.2",
     "nx": "^20.3.0",
+    "patch-package": "^8.0.1",
     "postcss-scss": "^4.0.9",
     "style-dictionary": "^4.3.0",
     "stylelint": "^16.10.0",
