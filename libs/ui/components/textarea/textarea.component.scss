@@ -15,6 +15,7 @@
 }
 
 .ui-textarea__el {
+  inline-size: 100%;
   min-height: var(--ui-textarea-min-height);
   padding: var(--ui-textarea-padding-y) var(--ui-textarea-padding-x);
   font-family: inherit;
