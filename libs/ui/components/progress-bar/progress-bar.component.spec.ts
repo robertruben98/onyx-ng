@@ -30,6 +30,15 @@ describe("OnyxProgressBarComponent", () => {
     expect(fill.style.width).toBe("25%");
   });
 
+  it("uses the default scale when max is zero", async () => {
+    const { container } = await render(
+      `<onyx-progress-bar [value]="50" [max]="0" />`,
+      { imports: [OnyxProgressBarComponent] },
+    );
+    const fill = container.querySelector(".ui-progress__fill") as HTMLElement;
+    expect(fill.style.width).toBe("50%");
+  });
+
   it("omits aria-valuenow when indeterminate", async () => {
     await render(`<onyx-progress-bar [indeterminate]="true" label="Loading" />`, {
       imports: [OnyxProgressBarComponent],

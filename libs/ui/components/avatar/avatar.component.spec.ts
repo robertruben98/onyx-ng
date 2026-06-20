@@ -27,6 +27,15 @@ describe("OnyxAvatarComponent", () => {
     expect(screen.getByRole("img", { name: "Grace" })).toHaveTextContent("G");
   });
 
+  it("renders an empty fallback when the name has no non-space parts", async () => {
+    const { container } = await render(`<onyx-avatar name="   " />`, {
+      imports: [OnyxAvatarComponent],
+    });
+    expect(container.querySelector(".ui-avatar__initials")).toHaveTextContent(
+      "",
+    );
+  });
+
   it("shows initials after the image errors", async () => {
     const { container } = await render(
       `<onyx-avatar src="broken.png" name="Ada Lovelace" />`,
