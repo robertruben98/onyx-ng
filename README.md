@@ -1,5 +1,8 @@
 # Onyx UI — Angular Design System
 
+[![CI](https://github.com/robertruben98/onyx-ng/actions/workflows/ci.yml/badge.svg)](https://github.com/robertruben98/onyx-ng/actions/workflows/ci.yml)
+![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
+
 Accessible, token-driven UI component library built for **Angular 19** using Standalone Components, Signals, and a Style Dictionary design-token layer.
 
 - 22 production-grade components (forms, overlays, layout, navigation)

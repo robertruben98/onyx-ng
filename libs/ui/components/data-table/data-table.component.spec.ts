@@ -1,8 +1,41 @@
 import { Component, signal } from "@angular/core";
-import { render, screen, within } from "@testing-library/angular";
+import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
+import { TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { fireEvent, render, screen, within } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
-import { OnyxDataTableComponent, DataTableColumn } from "./data-table.component";
+import {
+  OnyxDataTableComponent,
+  DataTableColumn,
+  RowKey,
+  SortState,
+} from "./data-table.component";
+
+interface WritableValue<T> {
+  (): T;
+  set(value: T): void;
+}
+
+interface DataTableInternals<T> {
+  sorted(): T[];
+  rangeStart(): number;
+  allSelected(): boolean;
+  someSelected(): boolean;
+  activeCell: WritableValue<{ row: number; col: number }>;
+  sort: WritableValue<SortState[]>;
+  selected: WritableValue<Set<RowKey>>;
+  toggleRow(row: T, checked: boolean): void;
+  rowKeyOf(row: T): RowKey;
+  cellValue(col: DataTableColumn<T>, row: T): unknown;
+  toggleSort(col: DataTableColumn<T>, event: MouseEvent): void;
+  sortValue(col: DataTableColumn<T>, row: T): unknown;
+  compare(a: unknown, b: unknown): number;
+  pageJump(): number;
+  focusCell(row: number, col: number): void;
+  activateCell(): void;
+  el: { nativeElement: HTMLElement };
+}
 
 interface Person {
   id: number;
@@ -573,3 +606,266 @@ describe("OnyxDataTableComponent — sticky header", () => {
     expect(grid.style.overflowY).toBe("auto");
   });
 });
+
+describe("OnyxDataTableComponent — coverage edge behavior", () => {
+  function tableFrom<T>(fixture: {
+    debugElement: {
+      query(predicate: ReturnType<typeof By.directive>): {
+        componentInstance: unknown;
+      };
+    };
+  }): DataTableInternals<T> {
+    return fixture.debugElement.query(By.directive(OnyxDataTableComponent))
+      .componentInstance as DataTableInternals<T>;
+  }
+
+  it("handles unknown/equal sort levels and every comparison value kind", async () => {
+    const { fixture } = await render(SortHostComponent);
+    const table = tableFrom<Score>(fixture);
+
+    table.sort.set([{ columnId: "missing", direction: "asc" }]);
+    expect(table.sorted()).toEqual(SCORES);
+    expect(table.compare(null, null)).toBe(0);
+    expect(table.compare(null, 1)).toBe(1);
+    expect(table.compare(1, null)).toBe(-1);
+    expect(table.compare(1, 2)).toBe(-1);
+    expect(table.compare("b", "a")).toBeGreaterThan(0);
+  });
+
+  it("uses a sort accessor when supplied", async () => {
+    const { fixture } = await render(SortHostComponent);
+    const table = tableFrom<Score>(fixture);
+    const accessor = jest.fn((row: Score) => row.name.length);
+    const column: DataTableColumn<Score> = {
+      id: "length",
+      header: "Length",
+      sortAccessor: accessor,
+    };
+
+    expect(table.sortValue(column, SCORES[0])).toBe(7);
+    expect(accessor).toHaveBeenCalledWith(SCORES[0]);
+  });
+
+  it("adds, updates and removes additive sort levels", async () => {
+    const user = userEvent.setup();
+    const { fixture } = await render(SortHostComponent, {
+      componentProperties: { multi: true },
+    });
+    const name = within(
+      screen.getByRole("columnheader", { name: /Name/ }),
+    ).getByRole("button");
+    const points = within(
+      screen.getByRole("columnheader", { name: /Points/ }),
+    ).getByRole("button");
+    const table = tableFrom<Score>(fixture);
+
+    await user.click(name);
+    fireEvent.click(points, { shiftKey: true });
+    expect(table.sort()).toEqual([
+      { columnId: "name", direction: "asc" },
+      { columnId: "points", direction: "asc" },
+    ]);
+    fireEvent.click(points, { shiftKey: true });
+    expect(table.sort()[1]).toEqual({
+      columnId: "points",
+      direction: "desc",
+    });
+    fireEvent.click(points, { shiftKey: true });
+    expect(table.sort()).toEqual([{ columnId: "name", direction: "asc" }]);
+  });
+
+  it("ignores sorting for a non-sortable column", async () => {
+    const { fixture } = await render(HostComponent);
+    const table = tableFrom<Person>(fixture);
+
+    table.toggleSort(COLUMNS[0], new MouseEvent("click"));
+
+    expect(table.sort()).toEqual([]);
+  });
+
+  it("resolves function, field, id and serialized row keys", async () => {
+    const { fixture } = await render(HostComponent);
+    const table = tableFrom<Person>(fixture);
+
+    Object.defineProperty(table, "rowKey", {
+      configurable: true,
+      value: () => (row: Person) => `person-${row.id}`,
+    });
+    expect(table.rowKeyOf(ROWS[0])).toBe("person-1");
+
+    Object.defineProperty(table, "rowKey", {
+      configurable: true,
+      value: () => "name",
+    });
+    expect(table.rowKeyOf(ROWS[0])).toBe("Ada");
+
+    Object.defineProperty(table, "rowKey", {
+      configurable: true,
+      value: () => undefined,
+    });
+    expect(table.rowKeyOf(ROWS[0])).toBe(1);
+    expect(
+      table.rowKeyOf({ name: "No id", role: "Guest" } as Person),
+    ).toBe(JSON.stringify({ name: "No id", role: "Guest" }));
+  });
+
+  it("returns an empty display value without a field or value accessor", async () => {
+    const { fixture } = await render(HostComponent);
+    const table = tableFrom<Person>(fixture);
+
+    expect(table.cellValue({ id: "blank", header: "Blank" }, ROWS[0])).toBe(
+      "",
+    );
+  });
+
+  it("covers deselection in single and multiple modes", async () => {
+    const multiple = await render(SelectHostComponent);
+    const multipleTable = tableFrom<Score>(multiple.fixture);
+    multipleTable.toggleRow(SCORES[0], true);
+    multipleTable.toggleRow(SCORES[0], false);
+    expect(multipleTable.selected().size).toBe(0);
+    multiple.fixture.destroy();
+    TestBed.resetTestingModule();
+
+    const single = await render(SelectHostComponent, {
+      componentProperties: { mode: "single" },
+    });
+    const singleTable = tableFrom<Score>(single.fixture);
+    singleTable.toggleRow(SCORES[0], true);
+    singleTable.toggleRow(SCORES[0], false);
+    expect(singleTable.selected().size).toBe(0);
+  });
+
+  it("evaluates empty ranges and selection aggregates", async () => {
+    @Component({
+      standalone: true,
+      imports: [OnyxDataTableComponent],
+      template: `<onyx-data-table
+        caption="Empty"
+        selectable="multiple"
+        [columns]="columns"
+        [rows]="[]"
+      />`,
+    })
+    class EmptyHostComponent {
+      readonly columns = COLUMNS;
+    }
+    const { fixture } = await render(EmptyHostComponent);
+    const table = tableFrom<Person>(fixture);
+
+    expect(table.rangeStart()).toBe(0);
+    expect(table.allSelected()).toBe(false);
+    expect(table.someSelected()).toBe(false);
+  });
+
+  it("supports PageDown/PageUp in paginated mode", async () => {
+    const user = userEvent.setup();
+    const { container } = await render(PageHostComponent);
+    focusGridCell(container, 0, 0);
+
+    await user.keyboard("{PageDown}");
+    expect(document.activeElement).toHaveAttribute("data-row", "5");
+    await user.keyboard("{PageUp}");
+    expect(document.activeElement).toHaveAttribute("data-row", "0");
+  });
+
+  it("uses a ten-row page jump and scrolls missing virtual rows", async () => {
+    const { fixture } = await render(VirtualHostComponent);
+    const table = tableFrom<Item>(fixture);
+    const viewport = fixture.debugElement.query(
+      By.directive(CdkVirtualScrollViewport),
+    ).componentInstance as CdkVirtualScrollViewport;
+    const scroll = jest
+      .spyOn(viewport, "scrollToIndex")
+      .mockImplementation(() => {});
+
+    expect(table.pageJump()).toBe(10);
+    table.focusCell(900, 0);
+    expect(scroll).toHaveBeenCalledWith(899);
+    table.focusCell(0, 99);
+  });
+
+  it("focuses a virtual cell after it becomes available", async () => {
+    const { fixture } = await render(VirtualHostComponent);
+    const table = tableFrom<Item>(fixture);
+    const focus = jest.fn();
+    const query = jest
+      .spyOn(table.el.nativeElement, "querySelector")
+      .mockReturnValueOnce(null)
+      .mockReturnValueOnce({ focus } as unknown as HTMLElement);
+    const scrollToIndex = jest.fn();
+    Object.defineProperty(table, "viewport", {
+      configurable: true,
+      value: () => ({ scrollToIndex }),
+    });
+
+    table.focusCell(20, 0);
+    await Promise.resolve();
+
+    expect(scrollToIndex).toHaveBeenCalledWith(19);
+    expect(focus).toHaveBeenCalled();
+    query.mockRestore();
+  });
+
+  it("does nothing when a requested cell is absent without a viewport", async () => {
+    const { fixture } = await render(HostComponent);
+    const table = tableFrom<Person>(fixture);
+
+    table.focusCell(999, 999);
+    table.activeCell.set({ row: 999, col: 999 });
+    table.activateCell();
+
+    expect(document.activeElement).not.toHaveAttribute("data-row", "999");
+  });
+
+  it("keeps focus on a data cell that has no interactive control", async () => {
+    const user = userEvent.setup();
+    const { container } = await render(HostComponent);
+    focusGridCell(container, 0, 0);
+    await user.keyboard("{ArrowDown}");
+    const cell = container.querySelector<HTMLElement>(
+      '[data-row="1"][data-col="0"]',
+    )!;
+
+    await user.keyboard("{Enter}");
+
+    expect(cell).toHaveFocus();
+  });
+
+  it("honors explicit column widths and selection-column layout", async () => {
+    @Component({
+      standalone: true,
+      imports: [OnyxDataTableComponent],
+      template: `<onyx-data-table
+        caption="Widths"
+        selectable="single"
+        [columns]="columns"
+        [rows]="rows"
+      />`,
+    })
+    class WidthHostComponent {
+      readonly columns: DataTableColumn<Person>[] = [
+        { id: "name", header: "Name", field: "name", width: "8rem" },
+      ];
+      readonly rows = ROWS;
+    }
+    const { container } = await render(WidthHostComponent);
+
+    expect(
+      (container.querySelector(".ui-dt__head") as HTMLElement).style
+        .gridTemplateColumns,
+    ).toContain("8rem");
+  });
+});
+
+function focusGridCell(
+  container: Element,
+  row: number,
+  col: number,
+): HTMLElement {
+  const cell = container.querySelector<HTMLElement>(
+    `[data-row="${row}"][data-col="${col}"]`,
+  )!;
+  cell.focus();
+  return cell;
+}

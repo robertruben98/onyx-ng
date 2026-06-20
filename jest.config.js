@@ -1,9 +1,32 @@
 module.exports = {
   preset: "jest-preset-angular",
   collectCoverage: false,
+  collectCoverageFrom: [
+    "libs/ui/**/*.ts",
+    "!libs/ui/**/*.spec.ts",
+    "!libs/ui/**/*.stories.ts",
+    "!libs/ui/**/*.demos.ts",
+    "!libs/ui/**/*.docs.ts",
+    "!libs/ui/**/index.ts",
+    "!libs/ui/**/test-utils/**",
+  ],
   coverageDirectory: "coverage",
+  coveragePathIgnorePatterns: [
+    "/apps/docs/",
+    "\\.stories\\.ts$",
+    "\\.demos\\.ts$",
+    "\\.docs\\.ts$",
+    "/index\\.ts$",
+    "/test-utils/",
+  ],
+  coverageReporters: ["text", "json-summary", "lcov", "html"],
   coverageThreshold: {
-    global: { branches: 65, functions: 80, lines: 89, statements: 87 },
+    global: {
+      branches: 100,
+      functions: 100,
+      lines: 100,
+      statements: 100,
+    },
   },
   setupFilesAfterEnv: ["<rootDir>/setup-jest.ts"],
   testEnvironment: "jsdom",

@@ -1,6 +1,6 @@
 import { Component, signal } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { render, screen, waitFor } from "@testing-library/angular";
+import { fireEvent, render, screen, waitFor } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 import { OnyxInputComponent } from "./input.component";
@@ -42,6 +42,13 @@ describe("OnyxInputComponent", () => {
     await render(`<onyx-input label="Name" />`, { imports: [OnyxInputComponent] });
     await user.tab();
     expect(screen.getByLabelText("Name")).toHaveFocus();
+  });
+
+  it("accepts blur before a forms touched callback is registered", async () => {
+    await render(`<onyx-input label="Name" />`, {
+      imports: [OnyxInputComponent],
+    });
+    expect(fireEvent.blur(screen.getByLabelText("Name"))).toBe(true);
   });
 
   it("reflects invalid state via aria-invalid", async () => {

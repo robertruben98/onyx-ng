@@ -1,6 +1,6 @@
 import { Component, signal } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { render, screen, waitFor } from "@testing-library/angular";
+import { fireEvent, render, screen, waitFor } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 import { OnyxCheckboxComponent } from "./checkbox.component";
@@ -51,6 +51,13 @@ describe("OnyxCheckboxComponent", () => {
     expect(screen.getByRole("checkbox")).toHaveFocus();
     await user.keyboard(" ");
     expect(checkedChange).toHaveBeenLastCalledWith(true);
+  });
+
+  it("accepts blur before a forms touched callback is registered", async () => {
+    await render(`<onyx-checkbox label="A" />`, {
+      imports: [OnyxCheckboxComponent],
+    });
+    expect(fireEvent.blur(screen.getByRole("checkbox"))).toBe(true);
   });
 
   it("does NOT emit when disabled", async () => {

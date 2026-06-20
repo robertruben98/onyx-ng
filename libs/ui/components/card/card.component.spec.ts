@@ -86,6 +86,22 @@ describe("OnyxCardComponent", () => {
     expect(clicked).not.toHaveBeenCalled();
   });
 
+  it("does NOT activate from the keyboard when disabled", async () => {
+    const clicked = jest.fn();
+    await render(
+      `<onyx-card [interactive]="true" [disabled]="true" (clicked)="clicked()">Card</onyx-card>`,
+      { imports: [OnyxCardComponent], componentProperties: { clicked } },
+    );
+    const event = new KeyboardEvent("keydown", {
+      key: "Enter",
+      bubbles: true,
+      cancelable: true,
+    });
+    screen.getByRole("article").dispatchEvent(event);
+    expect(event.defaultPrevented).toBe(false);
+    expect(clicked).not.toHaveBeenCalled();
+  });
+
   it("exposes aria-disabled when interactive and disabled", async () => {
     await render(
       `<onyx-card [interactive]="true" [disabled]="true">Card</onyx-card>`,
