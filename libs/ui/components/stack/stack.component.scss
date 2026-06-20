@@ -1,0 +1,94 @@
+// Stack is intentionally visual-only: consumers add native elements or ARIA
+// roles when the grouped content has list, navigation, or region semantics.
+
+:host {
+  display: flex;
+}
+
+:host([data-direction="row"]) {
+  flex-direction: row;
+}
+
+:host([data-direction="column"]) {
+  flex-direction: column;
+}
+
+:host([data-direction="row-reverse"]) {
+  flex-direction: row-reverse;
+}
+
+:host([data-direction="column-reverse"]) {
+  flex-direction: column-reverse;
+}
+
+:host([data-gap="none"]) {
+  gap: var(--ui-stack-gap-none);
+}
+
+:host([data-gap="xs"]) {
+  gap: var(--ui-stack-gap-xs);
+}
+
+:host([data-gap="sm"]) {
+  gap: var(--ui-stack-gap-sm);
+}
+
+:host([data-gap="md"]) {
+  gap: var(--ui-stack-gap-md);
+}
+
+:host([data-gap="lg"]) {
+  gap: var(--ui-stack-gap-lg);
+}
+
+:host([data-gap="xl"]) {
+  gap: var(--ui-stack-gap-xl);
+}
+
+:host([data-align="start"]) {
+  align-items: flex-start;
+}
+
+:host([data-align="center"]) {
+  align-items: center;
+}
+
+:host([data-align="end"]) {
+  align-items: flex-end;
+}
+
+:host([data-align="stretch"]) {
+  align-items: stretch;
+}
+
+:host([data-align="baseline"]) {
+  align-items: baseline;
+}
+
+:host([data-justify="start"]) {
+  justify-content: flex-start;
+}
+
+:host([data-justify="center"]) {
+  justify-content: center;
+}
+
+:host([data-justify="end"]) {
+  justify-content: flex-end;
+}
+
+:host([data-justify="space-between"]) {
+  justify-content: space-between;
+}
+
+:host([data-justify="space-around"]) {
+  justify-content: space-around;
+}
+
+:host([data-justify="space-evenly"]) {
+  justify-content: space-evenly;
+}
+
+:host([data-wrap="true"]) {
+  flex-wrap: wrap;
+}

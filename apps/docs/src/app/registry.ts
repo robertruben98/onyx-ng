@@ -13,6 +13,7 @@ import { dividerDoc } from "../../../../libs/ui/components/divider/divider.docs"
 import { gridDoc } from "../../../../libs/ui/components/grid/grid.docs";
 import { avatarDoc } from "../../../../libs/ui/components/avatar/avatar.docs";
 import { spinnerDoc } from "../../../../libs/ui/components/spinner/spinner.docs";
+import { stackDoc } from "../../../../libs/ui/components/stack/stack.docs";
 import { tagDoc } from "../../../../libs/ui/components/tag/tag.docs";
 import { progressBarDoc } from "../../../../libs/ui/components/progress-bar/progress-bar.docs";
 import { tabsDoc } from "../../../../libs/ui/components/tabs/tabs.docs";
@@ -39,6 +40,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
   gridDoc,
   avatarDoc,
   spinnerDoc,
+  stackDoc,
   tagDoc,
   progressBarDoc,
   tabsDoc,

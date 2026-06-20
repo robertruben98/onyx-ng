@@ -18,6 +18,7 @@ export * from "./radio-group";
 export * from "./select";
 export * from "./skeleton";
 export * from "./spinner";
+export * from "./stack";
 export * from "./switch";
 export * from "./tabs";
 export * from "./tag";
