@@ -1,0 +1,15 @@
+// Popover styles — semantic / component tokens only (CLAUDE.md §3).
+
+.ui-popover__panel {
+  max-width: var(--ui-popover-max-width);
+  padding: var(--ui-popover-padding-y) var(--ui-popover-padding-x);
+  color: var(--ui-popover-text);
+  background-color: var(--ui-popover-bg);
+  border: var(--ui-popover-border-width) solid var(--ui-popover-border);
+  border-radius: var(--ui-popover-radius);
+  box-shadow: var(--ui-popover-shadow);
+}
+
+.ui-popover__panel:focus {
+  outline: none;
+}

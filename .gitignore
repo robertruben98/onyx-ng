@@ -6,3 +6,8 @@ out-tsc/
 coverage/
 *.log
 .angular/
+
+# Claude goal-mode runtime markers
+.claude/.goal-active
+.claude/.goal-block-count
+.claude/settings.local.json

@@ -1,0 +1,91 @@
+// Switch styles — references ONLY semantic / component tokens (CLAUDE.md §3).
+// Native checkbox (role=switch) is visually hidden but remains the focusable,
+// keyboard-operable control; a sibling track/thumb renders the state.
+
+:host {
+  display: inline-block;
+}
+
+.ui-switch__wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ui-switch-label-gap);
+  cursor: pointer;
+}
+
+.ui-switch__control {
+  position: relative;
+  display: inline-block;
+  width: var(--ui-switch-track-width);
+  height: var(--ui-switch-track-height);
+  flex-shrink: 0;
+}
+
+// Visually-hidden but interactive native control, overlaying the track.
+.ui-switch__el {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--ui-switch-track-width);
+  height: var(--ui-switch-track-height);
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.ui-switch__track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--ui-switch-track-width);
+  height: var(--ui-switch-track-height);
+  background-color: var(--ui-switch-track-bg);
+  border-radius: var(--ui-switch-radius);
+  pointer-events: none;
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.ui-switch__track::after {
+  content: "";
+  position: absolute;
+  top: var(--ui-switch-padding);
+  left: var(--ui-switch-padding);
+  width: var(--ui-switch-thumb-size);
+  height: var(--ui-switch-thumb-size);
+  background-color: var(--ui-switch-thumb-color);
+  border-radius: var(--ui-switch-radius);
+  transition: transform 150ms ease;
+}
+
+.ui-switch__el:checked ~ .ui-switch__track {
+  background-color: var(--ui-switch-track-bg-checked);
+}
+.ui-switch__el:checked ~ .ui-switch__track::after {
+  transform: translateX(var(--ui-switch-thumb-travel));
+}
+
+.ui-switch__el:focus-visible ~ .ui-switch__track {
+  outline: none;
+  box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-focus-ring);
+}
+
+.ui-switch__label {
+  font-size: var(--ui-switch-label-font-size);
+  color: var(--ui-color-text);
+}
+
+// --- Invalid --------------------------------------------------------------
+:host(.ui-switch--invalid) .ui-switch__track {
+  box-shadow: 0 0 0 var(--ui-switch-padding) var(--ui-switch-border-invalid);
+}
+
+// --- Disabled -------------------------------------------------------------
+:host(.ui-switch--disabled) .ui-switch__wrap {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+:host(.ui-switch--disabled) .ui-switch__label {
+  color: var(--ui-switch-disabled-text);
+}

@@ -1,0 +1,56 @@
+// Accordion item styles — semantic / component tokens only (CLAUDE.md §3).
+
+:host {
+  display: block;
+  border-bottom: var(--ui-accordion-border-width) solid
+    var(--ui-accordion-border);
+}
+
+.ui-accordion-item__heading {
+  margin: 0;
+  font-size: var(--ui-accordion-font-size);
+}
+
+.ui-accordion-item__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ui-accordion-gap);
+  padding: var(--ui-accordion-padding-y) var(--ui-accordion-padding-x);
+  font: inherit;
+  font-weight: var(--ui-accordion-header-font-weight);
+  color: var(--ui-accordion-header-text);
+  text-align: left;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.ui-accordion-item__trigger:hover:not(:disabled) {
+  background-color: var(--ui-accordion-header-bg-hover);
+}
+
+.ui-accordion-item__trigger:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-focus-ring);
+}
+
+.ui-accordion-item__trigger:disabled {
+  color: var(--ui-accordion-text-disabled);
+  cursor: not-allowed;
+}
+
+.ui-accordion-item__icon {
+  display: inline-block;
+  transition: transform 150ms ease;
+}
+
+:host(.ui-accordion-item--expanded) .ui-accordion-item__icon {
+  transform: rotate(90deg);
+}
+
+.ui-accordion-item__body {
+  padding: var(--ui-accordion-panel-padding-y)
+    var(--ui-accordion-panel-padding-x);
+  color: var(--ui-accordion-panel-text);
+}

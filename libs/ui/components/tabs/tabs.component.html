@@ -1,0 +1,27 @@
+<div
+  class="ui-tabs__list"
+  role="tablist"
+  [attr.aria-label]="ariaLabel() || null"
+>
+  @for (tab of tabs(); track tab.tabId; let i = $index) {
+    <button
+      #trigger
+      type="button"
+      role="tab"
+      class="ui-tabs__tab"
+      [id]="tab.tabId"
+      [attr.aria-selected]="i === selectedIndex()"
+      [attr.aria-controls]="tab.panelId"
+      [attr.tabindex]="i === selectedIndex() ? 0 : -1"
+      [disabled]="tab.disabled()"
+      [class.ui-tabs__tab--active]="i === selectedIndex()"
+      (click)="select(i)"
+      (keydown)="onKeydown($event, i)"
+    >
+      {{ tab.label() }}
+    </button>
+  }
+</div>
+<div class="ui-tabs__panels">
+  <ng-content />
+</div>

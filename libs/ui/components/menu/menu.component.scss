@@ -1,0 +1,59 @@
+// Menu styles — semantic / component tokens only (CLAUDE.md §3).
+
+:host {
+  display: inline-block;
+}
+
+.ui-menu__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ui-menu-gap);
+  height: var(--ui-menu-trigger-height);
+  padding: var(--ui-menu-trigger-padding-y) var(--ui-menu-trigger-padding-x);
+  font-family: inherit;
+  font-size: var(--ui-menu-font-size);
+  color: var(--ui-menu-trigger-text);
+  background-color: var(--ui-menu-trigger-bg);
+  border: var(--ui-menu-border-width) solid var(--ui-menu-trigger-border);
+  border-radius: var(--ui-menu-radius);
+  cursor: pointer;
+}
+
+.ui-menu__trigger:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-focus-ring);
+}
+
+.ui-menu__panel {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: var(--ui-menu-min-width);
+  padding: var(--ui-menu-panel-padding);
+  background-color: var(--ui-menu-bg);
+  border: var(--ui-menu-border-width) solid var(--ui-menu-border);
+  border-radius: var(--ui-menu-panel-radius);
+  box-shadow: var(--ui-menu-shadow);
+}
+
+.ui-menu__item {
+  padding: var(--ui-menu-item-padding-y) var(--ui-menu-item-padding-x);
+  font-family: inherit;
+  font-size: var(--ui-menu-font-size);
+  color: var(--ui-menu-item-text);
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-radius: var(--ui-menu-radius);
+  cursor: pointer;
+}
+
+.ui-menu__item:hover:not(:disabled),
+.ui-menu__item:focus-visible {
+  outline: none;
+  background-color: var(--ui-menu-item-hover-bg);
+}
+
+.ui-menu__item:disabled {
+  color: var(--ui-menu-item-disabled-text);
+  cursor: not-allowed;
+}

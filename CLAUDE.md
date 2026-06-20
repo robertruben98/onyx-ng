@@ -43,7 +43,7 @@ libs/ui/
   primitives/   overlay / focus / a11y (envuelven Angular CDK)
   components/   button, input, dialog, table, ...
   themes/       presets (un archivo de preset por cliente)
-apps/docs/      Storybook (playground + docs vivas)
+apps/docs/      Sitio de documentación Angular propio (demos + API vivas)
 ```
 
 ---
@@ -53,11 +53,11 @@ apps/docs/      Storybook (playground + docs vivas)
 Los tokens viven en `libs/ui/tokens` y compilan a variables CSS con Style
 Dictionary. Tres niveles, con reglas estrictas de qué puede referenciar qué:
 
-| Nivel        | Ejemplo                       | Contexto            | Quién lo usa            |
-|--------------|-------------------------------|---------------------|-------------------------|
-| **Primitivo**| `--ui-blue-500`, `--ui-space-3`, `--ui-radius-md` | Sin significado | Solo lo referencian los semánticos |
-| **Semántico**| `--ui-color-primary`, `--ui-color-surface`, `--ui-color-text`, `--ui-focus-ring`, `--ui-radius` | Rol de diseño | **Esta es la capa que el preset de cada cliente sobrescribe** |
-| **Componente**| `--ui-button-bg`, `--ui-button-text`, `--ui-button-padding-x` | Una pieza concreta | Solo cuando un componente necesita control fino |
+| Nivel          | Ejemplo                                                                                         | Contexto           | Quién lo usa                                                  |
+| -------------- | ----------------------------------------------------------------------------------------------- | ------------------ | ------------------------------------------------------------- |
+| **Primitivo**  | `--ui-blue-500`, `--ui-space-3`, `--ui-radius-md`                                               | Sin significado    | Solo lo referencian los semánticos                            |
+| **Semántico**  | `--ui-color-primary`, `--ui-color-surface`, `--ui-color-text`, `--ui-focus-ring`, `--ui-radius` | Rol de diseño      | **Esta es la capa que el preset de cada cliente sobrescribe** |
+| **Componente** | `--ui-button-bg`, `--ui-button-text`, `--ui-button-padding-x`                                   | Una pieza concreta | Solo cuando un componente necesita control fino               |
 
 ### Reglas duras de tokens (verificables por lint)
 
@@ -80,7 +80,8 @@ components/button/
   button.component.html     Plantilla (nuevo control flow)
   button.component.scss     Estilos (solo tokens semánticos/componente)
   button.component.spec.ts  Tests de interacción + a11y (jest-axe)
-  button.stories.ts         Storybook: una story por variante/estado
+  button.docs.ts            Metadata de doc (descripción + tabla de API)
+  button.demos.ts           Demos vivos (una demo por variante/estado)
   index.ts                  API pública (barrel)
 ```
 
@@ -109,7 +110,7 @@ Un componente está "done" cuando **todo** lo siguiente se cumple:
       visible, **cero violaciones de axe-core**.
 - [ ] **Tests**: tests de interacción que cubren todos los estados (incl. que
       `disabled` no dispara eventos) + test de a11y con jest-axe.
-- [ ] **Storybook**: una story por variante y estado, con controls cableados.
+- [ ] **Docs**: `<name>.docs.ts` (API + descripción) y `<name>.demos.ts` (una demo por variante/estado), registrados en el sitio de docs.
 - [ ] **Calidad**: `typecheck` limpio, `lint` limpio, `OnPush`, sin `::ng-deep`.
 
 ---
@@ -148,7 +149,7 @@ nx build ui-tokens                  # compila tokens -> CSS vars
 nx test ui-components --watch=false # tests de interacción + a11y (jest-axe)
 nx lint ui-components               # ESLint + Stylelint (incl. regla de tokens)
 nx run ui-components:typecheck      # tsc --noEmit
-nx run docs:build-storybook         # Storybook compila sin errores
+nx build docs                       # el sitio de documentación compila
 ```
 
 La **regla de lint de tokens** (Stylelint) prohíbe en el SCSS de componentes:

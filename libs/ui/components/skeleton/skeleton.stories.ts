@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/angular";
-import { SkeletonComponent } from "./skeleton.component";
+import { OnyxSkeletonComponent } from "./skeleton.component";
 
-const meta: Meta<SkeletonComponent> = {
+const meta: Meta<OnyxSkeletonComponent> = {
   title: "Components/Skeleton",
-  component: SkeletonComponent,
+  component: OnyxSkeletonComponent,
   tags: ["autodocs"],
   argTypes: {
     variant: {
@@ -20,12 +20,12 @@ const meta: Meta<SkeletonComponent> = {
   },
   render: (args) => ({
     props: args,
-    template: `<ui-skeleton [variant]="variant" [lines]="lines" />`,
+    template: `<onyx-skeleton [variant]="variant" [lines]="lines" />`,
   }),
 };
 export default meta;
 
-type Story = StoryObj<SkeletonComponent>;
+type Story = StoryObj<OnyxSkeletonComponent>;
 
 export const Text: Story = { args: { variant: "text", lines: 1 } };
 

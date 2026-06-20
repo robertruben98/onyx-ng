@@ -1,0 +1,225 @@
+<div
+  class="ui-dt__grid"
+  role="grid"
+  [attr.aria-label]="caption() || null"
+  [attr.aria-rowcount]="ariaRowCount()"
+  [attr.aria-colcount]="colCount()"
+  [attr.aria-busy]="loading() ? 'true' : null"
+  [style.max-height]="maxHeight() || null"
+  [style.overflow-y]="maxHeight() ? 'auto' : null"
+  (keydown)="onGridKeydown($event)"
+>
+  <div
+    class="ui-dt__head"
+    role="row"
+    aria-rowindex="1"
+    [style.grid-template-columns]="templateColumns()"
+  >
+    @if (selectable() !== "none") {
+      <div
+        role="columnheader"
+        class="ui-dt__th ui-dt__cell--select"
+        data-row="0"
+        data-col="0"
+        [attr.tabindex]="isActiveCell(0, 0) ? 0 : -1"
+      >
+        @if (selectable() === "multiple") {
+          <onyx-checkbox
+            ariaLabel="Select all rows"
+            [tabindex]="-1"
+            [ngModel]="allSelected()"
+            [indeterminate]="someSelected()"
+            (ngModelChange)="toggleAll($event)"
+          />
+        }
+      </div>
+    }
+    @for (col of columns(); track col.id; let ci = $index) {
+      <div
+        role="columnheader"
+        class="ui-dt__th"
+        [class.ui-dt__cell--center]="col.align === 'center'"
+        [class.ui-dt__cell--end]="col.align === 'end'"
+        [attr.aria-sort]="ariaSort(col)"
+        data-row="0"
+        [attr.data-col]="selectable() !== 'none' ? ci + 1 : ci"
+        [attr.tabindex]="
+          isActiveCell(0, selectable() !== 'none' ? ci + 1 : ci) ? 0 : -1
+        "
+      >
+        @if (col.sortable) {
+          <button
+            type="button"
+            class="ui-dt__sort"
+            tabindex="-1"
+            (click)="toggleSort(col, $event)"
+          >
+            <span>{{ col.header }}</span>
+            <span class="ui-dt__sort-icon" aria-hidden="true">
+              @switch (sortDirectionOf(col)) {
+                @case ("asc") {
+                  ↑
+                }
+                @case ("desc") {
+                  ↓
+                }
+                @default {
+                  ↕
+                }
+              }
+            </span>
+          </button>
+        } @else {
+          {{ col.header }}
+        }
+      </div>
+    }
+  </div>
+
+  <div
+    class="ui-dt__body"
+    [attr.role]="mode() === 'virtual' ? null : 'rowgroup'"
+  >
+    @if (loading()) {
+      <div class="ui-dt__status" role="status">Loading…</div>
+    } @else if (!visibleRows().length) {
+      <div class="ui-dt__status">{{ emptyText() }}</div>
+    } @else if (mode() === "virtual") {
+      <cdk-virtual-scroll-viewport
+        class="ui-dt__viewport"
+        role="rowgroup"
+        [itemSize]="rowHeight()"
+        [style.height]="viewportHeight()"
+      >
+        <div
+          *cdkVirtualFor="let row of visibleRows(); let i = index"
+          role="row"
+          class="ui-dt__tr"
+          [attr.aria-rowindex]="i + 2"
+          [attr.aria-selected]="
+            selectable() !== 'none' ? isSelected(row) : null
+          "
+          [class.ui-dt__tr--selected]="
+            selectable() !== 'none' && isSelected(row)
+          "
+          [style.height.px]="rowHeight()"
+          [style.grid-template-columns]="templateColumns()"
+        >
+          <ng-container
+            [ngTemplateOutlet]="rowCells"
+            [ngTemplateOutletContext]="{ $implicit: row, rowIndex: i + 1 }"
+          />
+        </div>
+      </cdk-virtual-scroll-viewport>
+    } @else {
+      @for (row of visibleRows(); track rowKeyOf(row); let i = $index) {
+        <div
+          role="row"
+          class="ui-dt__tr"
+          [attr.aria-rowindex]="i + 2"
+          [attr.aria-selected]="
+            selectable() !== 'none' ? isSelected(row) : null
+          "
+          [class.ui-dt__tr--selected]="
+            selectable() !== 'none' && isSelected(row)
+          "
+          [style.grid-template-columns]="templateColumns()"
+        >
+          <ng-container
+            [ngTemplateOutlet]="rowCells"
+            [ngTemplateOutletContext]="{ $implicit: row, rowIndex: i + 1 }"
+          />
+        </div>
+      }
+    }
+  </div>
+</div>
+
+<ng-template #rowCells let-row let-rowIndex="rowIndex">
+  @if (selectable() !== "none") {
+    <div
+      role="gridcell"
+      class="ui-dt__td ui-dt__cell--select"
+      [attr.data-row]="rowIndex"
+      data-col="0"
+      [attr.tabindex]="isActiveCell(rowIndex, 0) ? 0 : -1"
+    >
+      <onyx-checkbox
+        ariaLabel="Select row"
+        [tabindex]="-1"
+        [ngModel]="isSelected(row)"
+        (ngModelChange)="toggleRow(row, $event)"
+      />
+    </div>
+  }
+  @for (col of columns(); track col.id; let ci = $index) {
+    <div
+      role="gridcell"
+      class="ui-dt__td"
+      [class.ui-dt__cell--center]="col.align === 'center'"
+      [class.ui-dt__cell--end]="col.align === 'end'"
+      [attr.data-row]="rowIndex"
+      [attr.data-col]="selectable() !== 'none' ? ci + 1 : ci"
+      [attr.tabindex]="
+        isActiveCell(rowIndex, selectable() !== 'none' ? ci + 1 : ci) ? 0 : -1
+      "
+    >
+      @if (col.cell) {
+        <ng-container
+          [ngTemplateOutlet]="col.cell"
+          [ngTemplateOutletContext]="{
+            $implicit: row,
+            value: cellValue(col, row),
+          }"
+        />
+      } @else {
+        {{ cellValue(col, row) }}
+      }
+    </div>
+  }
+</ng-template>
+
+@if (showFooter()) {
+  <div class="ui-dt__footer">
+    <label class="ui-dt__page-size">
+      <span>Rows per page</span>
+      <select
+        class="ui-dt__select"
+        [value]="pageSize()"
+        (change)="changePageSize($event)"
+      >
+        @for (size of pageSizeOptions(); track size) {
+          <option [value]="size">{{ size }}</option>
+        }
+      </select>
+    </label>
+
+    <span class="ui-dt__range" aria-live="polite">
+      {{ rangeStart() }}–{{ rangeEnd() }} of {{ total() }}
+    </span>
+
+    <div class="ui-dt__pager">
+      <button
+        type="button"
+        class="ui-dt__page-btn"
+        aria-label="Previous page"
+        [disabled]="currentPage() === 0"
+        (click)="prevPage()"
+      >
+        ‹
+      </button>
+      <span class="ui-dt__page-status">
+        Page {{ currentPage() + 1 }} of {{ pageCount() }}
+      </span>
+      <button
+        type="button"
+        class="ui-dt__page-btn"
+        aria-label="Next page"
+        [disabled]="currentPage() >= pageCount() - 1"
+        (click)="nextPage()"
+      >
+        ›
+      </button>
+    </div>
+  </div>
+}

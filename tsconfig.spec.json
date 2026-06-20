@@ -5,5 +5,11 @@
     "module": "CommonJS",
     "types": ["jest", "node"]
   },
-  "include": ["libs/**/*.spec.ts", "setup-jest.ts", "libs/**/*.d.ts"]
+  "include": [
+    "libs/**/*.spec.ts",
+    "apps/docs/src/**/*.spec.ts",
+    "setup-jest.ts",
+    "libs/**/*.d.ts",
+    "apps/docs/src/**/*.d.ts"
+  ]
 }

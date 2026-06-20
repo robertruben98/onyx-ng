@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/goal-verify.sh\"",
+            "timeout": 600,
+            "statusMessage": "Verificando DoD (goal mode)…"
+          }
+        ]
+      }
+    ]
+  }
+}

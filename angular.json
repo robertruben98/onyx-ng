@@ -20,8 +20,11 @@
             "inlineStyleLanguage": "scss",
             "assets": [],
             "styles": [
+              "node_modules/@angular/cdk/overlay-prebuilt.css",
               "libs/ui/tokens/dist/tokens.css",
-              "libs/ui/themes/dark.css"
+              "libs/ui/themes/dark.css",
+              "libs/ui/themes/acme.css",
+              "apps/docs/src/styles.css"
             ],
             "scripts": []
           },
@@ -31,23 +34,10 @@
           },
           "defaultConfiguration": "production"
         },
-        "storybook": {
-          "builder": "@storybook/angular:start-storybook",
-          "options": {
-            "configDir": "apps/docs/.storybook",
-            "browserTarget": "docs:build",
-            "compodoc": false,
-            "port": 6006
-          }
-        },
-        "build-storybook": {
-          "builder": "@storybook/angular:build-storybook",
-          "options": {
-            "configDir": "apps/docs/.storybook",
-            "browserTarget": "docs:build",
-            "compodoc": false,
-            "outputDir": "dist/storybook"
-          }
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": { "buildTarget": "docs:build:development" },
+          "defaultConfiguration": "development"
         }
       }
     }

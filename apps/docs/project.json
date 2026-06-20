@@ -4,16 +4,23 @@
   "projectType": "application",
   "sourceRoot": "apps/docs/src",
   "targets": {
-    "build-storybook": {
+    "build": {
       "executor": "nx:run-commands",
-      "options": {
-        "command": "npm run build-storybook"
+      "options": { "command": "ng build docs" },
+      "configurations": {
+        "development": {
+          "command": "ng build docs --configuration=development"
+        }
       },
-      "outputs": ["{workspaceRoot}/dist/storybook"]
+      "outputs": ["{workspaceRoot}/dist/docs"]
     },
-    "storybook": {
+    "serve": {
       "executor": "nx:run-commands",
-      "options": { "command": "npm run storybook" }
+      "options": { "command": "ng serve docs" }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": { "command": "jest apps/docs/src" }
     }
   }
 }

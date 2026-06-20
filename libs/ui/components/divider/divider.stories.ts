@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/angular";
-import { DividerComponent } from "./divider.component";
+import { OnyxDividerComponent } from "./divider.component";
 
-const meta: Meta<DividerComponent> = {
+const meta: Meta<OnyxDividerComponent> = {
   title: "Components/Divider",
-  component: DividerComponent,
+  component: OnyxDividerComponent,
   tags: ["autodocs"],
   argTypes: {
     orientation: {
@@ -18,12 +18,12 @@ const meta: Meta<DividerComponent> = {
   },
   render: (args) => ({
     props: args,
-    template: `<ui-divider [orientation]="orientation" [decorative]="decorative"></ui-divider>`,
+    template: `<onyx-divider [orientation]="orientation" [decorative]="decorative"></onyx-divider>`,
   }),
 };
 export default meta;
 
-type Story = StoryObj<DividerComponent>;
+type Story = StoryObj<OnyxDividerComponent>;
 
 export const Default: Story = {};
 
@@ -34,7 +34,7 @@ export const Vertical: Story = {
     template: `
       <div style="display: flex; height: 3rem; align-items: center; gap: 1rem;">
         <span>Left</span>
-        <ui-divider [orientation]="orientation" style="height: 100%;"></ui-divider>
+        <onyx-divider [orientation]="orientation" style="height: 100%;"></onyx-divider>
         <span>Right</span>
       </div>`,
   }),
@@ -43,7 +43,7 @@ export const Vertical: Story = {
 export const WithLabel: Story = {
   render: (args) => ({
     props: args,
-    template: `<ui-divider [orientation]="orientation" [decorative]="decorative">OR</ui-divider>`,
+    template: `<onyx-divider [orientation]="orientation" [decorative]="decorative">OR</onyx-divider>`,
   }),
 };
 

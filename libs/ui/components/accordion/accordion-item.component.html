@@ -1,0 +1,24 @@
+<h3 class="ui-accordion-item__heading">
+  <button
+    #trigger
+    type="button"
+    class="ui-accordion-item__trigger"
+    [id]="headerId"
+    [attr.aria-expanded]="expanded()"
+    [attr.aria-controls]="panelId"
+    [disabled]="disabled()"
+    (click)="toggle()"
+  >
+    <span class="ui-accordion-item__label">{{ heading() }}</span>
+    <span class="ui-accordion-item__icon" aria-hidden="true">›</span>
+  </button>
+</h3>
+<div
+  class="ui-accordion-item__panel"
+  role="region"
+  [id]="panelId"
+  [attr.aria-labelledby]="headerId"
+  [hidden]="!expanded()"
+>
+  <div class="ui-accordion-item__body"><ng-content /></div>
+</div>

@@ -1,0 +1,37 @@
+<ng-template #panelTpl>
+  <div
+    class="ui-dialog__panel"
+    [class.ui-dialog__panel--sm]="size() === 'sm'"
+    [class.ui-dialog__panel--lg]="size() === 'lg'"
+    role="dialog"
+    aria-modal="true"
+    tabindex="-1"
+    cdkFocusInitial
+    [attr.aria-labelledby]="heading() ? headingId : null"
+    [attr.aria-label]="!heading() ? ariaLabel() || null : null"
+    cdkTrapFocus
+    [cdkTrapFocusAutoCapture]="true"
+  >
+    <div class="ui-dialog__header">
+      @if (heading()) {
+        <h2 class="ui-dialog__title" [id]="headingId">{{ heading() }}</h2>
+      }
+      <button
+        type="button"
+        class="ui-dialog__close"
+        [attr.aria-label]="closeLabel()"
+        (click)="close()"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="ui-dialog__body">
+      <ng-content />
+    </div>
+
+    <div class="ui-dialog__footer">
+      <ng-content select="[uiDialogFooter]" />
+    </div>
+  </div>
+</ng-template>

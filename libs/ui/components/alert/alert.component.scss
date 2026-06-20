@@ -8,7 +8,7 @@
 .ui-alert__container {
   display: flex;
   align-items: flex-start;
-  gap: var(--ui-space-3);
+  gap: var(--ui-alert-gap);
   padding: var(--ui-alert-padding-y) var(--ui-alert-padding-x);
   border: var(--ui-alert-border-width) solid transparent;
   border-radius: var(--ui-alert-radius);

@@ -4,6 +4,17 @@
   "projectType": "library",
   "sourceRoot": "libs/ui/components",
   "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "ng-packagr -p libs/ui/components/ng-package.json -c libs/ui/components/tsconfig.lib.json",
+          "mkdir -p dist/onyx-ui/styles/themes && cp libs/ui/tokens/dist/tokens.css dist/onyx-ui/styles/tokens.css && cp libs/ui/themes/*.css dist/onyx-ui/styles/themes/"
+        ],
+        "parallel": false,
+        "outputs": ["{workspaceRoot}/dist/onyx-ui"]
+      }
+    },
     "test": {
       "executor": "nx:run-commands",
       "options": { "command": "jest libs/ui/components" }

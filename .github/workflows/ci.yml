@@ -1,0 +1,23 @@
+name: CI
+on:
+  push:
+    branches: [main, agent-dialog-feature]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - run: npm ci # runs postinstall (patch-package applies the ng-packagr patch)
+      - run: npm run build:tokens
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test -- --coverage --ci
+      - run: npx nx build ui-components
+      - run: npx nx build docs

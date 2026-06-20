@@ -1,0 +1,34 @@
+<button
+  #trigger
+  type="button"
+  class="ui-menu__trigger"
+  [attr.aria-haspopup]="'menu'"
+  [attr.aria-expanded]="open()"
+  [attr.aria-controls]="open() ? menuId : null"
+  (click)="toggle()"
+  (keydown)="onTriggerKeydown($event)"
+>
+  <ng-content />
+</button>
+
+<ng-template #panel>
+  <div
+    role="menu"
+    [id]="menuId"
+    class="ui-menu__panel"
+    (keydown)="onMenuKeydown($event)"
+  >
+    @for (item of items(); track item.id ?? item.label) {
+      <button
+        type="button"
+        role="menuitem"
+        class="ui-menu__item"
+        tabindex="-1"
+        [disabled]="item.disabled"
+        (click)="activate(item)"
+      >
+        {{ item.label }}
+      </button>
+    }
+  </div>
+</ng-template>

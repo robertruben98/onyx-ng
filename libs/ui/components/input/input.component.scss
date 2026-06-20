@@ -1,0 +1,61 @@
+// Input styles — references ONLY semantic / component tokens (CLAUDE.md §3).
+// No raw colors / sizes / radii, no primitive tokens. Light/dark come from
+// token re-mapping in the active theme, never from conditionals here.
+
+:host {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--ui-input-label-gap);
+}
+
+.ui-input__label {
+  font-size: var(--ui-input-label-font-size);
+  font-weight: var(--ui-input-label-font-weight);
+  color: var(--ui-input-text);
+}
+
+.ui-input__el {
+  height: var(--ui-input-height);
+  padding: 0 var(--ui-input-padding-x);
+  font-family: inherit;
+  font-size: var(--ui-input-font-size);
+  color: var(--ui-input-text);
+  background-color: var(--ui-input-bg);
+  border: var(--ui-input-border-width) solid var(--ui-input-border);
+  border-radius: var(--ui-input-radius);
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.ui-input__el::placeholder {
+  color: var(--ui-input-placeholder);
+}
+
+.ui-input__el:focus-visible {
+  outline: none;
+  border-color: var(--ui-input-border-focus);
+  box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-focus-ring);
+}
+
+.ui-input__el:disabled {
+  cursor: not-allowed;
+  background-color: var(--ui-input-disabled-bg);
+  color: var(--ui-input-disabled-text);
+}
+
+// --- Sizes ----------------------------------------------------------------
+:host(.ui-input--sm) .ui-input__el {
+  height: var(--ui-input-height-sm);
+}
+:host(.ui-input--lg) .ui-input__el {
+  height: var(--ui-input-height-lg);
+}
+
+// --- Invalid --------------------------------------------------------------
+:host(.ui-input--invalid) .ui-input__el {
+  border-color: var(--ui-input-border-invalid);
+}
+:host(.ui-input--invalid) .ui-input__el:focus-visible {
+  box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-input-border-invalid);
+}
