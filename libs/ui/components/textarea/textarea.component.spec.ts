@@ -1,6 +1,6 @@
 import { Component, signal } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { render, screen, waitFor } from "@testing-library/angular";
+import { fireEvent, render, screen, waitFor } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 import { OnyxTextareaComponent } from "./textarea.component";
@@ -43,6 +43,13 @@ describe("OnyxTextareaComponent", () => {
     });
     await user.tab();
     expect(screen.getByLabelText("Bio")).toHaveFocus();
+  });
+
+  it("accepts blur before a forms touched callback is registered", async () => {
+    await render(`<onyx-textarea label="Bio" />`, {
+      imports: [OnyxTextareaComponent],
+    });
+    expect(fireEvent.blur(screen.getByLabelText("Bio"))).toBe(true);
   });
 
   it("reflects invalid via aria-invalid", async () => {

@@ -1,8 +1,11 @@
-import { render, screen } from "@testing-library/angular";
+import { By } from "@angular/platform-browser";
+import { fireEvent, render, screen } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
+import { accordionDoc } from "./accordion.docs";
 import { OnyxAccordionComponent } from "./accordion.component";
 import { OnyxAccordionItemComponent } from "./accordion-item.component";
+import * as accordionPublicApi from "./index";
 
 function renderAccordion(multi = false) {
   return render(
@@ -42,6 +45,15 @@ describe("OnyxAccordionComponent", () => {
     );
   });
 
+  it("collapses an expanded item on a second click", async () => {
+    const user = userEvent.setup();
+    await renderAccordion();
+    const button = screen.getByRole("button", { name: "One" });
+    await user.click(button);
+    await user.click(button);
+    expect(button).toHaveAttribute("aria-expanded", "false");
+  });
+
   it("collapses others in single mode", async () => {
     const user = userEvent.setup();
     await renderAccordion(false);
@@ -73,9 +85,14 @@ describe("OnyxAccordionComponent", () => {
   });
 
   it("does not toggle a disabled item", async () => {
-    const user = userEvent.setup();
-    await renderAccordion();
-    await user.click(screen.getByRole("button", { name: "Three" }));
+    const { fixture } = await renderAccordion();
+    const item = fixture.debugElement.queryAll(
+      By.directive(OnyxAccordionItemComponent),
+    )[2].componentInstance as OnyxAccordionItemComponent & {
+      toggle(): void;
+    };
+    item.toggle();
+    fixture.detectChanges();
     expect(screen.getByRole("button", { name: "Three" })).toHaveAttribute(
       "aria-expanded",
       "false",
@@ -88,6 +105,74 @@ describe("OnyxAccordionComponent", () => {
   });
 
   describe("keyboard navigation", () => {
+    it("ignores keyboard events when there are no items", async () => {
+      const { container } = await render(`<onyx-accordion />`, {
+        imports: [OnyxAccordionComponent],
+      });
+      expect(
+        fireEvent.keyDown(container.querySelector("onyx-accordion")!, {
+          key: "ArrowDown",
+        }),
+      ).toBe(true);
+    });
+
+    it("ignores keyboard events when no header has focus", async () => {
+      const { container } = await renderAccordion();
+      expect(
+        fireEvent.keyDown(container.querySelector("onyx-accordion")!, {
+          key: "ArrowDown",
+        }),
+      ).toBe(true);
+    });
+
+    it("ignores unsupported keys", async () => {
+      const { container } = await renderAccordion();
+      screen.getAllByRole("button")[0].focus();
+      expect(
+        fireEvent.keyDown(container.querySelector("onyx-accordion")!, {
+          key: "Escape",
+        }),
+      ).toBe(true);
+    });
+
+    it("keeps focus in place when every item becomes disabled", async () => {
+      const { container, fixture } = await render(
+        `<onyx-accordion>
+          <onyx-accordion-item heading="One" [disabled]="disabled" />
+          <onyx-accordion-item heading="Two" [disabled]="disabled" />
+        </onyx-accordion>`,
+        {
+          imports: [OnyxAccordionComponent, OnyxAccordionItemComponent],
+          componentProperties: { disabled: false },
+        },
+      );
+      const first = screen.getAllByRole("button")[0];
+      first.focus();
+      (
+        fixture.componentInstance as unknown as { disabled: boolean }
+      ).disabled = true;
+      fixture.detectChanges();
+
+      expect(
+        fireEvent.keyDown(container.querySelector("onyx-accordion")!, {
+          key: "ArrowDown",
+        }),
+      ).toBe(true);
+      expect(document.activeElement).toBe(first);
+    });
+
+    it("reports no enabled item when the accordion is empty", async () => {
+      const { fixture } = await render(`<onyx-accordion />`, {
+        imports: [OnyxAccordionComponent],
+      });
+      const accordion = fixture.debugElement.query(
+        By.directive(OnyxAccordionComponent),
+      ).componentInstance as {
+        nextEnabled(from: number, step: number): number | null;
+      };
+      expect(accordion.nextEnabled(0, 1)).toBeNull();
+    });
+
     it("ArrowDown moves focus to the next header button", async () => {
       const user = userEvent.setup();
       await renderAccordion();
@@ -144,5 +229,17 @@ describe("OnyxAccordionComponent", () => {
       // Last enabled is index 1 (index 2 is disabled)
       expect(buttons[1]).toHaveFocus();
     });
+  });
+
+  it("exports its public API and documentation demos", () => {
+    expect(accordionPublicApi.OnyxAccordionComponent).toBe(
+      OnyxAccordionComponent,
+    );
+    expect(accordionPublicApi.OnyxAccordionItemComponent).toBe(
+      OnyxAccordionItemComponent,
+    );
+    expect(accordionPublicApi.ACCORDION_HOST).toBeDefined();
+    expect(accordionDoc.id).toBe("accordion");
+    expect(accordionDoc.demos).toHaveLength(2);
   });
 });
