@@ -47,6 +47,9 @@
     },
     "spinner-radius": {
       "value": "{radii.full}"
+    },
+    "icon-gap": {
+      "value": "{space.2}"
     }
   },
   "input": {
@@ -326,6 +329,9 @@
     },
     "danger-text": {
       "value": "{color.badge-danger-text}"
+    },
+    "dot-gap": {
+      "value": "{space.1}"
     }
   },
   "alert": {
@@ -579,6 +585,12 @@
   "select": {
     "height": {
       "value": "{size.control-md}"
+    },
+    "height-sm": {
+      "value": "{size.control-sm}"
+    },
+    "height-lg": {
+      "value": "{size.control-lg}"
     },
     "bg": {
       "value": "{color.surface}"

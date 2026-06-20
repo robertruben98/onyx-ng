@@ -24,6 +24,9 @@
     "text-muted": {
       "value": "{slate.400}"
     },
+    "text-placeholder": {
+      "value": "{slate.400}"
+    },
     "border": {
       "value": "{slate.200}"
     },

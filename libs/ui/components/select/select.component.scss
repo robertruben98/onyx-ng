@@ -90,10 +90,10 @@
 
 // --- Sizes ----------------------------------------------------------------
 :host(.ui-select--sm) .ui-select__trigger {
-  height: var(--ui-input-height-sm);
+  height: var(--ui-select-height-sm);
 }
 :host(.ui-select--lg) .ui-select__trigger {
-  height: var(--ui-input-height-lg);
+  height: var(--ui-select-height-lg);
 }
 
 // --- Invalid --------------------------------------------------------------

@@ -13,6 +13,7 @@
   --ui-color-surface-hover: var(--ui-slate-800);
   --ui-color-text: var(--ui-slate-50);
   --ui-color-text-muted: var(--ui-slate-400);
+  --ui-color-text-placeholder: var(--ui-slate-500);
   --ui-color-border: var(--ui-slate-700);
   --ui-color-danger: var(--ui-red-400);
   --ui-color-danger-surface: var(--ui-slate-800);
@@ -25,7 +26,8 @@
   --ui-color-neutral: var(--ui-slate-50);
   --ui-color-neutral-surface: var(--ui-slate-800);
   --ui-color-disabled-bg: var(--ui-slate-800);
-  --ui-color-disabled-text: var(--ui-slate-600);
+  --ui-color-disabled-text: var(--ui-slate-500);
+  --ui-tabs-text: var(--ui-slate-500);
   /* status semantic tokens — bg/text/border */
   --ui-color-info-bg: var(--ui-slate-800);
   --ui-color-info-text: var(--ui-blue-400);
