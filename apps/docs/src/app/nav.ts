@@ -1,4 +1,5 @@
 import { COMPONENT_DOCS } from "./registry";
+import { LIBRARY_DOCS } from "./libraries/registry";
 
 /** A single navigable entry in the sidebar. */
 export interface NavItem {
@@ -33,5 +34,15 @@ export const NAV: NavSection[] = [
       path: `/components/${d.id}`,
       label: d.title,
     })),
+  },
+  {
+    title: "Python Libraries",
+    items: [
+      { path: "/libraries", label: "Overview" },
+      ...LIBRARY_DOCS.map((l) => ({
+        path: `/libraries/${l.id}`,
+        label: l.name,
+      })),
+    ],
   },
 ];
