@@ -1,0 +1,21 @@
+import { LibraryDoc } from "../library-model";
+import { pythHermesDoc } from "./pyth-hermes.doc";
+import { odosPyDoc } from "./odos-py.doc";
+import { lifiPyDoc } from "./lifi-py.doc";
+import { relayLinkPyDoc } from "./relay-link-py.doc";
+import { morphoBluePyDoc } from "./morpho-blue-py.doc";
+import { debridgePyDoc } from "./debridge-py.doc";
+
+/**
+ * Single source of truth for the Python Libraries section. The index renders
+ * cards from this list, the router derives detail routes from it, and the
+ * nav/search pick it up via {@link NAV}.
+ */
+export const LIBRARY_DOCS: LibraryDoc[] = [
+  pythHermesDoc,
+  odosPyDoc,
+  lifiPyDoc,
+  relayLinkPyDoc,
+  morphoBluePyDoc,
+  debridgePyDoc,
+];

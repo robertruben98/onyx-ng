@@ -6,7 +6,7 @@
  * sanitizer keeps `<span class>` while stripping anything unsafe — so the output
  * is safe to bind without bypassing the sanitizer.
  */
-export type Lang = "html" | "ts" | "bash" | "css";
+export type Lang = "html" | "ts" | "bash" | "css" | "python";
 
 function esc(s: string): string {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -25,6 +25,22 @@ const GRAMMAR: RegExp = new RegExp(
     /((?:\[\(?|\(|\*|#|@)?[A-Za-z_][\w.-]*(?=\s*=))/.source, // 5 attribute / binding before '='
     `(${TS_KEYWORDS.source})`, // 6 keyword
     /(\b\d[\w.]*\b)/.source, // 7 number-ish
+  ].join("|"),
+  "g",
+);
+
+const PY_KEYWORDS =
+  /\b(?:import|from|as|def|class|return|if|elif|else|for|while|in|not|and|or|is|with|async|await|try|except|finally|raise|yield|lambda|pass|break|continue|global|nonlocal|del|assert|True|False|None|self)\b/;
+
+// Python: comments, strings (incl. triple-quoted), decorators, keywords, numbers.
+const PYTHON = new RegExp(
+  [
+    /(#[^\n]*)/.source, // 1 comment
+    /("""[\s\S]*?"""|'''[\s\S]*?'''|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')/
+      .source, // 2 string
+    /(@[A-Za-z_][\w.]*)/.source, // 3 decorator
+    `(${PY_KEYWORDS.source})`, // 4 keyword
+    /(\b\d[\w.]*\b)/.source, // 5 number-ish
   ].join("|"),
   "g",
 );
@@ -80,6 +96,29 @@ function highlightBash(code: string): string {
   return out;
 }
 
+function highlightPython(code: string): string {
+  let out = "";
+  let last = 0;
+  let m: RegExpExecArray | null;
+  PYTHON.lastIndex = 0;
+  while ((m = PYTHON.exec(code))) {
+    out += esc(code.slice(last, m.index));
+    const t = m[0];
+    let cls = "";
+    if (m[1]) cls = "hl-comment";
+    else if (m[2]) cls = "hl-string";
+    else if (m[3]) cls = "hl-attr";
+    else if (m[4]) cls = "hl-keyword";
+    else if (m[5]) cls = "hl-num";
+    out += `<span class="${cls}">${esc(t)}</span>`;
+    last = m.index + t.length;
+  }
+  out += esc(code.slice(last));
+  return out;
+}
+
 export function highlight(code: string, lang: Lang): string {
-  return lang === "bash" ? highlightBash(code) : highlightDefault(code);
+  if (lang === "bash") return highlightBash(code);
+  if (lang === "python") return highlightPython(code);
+  return highlightDefault(code);
 }

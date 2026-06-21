@@ -80,7 +80,7 @@ import { highlight } from "./highlight";
 })
 export class CodeBlockComponent {
   readonly code = input.required<string>();
-  readonly language = input<"html" | "ts" | "bash" | "css">("html");
+  readonly language = input<"html" | "ts" | "bash" | "css" | "python">("html");
   protected readonly copied = signal(false);
   protected readonly html = computed(() =>
     highlight(this.code(), this.language()),
