@@ -5,6 +5,11 @@ import { lifiPyDoc } from "./lifi-py.doc";
 import { relayLinkPyDoc } from "./relay-link-py.doc";
 import { morphoBluePyDoc } from "./morpho-blue-py.doc";
 import { debridgePyDoc } from "./debridge-py.doc";
+import { acrossProtocolPyDoc } from "./across-protocol-py.doc";
+import { squidrouterPyDoc } from "./squidrouter-py.doc";
+import { kaminoPyDoc } from "./kamino-py.doc";
+import { redstonePyDoc } from "./redstone-py.doc";
+import { mobulaPyDoc } from "./mobula-py.doc";
 
 /**
  * Single source of truth for the Python Libraries section. The index renders
@@ -18,4 +23,9 @@ export const LIBRARY_DOCS: LibraryDoc[] = [
   relayLinkPyDoc,
   morphoBluePyDoc,
   debridgePyDoc,
+  acrossProtocolPyDoc,
+  squidrouterPyDoc,
+  kaminoPyDoc,
+  redstonePyDoc,
+  mobulaPyDoc,
 ];
