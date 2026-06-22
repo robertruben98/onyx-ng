@@ -14,7 +14,8 @@ export type LibraryCategory =
   | "DEX Aggregator"
   | "Bridge"
   | "Lending"
-  | "Market Data";
+  | "Market Data"
+  | "AMM";
 
 /** One entry in a library's API reference table. */
 export interface LibraryApiRow {
