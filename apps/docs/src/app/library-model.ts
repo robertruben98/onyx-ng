@@ -13,7 +13,8 @@ export type LibraryCategory =
   | "Price Oracle"
   | "DEX Aggregator"
   | "Bridge"
-  | "Lending";
+  | "Lending"
+  | "Market Data";
 
 /** One entry in a library's API reference table. */
 export interface LibraryApiRow {
