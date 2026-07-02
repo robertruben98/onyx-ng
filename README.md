@@ -5,7 +5,7 @@
 
 Accessible, token-driven UI component library built for **Angular 19** using Standalone Components, Signals, and a Style Dictionary design-token layer.
 
-- 23 production-grade components (forms, overlays, layout, navigation)
+- 27 production-grade components (forms, overlays, layout, navigation)
 - Three-tier token system (`--ui-*`): primitive → semantic → component
 - CSS-only dark mode and per-client brand presets
 - `@angular/cdk`-powered accessibility (keyboard, focus, ARIA)
@@ -112,9 +112,9 @@ Selectors use the `onyx-*` prefix; exported class names use the `Onyx*` prefix (
 
 | Category            | Components                                                                     |
 | ------------------- | ------------------------------------------------------------------------------ |
-| Forms & Input       | `button`, `input`, `textarea`, `select`, `checkbox`, `radio-group`, `switch`   |
-| Overlays & Feedback | `dialog`, `popover`, `tooltip`, `menu`, `alert`, `spinner`, `progress-bar`     |
-| Data & Layout       | `data-table`, `card`, `accordion`, `tabs`, `avatar`, `badge`, `tag`, `divider`, `stack` |
+| Forms & Input       | `button`, `input`, `textarea`, `select`, `checkbox`, `radio-group`, `switch`, `slider` |
+| Overlays & Feedback | `dialog`, `popover`, `tooltip`, `menu`, `alert`, `spinner`, `progress-bar`, `skeleton` |
+| Data & Layout       | `data-table`, `card`, `accordion`, `tabs`, `avatar`, `badge`, `tag`, `divider`, `stack`, `grid`, `empty-state` |
 
 Full API documentation and live demos: **https://onyx.a-robertdev.com**
 

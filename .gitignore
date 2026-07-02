@@ -11,3 +11,5 @@ coverage/
 .claude/.goal-active
 .claude/.goal-block-count
 .claude/settings.local.json
+docs/superpowers/
+CLAUDE.md
