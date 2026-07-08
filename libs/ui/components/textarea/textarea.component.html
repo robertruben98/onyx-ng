@@ -2,14 +2,27 @@
   <label class="ui-textarea__label" [attr.for]="inputId">{{ label() }}</label>
 }
 <textarea
+  #textarea
   class="ui-textarea__el"
   [id]="inputId"
   [rows]="rows()"
   [value]="value()"
   [disabled]="disabledState()"
+  [attr.maxlength]="maxLength()"
   [attr.placeholder]="placeholder() || null"
   [attr.aria-label]="!label() && ariaLabel() ? ariaLabel() : null"
   [attr.aria-invalid]="invalid() ? 'true' : null"
+  [attr.aria-describedby]="maxLength() !== null ? counterId : null"
   (input)="handleInput($event)"
   (blur)="handleBlur()"
 ></textarea>
+@if (maxLength() !== null) {
+  <span
+    class="ui-textarea__counter"
+    [id]="counterId"
+    [class.ui-textarea__counter--limit]="charCount() >= maxLength()!"
+    aria-live="polite"
+  >
+    {{ charCount() }} / {{ maxLength() }}
+  </span>
+}

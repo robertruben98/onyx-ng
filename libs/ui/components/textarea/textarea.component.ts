@@ -1,13 +1,16 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   booleanAttribute,
   computed,
+  effect,
   forwardRef,
   input,
   numberAttribute,
   output,
   signal,
+  viewChild,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
@@ -30,11 +33,18 @@ let nextId = 0;
     "[class.ui-textarea]": "true",
     "[class.ui-textarea--invalid]": "invalid()",
     "[class.ui-textarea--disabled]": "disabledState()",
+    "[class.ui-textarea--autogrow]": "autoGrow()",
   },
 })
 export class OnyxTextareaComponent implements ControlValueAccessor {
-  /** Number of visible text rows. */
+  /** Number of visible text rows — the minimum height when auto-growing. */
   readonly rows = input(3, { transform: numberAttribute });
+  /** Auto-grow the control to fit its content (rows acts as the minimum). */
+  readonly autoGrow = input(true, { transform: booleanAttribute });
+  /** Maximum number of characters; enables the live character counter. */
+  readonly maxLength = input<number | null, unknown>(null, {
+    transform: numberAttribute,
+  });
   /** Placeholder text. */
   readonly placeholder = input("");
   /** Visible label — when set, renders a <label> linked to the control. */
@@ -49,8 +59,14 @@ export class OnyxTextareaComponent implements ControlValueAccessor {
   /** Emitted on every value change (in addition to the CVA contract). */
   readonly valueChange = output<string>();
 
+  private readonly textareaRef =
+    viewChild.required<ElementRef<HTMLTextAreaElement>>("textarea");
+
   protected readonly inputId = `ui-textarea-${nextId++}`;
+  protected readonly counterId = `${this.inputId}-counter`;
   protected readonly value = signal("");
+  /** Live character count, driving the counter and its limit styling. */
+  protected readonly charCount = computed(() => this.value().length);
   private readonly formDisabled = signal(false);
   protected readonly disabledState = computed(
     () => this.disabled() || this.formDisabled(),
@@ -58,6 +74,21 @@ export class OnyxTextareaComponent implements ControlValueAccessor {
 
   private onChange: (value: string) => void = () => {};
   private onTouched: () => void = () => {};
+
+  constructor() {
+    // Re-measure whenever the value changes so the control fits its content.
+    effect(() => {
+      this.value();
+      if (this.autoGrow()) {
+        this.grow(this.textareaRef().nativeElement);
+      }
+    });
+  }
+
+  private grow(el: HTMLTextAreaElement): void {
+    el.style.height = "auto";
+    el.style.height = `${el.scrollHeight}px`;
+  }
 
   protected handleInput(event: Event): void {
     const value = (event.target as HTMLTextAreaElement).value;

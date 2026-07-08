@@ -30,6 +30,24 @@
     box-shadow 150ms ease;
 }
 
+// Auto-grow: the height is driven by JS to match the content, so the manual
+// resize grip is disabled and the intrinsic scrollbar is hidden.
+:host(.ui-textarea--autogrow) .ui-textarea__el {
+  resize: none;
+  overflow: hidden;
+}
+
+.ui-textarea__counter {
+  align-self: flex-end;
+  font-size: var(--ui-textarea-counter-font-size);
+  color: var(--ui-textarea-counter-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.ui-textarea__counter--limit {
+  color: var(--ui-textarea-counter-limit-text);
+}
+
 .ui-textarea__el::placeholder {
   color: var(--ui-textarea-placeholder);
 }

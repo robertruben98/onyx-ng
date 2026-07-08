@@ -5,13 +5,25 @@ export const textareaDoc: ComponentDoc = {
   id: "textarea",
   title: "Textarea",
   description:
-    "Multi-line text input implementing ControlValueAccessor, with rows, invalid and disabled states.",
+    "Auto-growing multi-line text input implementing ControlValueAccessor, with rows, a maxlength character counter, invalid and disabled states.",
   api: [
     {
       name: "rows",
       type: "number",
       default: "3",
-      description: "Visible text rows.",
+      description: "Visible text rows — the minimum height when auto-growing.",
+    },
+    {
+      name: "autoGrow",
+      type: "boolean",
+      default: "true",
+      description: "Grow the control to fit its content as the user types.",
+    },
+    {
+      name: "maxLength",
+      type: "number | null",
+      default: "null",
+      description: "Maximum characters; enables the live character counter.",
     },
     {
       name: "label",
