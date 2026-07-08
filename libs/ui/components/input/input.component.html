@@ -1,15 +1,45 @@
 @if (label()) {
   <label class="ui-input__label" [attr.for]="inputId">{{ label() }}</label>
 }
-<input
-  class="ui-input__el"
-  [id]="inputId"
-  [attr.type]="type()"
-  [value]="value()"
-  [disabled]="disabledState()"
-  [attr.placeholder]="placeholder() || null"
-  [attr.aria-label]="!label() && ariaLabel() ? ariaLabel() : null"
-  [attr.aria-invalid]="invalid() ? 'true' : null"
-  (input)="handleInput($event)"
-  (blur)="handleBlur()"
-/>
+
+<div class="ui-input__field">
+  <span
+    #prefixAffix
+    class="ui-input__affix ui-input__affix--prefix"
+    [hidden]="!hasPrefix()"
+  >
+    <ng-content select="[slot=prefix]" />
+  </span>
+
+  <input
+    class="ui-input__el"
+    [id]="inputId"
+    [attr.type]="type()"
+    [value]="value()"
+    [disabled]="disabledState()"
+    [attr.placeholder]="placeholder() || null"
+    [attr.aria-label]="!label() && ariaLabel() ? ariaLabel() : null"
+    [attr.aria-invalid]="isInvalid() ? 'true' : null"
+    [attr.aria-describedby]="describedBy()"
+    (input)="handleInput($event)"
+    (blur)="handleBlur()"
+  />
+
+  <span
+    #suffixAffix
+    class="ui-input__affix ui-input__affix--suffix"
+    [hidden]="!hasSuffix()"
+  >
+    <ng-content select="[slot=suffix]" />
+  </span>
+</div>
+
+@if (message()) {
+  <p
+    class="ui-input__message"
+    [class.ui-input__message--error]="error()"
+    [id]="messageId"
+  >
+    {{ message() }}
+  </p>
+}
