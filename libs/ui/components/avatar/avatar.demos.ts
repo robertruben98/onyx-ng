@@ -22,6 +22,17 @@ const sizesCode = `<onyx-avatar size="sm" name="Ada Lovelace" />
 })
 class AvatarSizesDemoComponent {}
 
+const statusCode = `<onyx-avatar name="Ada Lovelace" status="online" />
+<onyx-avatar name="Grace Hopper" status="away" />
+<onyx-avatar name="Alan Turing" status="busy" />
+<onyx-avatar name="Katherine Johnson" status="offline" />`;
+@Component({
+  standalone: true,
+  imports: [OnyxAvatarComponent],
+  template: statusCode,
+})
+class AvatarStatusDemoComponent {}
+
 export const avatarDemos: Demo[] = [
   {
     title: "Initials & shape",
@@ -29,4 +40,5 @@ export const avatarDemos: Demo[] = [
     component: AvatarInitialsDemoComponent,
   },
   { title: "Sizes", code: sizesCode, component: AvatarSizesDemoComponent },
+  { title: "Status", code: statusCode, component: AvatarStatusDemoComponent },
 ];
