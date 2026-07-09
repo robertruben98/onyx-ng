@@ -8,3 +8,15 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    # Hold back major upgrades that fail CI on Angular 19 and are coupled to the
+    # Angular 22 migration (epic #98). See #102. Drop these rules once #98 lands.
+    ignore:
+      # jest 30 (#82): @angular-devkit/build-angular@19 pins jest@^29 (peer conflict).
+      - dependency-name: "jest"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/jest"
+        update-types: ["version-update:semver-major"]
+      # zone.js 0.16 (#72): breaking zone-patching changes; bundled with Angular 22.
+      # zone.js uses 0.x versioning, so a minor bump is effectively breaking.
+      - dependency-name: "zone.js"
+        update-types: ["version-update:semver-minor", "version-update:semver-major"]
