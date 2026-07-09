@@ -197,6 +197,15 @@
     },
     "disabled-text": {
       "value": "{color.disabled-text}"
+    },
+    "counter-font-size": {
+      "value": "{font.size.sm}"
+    },
+    "counter-text": {
+      "value": "{color.text-muted}"
+    },
+    "counter-limit-text": {
+      "value": "{color.danger}"
     }
   },
   "switch": {
