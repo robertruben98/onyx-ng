@@ -71,6 +71,12 @@
     "border-invalid": {
       "value": "{color.danger}"
     },
+    "hint": {
+      "value": "{color.text-muted}"
+    },
+    "error": {
+      "value": "{color.danger}"
+    },
     "radius": {
       "value": "{radius}"
     },

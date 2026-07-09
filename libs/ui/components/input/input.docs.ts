@@ -5,7 +5,7 @@ export const inputDoc: ComponentDoc = {
   id: "input",
   title: "Input",
   description:
-    "Text input implementing ControlValueAccessor, with label, invalid and disabled states.",
+    "Text input implementing ControlValueAccessor, with label, prefix/suffix slots, a hint/error message region, and invalid and disabled states.",
   api: [
     {
       name: "type",
@@ -38,6 +38,19 @@ export const inputDoc: ComponentDoc = {
       description: "Placeholder text.",
     },
     {
+      name: "hint",
+      type: "string",
+      default: "''",
+      description: "Hint text below the field, linked via aria-describedby.",
+    },
+    {
+      name: "error",
+      type: "string",
+      default: "''",
+      description:
+        "Error text below the field; also forces the invalid state.",
+    },
+    {
       name: "invalid",
       type: "boolean",
       default: "false",
@@ -54,6 +67,18 @@ export const inputDoc: ComponentDoc = {
       type: "string",
       default: "-",
       description: "Emitted on every value change.",
+    },
+    {
+      name: "[slot=prefix]",
+      type: "content",
+      default: "-",
+      description: "Content rendered before the input (e.g. an icon).",
+    },
+    {
+      name: "[slot=suffix]",
+      type: "content",
+      default: "-",
+      description: "Content rendered after the input (e.g. a unit).",
     },
   ],
   demos: inputDemos,

@@ -25,8 +25,38 @@ const sizesCode = `<onyx-input size="sm" label="Small" placeholder="sm" />
 })
 class InputSizesDemoComponent {}
 
+const affixesCode = `<onyx-input label="Amount" type="number" placeholder="0.00">
+  <span slot="prefix">$</span>
+  <span slot="suffix">USD</span>
+</onyx-input>`;
+@Component({
+  standalone: true,
+  imports: [OnyxInputComponent],
+  template: affixesCode,
+})
+class InputAffixesDemoComponent {}
+
+const messagesCode = `<onyx-input label="Username" hint="3–20 characters." />
+<onyx-input label="Email" type="email" error="Enter a valid email address." />`;
+@Component({
+  standalone: true,
+  imports: [OnyxInputComponent],
+  template: messagesCode,
+})
+class InputMessagesDemoComponent {}
+
 export const inputDemos: Demo[] = [
   { title: "Basic", code: basicCode, component: InputBasicDemoComponent },
   { title: "Sizes", code: sizesCode, component: InputSizesDemoComponent },
+  {
+    title: "Prefix & suffix",
+    code: affixesCode,
+    component: InputAffixesDemoComponent,
+  },
+  {
+    title: "Hint & error",
+    code: messagesCode,
+    component: InputMessagesDemoComponent,
+  },
   { title: "States", code: statesCode, component: InputStatesDemoComponent },
 ];

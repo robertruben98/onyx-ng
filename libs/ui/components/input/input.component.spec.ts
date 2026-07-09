@@ -74,6 +74,55 @@ describe("OnyxInputComponent", () => {
     expect(valueChange).not.toHaveBeenCalled();
   });
 
+  it("projects prefix and suffix slot content", async () => {
+    await render(
+      `<onyx-input label="Amount"
+        ><span slot="prefix">$</span><span slot="suffix">USD</span></onyx-input
+      >`,
+      { imports: [OnyxInputComponent] },
+    );
+    expect(screen.getByText("$")).toBeInTheDocument();
+    expect(screen.getByText("USD")).toBeInTheDocument();
+  });
+
+  it("shows a hint and links it via aria-describedby", async () => {
+    await render(`<onyx-input label="Email" hint="Use your work email" />`, {
+      imports: [OnyxInputComponent],
+    });
+    const el = screen.getByLabelText("Email");
+    const hint = screen.getByText("Use your work email");
+    expect(el.getAttribute("aria-describedby")).toBe(hint.id);
+    expect(el).not.toHaveAttribute("aria-invalid");
+  });
+
+  it("shows an error, links it, and forces the invalid state", async () => {
+    await render(`<onyx-input label="Email" error="Enter a valid email" />`, {
+      imports: [OnyxInputComponent],
+    });
+    const el = screen.getByLabelText("Email");
+    const msg = screen.getByText("Enter a valid email");
+    expect(el.getAttribute("aria-describedby")).toBe(msg.id);
+    expect(el).toHaveAttribute("aria-invalid", "true");
+  });
+
+  it("prefers the error message over the hint", async () => {
+    await render(
+      `<onyx-input label="Email" hint="Use your work email" error="Enter a valid email" />`,
+      { imports: [OnyxInputComponent] },
+    );
+    expect(screen.getByText("Enter a valid email")).toBeInTheDocument();
+    expect(screen.queryByText("Use your work email")).not.toBeInTheDocument();
+  });
+
+  it("omits aria-describedby when there is no message", async () => {
+    await render(`<onyx-input label="Email" />`, {
+      imports: [OnyxInputComponent],
+    });
+    expect(screen.getByLabelText("Email")).not.toHaveAttribute(
+      "aria-describedby",
+    );
+  });
+
   describe("ControlValueAccessor (ngModel)", () => {
     @Component({
       standalone: true,
@@ -123,6 +172,24 @@ describe("OnyxInputComponent", () => {
   it("has no axe violations (disabled)", async () => {
     const { container } = await render(
       `<onyx-input label="Email" [disabled]="true" />`,
+      { imports: [OnyxInputComponent] },
+    );
+    expect(await axe(container, axeOptions)).toHaveNoViolations();
+  });
+
+  it("has no axe violations (hint + affixes)", async () => {
+    const { container } = await render(
+      `<onyx-input label="Amount" hint="Positive numbers only"
+        ><span slot="prefix">$</span></onyx-input
+      >`,
+      { imports: [OnyxInputComponent] },
+    );
+    expect(await axe(container, axeOptions)).toHaveNoViolations();
+  });
+
+  it("has no axe violations (error)", async () => {
+    const { container } = await render(
+      `<onyx-input label="Email" error="Enter a valid email" />`,
       { imports: [OnyxInputComponent] },
     );
     expect(await axe(container, axeOptions)).toHaveNoViolations();

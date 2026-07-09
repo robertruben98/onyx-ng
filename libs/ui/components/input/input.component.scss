@@ -14,13 +14,13 @@
   color: var(--ui-input-text);
 }
 
-.ui-input__el {
+// The bordered box holds the affixes and the native control together so the
+// focus ring wraps the whole field.
+.ui-input__field {
+  display: flex;
+  align-items: stretch;
   inline-size: 100%;
   height: var(--ui-input-height);
-  padding: 0 var(--ui-input-padding-x);
-  font-family: inherit;
-  font-size: var(--ui-input-font-size);
-  color: var(--ui-input-text);
   background-color: var(--ui-input-bg);
   border: var(--ui-input-border-width) solid var(--ui-input-border);
   border-radius: var(--ui-input-radius);
@@ -29,34 +29,77 @@
     box-shadow 150ms ease;
 }
 
-.ui-input__el::placeholder {
-  color: var(--ui-input-placeholder);
-}
-
-.ui-input__el:focus-visible {
-  outline: none;
+.ui-input__field:focus-within {
   border-color: var(--ui-input-border-focus);
   box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-focus-ring);
 }
 
-.ui-input__el:disabled {
-  cursor: not-allowed;
-  background-color: var(--ui-input-disabled-bg);
-  color: var(--ui-input-disabled-text);
+.ui-input__el {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  padding: 0 var(--ui-input-padding-x);
+  font-family: inherit;
+  font-size: var(--ui-input-font-size);
+  color: var(--ui-input-text);
+  background-color: transparent;
+  border: none;
+  border-radius: inherit;
+}
+
+.ui-input__el:focus-visible {
+  outline: none;
+}
+
+.ui-input__el::placeholder {
+  color: var(--ui-input-placeholder);
+}
+
+// Prefix / suffix affixes sit inside the field; hidden (out of layout) when
+// no slot content is projected, so empty affixes add no padding.
+.ui-input__affix {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ui-input-placeholder);
+}
+.ui-input__affix--prefix {
+  padding-inline-start: var(--ui-input-padding-x);
+}
+.ui-input__affix--suffix {
+  padding-inline-end: var(--ui-input-padding-x);
+}
+
+// Hint / error message region linked to the control via aria-describedby.
+.ui-input__message {
+  margin: 0;
+  font-size: var(--ui-input-label-font-size);
+  color: var(--ui-input-hint);
+}
+.ui-input__message--error {
+  color: var(--ui-input-error);
 }
 
 // --- Sizes ----------------------------------------------------------------
-:host(.ui-input--sm) .ui-input__el {
+:host(.ui-input--sm) .ui-input__field {
   height: var(--ui-input-height-sm);
 }
-:host(.ui-input--lg) .ui-input__el {
+:host(.ui-input--lg) .ui-input__field {
   height: var(--ui-input-height-lg);
 }
 
 // --- Invalid --------------------------------------------------------------
-:host(.ui-input--invalid) .ui-input__el {
+:host(.ui-input--invalid) .ui-input__field {
   border-color: var(--ui-input-border-invalid);
 }
-:host(.ui-input--invalid) .ui-input__el:focus-visible {
+:host(.ui-input--invalid) .ui-input__field:focus-within {
   box-shadow: 0 0 0 var(--ui-focus-ring-width) var(--ui-input-border-invalid);
+}
+
+// --- Disabled -------------------------------------------------------------
+:host(.ui-input--disabled) .ui-input__field {
+  cursor: not-allowed;
+  background-color: var(--ui-input-disabled-bg);
+}
+:host(.ui-input--disabled) .ui-input__el {
+  cursor: not-allowed;
+  color: var(--ui-input-disabled-text);
 }
