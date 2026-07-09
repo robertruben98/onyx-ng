@@ -958,6 +958,36 @@
     },
     "font-weight": {
       "value": "{font.weight.medium}"
+    },
+    "status-size": {
+      "value": "0.75rem"
+    },
+    "status-size-sm": {
+      "value": "0.625rem"
+    },
+    "status-size-lg": {
+      "value": "0.875rem"
+    },
+    "status-radius": {
+      "value": "{radii.full}"
+    },
+    "status-ring": {
+      "value": "{color.surface}"
+    },
+    "status-ring-width": {
+      "value": "{border.width-thick}"
+    },
+    "status-online": {
+      "value": "{color.success}"
+    },
+    "status-offline": {
+      "value": "{color.text-muted}"
+    },
+    "status-away": {
+      "value": "{color.warning}"
+    },
+    "status-busy": {
+      "value": "{color.danger}"
     }
   },
   "divider": {

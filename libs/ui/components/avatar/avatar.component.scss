@@ -1,18 +1,12 @@
 // Avatar styles — semantic / component tokens only (CLAUDE.md §3).
 
 :host {
+  position: relative;
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
   width: var(--ui-avatar-size);
   height: var(--ui-avatar-size);
-  border-radius: var(--ui-avatar-radius);
-  background-color: var(--ui-avatar-bg);
-  color: var(--ui-avatar-text);
   font-size: var(--ui-avatar-font-size);
   font-weight: var(--ui-avatar-font-weight);
-  overflow: hidden;
-  user-select: none;
 }
 
 :host(.ui-avatar--sm) {
@@ -27,7 +21,22 @@
   font-size: var(--ui-avatar-font-size-lg);
 }
 
-:host(.ui-avatar--square) {
+// Frame clips the image/initials to the avatar shape. The status dot sits
+// outside the frame so it is never clipped by `overflow: hidden`.
+.ui-avatar__frame {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: inherit;
+  height: inherit;
+  border-radius: var(--ui-avatar-radius);
+  background-color: var(--ui-avatar-bg);
+  color: var(--ui-avatar-text);
+  overflow: hidden;
+  user-select: none;
+}
+
+:host(.ui-avatar--square) .ui-avatar__frame {
   border-radius: var(--ui-avatar-radius-square);
 }
 
@@ -39,4 +48,42 @@
 
 .ui-avatar__initials {
   line-height: 1;
+}
+
+// --- Status dot -----------------------------------------------------------
+.ui-avatar__status {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: var(--ui-avatar-status-size);
+  height: var(--ui-avatar-status-size);
+  border-radius: var(--ui-avatar-status-radius);
+  box-shadow: 0 0 0 var(--ui-avatar-status-ring-width)
+    var(--ui-avatar-status-ring);
+}
+
+:host(.ui-avatar--sm) .ui-avatar__status {
+  width: var(--ui-avatar-status-size-sm);
+  height: var(--ui-avatar-status-size-sm);
+}
+
+:host(.ui-avatar--lg) .ui-avatar__status {
+  width: var(--ui-avatar-status-size-lg);
+  height: var(--ui-avatar-status-size-lg);
+}
+
+.ui-avatar__status[data-status="online"] {
+  background-color: var(--ui-avatar-status-online);
+}
+
+.ui-avatar__status[data-status="offline"] {
+  background-color: var(--ui-avatar-status-offline);
+}
+
+.ui-avatar__status[data-status="away"] {
+  background-color: var(--ui-avatar-status-away);
+}
+
+.ui-avatar__status[data-status="busy"] {
+  background-color: var(--ui-avatar-status-busy);
 }
