@@ -59,6 +59,25 @@ describe("SearchComponent", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
+  it("closes when the backdrop (scrim) is clicked", async () => {
+    await setup();
+    fireEvent.click(
+      screen.getByRole("button", { name: /search documentation/i }),
+    );
+    const scrim = screen.getByRole("dialog").parentElement as HTMLElement;
+    fireEvent.click(scrim);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("stays open when the dialog itself is clicked", async () => {
+    await setup();
+    fireEvent.click(
+      screen.getByRole("button", { name: /search documentation/i }),
+    );
+    fireEvent.click(screen.getByRole("dialog"));
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
   it("opens with Cmd/Ctrl+K", async () => {
     await setup();
     fireEvent.keyDown(document, { key: "k", metaKey: true });

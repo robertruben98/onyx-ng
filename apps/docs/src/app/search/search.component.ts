@@ -62,13 +62,15 @@ interface ResultGroup {
     </button>
 
     @if (open()) {
-      <div class="docs-search__backdrop" (click)="close()">
+      <!-- Pointer-only scrim: keyboard users dismiss with Escape (handled on the
+           combobox input), and a scrim must not become a tab stop. -->
+      <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+      <div class="docs-search__backdrop" (click)="onBackdropClick($event)">
         <div
           class="docs-search__dialog"
           role="dialog"
           aria-modal="true"
           aria-label="Search documentation"
-          (click)="$event.stopPropagation()"
         >
           <div class="docs-search__field">
             <svg
@@ -123,6 +125,10 @@ interface ResultGroup {
                   g.title
                 }}</span>
                 @for (it of g.items; track it.path) {
+                  <!-- APG combobox: DOM focus stays on the input (aria-activedescendant);
+                       ArrowUp/ArrowDown + Enter select from there, so options are
+                       deliberately not focusable and carry no key handler. -->
+                  <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
                   <div
                     role="option"
                     class="docs-search__opt"
@@ -347,6 +353,11 @@ export class SearchComponent {
     if (!this.open()) return;
     this.open.set(false);
     this.trigger()?.nativeElement.focus();
+  }
+
+  /** Closes only when the scrim itself is clicked, not a child of it (the dialog). */
+  protected onBackdropClick(event: MouseEvent): void {
+    if (event.target === event.currentTarget) this.close();
   }
 
   protected onInput(event: Event): void {
