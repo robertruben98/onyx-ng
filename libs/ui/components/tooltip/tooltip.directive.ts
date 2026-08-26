@@ -57,13 +57,28 @@ export class OnyxTooltipDirective {
     const instance = ref.attach(new ComponentPortal(OnyxTooltipComponent)).instance;
     instance.id.set(this.id);
     instance.text.set(this.text());
-    this.elementRef.nativeElement.setAttribute("aria-describedby", this.id);
+    this.updateDescribedBy((ids) => [...ids, this.id]);
   }
 
   protected hide(): void {
     if (!this.overlayRef) return;
     this.overlayRef.dispose();
     this.overlayRef = undefined;
-    this.elementRef.nativeElement.removeAttribute("aria-describedby");
+    this.updateDescribedBy((ids) => ids.filter((id) => id !== this.id));
+  }
+
+  /**
+   * B-11: `aria-describedby` is a space-separated id list the consumer may
+   * already use (hints, helper text). Add/remove only the tooltip's own id;
+   * drop the attribute only when nothing is left.
+   */
+  private updateDescribedBy(edit: (ids: string[]) => string[]): void {
+    const el: HTMLElement = this.elementRef.nativeElement;
+    const current = (el.getAttribute("aria-describedby") ?? "")
+      .split(/\s+/)
+      .filter((id) => id && id !== this.id);
+    const next = edit(current);
+    if (next.length) el.setAttribute("aria-describedby", next.join(" "));
+    else el.removeAttribute("aria-describedby");
   }
 }

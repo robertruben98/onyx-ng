@@ -38,6 +38,31 @@ describe("OnyxTooltipDirective", () => {
     expect(trigger).not.toHaveAttribute("aria-describedby");
   });
 
+  // B-11: the trigger may already be described by something else (a hint,
+  // helper text). The tooltip must add/remove ONLY its own id in that list.
+  it("preserves a pre-existing aria-describedby on the trigger", async () => {
+    const user = userEvent.setup();
+    await render(
+      `<button type="button" aria-describedby="hint" [onyxTooltip]="text">Hover me</button>
+       <p id="hint">Existing hint</p>`,
+      { imports: [OnyxTooltipDirective], componentProperties: { text: "Tip" } },
+    );
+    const trigger = screen.getByRole("button", { name: "Hover me" });
+    expect(trigger).toHaveAttribute("aria-describedby", "hint");
+
+    await user.hover(trigger);
+    const tip = await screen.findByRole("tooltip");
+    const during = trigger.getAttribute("aria-describedby")!.split(/\s+/);
+    expect(during).toContain("hint");
+    expect(during).toContain(tip.id);
+
+    await user.unhover(trigger);
+    await waitFor(() =>
+      expect(screen.queryByRole("tooltip")).not.toBeInTheDocument(),
+    );
+    expect(trigger).toHaveAttribute("aria-describedby", "hint");
+  });
+
   it("shows on focus and hides on Escape", async () => {
     const user = userEvent.setup();
     await renderTooltip();
