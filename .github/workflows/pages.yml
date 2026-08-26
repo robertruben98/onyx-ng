@@ -33,6 +33,13 @@ jobs:
       - run: npm ci
       - run: npm run build:tokens
       - run: npx ng build docs --base-href=/onyx-ng/
+      # GitHub Pages has no SPA fallback: it serves 404.html for any path it
+      # cannot find on disk, so a refresh or a direct link to a client-side
+      # route like /onyx-ng/components/dialog returns GitHub's generic 404 and
+      # the app never boots. Shipping the built index.html as 404.html hands
+      # those paths back to the Angular router. The 404 STATUS remains -- Pages
+      # always returns it for the fallback -- but the page is fully functional.
+      - run: cp dist/docs/index.html dist/docs/404.html
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: dist/docs
