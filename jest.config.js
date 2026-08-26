@@ -4,7 +4,6 @@ module.exports = {
   collectCoverageFrom: [
     "libs/ui/**/*.ts",
     "!libs/ui/**/*.spec.ts",
-    "!libs/ui/**/*.stories.ts",
     "!libs/ui/**/*.demos.ts",
     "!libs/ui/**/*.docs.ts",
     "!libs/ui/**/index.ts",
@@ -13,7 +12,6 @@ module.exports = {
   coverageDirectory: "coverage",
   coveragePathIgnorePatterns: [
     "/apps/docs/",
-    "\\.stories\\.ts$",
     "\\.demos\\.ts$",
     "\\.docs\\.ts$",
     "/index\\.ts$",

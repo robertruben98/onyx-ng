@@ -16,13 +16,11 @@ module.exports = tseslint.config(
       "node_modules/**",
       "dist/**",
       ".nx/**",
-      "storybook-static/**",
       "out-tsc/**",
       "coverage/**",
       "**/*.config.js",
       ".stylelintrc.js",
       "eslint.config.js",
-      "**/.storybook/**",
     ],
   },
   {
