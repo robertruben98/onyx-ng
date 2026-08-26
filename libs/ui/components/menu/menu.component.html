@@ -12,6 +12,8 @@
 </button>
 
 <ng-template #panel>
+  <!-- APG menu: focus lives on the menuitem buttons; keydown bubbles to the menu. -->
+  <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
   <div
     role="menu"
     [id]="menuId"

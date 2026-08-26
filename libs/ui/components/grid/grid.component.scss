@@ -54,10 +54,7 @@ onyx-grid.onyx-grid-host {
   }
 
   .onyx-grid-host > .onyx-grid > [onyxGridItem] {
-    grid-column: var(
-      --onyx-grid-item-span-sm,
-      var(--onyx-grid-item-span)
-    );
+    grid-column: var(--onyx-grid-item-span-sm, var(--onyx-grid-item-span));
   }
 }
 

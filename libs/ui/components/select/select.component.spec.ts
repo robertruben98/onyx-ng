@@ -240,22 +240,18 @@ describe("OnyxSelectComponent", () => {
       `<onyx-select [options]="[]" ariaLabel="Empty" />`,
       { imports: [OnyxSelectComponent] },
     );
-    const select = fixture.debugElement.query(
-      By.directive(OnyxSelectComponent),
-    ).componentInstance as unknown as SelectInternals;
+    const select = fixture.debugElement.query(By.directive(OnyxSelectComponent))
+      .componentInstance as unknown as SelectInternals;
 
     expect(select.nextEnabled(-1, 1)).toBe(-1);
   });
 
   it("selects without a forms directive registered", async () => {
     const user = userEvent.setup();
-    await render(
-      `<onyx-select [options]="options" ariaLabel="Framework" />`,
-      {
-        imports: [OnyxSelectComponent],
-        componentProperties: { options: OPTIONS },
-      },
-    );
+    await render(`<onyx-select [options]="options" ariaLabel="Framework" />`, {
+      imports: [OnyxSelectComponent],
+      componentProperties: { options: OPTIONS },
+    });
 
     await user.click(screen.getByRole("combobox", { name: "Framework" }));
     await user.click(await screen.findByRole("option", { name: "Angular" }));

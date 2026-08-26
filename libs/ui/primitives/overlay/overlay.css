@@ -1,0 +1,26 @@
+/*
+ * Overlay chrome that cannot live in a component stylesheet (card W3-1).
+ *
+ * CDK appends the overlay container to `document.body`, outside every
+ * component's encapsulation, so no `.component.scss` can reach the backdrop --
+ * and reaching it with `::ng-deep` is banned by CLAUDE.md §9. This is the one
+ * global stylesheet the library ships, and it stays exactly this small.
+ *
+ * What it replaces: CDK's own `cdk-overlay-dark-backdrop`, whose background is
+ * `rgba(0, 0, 0, .32)` hardcoded inside `node_modules/@angular/cdk/
+ * overlay-prebuilt.css`. A value in node_modules is not a token, so the modal
+ * veil was the one surface in the library that no preset could re-skin and that
+ * the dark theme could not deepen. Using our own class rather than restyling
+ * CDK's also means no specificity race with a file we do not control.
+ *
+ * The theme class goes on `<html>` (see the installation and theming pages), so
+ * the container inherits the active theme and `--ui-dialog-backdrop-bg`
+ * resolves against it. The literal fallback is deliberate: if a consumer scopes
+ * a theme to a subtree instead, the backdrop escapes it, and a missing
+ * custom property would otherwise compute to `transparent` -- a modal with no
+ * veil at all. Falling back to CDK's old value degrades to the previous
+ * behaviour instead of to a visual bug.
+ */
+.onyx-overlay-backdrop {
+  background: var(--ui-dialog-backdrop-bg, rgba(0, 0, 0, 0.32));
+}

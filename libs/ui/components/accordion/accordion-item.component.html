@@ -13,11 +13,17 @@
     <span class="ui-accordion-item__icon" aria-hidden="true">›</span>
   </button>
 </h3>
+<!-- B-10: the grid collapse is visual only; `inert` takes the collapsed content
+     out of the focus order and the accessibility tree without killing the
+     height transition (unlike `hidden`). -->
 <div
   class="ui-accordion-item__panel"
   role="region"
   [id]="panelId"
   [attr.aria-labelledby]="headerId"
+  [attr.inert]="expanded() ? null : ''"
 >
-  <div class="ui-accordion-item__body"><ng-content /></div>
+  <div class="ui-accordion-item__body">
+    <div class="ui-accordion-item__content"><ng-content /></div>
+  </div>
 </div>

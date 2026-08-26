@@ -29,6 +29,7 @@ let nextItemId = 0;
 })
 export class OnyxAccordionItemComponent {
   private readonly host = inject(ACCORDION_HOST, { optional: true });
+  private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
 
   /** Header text. */
   readonly heading = input.required<string>();
@@ -46,9 +47,23 @@ export class OnyxAccordionItemComponent {
   readonly triggerEl =
     viewChild.required<ElementRef<HTMLButtonElement>>("trigger");
 
-  /** Called by the parent accordion to set expanded state. */
+  /**
+   * Called by the parent accordion to set expanded state. Collapsing makes the
+   * panel `inert`; browsers do not blur an element that becomes inert, so if
+   * focus is inside the panel it is handed back to the header (B-10).
+   */
   setExpanded(v: boolean): void {
     this.expanded.set(v);
+    if (!v && this.panelHasFocus()) {
+      this.triggerEl().nativeElement.focus();
+    }
+  }
+
+  private panelHasFocus(): boolean {
+    const panel = this.element.nativeElement.querySelector(
+      ".ui-accordion-item__panel",
+    );
+    return !!panel && panel.contains(document.activeElement);
   }
 
   /** Returns the current expanded state (read-only for the parent). */

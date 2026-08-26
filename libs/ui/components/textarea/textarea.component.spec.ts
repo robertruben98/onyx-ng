@@ -67,7 +67,10 @@ describe("OnyxTextareaComponent", () => {
     const valueChange = jest.fn();
     await render(
       `<onyx-textarea label="Bio" [disabled]="true" (valueChange)="valueChange($event)" />`,
-      { imports: [OnyxTextareaComponent], componentProperties: { valueChange } },
+      {
+        imports: [OnyxTextareaComponent],
+        componentProperties: { valueChange },
+      },
     );
     const el = screen.getByLabelText("Bio");
     expect(el).toBeDisabled();
@@ -130,6 +133,19 @@ describe("OnyxTextareaComponent", () => {
       );
     });
 
+    // Same defect class as badge A-18: the counter re-renders on every
+    // keystroke, so a live region on it announces "n / max" per character.
+    // It is already exposed through aria-describedby; it must not be live.
+    it("does not turn the per-keystroke counter into a live region", async () => {
+      const { container } = await render(
+        `<onyx-textarea label="Bio" [maxLength]="120" />`,
+        { imports: [OnyxTextareaComponent] },
+      );
+      const counter = container.querySelector(".ui-textarea__counter")!;
+      expect(counter).not.toHaveAttribute("aria-live");
+      expect(counter).not.toHaveAttribute("role");
+    });
+
     it("updates the count as the user types", async () => {
       const user = userEvent.setup();
       const { container } = await render(
@@ -137,9 +153,9 @@ describe("OnyxTextareaComponent", () => {
         { imports: [OnyxTextareaComponent] },
       );
       await user.type(screen.getByLabelText("Bio"), "hello");
-      expect(container.querySelector(".ui-textarea__counter")).toHaveTextContent(
-        "5 / 120",
-      );
+      expect(
+        container.querySelector(".ui-textarea__counter"),
+      ).toHaveTextContent("5 / 120");
     });
 
     it("caps input at maxLength and flags the limit", async () => {
@@ -163,8 +179,9 @@ describe("OnyxTextareaComponent", () => {
       await render(`<onyx-textarea label="Bio" />`, {
         imports: [OnyxTextareaComponent],
       });
-      expect((screen.getByLabelText("Bio") as HTMLTextAreaElement).style.height)
-        .not.toBe("");
+      expect(
+        (screen.getByLabelText("Bio") as HTMLTextAreaElement).style.height,
+      ).not.toBe("");
     });
 
     it("leaves the height untouched when autoGrow is disabled", async () => {

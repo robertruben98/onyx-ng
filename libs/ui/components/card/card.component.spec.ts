@@ -16,23 +16,47 @@ describe("OnyxCardComponent", () => {
   });
 
   it("projects named header slot", async () => {
-    await render(`<onyx-card><span slot="header">My Header</span></onyx-card>`, {
-      imports: [OnyxCardComponent],
-    });
+    await render(
+      `<onyx-card><span slot="header">My Header</span></onyx-card>`,
+      {
+        imports: [OnyxCardComponent],
+      },
+    );
     expect(screen.getByText("My Header")).toBeInTheDocument();
   });
 
   it("projects named footer slot", async () => {
-    await render(`<onyx-card><span slot="footer">My Footer</span></onyx-card>`, {
-      imports: [OnyxCardComponent],
-    });
+    await render(
+      `<onyx-card><span slot="footer">My Footer</span></onyx-card>`,
+      {
+        imports: [OnyxCardComponent],
+      },
+    );
     expect(screen.getByText("My Footer")).toBeInTheDocument();
   });
 
-  // B2: ARIA role
+  // B2: ARIA role — static cards are articles, operable cards are buttons (A-19)
   it('has role="article" by default', async () => {
-    await render(`<onyx-card>Content</onyx-card>`, { imports: [OnyxCardComponent] });
+    await render(`<onyx-card>Content</onyx-card>`, {
+      imports: [OnyxCardComponent],
+    });
     expect(screen.getByRole("article")).toBeInTheDocument();
+  });
+
+  it('has role="button" when interactive', async () => {
+    await render(`<onyx-card [interactive]="true">Content</onyx-card>`, {
+      imports: [OnyxCardComponent],
+    });
+    expect(screen.getByRole("button")).toBeInTheDocument();
+    expect(screen.queryByRole("article")).toBeNull();
+  });
+
+  it('keeps role="button" when interactive and disabled', async () => {
+    await render(
+      `<onyx-card [interactive]="true" [disabled]="true">Content</onyx-card>`,
+      { imports: [OnyxCardComponent] },
+    );
+    expect(screen.getByRole("button")).toHaveAttribute("aria-disabled", "true");
   });
 
   // B3: interactive mode — clickable with clicked output
@@ -43,7 +67,7 @@ describe("OnyxCardComponent", () => {
       `<onyx-card [interactive]="true" (clicked)="clicked()">Click me</onyx-card>`,
       { imports: [OnyxCardComponent], componentProperties: { clicked } },
     );
-    const card = screen.getByRole("article");
+    const card = screen.getByRole("button");
     await user.click(card);
     expect(clicked).toHaveBeenCalledTimes(1);
   });
@@ -55,7 +79,7 @@ describe("OnyxCardComponent", () => {
       `<onyx-card [interactive]="true" (clicked)="clicked()">Card</onyx-card>`,
       { imports: [OnyxCardComponent], componentProperties: { clicked } },
     );
-    const card = screen.getByRole("article");
+    const card = screen.getByRole("button");
     await user.tab();
     expect(card).toHaveFocus();
     await user.keyboard("{Enter}");
@@ -74,6 +98,99 @@ describe("OnyxCardComponent", () => {
     expect(clicked).not.toHaveBeenCalled();
   });
 
+  // A-20: events bubbling from nested controls must not activate the card
+  it("emits clicked when non-interactive nested content (text) is clicked", async () => {
+    const user = userEvent.setup();
+    const clicked = jest.fn();
+    await render(
+      `<onyx-card [interactive]="true" (clicked)="clicked()"><p>Body text</p></onyx-card>`,
+      { imports: [OnyxCardComponent], componentProperties: { clicked } },
+    );
+    await user.click(screen.getByText("Body text"));
+    expect(clicked).toHaveBeenCalledTimes(1);
+  });
+
+  it("emits clicked for an activation whose target is a text node", async () => {
+    const clicked = jest.fn();
+    await render(
+      `<onyx-card [interactive]="true" (clicked)="clicked()">Plain text</onyx-card>`,
+      { imports: [OnyxCardComponent], componentProperties: { clicked } },
+    );
+    const text = screen.getByText("Plain text").firstChild as Text;
+    text.dispatchEvent(
+      new MouseEvent("click", { bubbles: true, cancelable: true }),
+    );
+    expect(clicked).toHaveBeenCalledTimes(1);
+  });
+
+  it("does NOT emit clicked when a nested button is clicked", async () => {
+    const user = userEvent.setup();
+    const clicked = jest.fn();
+    const inner = jest.fn();
+    await render(
+      `<onyx-card [interactive]="true" (clicked)="clicked()">
+        <p>Body</p>
+        <button type="button" (click)="inner()">Inner</button>
+      </onyx-card>`,
+      { imports: [OnyxCardComponent], componentProperties: { clicked, inner } },
+    );
+    await user.click(screen.getByRole("button", { name: "Inner" }));
+    expect(inner).toHaveBeenCalledTimes(1);
+    expect(clicked).not.toHaveBeenCalled();
+  });
+
+  it("does NOT emit clicked when a nested link is clicked", async () => {
+    const user = userEvent.setup();
+    const clicked = jest.fn();
+    await render(
+      `<onyx-card [interactive]="true" (clicked)="clicked()">
+        <a href="#x" (click)="$event.preventDefault()">Link</a>
+      </onyx-card>`,
+      { imports: [OnyxCardComponent], componentProperties: { clicked } },
+    );
+    await user.click(screen.getByRole("link", { name: "Link" }));
+    expect(clicked).not.toHaveBeenCalled();
+  });
+
+  it("does NOT prevent Enter on a nested button (native activation still fires)", async () => {
+    const user = userEvent.setup();
+    const clicked = jest.fn();
+    const inner = jest.fn();
+    await render(
+      `<onyx-card [interactive]="true" (clicked)="clicked()">
+        <p>Body</p>
+        <button type="button" (click)="inner()">Inner</button>
+      </onyx-card>`,
+      { imports: [OnyxCardComponent], componentProperties: { clicked, inner } },
+    );
+    screen.getByRole("button", { name: "Inner" }).focus();
+    await user.keyboard("{Enter}");
+    // Enter on a native button synthesises a click unless keydown was prevented.
+    expect(inner).toHaveBeenCalledTimes(1);
+    expect(clicked).not.toHaveBeenCalled();
+  });
+
+  it("does NOT prevent Enter inside a nested form field", async () => {
+    const user = userEvent.setup();
+    const clicked = jest.fn();
+    const submitted = jest.fn();
+    await render(
+      `<onyx-card [interactive]="true" (clicked)="clicked()">
+        <form (submit)="submitted(); $event.preventDefault()">
+          <input aria-label="Name" />
+        </form>
+      </onyx-card>`,
+      {
+        imports: [OnyxCardComponent],
+        componentProperties: { clicked, submitted },
+      },
+    );
+    await user.click(screen.getByLabelText("Name"));
+    await user.keyboard("{Enter}");
+    expect(submitted).toHaveBeenCalledTimes(1);
+    expect(clicked).not.toHaveBeenCalled();
+  });
+
   // B4: disabled state
   it("does NOT emit clicked when interactive but disabled", async () => {
     const user = userEvent.setup();
@@ -82,7 +199,7 @@ describe("OnyxCardComponent", () => {
       `<onyx-card [interactive]="true" [disabled]="true" (clicked)="clicked()">Card</onyx-card>`,
       { imports: [OnyxCardComponent], componentProperties: { clicked } },
     );
-    await user.click(screen.getByRole("article"));
+    await user.click(screen.getByRole("button"));
     expect(clicked).not.toHaveBeenCalled();
   });
 
@@ -97,7 +214,7 @@ describe("OnyxCardComponent", () => {
       bubbles: true,
       cancelable: true,
     });
-    screen.getByRole("article").dispatchEvent(event);
+    screen.getByRole("button").dispatchEvent(event);
     expect(event.defaultPrevented).toBe(false);
     expect(clicked).not.toHaveBeenCalled();
   });
@@ -107,7 +224,7 @@ describe("OnyxCardComponent", () => {
       `<onyx-card [interactive]="true" [disabled]="true">Card</onyx-card>`,
       { imports: [OnyxCardComponent] },
     );
-    const card = screen.getByRole("article");
+    const card = screen.getByRole("button");
     expect(card).toHaveAttribute("aria-disabled", "true");
   });
 

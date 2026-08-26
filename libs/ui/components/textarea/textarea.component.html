@@ -21,7 +21,6 @@
     class="ui-textarea__counter"
     [id]="counterId"
     [class.ui-textarea__counter--limit]="charCount() >= maxLength()!"
-    aria-live="polite"
   >
     {{ charCount() }} / {{ maxLength() }}
   </span>

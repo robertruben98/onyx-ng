@@ -3,7 +3,11 @@ import { Demo } from "@onyx/ui/docs-model";
 import { OnyxInputComponent } from "./input.component";
 
 const basicCode = `<onyx-input label="Email" placeholder="you@example.com" type="email" />`;
-@Component({ standalone: true, imports: [OnyxInputComponent], template: basicCode })
+@Component({
+  standalone: true,
+  imports: [OnyxInputComponent],
+  template: basicCode,
+})
 class InputBasicDemoComponent {}
 
 const statesCode = `<onyx-input label="Invalid" [invalid]="true" />

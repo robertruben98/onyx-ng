@@ -1,4 +1,10 @@
-import { Component, signal } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  TemplateRef,
+  signal,
+  viewChild,
+} from "@angular/core";
 import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
 import { TestBed } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
@@ -105,7 +111,11 @@ describe("OnyxDataTableComponent — foundation", () => {
     @Component({
       standalone: true,
       imports: [OnyxDataTableComponent],
-      template: `<onyx-data-table caption="t" [columns]="cols" [rows]="rows" />`,
+      template: `<onyx-data-table
+        caption="t"
+        [columns]="cols"
+        [rows]="rows"
+      />`,
     })
     class ValueAccessorHostComponent {
       readonly cols: DataTableColumn<Person>[] = [
@@ -505,6 +515,49 @@ describe("OnyxDataTableComponent — keyboard navigation", () => {
     col: document.activeElement?.getAttribute("data-col"),
   });
 
+  // Same defect class as card A-20: keys bubbling from an editable control
+  // inside a custom cell template must reach that control, not the grid.
+  it("leaves keys alone when they originate inside an editable control in a cell", async () => {
+    @Component({
+      standalone: true,
+      imports: [OnyxDataTableComponent],
+      template: `<ng-template #nameCell let-row>
+          <input aria-label="Edit name" [value]="row.name" />
+        </ng-template>
+        <onyx-data-table
+          caption="Edit"
+          [columns]="columns()"
+          [rows]="rows"
+          [rowKey]="'id'"
+        />`,
+    })
+    class EditableHostComponent implements AfterViewInit {
+      readonly nameCell =
+        viewChild.required<TemplateRef<{ $implicit: Person; value: unknown }>>(
+          "nameCell",
+        );
+      readonly rows = ROWS;
+      readonly columns = signal<DataTableColumn<Person>[]>([]);
+      ngAfterViewInit(): void {
+        this.columns.set([
+          { id: "name", header: "Name", field: "name", cell: this.nameCell() },
+          { id: "role", header: "Role", field: "role" },
+        ]);
+      }
+    }
+    const user = userEvent.setup();
+    const { fixture } = await render(EditableHostComponent);
+    fixture.detectChanges();
+    const input = screen.getAllByLabelText("Edit name")[0] as HTMLInputElement;
+    expect(input.value).toBe("Ada");
+    input.focus();
+    input.setSelectionRange(1, 1);
+    await user.keyboard(" ");
+    expect(input.value).toBe("A da");
+    await user.keyboard("{ArrowLeft}{Home}{End}");
+    expect(document.activeElement).toBe(input);
+  });
+
   it("makes only the active cell tabbable (roving tabindex)", async () => {
     const { container } = await render(SortHostComponent);
     expect(
@@ -704,18 +757,16 @@ describe("OnyxDataTableComponent — coverage edge behavior", () => {
       value: () => undefined,
     });
     expect(table.rowKeyOf(ROWS[0])).toBe(1);
-    expect(
-      table.rowKeyOf({ name: "No id", role: "Guest" } as Person),
-    ).toBe(JSON.stringify({ name: "No id", role: "Guest" }));
+    expect(table.rowKeyOf({ name: "No id", role: "Guest" } as Person)).toBe(
+      JSON.stringify({ name: "No id", role: "Guest" }),
+    );
   });
 
   it("returns an empty display value without a field or value accessor", async () => {
     const { fixture } = await render(HostComponent);
     const table = tableFrom<Person>(fixture);
 
-    expect(table.cellValue({ id: "blank", header: "Blank" }, ROWS[0])).toBe(
-      "",
-    );
+    expect(table.cellValue({ id: "blank", header: "Blank" }, ROWS[0])).toBe("");
   });
 
   it("covers deselection in single and multiple modes", async () => {
