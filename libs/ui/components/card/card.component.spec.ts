@@ -29,10 +29,26 @@ describe("OnyxCardComponent", () => {
     expect(screen.getByText("My Footer")).toBeInTheDocument();
   });
 
-  // B2: ARIA role
+  // B2: ARIA role — static cards are articles, operable cards are buttons (A-19)
   it('has role="article" by default', async () => {
     await render(`<onyx-card>Content</onyx-card>`, { imports: [OnyxCardComponent] });
     expect(screen.getByRole("article")).toBeInTheDocument();
+  });
+
+  it('has role="button" when interactive', async () => {
+    await render(`<onyx-card [interactive]="true">Content</onyx-card>`, {
+      imports: [OnyxCardComponent],
+    });
+    expect(screen.getByRole("button")).toBeInTheDocument();
+    expect(screen.queryByRole("article")).toBeNull();
+  });
+
+  it('keeps role="button" when interactive and disabled', async () => {
+    await render(
+      `<onyx-card [interactive]="true" [disabled]="true">Content</onyx-card>`,
+      { imports: [OnyxCardComponent] },
+    );
+    expect(screen.getByRole("button")).toHaveAttribute("aria-disabled", "true");
   });
 
   // B3: interactive mode — clickable with clicked output
@@ -43,7 +59,7 @@ describe("OnyxCardComponent", () => {
       `<onyx-card [interactive]="true" (clicked)="clicked()">Click me</onyx-card>`,
       { imports: [OnyxCardComponent], componentProperties: { clicked } },
     );
-    const card = screen.getByRole("article");
+    const card = screen.getByRole("button");
     await user.click(card);
     expect(clicked).toHaveBeenCalledTimes(1);
   });
@@ -55,7 +71,7 @@ describe("OnyxCardComponent", () => {
       `<onyx-card [interactive]="true" (clicked)="clicked()">Card</onyx-card>`,
       { imports: [OnyxCardComponent], componentProperties: { clicked } },
     );
-    const card = screen.getByRole("article");
+    const card = screen.getByRole("button");
     await user.tab();
     expect(card).toHaveFocus();
     await user.keyboard("{Enter}");
@@ -82,7 +98,7 @@ describe("OnyxCardComponent", () => {
       `<onyx-card [interactive]="true" [disabled]="true" (clicked)="clicked()">Card</onyx-card>`,
       { imports: [OnyxCardComponent], componentProperties: { clicked } },
     );
-    await user.click(screen.getByRole("article"));
+    await user.click(screen.getByRole("button"));
     expect(clicked).not.toHaveBeenCalled();
   });
 
@@ -97,7 +113,7 @@ describe("OnyxCardComponent", () => {
       bubbles: true,
       cancelable: true,
     });
-    screen.getByRole("article").dispatchEvent(event);
+    screen.getByRole("button").dispatchEvent(event);
     expect(event.defaultPrevented).toBe(false);
     expect(clicked).not.toHaveBeenCalled();
   });
@@ -107,7 +123,7 @@ describe("OnyxCardComponent", () => {
       `<onyx-card [interactive]="true" [disabled]="true">Card</onyx-card>`,
       { imports: [OnyxCardComponent] },
     );
-    const card = screen.getByRole("article");
+    const card = screen.getByRole("button");
     expect(card).toHaveAttribute("aria-disabled", "true");
   });
 

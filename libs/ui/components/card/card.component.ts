@@ -14,7 +14,8 @@ import {
   styleUrl: "./card.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    role: "article",
+    // A-19: an operable card must be announced as a control, not as an article.
+    "[attr.role]": 'interactive() ? "button" : "article"',
     "[class.ui-card]": "true",
     "[class.ui-card--interactive]": "interactive()",
     "[class.ui-card--disabled]": "disabled()",
