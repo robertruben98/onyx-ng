@@ -24,10 +24,22 @@
  */
 import StyleDictionary from 'style-dictionary';
 import { readdirSync, readFileSync } from 'fs';
-import { globSync } from 'fs';
 import { basename, join } from 'path';
 
-const TOKENS = 'libs/ui/tokens/tokens/**/*.json';
+/**
+ * `globSync` from node:fs is Node 22+, and pages.yml runs Node 20, so the Pages
+ * job died here while CI (Node 22) stayed green. A design-token build has no
+ * business setting a floor on the runtime, so it walks the tree itself.
+ */
+function jsonFilesUnder(dir) {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(dir, entry.name);
+    if (entry.isDirectory()) return jsonFilesUnder(path);
+    return entry.name.endsWith('.json') ? [path] : [];
+  });
+}
+
+const TOKENS_DIR = 'libs/ui/tokens/tokens';
 const THEMES_DIR = 'libs/ui/tokens/themes';
 const BUILD_PATH = 'libs/ui/tokens/dist/';
 
@@ -57,7 +69,7 @@ function readBaseTree() {
     }
     return into;
   };
-  return globSync(TOKENS).reduce(
+  return jsonFilesUnder(TOKENS_DIR).reduce(
     (tree, f) => merge(tree, JSON.parse(readFileSync(f, 'utf8'))),
     {}
   );
@@ -93,9 +105,82 @@ const cssFile = (destination, selector) => ({
   options: { outputReferences: true, selector }
 });
 
+/**
+ * Flat `path -> unresolved value` view of a merged token tree.
+ */
+function flatten(node, path = [], out = new Map()) {
+  for (const [key, child] of Object.entries(node)) {
+    if (!child || typeof child !== 'object') continue;
+    const here = [...path, key];
+    if ('value' in child) out.set(here.join('.'), child.value);
+    else flatten(child, here, out);
+  }
+  return out;
+}
+
+/**
+ * The paths a preset must re-declare: the ones it overrides, plus every token
+ * that transitively references one of them.
+ *
+ * Why the closure is required and not just the overrides: an alias is
+ * substituted at computed-value time on the element it is declared on, so
+ * `--ui-card-bg: var(--ui-color-surface)` declared once at `:root` can never
+ * observe a theme that re-maps the surface underneath it. That is the T1b bug.
+ * Re-declaring the alias INSIDE the theme selector is what makes it resolve
+ * against that theme -- so every dependant of an overridden token has to come
+ * along, at any depth (`focus.ring -> {color.primary}` is a semantic depending
+ * on a semantic, not only components depending on semantics).
+ *
+ * Why NOT the whole set, which is what shipped in W2-1 and is the bug this
+ * fixes: two full sets under two single-class selectors have equal specificity,
+ * so source order decides WHOLESALE. `.onyx-dark` + `.onyx-theme-acme` rendered
+ * as plain acme -- dark silently lost, measured in a browser. Disjoint deltas
+ * let the cascade merge them per-property instead: acme carries the brand,
+ * dark carries the surfaces, and where both override the same token the later
+ * file wins that one property, which is the intended precedence.
+ */
+function deltaPaths(overrides, merged) {
+  const delta = new Set(flatten(overrides).keys());
+  for (let grew = true; grew; ) {
+    grew = false;
+    for (const [path, value] of merged) {
+      if (delta.has(path)) continue;
+      const ref = /^\{([^}]+)\}$/.exec(String(value).trim());
+      if (ref && delta.has(ref[1])) {
+        delta.add(path);
+        grew = true;
+      }
+    }
+  }
+  return delta;
+}
+
+/**
+ * Emits exactly `delta`, keeping every alias as a `var()` reference.
+ *
+ * A reference whose target is NOT in the delta still resolves correctly: the
+ * target is unchanged by this preset, so it is inherited from `:root`. Written
+ * by hand rather than via `css/variables` + a filter because filtering that
+ * format with `outputReferences: true` throws "references could not be found"
+ * the moment a kept token points at a dropped one.
+ */
+const deltaFormat = ({ dictionary, options }) => {
+  const byPath = new Map(
+    dictionary.allTokens.map((t) => [t.path.join('.'), t])
+  );
+  const lines = dictionary.allTokens
+    .filter((t) => options.delta.has(t.path.join('.')))
+    .map((t) => {
+      const ref = /^\{([^}]+)\}$/.exec(String(t.original?.value ?? '').trim());
+      const target = ref && byPath.get(ref[1]);
+      return `  --${t.name}: ${target ? `var(--${target.name})` : t.value};`;
+    });
+  return `${options.selector} {\n${lines.join('\n')}\n}\n`;
+};
+
 /** Base build: every tier at :root. This is the light default. */
 const base = new StyleDictionary({
-  source: [TOKENS],
+  source: jsonFilesUnder(TOKENS_DIR),
   platforms: {
     css: {
       transformGroup: 'css',
@@ -133,20 +218,34 @@ for (const file of themes) {
     name
   );
 
+  const overrides = JSON.parse(readFileSync(join(THEMES_DIR, file), 'utf8'));
+  const merged = flatten(readBaseTree());
+  for (const [path, value] of flatten(overrides)) merged.set(path, value);
+  const delta = deltaPaths(overrides, merged);
+
   const sd = new StyleDictionary({
-    source: [TOKENS, join(THEMES_DIR, file)],
+    hooks: { formats: { 'css/delta': deltaFormat } },
+    source: [...jsonFilesUnder(TOKENS_DIR), join(THEMES_DIR, file)],
     platforms: {
       css: {
         transformGroup: 'css',
         prefix: 'ui',
         buildPath: BUILD_PATH,
         files: [
-          cssFile(`theme-${name}.css`, selector)
+          {
+            destination: `theme-${name}.css`,
+            format: 'css/delta',
+            options: { selector, delta }
+          }
         ]
       }
     }
   });
   await sd.buildAllPlatforms();
+  console.log(
+    `  ${name}: ${delta.size} of ${merged.size} tokens ` +
+      `(${flatten(overrides).size} overridden + ${delta.size - flatten(overrides).size} dependants)`
+  );
 }
 
 console.log(`\nBuilt :root + ${themes.length} theme(s): ${themes.map((f) => basename(f, '.json')).join(', ')}`);
