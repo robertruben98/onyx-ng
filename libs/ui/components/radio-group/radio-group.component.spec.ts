@@ -1,5 +1,5 @@
 import { Component, signal } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { render, screen, waitFor } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
@@ -107,6 +107,32 @@ describe("OnyxRadioGroupComponent", () => {
       const { fixture } = await render(HostComponent);
       await user.click(screen.getByRole("radio", { name: /small/i }));
       expect(fixture.componentInstance.model()).toBe("sm");
+    });
+  });
+
+  describe("ControlValueAccessor (formControl)", () => {
+    @Component({
+      standalone: true,
+      imports: [OnyxRadioGroupComponent, ReactiveFormsModule],
+      template: `<onyx-radio-group
+        label="Size"
+        [options]="options"
+        [formControl]="control"
+      />`,
+    })
+    class ReactiveHostComponent {
+      readonly options = OPTIONS;
+      readonly control = new FormControl<string | null>("lg");
+    }
+
+    it("marks the control touched when an option is selected", async () => {
+      const user = userEvent.setup();
+      const { fixture } = await render(ReactiveHostComponent);
+      const control = fixture.componentInstance.control;
+      expect(control.touched).toBe(false);
+      await user.click(screen.getByRole("radio", { name: /small/i }));
+      expect(control.value).toBe("sm");
+      expect(control.touched).toBe(true);
     });
   });
 
