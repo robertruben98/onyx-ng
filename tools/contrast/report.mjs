@@ -125,29 +125,94 @@ P(`- Consumer-owned elements (plain \`<button>\`s carrying the tooltip/popover d
 // --- compare -------------------------------------------------------------
 if (CMP) {
   const other = JSON.parse(fs.readFileSync(CMP, "utf8"));
-  const key = (r) => [r.component, r.context, r.state, r.kind, r.subkind, r.element].join("|");
+  // Row identity across trees: the element plus the tokens it paints with. Several
+  // elements share an identity string (three muted spans in a table footer, two
+  // tokens in one box-shadow), so the token pair is part of the key.
+  const key = (r) => [r.component, r.context, r.state, r.kind, r.subkind, r.element, r.fg_token || r.fg_decl || "", r.bg_token || ""].join("|");
+  const k2 = (r) => [r.component, r.state, r.kind, r.subkind, r.element, r.fg_token || r.fg_decl || "", r.bg_token || ""].join("|");
   const A = new Map(rows.map((r) => [key(r), r]));
   const B = new Map(other.rows.map((r) => [key(r), r]));
-  const changed = [], gone = [], added = [];
-  for (const [k, a] of A) { const b = B.get(k); if (!b) gone.push(a); else if (a.verdict !== b.verdict || a.ratio !== b.ratio || a.fg_rendered !== b.fg_rendered || a.bg_rendered !== b.bg_rendered) changed.push([a, b]); }
-  for (const [k, b] of B) if (!A.has(k)) added.push(b);
+  const ctxsB = other.meta?.contexts || ctxs;
+  const allCtx = Array.from(new Set([...ctxs, ...ctxsB]));
   const bf = other.rows.filter((r) => r.verdict === "FAIL");
   P(`## 7. Delta vs \`${CMP_LABEL}\``, ``);
-  P(`Other tree: \`${other.meta?.tree || "?"}\` — ${other.rows.length} rows, **${bf.length} FAIL** (baseline ${fails.length}). Rows keyed by (component, context, state, kind, subkind, element).`, ``);
-  P(`| baseline verdict → other | rows |`, `|---|---:|`);
-  const trans = by(changed, ([a, b]) => `${a.verdict} → ${b.verdict}`);
-  for (const [k, xs] of Array.from(trans.entries()).sort()) P(`| ${k} | ${xs.length} |`);
-  P(`| rows only in baseline | ${gone.length} |`, `| rows only in other | ${added.length} |`, ``);
-  P(`### Changed rows (verdict or rendered colour)`, ``);
-  P(`| component | context | element | fg token | baseline | other | verdict |`, `|---|---|---|---|---|---|---|`);
-  for (const [a, b] of changed.sort((x, y) => x[0].component.localeCompare(y[0].component) || x[0].context.localeCompare(y[0].context))) {
-    P(`| ${a.component} | ${a.context} | ${md(a.element.slice(0, 70))} | ${code(b.fg_token || a.fg_token)} | ${a.fg_rendered}/${a.bg_rendered} ${a.ratio} | ${b.fg_rendered}/${b.bg_rendered} ${b.ratio} | ${a.verdict === b.verdict ? a.verdict : `**${a.verdict} → ${b.verdict}**`} |`);
+  P(`Other tree: \`${other.meta?.tree || "?"}\` — ${other.rows.length} rows, **${bf.length} FAIL** (baseline ${fails.length}). Rows keyed by (component, context, state, kind, subkind, element, fg token, bg token); rows only in one tree: ${rows.filter((r) => !B.has(key(r))).length} baseline-only, ${other.rows.filter((r) => !A.has(key(r))).length} other-only.`, ``);
+  P(`| context | baseline FAIL | other FAIL |`, `|---|---:|---:|`);
+  for (const c of allCtx) P(`| ${c} | ${rows.filter((r) => r.context === c && r.verdict === "FAIL").length} | ${other.rows.filter((r) => r.context === c && r.verdict === "FAIL").length} |`);
+  P(``);
+
+  // Composition check: a composed context (a+b) whose rows are ~identical to one of its parts did not compose.
+  const regressed = new Set();
+  const composed = allCtx.filter((c) => c.includes("+"));
+  if (composed.length) {
+    P(`### Composition check`, ``);
+    P(`For a composed context (\`a+b\`), how many of its rows render pixel-identical to each part alone. A context that is ≈100 % identical to one part has not composed; every verdict change inside it is then a **composition artefact, not a token change**, and is flagged \`⚠ regression\` below.`, ``);
+    P(`| tree | context | rows | identical to \`${composed[0].split("+")[0]}\` | identical to \`${composed[0].split("+")[1]}\` |`, `|---|---|---:|---:|---:|`);
+    for (const c of composed) {
+      const [pa, pb] = c.split("+");
+      for (const [name, set] of [["baseline", rows], ["other", other.rows]]) {
+        const da = set.filter((r) => r.context === c);
+        const ma = new Map(set.filter((r) => r.context === pa).map((r) => [k2(r), r]));
+        const mb = new Map(set.filter((r) => r.context === pb).map((r) => [k2(r), r]));
+        const same = (x, y) => y && x.fg_rendered === y.fg_rendered && x.bg_rendered === y.bg_rendered;
+        const sa = da.filter((r) => same(r, ma.get(k2(r)))).length, sb = da.filter((r) => same(r, mb.get(k2(r)))).length;
+        const broken = da.length && (sa / da.length > 0.9 || sb / da.length > 0.9);
+        if (broken && name === "other") regressed.add(c);
+        P(`| ${name} | ${c} | ${da.length} | ${sa} | ${sb} |${broken ? " **← did not compose**" : ""}`);
+      }
+    }
+    P(``);
+  }
+  const flag = (r) => (regressed.has(r.context) ? " ⚠ regression" : "");
+
+  // (a) every previously-failing row: what happened to it
+  P(`### (a) Every baseline FAIL, grouped by (context, fg token, bg token, kind) — verdict in the other tree`, ``);
+  const prev = rows.filter((r) => r.verdict === "FAIL");
+  const groups = by(prev, (r) => [r.context, r.fg_token, r.bg_token, r.subkind].join("|"));
+  const statusOf = (a) => { const b = B.get(key(a)); return b ? b.verdict : "GONE"; };
+  const summary = by(prev, (a) => `${statusOf(a)}${regressed.has(a.context) ? " (regression context)" : ""}`);
+  P(`| outcome | rows |`, `|---|---:|`);
+  for (const [k, xs] of Array.from(summary.entries()).sort()) P(`| ${k === "PASS" ? "fixed (FAIL → PASS)" : k === "FAIL" ? "still failing" : k} | ${xs.length} |`);
+  P(``);
+  P(`| context | kind | fg token → chain (other) | bg token | rows | baseline | other | outcome |`, `|---|---|---|---|---:|---:|---:|---|`);
+  for (const [, xs] of Array.from(groups.entries()).sort((x, y) => x[0].localeCompare(y[0]))) {
+    const a = xs[0], b = B.get(key(a));
+    const outcome = !b ? "GONE" : b.verdict === "PASS" ? "**fixed**" : b.verdict === "FAIL" ? "still failing" : b.verdict;
+    P(`| ${a.context} | ${a.kind === "text" ? a.subkind : "non-text/" + a.subkind} | ${code(b ? chainOf(b, "fg") : chainOf(a, "fg"))} | ${code(a.bg_token)} | ${xs.length} | ${a.ratio} | ${b ? b.ratio : "—"} | ${outcome}${flag(a)} |`);
   }
   P(``);
+
+  // (b) new failures
+  const newFails = other.rows.filter((b) => b.verdict === "FAIL" && (!A.has(key(b)) || A.get(key(b)).verdict !== "FAIL"));
+  P(`### (b) New failures in the other tree (row was not FAIL in the baseline)`, ``);
+  if (!newFails.length) P(`**None.**`, ``);
+  else {
+    const realNew = newFails.filter((b) => !regressed.has(b.context));
+    P(`${newFails.length} rows — **${realNew.length} outside regression contexts**${realNew.length ? "" : " (every new failure sits in a context that did not compose)"}.`, ``);
+    P(`| context | component | kind | element | fg token → chain | bg token | baseline | other | note |`, `|---|---|---|---|---|---|---:|---:|---|`);
+    for (const b of newFails.sort((x, y) => x.context.localeCompare(y.context) || x.component.localeCompare(y.component))) {
+      const a = A.get(key(b));
+      P(`| ${b.context} | ${b.component} | ${b.kind === "text" ? b.subkind : "non-text/" + b.subkind} | ${md(b.element.slice(0, 60))} | ${code(chainOf(b, "fg"))} | ${code(b.bg_token)} | ${a ? `${a.verdict} ${a.ratio}` : "new row"} | ${b.ratio} | ${regressed.has(b.context) ? "⚠ regression artefact" : "**new token failure**"} |`);
+    }
+    P(``);
+  }
+  // required rows whose margin shrank
+  const drops = rows.filter((a) => { const b = B.get(key(a)); return b && a.requirement === "required" && a.ratio != null && b.ratio != null && b.ratio < a.ratio - 0.05 && !regressed.has(a.context); });
+  P(`### Required rows whose ratio dropped (outside regression contexts)`, ``);
+  if (!drops.length) P(`**None** — no required pair lost margin in ${ctxs.filter((c) => !regressed.has(c)).map((c) => "`" + c + "`").join(", ")}.`, ``);
+  else { P(`| context | component | element | baseline | other |`, `|---|---|---|---:|---:|`); for (const a of drops) P(`| ${a.context} | ${a.component} | ${md(a.element.slice(0, 60))} | ${a.ratio} | ${B.get(key(a)).ratio} |`); P(``); }
+
+  // rendered colour changes outside FAIL rows, per context (what else moved)
+  const moved = by(rows.filter((a) => { const b = B.get(key(a)); return b && (a.fg_rendered !== b.fg_rendered || a.bg_rendered !== b.bg_rendered); }), (a) => a.context);
+  P(`### What else moved (rows whose rendered colours changed, per context)`, ``);
+  P(`| context | rows changed | distinct fg tokens involved |`, `|---|---:|---|`);
+  for (const c of allCtx) { const xs = moved.get(c) || []; P(`| ${c} | ${xs.length}${regressed.has(c) ? " ⚠ regression" : ""} | ${Array.from(new Set(xs.map((x) => x.fg_token).filter(Boolean))).slice(0, 12).map(code).join(", ")}${xs.length > 12 ? " …" : ""} |`); }
+  P(``);
+
   if (bf.length) {
     P(`### FAIL rows remaining in \`${CMP_LABEL}\``, ``);
-    P(`| component | context | kind/subkind | element | fg token → chain | bg token | ratio | thr |`, `|---|---|---|---|---|---|---:|---:|`);
-    for (const r of bf.sort((x, y) => x.component.localeCompare(y.component) || x.context.localeCompare(y.context))) P(`| ${r.component} | ${r.context} | ${r.kind === "text" ? r.subkind : "non-text/" + r.subkind} | ${md(r.element.slice(0, 70))} | ${code(chainOf(r, "fg"))} | ${code(r.bg_token)} | ${r.ratio ?? "—"} | ${r.threshold} |`);
+    P(`| context | component | kind | element | fg token → chain | bg token | ratio | thr | note |`, `|---|---|---|---|---|---|---:|---:|---|`);
+    for (const r of bf.sort((x, y) => x.context.localeCompare(y.context) || x.component.localeCompare(y.component))) P(`| ${r.context} | ${r.component} | ${r.kind === "text" ? r.subkind : "non-text/" + r.subkind} | ${md(r.element.slice(0, 60))} | ${code(chainOf(r, "fg"))} | ${code(r.bg_token)} | ${r.ratio ?? "—"} | ${r.threshold} | ${regressed.has(r.context) ? "⚠ regression context" : ""} |`);
     P(``);
   }
 }
