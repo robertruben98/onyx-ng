@@ -8,12 +8,16 @@ const axeOptions = { rules: { region: { enabled: false } } };
 describe("OnyxBadgeComponent", () => {
   // B1: renders with correct ARIA role and content
   it('renders with role="status"', async () => {
-    await render(`<onyx-badge>Active</onyx-badge>`, { imports: [OnyxBadgeComponent] });
+    await render(`<onyx-badge>Active</onyx-badge>`, {
+      imports: [OnyxBadgeComponent],
+    });
     expect(screen.getByRole("status")).toBeInTheDocument();
   });
 
   it("renders projected text inside the badge label", async () => {
-    await render(`<onyx-badge>Pending</onyx-badge>`, { imports: [OnyxBadgeComponent] });
+    await render(`<onyx-badge>Pending</onyx-badge>`, {
+      imports: [OnyxBadgeComponent],
+    });
     expect(screen.getByText("Pending")).toBeInTheDocument();
   });
 
@@ -32,9 +36,12 @@ describe("OnyxBadgeComponent", () => {
 
   // B3: size CSS classes
   it("applies ui-badge--sm class when size is sm", async () => {
-    const { container } = await render(`<onyx-badge size="sm">Label</onyx-badge>`, {
-      imports: [OnyxBadgeComponent],
-    });
+    const { container } = await render(
+      `<onyx-badge size="sm">Label</onyx-badge>`,
+      {
+        imports: [OnyxBadgeComponent],
+      },
+    );
     const badge = container.querySelector(".ui-badge") as HTMLElement;
     expect(badge).toHaveClass("ui-badge--sm");
   });

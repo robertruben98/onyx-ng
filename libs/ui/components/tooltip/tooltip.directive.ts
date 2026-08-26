@@ -54,7 +54,9 @@ export class OnyxTooltipDirective {
       panelClass: "ui-tooltip__pane",
     });
     this.overlayRef = ref;
-    const instance = ref.attach(new ComponentPortal(OnyxTooltipComponent)).instance;
+    const instance = ref.attach(
+      new ComponentPortal(OnyxTooltipComponent),
+    ).instance;
     instance.id.set(this.id);
     instance.text.set(this.text());
     this.elementRef.nativeElement.setAttribute("aria-describedby", this.id);

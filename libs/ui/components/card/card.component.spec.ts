@@ -16,22 +16,30 @@ describe("OnyxCardComponent", () => {
   });
 
   it("projects named header slot", async () => {
-    await render(`<onyx-card><span slot="header">My Header</span></onyx-card>`, {
-      imports: [OnyxCardComponent],
-    });
+    await render(
+      `<onyx-card><span slot="header">My Header</span></onyx-card>`,
+      {
+        imports: [OnyxCardComponent],
+      },
+    );
     expect(screen.getByText("My Header")).toBeInTheDocument();
   });
 
   it("projects named footer slot", async () => {
-    await render(`<onyx-card><span slot="footer">My Footer</span></onyx-card>`, {
-      imports: [OnyxCardComponent],
-    });
+    await render(
+      `<onyx-card><span slot="footer">My Footer</span></onyx-card>`,
+      {
+        imports: [OnyxCardComponent],
+      },
+    );
     expect(screen.getByText("My Footer")).toBeInTheDocument();
   });
 
   // B2: ARIA role
   it('has role="article" by default', async () => {
-    await render(`<onyx-card>Content</onyx-card>`, { imports: [OnyxCardComponent] });
+    await render(`<onyx-card>Content</onyx-card>`, {
+      imports: [OnyxCardComponent],
+    });
     expect(screen.getByRole("article")).toBeInTheDocument();
   });
 

@@ -148,9 +148,8 @@ describe("OnyxAccordionComponent", () => {
       );
       const first = screen.getAllByRole("button")[0];
       first.focus();
-      (
-        fixture.componentInstance as unknown as { disabled: boolean }
-      ).disabled = true;
+      (fixture.componentInstance as unknown as { disabled: boolean }).disabled =
+        true;
       fixture.detectChanges();
 
       expect(

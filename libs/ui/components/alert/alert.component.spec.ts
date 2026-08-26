@@ -19,9 +19,12 @@ describe("OnyxAlertComponent", () => {
   });
 
   it("uses role=alert for warning variant (assertive)", async () => {
-    await render(`<onyx-alert variant="warning">Check your input.</onyx-alert>`, {
-      imports: [OnyxAlertComponent],
-    });
+    await render(
+      `<onyx-alert variant="warning">Check your input.</onyx-alert>`,
+      {
+        imports: [OnyxAlertComponent],
+      },
+    );
     expect(screen.getByRole("alert")).toBeInTheDocument();
   });
 

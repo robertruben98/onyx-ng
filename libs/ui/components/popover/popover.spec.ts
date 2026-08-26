@@ -106,9 +106,9 @@ describe("OnyxPopoverDirective", () => {
     const trigger = screen.getByRole("button", { name: "Open" });
     await user.click(trigger);
     await screen.findByRole("dialog");
-    const directive = fixture.debugElement.query(
-      By.directive(OnyxPopoverDirective),
-    ).injector.get(OnyxPopoverDirective);
+    const directive = fixture.debugElement
+      .query(By.directive(OnyxPopoverDirective))
+      .injector.get(OnyxPopoverDirective);
     const internals = directive as unknown as { show(): void };
 
     internals.show();
