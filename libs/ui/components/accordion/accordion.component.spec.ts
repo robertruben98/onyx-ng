@@ -45,6 +45,27 @@ describe("OnyxAccordionComponent", () => {
     );
   });
 
+  // B-10: a collapsed panel is only visually collapsed (grid-template-rows: 0fr);
+  // its content must also leave the focus order and the accessibility tree.
+  it("makes a collapsed panel inert and re-enables it when expanded", async () => {
+    const user = userEvent.setup();
+    await render(
+      `<onyx-accordion>
+        <onyx-accordion-item heading="One"><a href="#a">Inside link</a></onyx-accordion-item>
+      </onyx-accordion>`,
+      { imports: [OnyxAccordionComponent, OnyxAccordionItemComponent] },
+    );
+    const panel = screen.getByRole("region", { name: "One", hidden: true });
+    expect(panel).toHaveAttribute("inert");
+
+    await user.click(screen.getByRole("button", { name: "One" }));
+    expect(panel).not.toHaveAttribute("inert");
+    expect(screen.getByRole("link", { name: "Inside link" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "One" }));
+    expect(panel).toHaveAttribute("inert");
+  });
+
   it("collapses an expanded item on a second click", async () => {
     const user = userEvent.setup();
     await renderAccordion();
