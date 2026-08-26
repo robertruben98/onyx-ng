@@ -1,18 +1,54 @@
 # The quality gates from CLAUDE.md §8, on every push and PR.
 #
-# Replaces the previous `build-test` job and is a superset of it: same steps,
-# plus spec typechecking, a format check and a dependency audit.
+# This file replaces the `build-test` job that used to live here. Every one of
+# that job's steps is still run: npm ci, build:tokens, both typechecks, eslint,
+# stylelint, jest with coverage, the coverage-report artifact, `nx build
+# ui-components` and `nx build docs`. Verified mechanically against
+# origin/main's ci.yml rather than by eye -- 9/9 leaf commands covered once
+# npm scripts are expanded, 3/3 actions, 3/3 triggers, identical
+# upload-artifact options.
 #
-# Two deliberate differences from the job it replaces:
+# ADDED gates: format:check (Prettier), typecheck of the specs (they had never
+# been type-checked), a blocking audit of production dependencies and an
+# informational audit of the full tree.
 #
-# 1. eslint and stylelint run as separate steps; `npm run lint` is never used.
+# Every difference from the replaced job, and why:
+#
+# 1. eslint and stylelint are separate steps; `npm run lint` is never used.
 #    That script is `eslint . && npm run lint:tokens`, and the `&&`
-#    short-circuits, so a single ESLint error stops stylelint running at all --
-#    a whole gate reporting green because the one before it failed.
-#    `npm run typecheck` is split for the same reason.
+#    short-circuits, so one ESLint error stops stylelint running at all -- a
+#    whole gate reporting nothing because the one before it failed.
+#    `npm run typecheck` is split for the same reason. Same coverage, two
+#    results instead of one.
 # 2. Every action is pinned by commit SHA. checkout and upload-artifact were
-#    already pinned here; setup-node was pinned in pages.yml but referenced by
-#    bare tag in ci.yml and publish.yml. This uses the SHA everywhere.
+#    already pinned; setup-node was pinned in pages.yml but referenced by bare
+#    tag here and in publish.yml. Bare tags are mutable, so this uses the SHA
+#    everywhere. Dependabot maintains these pins (see PR #134).
+# 3. Node is a matrix of 22 and 24, where the job it replaces used 22 alone.
+#    This workspace publishes a library, so the Node version that matters is
+#    the consumer's, not the maintainer's: package.json declares >=22.0.0, and
+#    testing one point of a declared range is how a library ships something
+#    that only works on the newest runtime. 22 is the floor and what the old
+#    job used; 24 is the current LTS.
+# 4. CONSEQUENCE OF (3), for whoever configures branch protection: the checks
+#    are named `Quality gates (22)` and `Quality gates (24)`, not
+#    `build-test` and not `Quality gates`. A matrix produces one check per leg
+#    and there is no un-suffixed parent to require. Both legs must be required,
+#    and neither name exists in the branch-protection UI until this workflow
+#    has completed once -- which is what the workflow_dispatch trigger is for.
+# 5. The coverage upload is `!cancelled()` and runs on the 22 leg only, where
+#    the old job used `always()`. `always()` also fires on cancellation, which
+#    uploads a report nobody asked for; `!cancelled()` still uploads when the
+#    tests FAILED, which is when the report is worth reading. The single leg is
+#    forced: upload-artifact rejects a second upload under the same name, and
+#    `coverage-report` is the name the old job produced.
+# 6. Added `concurrency` (superseded runs on the same ref are cancelled),
+#    `permissions: contents: read` (the replaced job inherited the repository
+#    default; nothing here needs write) and a 30-minute timeout.
+#
+# Sibling workflows are untouched and do not collide with this one: pages.yml
+# (Pages deploy) and publish.yml (semantic-release) are separate workflows with
+# their own names and triggers.
 name: CI
 
 on:
