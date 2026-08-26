@@ -67,6 +67,12 @@ module.exports = tseslint.config(
     },
   },
   {
+    // Same template-accessibility gate as the component library: the docs app
+    // is where users meet the components, so it holds the same bar.
+    files: ["apps/docs/**/*.html"],
+    extends: [...angular.configs.templateAccessibility],
+  },
+  {
     files: ["**/*.html"],
     extends: [...angular.configs.templateRecommended],
   },
