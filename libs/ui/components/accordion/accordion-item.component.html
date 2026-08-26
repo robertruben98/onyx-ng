@@ -23,5 +23,7 @@
   [attr.aria-labelledby]="headerId"
   [attr.inert]="expanded() ? null : ''"
 >
-  <div class="ui-accordion-item__body"><ng-content /></div>
+  <div class="ui-accordion-item__body">
+    <div class="ui-accordion-item__content"><ng-content /></div>
+  </div>
 </div>

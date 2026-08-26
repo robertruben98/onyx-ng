@@ -72,8 +72,16 @@
   }
 }
 
+// W4-8: the grid item must carry NO padding — a 0fr track can only shrink to
+// the item's minimum contribution, and padding is part of that box even with
+// min-height: 0 (24px measured in Chrome, first text line bleeding out under
+// every collapsed header). The padding lives on the wrapper inside it.
 .ui-accordion-item__body {
   min-height: 0;
+  overflow: hidden;
+}
+
+.ui-accordion-item__content {
   padding: var(--ui-accordion-panel-padding-y)
     var(--ui-accordion-panel-padding-x);
   color: var(--ui-accordion-panel-text);
