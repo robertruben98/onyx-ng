@@ -53,6 +53,7 @@
 
 // --- Dot mode -------------------------------------------------------------
 .ui-badge--dot {
+  position: relative;
   padding: var(--ui-badge-padding-y-sm);
 }
 
@@ -73,6 +74,14 @@
   background-color: currentColor;
 }
 
-.ui-badge__label {
-  // visually visible by default; aria-hidden applied in dot mode
+// A-18: in dot mode the label is visually hidden but MUST stay in the
+// accessibility tree (no aria-hidden), so the badge keeps an accessible name.
+// Token-free take on the sr-only pattern: fill the badge box, clip it away.
+.ui-badge--dot .ui-badge__label {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
 }

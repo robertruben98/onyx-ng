@@ -36,6 +36,9 @@
     (keydown)="onListboxKeydown($event)"
   >
     @for (opt of options(); track opt.value; let i = $index) {
+      <!-- APG listbox with aria-activedescendant: options are not focusable; the
+           listbox handles Enter/Space/arrows, click is the pointer equivalent. -->
+      <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
       <li
         role="option"
         [id]="optionId(i)"

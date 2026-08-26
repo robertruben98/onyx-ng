@@ -130,6 +130,19 @@ describe("OnyxTextareaComponent", () => {
       );
     });
 
+    // Same defect class as badge A-18: the counter re-renders on every
+    // keystroke, so a live region on it announces "n / max" per character.
+    // It is already exposed through aria-describedby; it must not be live.
+    it("does not turn the per-keystroke counter into a live region", async () => {
+      const { container } = await render(
+        `<onyx-textarea label="Bio" [maxLength]="120" />`,
+        { imports: [OnyxTextareaComponent] },
+      );
+      const counter = container.querySelector(".ui-textarea__counter")!;
+      expect(counter).not.toHaveAttribute("aria-live");
+      expect(counter).not.toHaveAttribute("role");
+    });
+
     it("updates the count as the user types", async () => {
       const user = userEvent.setup();
       const { container } = await render(
