@@ -62,7 +62,7 @@ describe("UiOverlay", () => {
     expect(createdConfig).toEqual(
       expect.objectContaining({
         hasBackdrop: true,
-        backdropClass: "cdk-overlay-dark-backdrop",
+        backdropClass: "onyx-overlay-backdrop",
         panelClass: "",
         scrollStrategy: "block",
       }),

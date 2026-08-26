@@ -15,22 +15,30 @@
             "outputPath": "dist/docs",
             "index": "apps/docs/src/index.html",
             "main": "apps/docs/src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "apps/docs/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [],
             "styles": [
               "node_modules/@angular/cdk/overlay-prebuilt.css",
+              "libs/ui/primitives/overlay/overlay.css",
               "libs/ui/tokens/dist/tokens.css",
-              "libs/ui/themes/dark.css",
-              "libs/ui/themes/acme.css",
+              "libs/ui/tokens/dist/theme-dark.css",
+              "libs/ui/tokens/dist/theme-acme.css",
               "apps/docs/src/styles.css"
             ],
             "scripts": []
           },
           "configurations": {
-            "production": { "optimization": true, "outputHashing": "all" },
-            "development": { "optimization": false }
+            "production": {
+              "optimization": true,
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false
+            }
           },
           "defaultConfiguration": "production"
         },

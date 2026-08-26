@@ -11,15 +11,22 @@
       "options": {
         "commands": [
           "ng-packagr -p libs/ui/components/ng-package.json -c libs/ui/components/tsconfig.lib.json",
-          "mkdir -p dist/onyx-ui/styles/themes && cp libs/ui/tokens/dist/tokens.css dist/onyx-ui/styles/tokens.css && cp libs/ui/themes/*.css dist/onyx-ui/styles/themes/"
+          "mkdir -p dist/onyx-ui/styles/themes",
+          "cp libs/ui/tokens/dist/tokens.css dist/onyx-ui/styles/tokens.css",
+          "cp libs/ui/primitives/overlay/overlay.css dist/onyx-ui/styles/overlay.css",
+          "for f in libs/ui/tokens/dist/theme-*.css; do cp \"$f\" \"dist/onyx-ui/styles/themes/$(basename \"$f\" | sed 's/^theme-//')\"; done"
         ],
         "parallel": false,
-        "outputs": ["{workspaceRoot}/dist/onyx-ui"]
+        "outputs": [
+          "{workspaceRoot}/dist/onyx-ui"
+        ]
       }
     },
     "test": {
       "executor": "nx:run-commands",
-      "options": { "command": "jest libs/ui/components" }
+      "options": {
+        "command": "jest libs/ui/components"
+      }
     },
     "lint": {
       "executor": "nx:run-commands",
