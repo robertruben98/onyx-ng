@@ -16,6 +16,19 @@ updates:
         update-types: ["version-update:semver-major"]
       - dependency-name: "@types/jest"
         update-types: ["version-update:semver-major"]
+      # The Angular 22 family (epic #98): every one of these is a semver-major that
+      # cannot land alone -- Angular requires a single major across all its packages,
+      # so bumping one while the rest sit at 19 breaks the build. Dependabot opened
+      # eight of them again within the hour after wave 2 merged, which is why these
+      # rules exist rather than a habit of closing the PRs.
+      - dependency-name: "@angular/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@angular-devkit/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "angular-eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@testing-library/angular"
+        update-types: ["version-update:semver-major"]
       # zone.js 0.16 (#72): breaking zone-patching changes; bundled with Angular 22.
       # zone.js uses 0.x versioning, so a minor bump is effectively breaking.
       - dependency-name: "zone.js"
