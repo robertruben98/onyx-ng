@@ -234,6 +234,70 @@ const NON_TEXT_PAIRS: [string, string][] = [
   ["focus.ring", "color.surface"],
 ];
 
+/**
+ * The structural half of CLAUDE.md §3: a component token maps to a SEMANTIC, so
+ * that re-skinning a client never means editing a component. Colour obeyed this
+ * already; corners did not. 20 of the 28 component corner tokens referenced the
+ * `{radii.*}` ramp directly, so `--ui-radius` reached only 8 of them and a
+ * preset asking for pill corners got a UI that was pill in eight places and
+ * default everywhere else. Gated by tier, not by name, so a new component that
+ * reaches past the semantic layer fails here rather than at review.
+ */
+describe("component tokens reference the semantic layer", () => {
+  const COLOUR_EXEMPT = new Set([
+    // No semantic is light in BOTH themes; #fff is correct in each, so the only
+    // cost is that a preset cannot re-skin the knob. Needs a public-API
+    // decision (a `color.control-knob` semantic, or on/off thumb tokens), not a
+    // guess. Remove this entry when that lands.
+    "switch.thumb-color",
+  ]);
+
+  it("never reaches a colour primitive", () => {
+    const direct = [...component]
+      .filter(
+        ([path, value]) =>
+          !COLOUR_EXEMPT.has(path) &&
+          COLOUR_FAMILIES.includes(
+            (/^\{([^}]+)\}$/.exec(value.trim())?.[1] ?? "").split(".")[0],
+          ),
+      )
+      .map(([path]) => path);
+    expect(direct).toEqual([]);
+  });
+
+  it("never reaches the radii ramp", () => {
+    const direct = [...component]
+      .filter(([, value]) => /^\{radii\./.test(value.trim()))
+      .map(([path]) => path);
+    expect(direct).toEqual([]);
+  });
+
+  it("routes every corner through the semantic radius scale", () => {
+    // Guards the assertion above from passing because the set went empty.
+    const corners = [...component].filter(([path]) => /radius/.test(path));
+    expect(corners.length).toBeGreaterThanOrEqual(28);
+    const scale = new Set([
+      "radius-sm",
+      "radius",
+      "radius-lg",
+      "radius-xl",
+      "radius-pill",
+    ]);
+    const offScale = corners
+      .filter(([, v]) => !scale.has(/^\{([^}]+)\}$/.exec(v.trim())?.[1] ?? ""))
+      .map(([path]) => path);
+    expect(offScale).toEqual([]);
+  });
+
+  it("keeps the scale flat so a preset cannot collapse it", () => {
+    // `radius` is public API as --ui-radius and already a leaf. Nesting the ramp
+    // under it would collapse that leaf -- the parent-override trap build.mjs
+    // diagnoses. Siblings cannot collide.
+    const nested = [...semantic.keys()].filter((p) => p.startsWith("radius."));
+    expect(nested).toEqual([]);
+  });
+});
+
 describe("contrast", () => {
   // The light theme is the base token set with no overlay.
   const themes: [string, Map<string, string>][] = [

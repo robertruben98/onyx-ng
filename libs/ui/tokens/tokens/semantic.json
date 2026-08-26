@@ -155,7 +155,19 @@
       "value": "{border.width-thick}"
     }
   },
+  "radius-sm": {
+    "value": "{radii.sm}"
+  },
   "radius": {
     "value": "{radii.md}"
+  },
+  "radius-lg": {
+    "value": "{radii.lg}"
+  },
+  "radius-xl": {
+    "value": "{radii.xl}"
+  },
+  "radius-pill": {
+    "value": "{radii.full}"
   }
 }
