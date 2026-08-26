@@ -51,7 +51,6 @@ const COLOUR_FAMILIES = [
   "yellow",
 ];
 
-
 const primitive = flatten(readJson(join(TOKENS_DIR, "primitive.json")));
 const semantic = flatten(readJson(join(TOKENS_DIR, "semantic.json")));
 const component = flatten(readJson(join(TOKENS_DIR, "component.json")));
@@ -77,7 +76,10 @@ const semanticColours = [...semantic]
 
 const presets = readdirSync(PRESETS_DIR)
   .filter((f) => f.endsWith(".json"))
-  .map((file) => ({ file, tokens: flatten(readJson(join(PRESETS_DIR, file))) }));
+  .map((file) => ({
+    file,
+    tokens: flatten(readJson(join(PRESETS_DIR, file))),
+  }));
 
 describe("theme presets", () => {
   it("exposes main's full semantic colour set", () => {

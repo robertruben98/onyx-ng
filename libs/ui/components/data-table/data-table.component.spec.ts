@@ -524,10 +524,18 @@ describe("OnyxDataTableComponent — keyboard navigation", () => {
       template: `<ng-template #nameCell let-row>
           <input aria-label="Edit name" [value]="row.name" />
         </ng-template>
-        <onyx-data-table caption="Edit" [columns]="columns()" [rows]="rows" [rowKey]="'id'" />`,
+        <onyx-data-table
+          caption="Edit"
+          [columns]="columns()"
+          [rows]="rows"
+          [rowKey]="'id'"
+        />`,
     })
     class EditableHostComponent implements AfterViewInit {
-      readonly nameCell = viewChild.required<TemplateRef<{ $implicit: Person; value: unknown }>>("nameCell");
+      readonly nameCell =
+        viewChild.required<TemplateRef<{ $implicit: Person; value: unknown }>>(
+          "nameCell",
+        );
       readonly rows = ROWS;
       readonly columns = signal<DataTableColumn<Person>[]>([]);
       ngAfterViewInit(): void {

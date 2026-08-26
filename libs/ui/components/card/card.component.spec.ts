@@ -117,7 +117,9 @@ describe("OnyxCardComponent", () => {
       { imports: [OnyxCardComponent], componentProperties: { clicked } },
     );
     const text = screen.getByText("Plain text").firstChild as Text;
-    text.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+    text.dispatchEvent(
+      new MouseEvent("click", { bubbles: true, cancelable: true }),
+    );
     expect(clicked).toHaveBeenCalledTimes(1);
   });
 
@@ -178,7 +180,10 @@ describe("OnyxCardComponent", () => {
           <input aria-label="Name" />
         </form>
       </onyx-card>`,
-      { imports: [OnyxCardComponent], componentProperties: { clicked, submitted } },
+      {
+        imports: [OnyxCardComponent],
+        componentProperties: { clicked, submitted },
+      },
     );
     await user.click(screen.getByLabelText("Name"));
     await user.keyboard("{Enter}");

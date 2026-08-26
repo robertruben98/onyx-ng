@@ -9,9 +9,7 @@
       "options": {
         "command": "node libs/ui/tokens/build.mjs"
       },
-      "outputs": [
-        "{workspaceRoot}/libs/ui/tokens/dist"
-      ]
+      "outputs": ["{workspaceRoot}/libs/ui/tokens/dist"]
     }
   }
 }

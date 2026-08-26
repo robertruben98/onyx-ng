@@ -17,9 +17,7 @@
           "for f in libs/ui/tokens/dist/theme-*.css; do cp \"$f\" \"dist/onyx-ui/styles/themes/$(basename \"$f\" | sed 's/^theme-//')\"; done"
         ],
         "parallel": false,
-        "outputs": [
-          "{workspaceRoot}/dist/onyx-ui"
-        ]
+        "outputs": ["{workspaceRoot}/dist/onyx-ui"]
       }
     },
     "test": {

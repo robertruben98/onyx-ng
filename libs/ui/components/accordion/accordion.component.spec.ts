@@ -60,7 +60,9 @@ describe("OnyxAccordionComponent", () => {
 
     await user.click(screen.getByRole("button", { name: "One" }));
     expect(panel).not.toHaveAttribute("inert");
-    expect(screen.getByRole("link", { name: "Inside link" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "Inside link" }),
+    ).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "One" }));
     expect(panel).toHaveAttribute("inert");
@@ -84,8 +86,9 @@ describe("OnyxAccordionComponent", () => {
     expect(link).toHaveFocus();
 
     // Programmatic collapse (what the parent does in single mode, or a consumer).
-    const item = fixture.debugElement.query(By.directive(OnyxAccordionItemComponent))
-      .componentInstance as OnyxAccordionItemComponent;
+    const item = fixture.debugElement.query(
+      By.directive(OnyxAccordionItemComponent),
+    ).componentInstance as OnyxAccordionItemComponent;
     item.setExpanded(false);
     fixture.detectChanges();
 
@@ -105,8 +108,9 @@ describe("OnyxAccordionComponent", () => {
     await user.click(screen.getByRole("button", { name: "One" }));
     const two = screen.getByRole("button", { name: "Two" });
     two.focus();
-    const item = fixture.debugElement.query(By.directive(OnyxAccordionItemComponent))
-      .componentInstance as OnyxAccordionItemComponent;
+    const item = fixture.debugElement.query(
+      By.directive(OnyxAccordionItemComponent),
+    ).componentInstance as OnyxAccordionItemComponent;
     item.setExpanded(false);
     fixture.detectChanges();
     expect(two).toHaveFocus();

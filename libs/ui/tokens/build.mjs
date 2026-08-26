@@ -22,9 +22,9 @@
  * resolve against that theme's semantics. One source of truth stays in JSON;
  * each preset is a small override file under themes/.
  */
-import StyleDictionary from 'style-dictionary';
-import { readdirSync, readFileSync } from 'fs';
-import { basename, join } from 'path';
+import StyleDictionary from "style-dictionary";
+import { readdirSync, readFileSync } from "fs";
+import { basename, join } from "path";
 
 /**
  * `globSync` from node:fs is Node 22+, and pages.yml runs Node 20, so the Pages
@@ -35,20 +35,19 @@ function jsonFilesUnder(dir) {
   return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
     const path = join(dir, entry.name);
     if (entry.isDirectory()) return jsonFilesUnder(path);
-    return entry.name.endsWith('.json') ? [path] : [];
+    return entry.name.endsWith(".json") ? [path] : [];
   });
 }
 
-const TOKENS_DIR = 'libs/ui/tokens/tokens';
-const THEMES_DIR = 'libs/ui/tokens/themes';
-const BUILD_PATH = 'libs/ui/tokens/dist/';
+const TOKENS_DIR = "libs/ui/tokens/tokens";
+const THEMES_DIR = "libs/ui/tokens/themes";
+const BUILD_PATH = "libs/ui/tokens/dist/";
 
 /** Selector each preset is scoped to. A preset with no entry here is a build error. */
 const SELECTORS = {
-  dark: '.onyx-dark',
-  acme: '.onyx-theme-acme'
+  dark: ".onyx-dark",
+  acme: ".onyx-theme-acme",
 };
-
 
 /**
  * A preset that overrides a token which also has children collapses the whole
@@ -64,31 +63,32 @@ function readBaseTree() {
   // children here.
   const merge = (into, from) => {
     for (const [k, v] of Object.entries(from)) {
-      if (v && typeof v === 'object' && !('value' in v) && into[k]) merge(into[k], v);
+      if (v && typeof v === "object" && !("value" in v) && into[k])
+        merge(into[k], v);
       else into[k] = { ...(into[k] ?? {}), ...v };
     }
     return into;
   };
   return jsonFilesUnder(TOKENS_DIR).reduce(
-    (tree, f) => merge(tree, JSON.parse(readFileSync(f, 'utf8'))),
-    {}
+    (tree, f) => merge(tree, JSON.parse(readFileSync(f, "utf8"))),
+    {},
   );
 }
 
 function assertNoNodeCollision(overrides, baseTokens, themeName) {
   const walk = (node, path = []) => {
     for (const [key, child] of Object.entries(node)) {
-      if (!child || typeof child !== 'object') continue;
+      if (!child || typeof child !== "object") continue;
       const here = [...path, key];
-      if ('value' in child) {
+      if ("value" in child) {
         const base = here.reduce((n, k) => (n ? n[k] : undefined), baseTokens);
-        const children = base && Object.keys(base).filter((k) => k !== 'value');
+        const children = base && Object.keys(base).filter((k) => k !== "value");
         if (children && children.length) {
           throw new Error(
-            `Preset "${themeName}" overrides "${here.join('.')}", but the base token tree ` +
-              `also has ${here.join('.')}.{${children.join(',')}}. Overriding the parent ` +
+            `Preset "${themeName}" overrides "${here.join(".")}", but the base token tree ` +
+              `also has ${here.join(".")}.{${children.join(",")}}. Overriding the parent ` +
               `collapses those children and breaks every reference to them. Rename the ` +
-              `semantic token so it does not share a namespace with the primitive ramp.`
+              `semantic token so it does not share a namespace with the primitive ramp.`,
           );
         }
       } else {
@@ -101,8 +101,8 @@ function assertNoNodeCollision(overrides, baseTokens, themeName) {
 
 const cssFile = (destination, selector) => ({
   destination,
-  format: 'css/variables',
-  options: { outputReferences: true, selector }
+  format: "css/variables",
+  options: { outputReferences: true, selector },
 });
 
 /**
@@ -110,9 +110,9 @@ const cssFile = (destination, selector) => ({
  */
 function flatten(node, path = [], out = new Map()) {
   for (const [key, child] of Object.entries(node)) {
-    if (!child || typeof child !== 'object') continue;
+    if (!child || typeof child !== "object") continue;
     const here = [...path, key];
-    if ('value' in child) out.set(here.join('.'), child.value);
+    if ("value" in child) out.set(here.join("."), child.value);
     else flatten(child, here, out);
   }
   return out;
@@ -141,7 +141,7 @@ function flatten(node, path = [], out = new Map()) {
  */
 function deltaPaths(overrides, merged) {
   const delta = new Set(flatten(overrides).keys());
-  for (let grew = true; grew; ) {
+  for (let grew = true; grew;) {
     grew = false;
     for (const [path, value] of merged) {
       if (delta.has(path)) continue;
@@ -166,16 +166,16 @@ function deltaPaths(overrides, merged) {
  */
 const deltaFormat = ({ dictionary, options }) => {
   const byPath = new Map(
-    dictionary.allTokens.map((t) => [t.path.join('.'), t])
+    dictionary.allTokens.map((t) => [t.path.join("."), t]),
   );
   const lines = dictionary.allTokens
-    .filter((t) => options.delta.has(t.path.join('.')))
+    .filter((t) => options.delta.has(t.path.join(".")))
     .map((t) => {
-      const ref = /^\{([^}]+)\}$/.exec(String(t.original?.value ?? '').trim());
+      const ref = /^\{([^}]+)\}$/.exec(String(t.original?.value ?? "").trim());
       const target = ref && byPath.get(ref[1]);
       return `  --${t.name}: ${target ? `var(--${target.name})` : t.value};`;
     });
-  return `${options.selector} {\n${lines.join('\n')}\n}\n`;
+  return `${options.selector} {\n${lines.join("\n")}\n}\n`;
 };
 
 /** Base build: every tier at :root. This is the light default. */
@@ -183,12 +183,12 @@ const base = new StyleDictionary({
   source: jsonFilesUnder(TOKENS_DIR),
   platforms: {
     css: {
-      transformGroup: 'css',
-      prefix: 'ui',
+      transformGroup: "css",
+      prefix: "ui",
       buildPath: BUILD_PATH,
-      files: [cssFile('tokens.css', ':root')]
-    }
-  }
+      files: [cssFile("tokens.css", ":root")],
+    },
+  },
 });
 await base.buildAllPlatforms();
 
@@ -200,52 +200,54 @@ await base.buildAllPlatforms();
  * theme scope, and a preset can re-map a primitive if it ever needs to.
  */
 const baseTree = readBaseTree();
-const themes = readdirSync(THEMES_DIR).filter((f) => f.endsWith('.json'));
+const themes = readdirSync(THEMES_DIR).filter((f) => f.endsWith(".json"));
 
 for (const file of themes) {
-  const name = basename(file, '.json');
+  const name = basename(file, ".json");
   const selector = SELECTORS[name];
   if (!selector) {
     throw new Error(
       `Theme "${name}" has no selector in build.mjs. Add one to SELECTORS ` +
-        `so the preset is actually scoped to something.`
+        `so the preset is actually scoped to something.`,
     );
   }
 
   assertNoNodeCollision(
-    JSON.parse(readFileSync(join(THEMES_DIR, file), 'utf8')),
+    JSON.parse(readFileSync(join(THEMES_DIR, file), "utf8")),
     baseTree,
-    name
+    name,
   );
 
-  const overrides = JSON.parse(readFileSync(join(THEMES_DIR, file), 'utf8'));
+  const overrides = JSON.parse(readFileSync(join(THEMES_DIR, file), "utf8"));
   const merged = flatten(readBaseTree());
   for (const [path, value] of flatten(overrides)) merged.set(path, value);
   const delta = deltaPaths(overrides, merged);
 
   const sd = new StyleDictionary({
-    hooks: { formats: { 'css/delta': deltaFormat } },
+    hooks: { formats: { "css/delta": deltaFormat } },
     source: [...jsonFilesUnder(TOKENS_DIR), join(THEMES_DIR, file)],
     platforms: {
       css: {
-        transformGroup: 'css',
-        prefix: 'ui',
+        transformGroup: "css",
+        prefix: "ui",
         buildPath: BUILD_PATH,
         files: [
           {
             destination: `theme-${name}.css`,
-            format: 'css/delta',
-            options: { selector, delta }
-          }
-        ]
-      }
-    }
+            format: "css/delta",
+            options: { selector, delta },
+          },
+        ],
+      },
+    },
   });
   await sd.buildAllPlatforms();
   console.log(
     `  ${name}: ${delta.size} of ${merged.size} tokens ` +
-      `(${flatten(overrides).size} overridden + ${delta.size - flatten(overrides).size} dependants)`
+      `(${flatten(overrides).size} overridden + ${delta.size - flatten(overrides).size} dependants)`,
   );
 }
 
-console.log(`\nBuilt :root + ${themes.length} theme(s): ${themes.map((f) => basename(f, '.json')).join(', ')}`);
+console.log(
+  `\nBuilt :root + ${themes.length} theme(s): ${themes.map((f) => basename(f, ".json")).join(", ")}`,
+);
