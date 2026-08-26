@@ -1,31 +1,131 @@
+# The quality gates from CLAUDE.md §8, on every push and PR.
+#
+# Replaces the previous `build-test` job and is a superset of it: same steps,
+# plus spec typechecking, a format check and a dependency audit.
+#
+# Two deliberate differences from the job it replaces:
+#
+# 1. eslint and stylelint run as separate steps; `npm run lint` is never used.
+#    That script is `eslint . && npm run lint:tokens`, and the `&&`
+#    short-circuits, so a single ESLint error stops stylelint running at all --
+#    a whole gate reporting green because the one before it failed.
+#    `npm run typecheck` is split for the same reason.
+# 2. Every action is pinned by commit SHA. checkout and upload-artifact were
+#    already pinned here; setup-node was pinned in pages.yml but referenced by
+#    bare tag in ci.yml and publish.yml. This uses the SHA everywhere.
 name: CI
+
 on:
   push:
     branches: [main]
   pull_request:
+  # The `Quality gates` checks do not appear in branch protection until the
+  # workflow has run once, so this is what makes them requirable.
   workflow_dispatch:
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
-  build-test:
+  gates:
+    name: Quality gates
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    strategy:
+      # One Node version failing must not hide the other's result.
+      fail-fast: false
+      matrix:
+        # This package publishes, so the Node that matters is the consumer's,
+        # not the maintainer's. package.json declares >=22.0.0: 22 is the floor
+        # and what the previous job built on, 24 is the current LTS. Testing one
+        # point of a declared range is how a library ships something that only
+        # works on the newest runtime.
+        node: ["22", "24"]
+
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4
-      - uses: actions/setup-node@v6.4.0
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node ${{ matrix.node }}
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
-          node-version: "22"
-          cache: "npm"
-      - run: npm ci # runs postinstall (patch-package applies the ng-packagr patch)
-      - run: npm run build:tokens
-      - run: npm run typecheck
-      - run: npm run lint
-      - run: npm test -- --coverage --ci
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      # Also runs the postinstall that applies patches/ng-packagr+19.2.2.patch,
+      # which the library build below depends on.
+      - name: Install dependencies
+        id: install
+        run: npm ci
+
+      # ui-components:build copies libs/ui/tokens/dist/tokens.css into the
+      # package and no project.json declares dependsOn, so this is a real
+      # prerequisite rather than an independently reported gate. Without it the
+      # library build fails on the copy step, after ng-packagr has succeeded.
+      - name: Build design tokens
+        id: tokens
+        run: npm run build:tokens
+
+      # From here each gate reports independently: one failing gate must not
+      # hide the others. They are skipped only when setup itself failed.
+      - name: Format check (Prettier)
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run format:check
+
+      - name: Typecheck (library)
+        if: ${{ !cancelled() && steps.tokens.outcome == 'success' }}
+        run: npm run typecheck:lib
+
+      - name: Typecheck (specs)
+        if: ${{ !cancelled() && steps.tokens.outcome == 'success' }}
+        run: npm run typecheck:spec
+
+      - name: Lint (ESLint)
+        if: ${{ !cancelled() && steps.tokens.outcome == 'success' }}
+        run: npx eslint .
+
+      - name: Lint (Stylelint — design-token rules)
+        if: ${{ !cancelled() && steps.tokens.outcome == 'success' }}
+        run: npm run lint:tokens
+
+      - name: Test (Jest + jest-axe, coverage thresholds)
+        if: ${{ !cancelled() && steps.tokens.outcome == 'success' }}
+        run: npm run test:ci
+
+      # From one matrix entry only: upload-artifact rejects a second upload
+      # under the same name, and `coverage-report` is the name the job this
+      # replaces produced. Runs even when the tests failed -- that is when the
+      # report is most worth reading.
       - name: Upload coverage report
-        if: always()
+        if: ${{ !cancelled() && matrix.node == '22' }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: coverage-report
           path: coverage/
           if-no-files-found: error
           retention-days: 14
-      - run: npx nx build ui-components
-      - run: npx nx build docs
+
+      - name: Build library (ng-packagr)
+        if: ${{ !cancelled() && steps.tokens.outcome == 'success' }}
+        run: npx nx build ui-components
+
+      - name: Build docs app
+        if: ${{ !cancelled() && steps.tokens.outcome == 'success' }}
+        run: npx nx build docs
+
+      # Blocking on the production tree only. The dev tree is red today over
+      # build tooling that never reaches a consumer; see the audit script.
+      - name: Audit (production dependencies)
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run audit
+
+      # Informational: keeps the dev-dependency backlog visible every run.
+      - name: Audit (full tree, informational)
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        continue-on-error: true
+        run: npm audit
