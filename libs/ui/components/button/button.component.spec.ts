@@ -70,6 +70,45 @@ describe("OnyxButtonComponent", () => {
     expect(clicked).not.toHaveBeenCalled();
   });
 
+  // V4-2: the component's own guard must run for clicks that bypass native
+  // [disabled] (synthetic dispatch). dispatchEvent returns false only when a
+  // listener called preventDefault, i.e. when the guard actually executed.
+  it("guard blocks a synthetic click when disabled (does not emit, prevents default)", async () => {
+    const clicked = jest.fn();
+    await render(
+      `<onyx-button [disabled]="true" (clicked)="clicked()">Save</onyx-button>`,
+      { imports: [OnyxButtonComponent], componentProperties: { clicked } },
+    );
+    const event = new MouseEvent("click", { bubbles: true, cancelable: true });
+    const notPrevented = screen.getByRole("button").dispatchEvent(event);
+    expect(notPrevented).toBe(false);
+    expect(clicked).not.toHaveBeenCalled();
+  });
+
+  it("guard blocks a synthetic click when loading (does not emit, prevents default)", async () => {
+    const clicked = jest.fn();
+    await render(
+      `<onyx-button [loading]="true" (clicked)="clicked()">Save</onyx-button>`,
+      { imports: [OnyxButtonComponent], componentProperties: { clicked } },
+    );
+    const event = new MouseEvent("click", { bubbles: true, cancelable: true });
+    const notPrevented = screen.getByRole("button").dispatchEvent(event);
+    expect(notPrevented).toBe(false);
+    expect(clicked).not.toHaveBeenCalled();
+  });
+
+  it("does not stop a synthetic click from propagating when interactive", async () => {
+    const clicked = jest.fn();
+    await render(`<onyx-button (clicked)="clicked()">Save</onyx-button>`, {
+      imports: [OnyxButtonComponent],
+      componentProperties: { clicked },
+    });
+    const event = new MouseEvent("click", { bubbles: true, cancelable: true });
+    const notPrevented = screen.getByRole("button").dispatchEvent(event);
+    expect(notPrevented).toBe(true);
+    expect(clicked).toHaveBeenCalledTimes(1);
+  });
+
   it("loading state uses aria-disabled (not native disabled) so aria-busy is announced", async () => {
     await render(`<onyx-button [loading]="true">Saving</onyx-button>`, {
       imports: [OnyxButtonComponent],
