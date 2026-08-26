@@ -90,6 +90,94 @@ describe("OnyxCardComponent", () => {
     expect(clicked).not.toHaveBeenCalled();
   });
 
+  // A-20: events bubbling from nested controls must not activate the card
+  it("emits clicked when non-interactive nested content (text) is clicked", async () => {
+    const user = userEvent.setup();
+    const clicked = jest.fn();
+    await render(
+      `<onyx-card [interactive]="true" (clicked)="clicked()"><p>Body text</p></onyx-card>`,
+      { imports: [OnyxCardComponent], componentProperties: { clicked } },
+    );
+    await user.click(screen.getByText("Body text"));
+    expect(clicked).toHaveBeenCalledTimes(1);
+  });
+
+  it("emits clicked for an activation whose target is a text node", async () => {
+    const clicked = jest.fn();
+    await render(
+      `<onyx-card [interactive]="true" (clicked)="clicked()">Plain text</onyx-card>`,
+      { imports: [OnyxCardComponent], componentProperties: { clicked } },
+    );
+    const text = screen.getByText("Plain text").firstChild as Text;
+    text.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+    expect(clicked).toHaveBeenCalledTimes(1);
+  });
+
+  it("does NOT emit clicked when a nested button is clicked", async () => {
+    const user = userEvent.setup();
+    const clicked = jest.fn();
+    const inner = jest.fn();
+    await render(
+      `<onyx-card [interactive]="true" (clicked)="clicked()">
+        <p>Body</p>
+        <button type="button" (click)="inner()">Inner</button>
+      </onyx-card>`,
+      { imports: [OnyxCardComponent], componentProperties: { clicked, inner } },
+    );
+    await user.click(screen.getByRole("button", { name: "Inner" }));
+    expect(inner).toHaveBeenCalledTimes(1);
+    expect(clicked).not.toHaveBeenCalled();
+  });
+
+  it("does NOT emit clicked when a nested link is clicked", async () => {
+    const user = userEvent.setup();
+    const clicked = jest.fn();
+    await render(
+      `<onyx-card [interactive]="true" (clicked)="clicked()">
+        <a href="#x" (click)="$event.preventDefault()">Link</a>
+      </onyx-card>`,
+      { imports: [OnyxCardComponent], componentProperties: { clicked } },
+    );
+    await user.click(screen.getByRole("link", { name: "Link" }));
+    expect(clicked).not.toHaveBeenCalled();
+  });
+
+  it("does NOT prevent Enter on a nested button (native activation still fires)", async () => {
+    const user = userEvent.setup();
+    const clicked = jest.fn();
+    const inner = jest.fn();
+    await render(
+      `<onyx-card [interactive]="true" (clicked)="clicked()">
+        <p>Body</p>
+        <button type="button" (click)="inner()">Inner</button>
+      </onyx-card>`,
+      { imports: [OnyxCardComponent], componentProperties: { clicked, inner } },
+    );
+    screen.getByRole("button", { name: "Inner" }).focus();
+    await user.keyboard("{Enter}");
+    // Enter on a native button synthesises a click unless keydown was prevented.
+    expect(inner).toHaveBeenCalledTimes(1);
+    expect(clicked).not.toHaveBeenCalled();
+  });
+
+  it("does NOT prevent Enter inside a nested form field", async () => {
+    const user = userEvent.setup();
+    const clicked = jest.fn();
+    const submitted = jest.fn();
+    await render(
+      `<onyx-card [interactive]="true" (clicked)="clicked()">
+        <form (submit)="submitted(); $event.preventDefault()">
+          <input aria-label="Name" />
+        </form>
+      </onyx-card>`,
+      { imports: [OnyxCardComponent], componentProperties: { clicked, submitted } },
+    );
+    await user.click(screen.getByLabelText("Name"));
+    await user.keyboard("{Enter}");
+    expect(submitted).toHaveBeenCalledTimes(1);
+    expect(clicked).not.toHaveBeenCalled();
+  });
+
   // B4: disabled state
   it("does NOT emit clicked when interactive but disabled", async () => {
     const user = userEvent.setup();
