@@ -412,6 +412,9 @@
     "bg": {
       "value": "{color.surface}"
     },
+    "backdrop-bg": {
+      "value": "{color.scrim}"
+    },
     "text": {
       "value": "{color.text}"
     },

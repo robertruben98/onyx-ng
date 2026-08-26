@@ -30,6 +30,9 @@
     "border": {
       "value": "{slate.200}"
     },
+    "scrim": {
+      "value": "{black-alpha.32}"
+    },
     "danger": {
       "value": "{red.600}"
     },

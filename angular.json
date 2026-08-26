@@ -23,6 +23,7 @@
             "assets": [],
             "styles": [
               "node_modules/@angular/cdk/overlay-prebuilt.css",
+              "libs/ui/primitives/overlay/overlay.css",
               "libs/ui/tokens/dist/tokens.css",
               "libs/ui/tokens/dist/theme-dark.css",
               "libs/ui/tokens/dist/theme-acme.css",

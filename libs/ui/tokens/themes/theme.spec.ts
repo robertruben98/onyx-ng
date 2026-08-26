@@ -41,6 +41,7 @@ function flatten(node: Node, path: string[] = []): Map<string, string> {
 const COLOUR_FAMILIES = [
   "amber",
   "black",
+  "black-alpha",
   "blue",
   "emerald",
   "green",
