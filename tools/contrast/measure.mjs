@@ -14,7 +14,7 @@
  *
  *   node tools/contrast/measure.mjs \
  *     [--dist dist/docs] [--out tools/contrast] [--only button,card] \
- *     [--contexts light,dark,acme] [--no-hover] [--no-focus] \
+ *     [--contexts light,dark,acme,dark+acme] [--no-hover] [--no-focus] \
  *     [--pw-dir <dir whose node_modules has playwright-core>] [--chrome <path>] [--label <tree id>]
  *
  * Read-only on product source: consumes dist/docs/browser and the token CSS.
@@ -37,7 +37,7 @@ const OUT = path.resolve(ROOT, opt("out", "tools/contrast"));
 const ONLY = opt("only", "")
   .split(",")
   .filter(Boolean);
-const CONTEXTS = opt("contexts", "light,dark,acme").split(",");
+const CONTEXTS = opt("contexts", "light,dark,acme,dark+acme").split(",");
 const DO_HOVER = !flag("no-hover");
 const DO_FOCUS = !flag("no-focus");
 const PW_DIR = opt("pw-dir", process.env.PW_MODULE_DIR || ROOT);

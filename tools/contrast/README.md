@@ -19,8 +19,9 @@ node tools/contrast/report.mjs --compare other/matrix.json --compare-label "bran
 owner's call); point `--pw-dir` (or `PW_MODULE_DIR`) at any directory whose
 `node_modules` has it. The browser is system Chrome (`channel: "chrome"`), or
 `--chrome <path>` / `CHROME_PATH`, falling back to `~/.cache/ms-playwright/chromium-1208`.
-Options: `--only button,card`, `--contexts light,dark,acme,dark+acme`,
-`--no-hover`, `--no-focus`, `--dist`, `--out`.
+Options: `--only button,card`, `--contexts light,dark,acme,dark+acme` (the
+default; `dark+acme` = both classes on `<html>`, the composition README §7
+calls supported), `--no-hover`, `--no-focus`, `--dist`, `--out`.
 
 ## Method
 
@@ -47,7 +48,7 @@ component token and the semantic/primitive it resolves to.
 
 | column | meaning |
 |---|---|
-| `component`, `context`, `state` | 27 components × `light`/`dark`/`acme` × `default`/`hover`/`focus`/`open` |
+| `component`, `context`, `state` | 27 components × `light`/`dark`/`acme`/`dark+acme` × `default`/`hover`/`focus`/`open` |
 | `kind`, `subkind` | `text` (`text`, `placeholder`) or `non-text` (`border`, `fill`, `box`, `line`, `icon`, `accent`, `focus-ring`, `focus-ring-vs-control`, `track`, `thumb`, `thumb-vs-track`, …) |
 | `element`, `path` | host tag + variant/state modifiers + element; short DOM path |
 | `fg_token`, `fg_chain`, `fg_decl`, `fg_source`, `fg_rendered` | the token, its resolution, the declaration it came from, how it was attributed, the painted hex |
@@ -95,6 +96,10 @@ one token value typically fails across many components.
   element (`fg_source: token-resolved…`), not read from paint.
 - Native checkbox/radio boxes are UA-drawn; `accent-color` (checked fill) is
   measured, the unchecked UA border is not themeable and not measured.
-- Not measured: active/pressed states; `dark+acme` composition unless requested.
+- Not measured: active/pressed states.
+- `report.mjs --compare` runs a **composition check** on every `a+b` context: if
+  its rows render ≈100 % identical to one part alone, the context did not
+  compose and every verdict change inside it is flagged `⚠ regression`, not
+  counted as a token fix or a token failure.
 - Right after toggling a theme class, Chrome reports mid-transition values for
   anything with `transition: background-color` — hence transitions are disabled.
