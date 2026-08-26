@@ -60,7 +60,7 @@
       "value": "{color.text}"
     },
     "placeholder": {
-      "value": "{color.text-muted}"
+      "value": "{color.text-placeholder}"
     },
     "border": {
       "value": "{color.border}"
@@ -169,7 +169,7 @@
       "value": "{color.text}"
     },
     "placeholder": {
-      "value": "{color.text-muted}"
+      "value": "{color.text-placeholder}"
     },
     "border": {
       "value": "{color.border}"
@@ -614,7 +614,7 @@
       "value": "{color.text}"
     },
     "placeholder": {
-      "value": "{color.text-muted}"
+      "value": "{color.text-placeholder}"
     },
     "border": {
       "value": "{color.border}"
@@ -1149,10 +1149,10 @@
   },
   "skeleton": {
     "bg": {
-      "value": "{slate.200}"
+      "value": "{color.border}"
     },
     "bg-shine": {
-      "value": "{slate.50}"
+      "value": "{color.neutral-surface}"
     },
     "radius": {
       "value": "{radii.md}"

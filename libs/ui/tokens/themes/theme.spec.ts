@@ -132,19 +132,135 @@ describe("theme presets", () => {
       expect(missing).toEqual([]);
     });
 
-    it("reports which tokens it maps to their light value", () => {
-      // Not a failure: a border that is deliberately identical in both themes is
-      // a design choice. It is recorded so the choice stays deliberate rather
-      // than becoming an unnoticed gap.
+    it("maps no semantic colour token to its light value", () => {
+      // These four were the whole tail of the dark theme (W3-1): the three state
+      // borders sat at *.600 -- info-border measured 2.18:1 against the dark
+      // surface, under the 3:1 minimum for a non-text boundary -- and
+      // color.text-muted was slate.400 in BOTH themes, which froze eleven
+      // component tokens downstream of it. Empty is now the contract: a preset
+      // that re-states a light value is a gap, not a design choice. If one is
+      // ever deliberate, add it here with the reason and the measured ratio.
       const identical = semanticColours.filter(
         (p) => dark.get(p) === semantic.get(p),
       );
-      expect(identical.sort()).toEqual([
-        "color.danger-border",
-        "color.info-border",
-        "color.success-border",
-        "color.text-muted",
-      ]);
+      expect(identical.sort()).toEqual([]);
+    });
+  });
+});
+
+/**
+ * WCAG contrast gate (card W3-1).
+ *
+ * The a11y specs use jest-axe under jsdom, which has no layout engine and so can
+ * NEVER evaluate `color-contrast` -- every component reported "0 violations"
+ * while `color.text-muted` shipped slate.400 at 2.56:1 on white, eight
+ * components deep. Ratios are a pure function of the token values, so they can
+ * be gated here without a browser, per theme, before a component ever renders.
+ *
+ * Resolves each pair through the preset overlay so a preset cannot introduce a
+ * failing combination that the light theme happens not to have.
+ */
+const hexOf = (
+  path: string,
+  overlay: Map<string, string>,
+): string | undefined => {
+  const seen = new Set<string>();
+  let cur: string | undefined = `{${path}}`;
+  for (;;) {
+    const ref = /^\{([^}]+)\}$/.exec((cur ?? "").trim());
+    if (!ref) return cur?.startsWith("#") ? cur : undefined;
+    const next = ref[1];
+    if (seen.has(next)) return undefined;
+    seen.add(next);
+    cur = overlay.get(next) ?? semantic.get(next) ?? primitive.get(next);
+    if (cur === undefined) return undefined;
+  }
+};
+
+const relativeLuminance = (hex: string): number => {
+  const channel = (v: number) => {
+    const c = v / 255;
+    return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  };
+  const n = parseInt(hex.slice(1), 16);
+  return (
+    0.2126 * channel((n >> 16) & 255) +
+    0.7152 * channel((n >> 8) & 255) +
+    0.0722 * channel(n & 255)
+  );
+};
+
+const contrast = (a: string, b: string): number => {
+  const [x, y] = [relativeLuminance(a), relativeLuminance(b)];
+  return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
+};
+
+/** Body text and its background: WCAG 1.4.3 Contrast (Minimum), AA. */
+const TEXT_PAIRS: [string, string][] = [
+  ["color.text", "color.surface"],
+  ["color.text-muted", "color.surface"],
+  ["color.text-placeholder", "color.surface"],
+  ["color.neutral", "color.surface"],
+  ["color.on-primary", "color.primary"],
+  ["color.danger-text", "color.danger-surface"],
+  ["color.success-text", "color.success-surface"],
+  ["color.warning-text", "color.warning-surface"],
+  ["color.info-text", "color.info-surface"],
+  ["color.badge-danger-text", "color.badge-danger-bg"],
+  ["color.badge-success-text", "color.badge-success-bg"],
+  ["color.badge-warning-text", "color.badge-warning-bg"],
+  ["color.badge-info-text", "color.badge-info-bg"],
+  ["color.badge-neutral-text", "color.badge-neutral-bg"],
+];
+
+/**
+ * Boundaries a user must see to identify or operate a control: WCAG 1.4.11
+ * Non-text Contrast, 3:1.
+ *
+ * Two pairs are deliberately absent, and both are exemptions rather than
+ * oversights. `color.disabled-text` on `color.disabled-bg` measures 2.34:1 in
+ * light and 3.07:1 in dark: 1.4.3 exempts text in an inactive control, and
+ * dimming IS the affordance -- raising it to AA would make disabled look
+ * enabled. `color.border` on `color.surface` is a 1.23:1 hairline: 1.4.11
+ * covers boundaries *required* to identify a component, not decorative rules,
+ * and every control that needs a visible edge in this library carries its own
+ * state border token, which is gated below.
+ */
+const NON_TEXT_PAIRS: [string, string][] = [
+  ["color.info-border", "color.info-surface"],
+  ["color.success-border", "color.success-surface"],
+  ["color.danger-border", "color.danger-surface"],
+  ["color.warning-border", "color.warning-surface"],
+  ["focus.ring", "color.surface"],
+];
+
+describe("contrast", () => {
+  // The light theme is the base token set with no overlay.
+  const themes: [string, Map<string, string>][] = [
+    ["light", new Map<string, string>()],
+    ...presets.map(
+      ({ file, tokens }) =>
+        [file.replace(/\.json$/, ""), tokens] as [string, Map<string, string>],
+    ),
+  ];
+
+  describe.each(themes)("%s", (_name, overlay) => {
+    it("resolves every gated pair to a hex colour", () => {
+      // Without this the assertions below pass vacuously on a typo'd token name.
+      const unresolved = [...TEXT_PAIRS, ...NON_TEXT_PAIRS]
+        .flat()
+        .filter((path) => hexOf(path, overlay) === undefined);
+      expect(unresolved).toEqual([]);
+    });
+
+    it.each(TEXT_PAIRS)("%s on %s reaches AA 4.5:1", (fg, bg) => {
+      const ratio = contrast(hexOf(fg, overlay)!, hexOf(bg, overlay)!);
+      expect(Number(ratio.toFixed(2))).toBeGreaterThanOrEqual(4.5);
+    });
+
+    it.each(NON_TEXT_PAIRS)("%s on %s reaches 3:1", (fg, bg) => {
+      const ratio = contrast(hexOf(fg, overlay)!, hexOf(bg, overlay)!);
+      expect(Number(ratio.toFixed(2))).toBeGreaterThanOrEqual(3);
     });
   });
 });

@@ -25,7 +25,7 @@
       "value": "{slate.400}"
     },
     "text-placeholder": {
-      "value": "{slate.500}"
+      "value": "{slate.400}"
     },
     "border": {
       "value": "{slate.700}"
@@ -70,10 +70,10 @@
       "value": "{slate.800}"
     },
     "info-text": {
-      "value": "{blue.400}"
+      "value": "{blue.300}"
     },
     "info-border": {
-      "value": "{blue.600}"
+      "value": "{blue.400}"
     },
     "success-bg": {
       "value": "{slate.800}"
@@ -82,7 +82,7 @@
       "value": "{green.400}"
     },
     "success-border": {
-      "value": "{green.600}"
+      "value": "{green.400}"
     },
     "warning-bg": {
       "value": "{slate.800}"
@@ -100,7 +100,7 @@
       "value": "{red.400}"
     },
     "danger-border": {
-      "value": "{red.600}"
+      "value": "{red.400}"
     },
     "badge-neutral-bg": {
       "value": "{slate.800}"
@@ -112,7 +112,7 @@
       "value": "{slate.800}"
     },
     "badge-info-text": {
-      "value": "{blue.400}"
+      "value": "{blue.300}"
     },
     "badge-success-bg": {
       "value": "{slate.800}"

@@ -22,10 +22,10 @@
       "value": "{slate.900}"
     },
     "text-muted": {
-      "value": "{slate.400}"
+      "value": "{slate.500}"
     },
     "text-placeholder": {
-      "value": "{slate.400}"
+      "value": "{slate.500}"
     },
     "border": {
       "value": "{slate.200}"
@@ -91,7 +91,7 @@
       "value": "{yellow.800}"
     },
     "warning-border": {
-      "value": "{yellow.600}"
+      "value": "{yellow.700}"
     },
     "danger-bg": {
       "value": "{red.50}"
