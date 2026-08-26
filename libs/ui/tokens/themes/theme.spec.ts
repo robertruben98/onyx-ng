@@ -173,7 +173,11 @@ const hexOf = (
     const next = ref[1];
     if (seen.has(next)) return undefined;
     seen.add(next);
-    cur = overlay.get(next) ?? semantic.get(next) ?? primitive.get(next);
+    cur =
+      overlay.get(next) ??
+      semantic.get(next) ??
+      component.get(next) ??
+      primitive.get(next);
     if (cur === undefined) return undefined;
   }
 };
@@ -233,6 +237,11 @@ const NON_TEXT_PAIRS: [string, string][] = [
   ["color.danger-border", "color.danger-surface"],
   ["color.warning-border", "color.warning-surface"],
   ["focus.ring", "color.surface"],
+  // The knob against the track it actually sits on, per state (B-04 / W4-3).
+  // A single token cannot satisfy both rows: off and on tracks sit at opposite
+  // ends of the luminance range inside each theme, which is why there are two.
+  ["switch.thumb-color", "switch.track-bg"],
+  ["switch.thumb-color-checked", "switch.track-bg-checked"],
 ];
 
 /**
@@ -245,22 +254,17 @@ const NON_TEXT_PAIRS: [string, string][] = [
  * reaches past the semantic layer fails here rather than at review.
  */
 describe("component tokens reference the semantic layer", () => {
-  const COLOUR_EXEMPT = new Set([
-    // No semantic is light in BOTH themes; #fff is correct in each, so the only
-    // cost is that a preset cannot re-skin the knob. Needs a public-API
-    // decision (a `color.control-knob` semantic, or on/off thumb tokens), not a
-    // guess. Remove this entry when that lands.
-    "switch.thumb-color",
-  ]);
-
   it("never reaches a colour primitive", () => {
+    // No exemptions. `switch.thumb-color` was the last one and it was not a
+    // naming problem: the thumb is a bare ::after with background-color only,
+    // so `{white}` measured 1.23:1 on the light unchecked track -- an invisible
+    // knob (B-04). No SINGLE token can fix it, because the off and on tracks sit
+    // at opposite ends of the luminance range within each theme, so it took two.
     const direct = [...component]
-      .filter(
-        ([path, value]) =>
-          !COLOUR_EXEMPT.has(path) &&
-          COLOUR_FAMILIES.includes(
-            (/^\{([^}]+)\}$/.exec(value.trim())?.[1] ?? "").split(".")[0],
-          ),
+      .filter(([, value]) =>
+        COLOUR_FAMILIES.includes(
+          (/^\{([^}]+)\}$/.exec(value.trim())?.[1] ?? "").split(".")[0],
+        ),
       )
       .map(([path]) => path);
     expect(direct).toEqual([]);

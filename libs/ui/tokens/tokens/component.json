@@ -237,7 +237,10 @@
       "value": "{color.primary}"
     },
     "thumb-color": {
-      "value": "{white}"
+      "value": "{color.text}"
+    },
+    "thumb-color-checked": {
+      "value": "{color.on-primary}"
     },
     "radius": {
       "value": "{radius-pill}"
