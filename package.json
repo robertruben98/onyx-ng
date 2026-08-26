@@ -1,11 +1,11 @@
 {
   "name": "onyx-ng",
   "version": "0.0.0",
-  "description": "Onyx NG — Angular design-system component library (styled mode, token-driven)",
+  "description": "Onyx NG \u2014 Angular design-system component library (styled mode, token-driven)",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build:tokens": "style-dictionary build --config libs/ui/tokens/config.json",
+    "build:tokens": "node libs/ui/tokens/build.mjs",
     "typecheck": "tsc -p libs/ui/components/tsconfig.json --noEmit",
     "lint": "eslint . && npm run lint:tokens",
     "lint:tokens": "stylelint \"libs/ui/components/**/*.scss\"",
