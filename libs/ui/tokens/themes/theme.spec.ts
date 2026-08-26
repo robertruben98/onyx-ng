@@ -240,6 +240,14 @@ const NON_TEXT_PAIRS: [string, string][] = [
   // The knob against the track it actually sits on, per state (B-04 / W4-3).
   // A single token cannot satisfy both rows: off and on tracks sit at opposite
   // ends of the luminance range inside each theme, which is why there are two.
+  //
+  // With main's single `{white}` thumb, THREE of the six cells failed, and they
+  // were not all in one theme -- Dwight measured the one I had mis-stated as
+  // light-only: light OFF 1.23 (on slate.200), acme OFF 1.23, and dark ON
+  // 1.92 (white on emerald.400). An ON switch in dark was as invisible as an
+  // OFF switch in light. Both pairs therefore need their own mutation to be
+  // negative-checked; reverting only `thumb-color` leaves the dark ON cell
+  // untested, because that cell is governed by `thumb-color-checked`.
   ["switch.thumb-color", "switch.track-bg"],
   ["switch.thumb-color-checked", "switch.track-bg-checked"],
 ];
