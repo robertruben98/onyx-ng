@@ -49,4 +49,11 @@ module.exports = tseslint.config(
     files: ["**/*.html"],
     extends: [...angular.configs.templateRecommended],
   },
+  {
+    // A-05: template accessibility rules gate the component library. Scoped
+    // to libs/ because apps/docs currently raises 5 findings of its own
+    // (search.component.ts) that belong to the docs lane.
+    files: ["libs/**/*.html"],
+    extends: [...angular.configs.templateAccessibility],
+  },
 );
