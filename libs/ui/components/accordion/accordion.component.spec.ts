@@ -66,6 +66,52 @@ describe("OnyxAccordionComponent", () => {
     expect(panel).toHaveAttribute("inert");
   });
 
+  // B-10 (browser-measured): Chrome does not blur an element that becomes inert,
+  // so a panel collapsed while focus is inside it would keep an invisible,
+  // inert element focused. The item must hand focus back to its header.
+  it("moves focus to the header when a panel collapses around the focused element", async () => {
+    const user = userEvent.setup();
+    const { fixture } = await render(
+      `<onyx-accordion [multi]="true">
+        <onyx-accordion-item heading="One"><a href="#a">Inside link</a></onyx-accordion-item>
+        <onyx-accordion-item heading="Two">Second</onyx-accordion-item>
+      </onyx-accordion>`,
+      { imports: [OnyxAccordionComponent, OnyxAccordionItemComponent] },
+    );
+    await user.click(screen.getByRole("button", { name: "One" }));
+    const link = screen.getByRole("link", { name: "Inside link" });
+    link.focus();
+    expect(link).toHaveFocus();
+
+    // Programmatic collapse (what the parent does in single mode, or a consumer).
+    const item = fixture.debugElement.query(By.directive(OnyxAccordionItemComponent))
+      .componentInstance as OnyxAccordionItemComponent;
+    item.setExpanded(false);
+    fixture.detectChanges();
+
+    expect(screen.getByRole("button", { name: "One" })).toHaveFocus();
+    expect(item.isExpanded()).toBe(false);
+  });
+
+  it("does not steal focus when a panel collapses without focus inside it", async () => {
+    const user = userEvent.setup();
+    const { fixture } = await render(
+      `<onyx-accordion [multi]="true">
+        <onyx-accordion-item heading="One">First</onyx-accordion-item>
+        <onyx-accordion-item heading="Two">Second</onyx-accordion-item>
+      </onyx-accordion>`,
+      { imports: [OnyxAccordionComponent, OnyxAccordionItemComponent] },
+    );
+    await user.click(screen.getByRole("button", { name: "One" }));
+    const two = screen.getByRole("button", { name: "Two" });
+    two.focus();
+    const item = fixture.debugElement.query(By.directive(OnyxAccordionItemComponent))
+      .componentInstance as OnyxAccordionItemComponent;
+    item.setExpanded(false);
+    fixture.detectChanges();
+    expect(two).toHaveFocus();
+  });
+
   it("collapses an expanded item on a second click", async () => {
     const user = userEvent.setup();
     await renderAccordion();
