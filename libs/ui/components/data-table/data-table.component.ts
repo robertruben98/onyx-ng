@@ -59,6 +59,21 @@ export interface DataTableColumn<T> {
  * configuration, field/value/template cells, empty & loading states. Sorting,
  * pagination, selection, virtual scroll and keyboard nav layer on top.
  */
+/**
+ * Text-entry controls whose own keyboard handling must win over the grid's
+ * roving-tabindex navigation when they sit inside a cell template.
+ */
+const EDITABLE_TARGET_SELECTOR = [
+  "input:not([type=button]):not([type=checkbox]):not([type=radio]):not([type=submit]):not([type=reset])",
+  "textarea",
+  "select",
+  '[contenteditable]:not([contenteditable="false"])',
+].join(",");
+
+function isEditableTarget(target: EventTarget | null): boolean {
+  return target instanceof Element && target.matches(EDITABLE_TARGET_SELECTOR);
+}
+
 @Component({
   selector: "onyx-data-table",
   standalone: true,
@@ -225,6 +240,10 @@ export class OnyxDataTableComponent<T> {
 
   /** Grid 2D keyboard navigation (arrows / Home / End / PageUp·Down) + activate. */
   protected onGridKeydown(event: KeyboardEvent): void {
+    // Keys typed into an editable control rendered by a cell template belong
+    // to that control (caret movement, spaces, Enter to submit); the grid must
+    // neither consume them nor move the active cell.
+    if (isEditableTarget(event.target)) return;
     const a = this.activeCell();
     const rowMax = this.visibleRows().length; // header = 0, data rows = 1..N
     const colMax = this.colCount() - 1;
