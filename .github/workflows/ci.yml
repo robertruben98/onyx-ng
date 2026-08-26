@@ -63,38 +63,43 @@ jobs:
         id: install
         run: npm ci
 
-      # ui-components:build copies libs/ui/tokens/dist/tokens.css into the
-      # package and no project.json declares dependsOn, so this is a real
-      # prerequisite rather than an independently reported gate. Without it the
-      # library build fails on the copy step, after ng-packagr has succeeded.
+      # A gate in its own right: style-dictionary has to compile. It is no
+      # longer a prerequisite for anything below -- ui-components and docs now
+      # declare ui-tokens as a dependency in their project.json, so both build
+      # targets produce tokens.css themselves rather than inheriting it from
+      # this step's side effect.
       - name: Build design tokens
-        id: tokens
         run: npm run build:tokens
 
-      # From here each gate reports independently: one failing gate must not
-      # hide the others. They are skipped only when setup itself failed.
+      # Every gate below reports independently and is gated on `install` only,
+      # which is the one thing they genuinely all need. Measured with
+      # libs/ui/tokens/dist deleted: format:check, both typechecks, eslint,
+      # stylelint and the full 412-test suite all pass without it. Gating them
+      # on the token build instead would mean a broken style-dictionary config
+      # reports six gates as "skipped" and tells you nothing about the code --
+      # the same failure this workflow splits `npm run lint` to avoid.
       - name: Format check (Prettier)
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: npm run format:check
 
       - name: Typecheck (library)
-        if: ${{ !cancelled() && steps.tokens.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: npm run typecheck:lib
 
       - name: Typecheck (specs)
-        if: ${{ !cancelled() && steps.tokens.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: npm run typecheck:spec
 
       - name: Lint (ESLint)
-        if: ${{ !cancelled() && steps.tokens.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: npx eslint .
 
       - name: Lint (Stylelint — design-token rules)
-        if: ${{ !cancelled() && steps.tokens.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: npm run lint:tokens
 
       - name: Test (Jest + jest-axe, coverage thresholds)
-        if: ${{ !cancelled() && steps.tokens.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: npm run test:ci
 
       # From one matrix entry only: upload-artifact rejects a second upload
@@ -111,11 +116,11 @@ jobs:
           retention-days: 14
 
       - name: Build library (ng-packagr)
-        if: ${{ !cancelled() && steps.tokens.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: npx nx build ui-components
 
       - name: Build docs app
-        if: ${{ !cancelled() && steps.tokens.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: npx nx build docs
 
       # Blocking on the production tree only. The dev tree is red today over
