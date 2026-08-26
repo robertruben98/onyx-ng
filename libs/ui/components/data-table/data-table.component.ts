@@ -77,7 +77,12 @@ function isEditableTarget(target: EventTarget | null): boolean {
 @Component({
   selector: "onyx-data-table",
   standalone: true,
-  imports: [NgTemplateOutlet, FormsModule, ScrollingModule, OnyxCheckboxComponent],
+  imports: [
+    NgTemplateOutlet,
+    FormsModule,
+    ScrollingModule,
+    OnyxCheckboxComponent,
+  ],
   templateUrl: "./data-table.component.html",
   styleUrl: "./data-table.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

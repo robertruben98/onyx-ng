@@ -14,13 +14,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 export type InputType =
-  | "text"
-  | "email"
-  | "password"
-  | "number"
-  | "tel"
-  | "url"
-  | "search";
+  "text" | "email" | "password" | "number" | "tel" | "url" | "search";
 export type InputSize = "sm" | "md" | "lg";
 
 let nextId = 0;

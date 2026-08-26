@@ -33,10 +33,7 @@ describe("OnyxEmptyStateComponent", () => {
     const title = screen.getByText("No results");
     const description = screen.getByText("Try changing your filters.");
 
-    expect(region).toHaveAttribute(
-      "aria-labelledby",
-      title.closest("h2")?.id,
-    );
+    expect(region).toHaveAttribute("aria-labelledby", title.closest("h2")?.id);
     expect(region).toHaveAttribute(
       "aria-describedby",
       description.closest("p")?.id,
@@ -96,9 +93,7 @@ describe("OnyxEmptyStateComponent", () => {
     });
 
     await user.tab();
-    expect(
-      screen.getByRole("button", { name: "Clear filters" }),
-    ).toHaveFocus();
+    expect(screen.getByRole("button", { name: "Clear filters" })).toHaveFocus();
     await user.keyboard("{Enter}");
     await user.tab();
     expect(screen.getByRole("button", { name: "Go back" })).toHaveFocus();

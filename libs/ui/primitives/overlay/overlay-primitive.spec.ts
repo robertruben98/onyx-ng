@@ -135,11 +135,7 @@ describe("UiOverlay", () => {
   });
 
   it.each([
-    [
-      "bottom",
-      "end",
-      { originX: "end", originY: "bottom", offsetY: 6 },
-    ],
+    ["bottom", "end", { originX: "end", originY: "bottom", offsetY: 6 }],
     ["left", "start", { originX: "start", originY: "top", offsetX: -6 }],
     ["right", "end", { originX: "end", originY: "bottom", offsetX: 6 }],
   ] satisfies [

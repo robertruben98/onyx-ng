@@ -111,7 +111,11 @@ describe("OnyxDataTableComponent — foundation", () => {
     @Component({
       standalone: true,
       imports: [OnyxDataTableComponent],
-      template: `<onyx-data-table caption="t" [columns]="cols" [rows]="rows" />`,
+      template: `<onyx-data-table
+        caption="t"
+        [columns]="cols"
+        [rows]="rows"
+      />`,
     })
     class ValueAccessorHostComponent {
       readonly cols: DataTableColumn<Person>[] = [
@@ -745,18 +749,16 @@ describe("OnyxDataTableComponent — coverage edge behavior", () => {
       value: () => undefined,
     });
     expect(table.rowKeyOf(ROWS[0])).toBe(1);
-    expect(
-      table.rowKeyOf({ name: "No id", role: "Guest" } as Person),
-    ).toBe(JSON.stringify({ name: "No id", role: "Guest" }));
+    expect(table.rowKeyOf({ name: "No id", role: "Guest" } as Person)).toBe(
+      JSON.stringify({ name: "No id", role: "Guest" }),
+    );
   });
 
   it("returns an empty display value without a field or value accessor", async () => {
     const { fixture } = await render(HostComponent);
     const table = tableFrom<Person>(fixture);
 
-    expect(table.cellValue({ id: "blank", header: "Blank" }, ROWS[0])).toBe(
-      "",
-    );
+    expect(table.cellValue({ id: "blank", header: "Blank" }, ROWS[0])).toBe("");
   });
 
   it("covers deselection in single and multiple modes", async () => {

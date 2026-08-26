@@ -67,7 +67,10 @@ describe("OnyxTextareaComponent", () => {
     const valueChange = jest.fn();
     await render(
       `<onyx-textarea label="Bio" [disabled]="true" (valueChange)="valueChange($event)" />`,
-      { imports: [OnyxTextareaComponent], componentProperties: { valueChange } },
+      {
+        imports: [OnyxTextareaComponent],
+        componentProperties: { valueChange },
+      },
     );
     const el = screen.getByLabelText("Bio");
     expect(el).toBeDisabled();
@@ -150,9 +153,9 @@ describe("OnyxTextareaComponent", () => {
         { imports: [OnyxTextareaComponent] },
       );
       await user.type(screen.getByLabelText("Bio"), "hello");
-      expect(container.querySelector(".ui-textarea__counter")).toHaveTextContent(
-        "5 / 120",
-      );
+      expect(
+        container.querySelector(".ui-textarea__counter"),
+      ).toHaveTextContent("5 / 120");
     });
 
     it("caps input at maxLength and flags the limit", async () => {
@@ -176,8 +179,9 @@ describe("OnyxTextareaComponent", () => {
       await render(`<onyx-textarea label="Bio" />`, {
         imports: [OnyxTextareaComponent],
       });
-      expect((screen.getByLabelText("Bio") as HTMLTextAreaElement).style.height)
-        .not.toBe("");
+      expect(
+        (screen.getByLabelText("Bio") as HTMLTextAreaElement).style.height,
+      ).not.toBe("");
     });
 
     it("leaves the height untouched when autoGrow is disabled", async () => {

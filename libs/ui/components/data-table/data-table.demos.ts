@@ -1,6 +1,9 @@
 import { Component } from "@angular/core";
 import { Demo } from "@onyx/ui/docs-model";
-import { OnyxDataTableComponent, DataTableColumn } from "./data-table.component";
+import {
+  OnyxDataTableComponent,
+  DataTableColumn,
+} from "./data-table.component";
 
 interface Person {
   id: number;

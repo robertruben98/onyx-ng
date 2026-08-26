@@ -8,11 +8,7 @@ import {
 import { NgClass } from "@angular/common";
 
 export type BadgeVariant =
-  | "neutral"
-  | "info"
-  | "success"
-  | "warning"
-  | "danger";
+  "neutral" | "info" | "success" | "warning" | "danger";
 export type BadgeSize = "sm" | "md";
 
 @Component({

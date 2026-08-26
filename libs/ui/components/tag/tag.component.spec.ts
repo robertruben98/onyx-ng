@@ -7,7 +7,9 @@ const axeOptions = { rules: { region: { enabled: false } } };
 
 describe("OnyxTagComponent", () => {
   it("projects its content", async () => {
-    await render(`<onyx-tag>Frontend</onyx-tag>`, { imports: [OnyxTagComponent] });
+    await render(`<onyx-tag>Frontend</onyx-tag>`, {
+      imports: [OnyxTagComponent],
+    });
     expect(screen.getByText("Frontend")).toBeInTheDocument();
   });
 

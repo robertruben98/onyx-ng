@@ -68,7 +68,9 @@ describe("OnyxGridComponent", () => {
     const grid = container.querySelector("onyx-grid");
     expect(grid).not.toHaveAttribute("role");
     expect(grid).not.toHaveAttribute("tabindex");
-    expect(screen.getByRole("button", { name: "Focusable child" })).toBeEnabled();
+    expect(
+      screen.getByRole("button", { name: "Focusable child" }),
+    ).toBeEnabled();
   });
 
   it("preserves explicit consumer semantics", async () => {

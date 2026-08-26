@@ -19,4 +19,5 @@ updates:
       # zone.js 0.16 (#72): breaking zone-patching changes; bundled with Angular 22.
       # zone.js uses 0.x versioning, so a minor bump is effectively breaking.
       - dependency-name: "zone.js"
-        update-types: ["version-update:semver-minor", "version-update:semver-major"]
+        update-types:
+          ["version-update:semver-minor", "version-update:semver-major"]

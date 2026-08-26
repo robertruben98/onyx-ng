@@ -31,7 +31,10 @@ describe("OnyxSwitchComponent", () => {
     const checkedChange = jest.fn();
     await render(
       `<onyx-switch label="A" (checkedChange)="checkedChange($event)" />`,
-      { imports: [OnyxSwitchComponent], componentProperties: { checkedChange } },
+      {
+        imports: [OnyxSwitchComponent],
+        componentProperties: { checkedChange },
+      },
     );
     await user.click(screen.getByRole("switch"));
     expect(checkedChange).toHaveBeenLastCalledWith(true);
@@ -42,7 +45,10 @@ describe("OnyxSwitchComponent", () => {
     const checkedChange = jest.fn();
     await render(
       `<onyx-switch label="A" (checkedChange)="checkedChange($event)" />`,
-      { imports: [OnyxSwitchComponent], componentProperties: { checkedChange } },
+      {
+        imports: [OnyxSwitchComponent],
+        componentProperties: { checkedChange },
+      },
     );
     await user.tab();
     expect(screen.getByRole("switch")).toHaveFocus();
@@ -62,7 +68,10 @@ describe("OnyxSwitchComponent", () => {
     const checkedChange = jest.fn();
     await render(
       `<onyx-switch label="A" [disabled]="true" (checkedChange)="checkedChange($event)" />`,
-      { imports: [OnyxSwitchComponent], componentProperties: { checkedChange } },
+      {
+        imports: [OnyxSwitchComponent],
+        componentProperties: { checkedChange },
+      },
     );
     const sw = screen.getByRole("switch");
     expect(sw).toBeDisabled();

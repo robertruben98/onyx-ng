@@ -1,15 +1,24 @@
 {
   "name": "onyx-ng",
   "version": "0.0.0",
-  "description": "Onyx NG — Angular design-system component library (styled mode, token-driven)",
+  "description": "Onyx NG \u2014 Angular design-system component library (styled mode, token-driven)",
   "license": "MIT",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "private": true,
   "scripts": {
     "build:tokens": "style-dictionary build --config libs/ui/tokens/config.json",
-    "typecheck": "tsc -p libs/ui/components/tsconfig.json --noEmit",
+    "typecheck": "npm run typecheck:lib && npm run typecheck:spec",
+    "typecheck:lib": "tsc -p libs/ui/components/tsconfig.json --noEmit",
+    "typecheck:spec": "tsc -p tsconfig.spec.json --noEmit",
     "lint": "eslint . && npm run lint:tokens",
     "lint:tokens": "stylelint \"libs/ui/components/**/*.scss\"",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "test": "jest",
+    "test:ci": "jest --ci --coverage",
+    "audit": "npm audit --omit=dev --audit-level=critical",
     "postinstall": "patch-package",
     "release": "semantic-release"
   },
@@ -53,7 +62,9 @@
     "ng-packagr": "^19.2.2",
     "nx": "^20.3.0",
     "patch-package": "^8.0.1",
+    "postcss": "^8.5.12",
     "postcss-scss": "^4.0.9",
+    "prettier": "^3.9.6",
     "semantic-release": "^25.0.5",
     "style-dictionary": "^4.3.0",
     "stylelint": "^16.10.0",

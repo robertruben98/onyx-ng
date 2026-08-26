@@ -33,7 +33,10 @@ describe("OnyxCheckboxComponent", () => {
     const checkedChange = jest.fn();
     await render(
       `<onyx-checkbox label="A" (checkedChange)="checkedChange($event)" />`,
-      { imports: [OnyxCheckboxComponent], componentProperties: { checkedChange } },
+      {
+        imports: [OnyxCheckboxComponent],
+        componentProperties: { checkedChange },
+      },
     );
     await user.click(screen.getByRole("checkbox"));
     expect(checkedChange).toHaveBeenCalledTimes(1);
@@ -45,7 +48,10 @@ describe("OnyxCheckboxComponent", () => {
     const checkedChange = jest.fn();
     await render(
       `<onyx-checkbox label="A" (checkedChange)="checkedChange($event)" />`,
-      { imports: [OnyxCheckboxComponent], componentProperties: { checkedChange } },
+      {
+        imports: [OnyxCheckboxComponent],
+        componentProperties: { checkedChange },
+      },
     );
     await user.tab();
     expect(screen.getByRole("checkbox")).toHaveFocus();
@@ -65,7 +71,10 @@ describe("OnyxCheckboxComponent", () => {
     const checkedChange = jest.fn();
     await render(
       `<onyx-checkbox label="A" [disabled]="true" (checkedChange)="checkedChange($event)" />`,
-      { imports: [OnyxCheckboxComponent], componentProperties: { checkedChange } },
+      {
+        imports: [OnyxCheckboxComponent],
+        componentProperties: { checkedChange },
+      },
     );
     const box = screen.getByRole("checkbox");
     expect(box).toBeDisabled();

@@ -47,8 +47,7 @@ export const inputDoc: ComponentDoc = {
       name: "error",
       type: "string",
       default: "''",
-      description:
-        "Error text below the field; also forces the invalid state.",
+      description: "Error text below the field; also forces the invalid state.",
     },
     {
       name: "invalid",
