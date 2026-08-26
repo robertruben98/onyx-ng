@@ -16,6 +16,7 @@
     "lint:tokens": "stylelint \"libs/ui/components/**/*.scss\"",
     "test": "jest",
     "test:ci": "jest --ci --coverage",
+    "audit": "npm audit --omit=dev --audit-level=critical",
     "postinstall": "patch-package",
     "release": "semantic-release"
   },
