@@ -16,7 +16,7 @@ import {
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
 import { TemplatePortal } from "@angular/cdk/portal";
 import type { OverlayRef } from "@angular/cdk/overlay";
-import { UiOverlay } from "@onyx/ui/primitives";
+import { UiOverlay, createTypeahead } from "@onyx/ui/primitives";
 
 export interface SelectOption {
   value: string;
@@ -95,12 +95,19 @@ export class OnyxSelectComponent implements ControlValueAccessor {
   private readonly trigger =
     viewChild<ElementRef<HTMLButtonElement>>("trigger");
   private overlayRef?: OverlayRef;
+  /** Type-to-jump over the option labels (W4-6 #2). */
+  private readonly typeahead = createTypeahead(this.options, (index) =>
+    this.activeIndex.set(index),
+  );
 
   private onChange: (value: string | null) => void = () => {};
   private onTouched: () => void = () => {};
 
   constructor() {
-    inject(DestroyRef).onDestroy(() => this.overlayRef?.dispose());
+    inject(DestroyRef).onDestroy(() => {
+      this.overlayRef?.dispose();
+      this.typeahead.destroy();
+    });
   }
 
   // --- ControlValueAccessor ------------------------------------------------
@@ -165,6 +172,9 @@ export class OnyxSelectComponent implements ControlValueAccessor {
       case "Tab":
         this.close();
         break;
+      default:
+        this.typeahead.setActive(this.activeIndex());
+        this.typeahead.handleKey(event);
     }
   }
 
@@ -183,13 +193,12 @@ export class OnyxSelectComponent implements ControlValueAccessor {
     const ref = this.overlay.createConnected(trigger, {
       placement: "bottom",
       align: "start",
-      hasBackdrop: true,
       panelClass: "ui-select__pane",
     });
     this.overlayRef = ref;
     ref.updateSize({ width: trigger.nativeElement.offsetWidth });
     ref.attach(new TemplatePortal(tpl, this.viewContainerRef));
-    ref.backdropClick().subscribe(() => this.close());
+    this.overlay.outsideClicks(ref, trigger).subscribe(() => this.close());
 
     const selected = this.options().findIndex((o) => o.value === this.value());
     this.activeIndex.set(selected >= 0 ? selected : this.nextEnabled(-1, 1));

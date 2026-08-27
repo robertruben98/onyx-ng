@@ -744,6 +744,11 @@
       "value": "{shadow.sm}"
     }
   },
+  "overlay": {
+    "offset": {
+      "value": "{space.2}"
+    }
+  },
   "accordion": {
     "border": {
       "value": "{color.border}"

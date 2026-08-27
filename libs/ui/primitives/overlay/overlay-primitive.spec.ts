@@ -1,6 +1,7 @@
 import { ElementRef } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
-import { Overlay, OverlayConfig } from "@angular/cdk/overlay";
+import { Overlay, OverlayConfig, OverlayRef } from "@angular/cdk/overlay";
+import { Subject } from "rxjs";
 import {
   UiOverlay,
   UiOverlayAlign,
@@ -103,8 +104,10 @@ describe("UiOverlay", () => {
     ]);
   });
 
-  it("forwards custom connected-overlay options", () => {
-    service.createConnected(document.createElement("button"), {
+  it("forwards custom connected-overlay options (an explicit offset beats the token)", () => {
+    const origin = document.createElement("button");
+    origin.style.setProperty("--ui-overlay-offset", "0.75rem");
+    service.createConnected(origin, {
       placement: "top",
       align: "center",
       offset: 0,
@@ -132,6 +135,114 @@ describe("UiOverlay", () => {
         offsetY: 0,
       }),
     ]);
+  });
+
+  describe("offset from the --ui-overlay-offset token", () => {
+    let origin: HTMLButtonElement;
+
+    beforeEach(() => {
+      origin = document.createElement("button");
+      document.body.appendChild(origin);
+    });
+
+    afterEach(() => {
+      origin.remove();
+      document.documentElement.style.removeProperty("font-size");
+    });
+
+    const offsets = () =>
+      (positions as { offsetY: number }[]).map((p) => p.offsetY);
+
+    it("converts a rem token to pixels with the root font size (0.75rem -> 12px, not 0.75)", () => {
+      origin.style.setProperty("--ui-overlay-offset", "0.75rem");
+      service.createConnected(origin);
+      expect(offsets()).toEqual([12, -12]);
+    });
+
+    it("follows the root font size for rem tokens", () => {
+      document.documentElement.style.setProperty("font-size", "20px");
+      origin.style.setProperty("--ui-overlay-offset", "0.5rem");
+      service.createConnected(origin);
+      expect(offsets()).toEqual([10, -10]);
+    });
+
+    it("takes a px token verbatim", () => {
+      origin.style.setProperty("--ui-overlay-offset", "12px");
+      service.createConnected(origin);
+      expect(offsets()).toEqual([12, -12]);
+    });
+
+    it("reads the token through an ElementRef origin too", () => {
+      origin.style.setProperty("--ui-overlay-offset", "1rem");
+      service.createConnected(new ElementRef(origin));
+      expect(offsets()).toEqual([16, -16]);
+    });
+
+    it.each(["", "1.5em", "auto", "8"])(
+      "falls back to 8px when the token is missing or not a px/rem length (%p)",
+      (value) => {
+        origin.style.setProperty("--ui-overlay-offset", value);
+        service.createConnected(origin);
+        expect(offsets()).toEqual([8, -8]);
+      },
+    );
+  });
+
+  describe("outsideClicks", () => {
+    let events: Subject<MouseEvent>;
+    let ref: OverlayRef;
+    let origin: HTMLButtonElement;
+    let elsewhere: HTMLDivElement;
+
+    beforeEach(() => {
+      events = new Subject<MouseEvent>();
+      ref = { outsidePointerEvents: () => events } as unknown as OverlayRef;
+      origin = document.createElement("button");
+      origin.innerHTML = "<span>label</span>";
+      elsewhere = document.createElement("div");
+      document.body.append(origin, elsewhere);
+    });
+
+    afterEach(() => {
+      origin.remove();
+      elsewhere.remove();
+    });
+
+    const clickOn = (target: EventTarget) => {
+      const event = new MouseEvent("click", { bubbles: true });
+      Object.defineProperty(event, "target", { value: target });
+      events.next(event);
+    };
+
+    it("passes pointer events that land outside both the pane and the origin", () => {
+      const seen = jest.fn();
+      service.outsideClicks(ref, origin).subscribe(seen);
+
+      clickOn(elsewhere);
+      clickOn(document.body);
+
+      expect(seen).toHaveBeenCalledTimes(2);
+    });
+
+    it("ignores events on the origin or its descendants, so a trigger toggles once", () => {
+      const seen = jest.fn();
+      service.outsideClicks(ref, new ElementRef(origin)).subscribe(seen);
+
+      clickOn(origin);
+      clickOn(origin.firstElementChild as HTMLElement);
+      clickOn(elsewhere);
+
+      expect(seen).toHaveBeenCalledTimes(1);
+    });
+
+    it("treats a non-node target as outside", () => {
+      const seen = jest.fn();
+      service.outsideClicks(ref, origin).subscribe(seen);
+
+      clickOn(window);
+
+      expect(seen).toHaveBeenCalledTimes(1);
+    });
   });
 
   it.each([

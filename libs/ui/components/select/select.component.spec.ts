@@ -134,6 +134,29 @@ describe("OnyxSelectComponent", () => {
     expect(fixture.componentInstance.ctrl.value).toBe("rx");
   });
 
+  it("moves the active option to the first label starting with the typed letter", async () => {
+    const user = userEvent.setup();
+    await renderSelect();
+    await user.click(screen.getByRole("combobox"));
+    const listbox = await screen.findByRole("listbox");
+    expect(listbox).toHaveFocus();
+    expect(listbox).toHaveAttribute(
+      "aria-activedescendant",
+      expect.stringMatching(/-0$/),
+    );
+
+    await user.keyboard("r");
+
+    await waitFor(
+      () =>
+        expect(listbox).toHaveAttribute(
+          "aria-activedescendant",
+          expect.stringMatching(/-1$/),
+        ),
+      { timeout: 1000 },
+    );
+  });
+
   it("closes with Tab and by toggling the trigger", async () => {
     const user = userEvent.setup();
     await renderSelect();
@@ -166,20 +189,30 @@ describe("OnyxSelectComponent", () => {
     expect(screen.getByRole("listbox")).toBeInTheDocument();
   });
 
-  it("closes on backdrop click and marks the control touched", async () => {
+  it("closes on an outside click that still reaches its target, marking touched", async () => {
     const user = userEvent.setup();
     const { fixture } = await renderSelect();
     const touched = jest.spyOn(fixture.componentInstance.ctrl, "markAsTouched");
-    await user.click(screen.getByRole("combobox"));
-    await screen.findByRole("listbox");
-    await user.click(
-      document.querySelector(".cdk-overlay-backdrop") as HTMLElement,
-    );
+    const outside = document.createElement("button");
+    outside.textContent = "Elsewhere";
+    const onOutside = jest.fn();
+    outside.addEventListener("click", onOutside);
+    document.body.appendChild(outside);
+    try {
+      await user.click(screen.getByRole("combobox"));
+      await screen.findByRole("listbox");
+      expect(document.querySelector(".cdk-overlay-backdrop")).toBeNull();
 
-    await waitFor(() =>
-      expect(screen.queryByRole("listbox")).not.toBeInTheDocument(),
-    );
-    expect(touched).toHaveBeenCalled();
+      await user.click(outside);
+
+      expect(onOutside).toHaveBeenCalledTimes(1);
+      await waitFor(() =>
+        expect(screen.queryByRole("listbox")).not.toBeInTheDocument(),
+      );
+      expect(touched).toHaveBeenCalled();
+    } finally {
+      outside.remove();
+    }
   });
 
   it("starts on a preselected option", async () => {
