@@ -26,6 +26,7 @@ export const NAV: NavSection[] = [
       { path: "/introduction", label: "Introduction" },
       { path: "/installation", label: "Installation" },
       { path: "/theming", label: "Theming" },
+      { path: "/tokens", label: "Token reference" },
     ],
   },
   {

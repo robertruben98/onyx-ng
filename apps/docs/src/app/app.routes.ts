@@ -3,6 +3,7 @@ import { ComponentPageComponent } from "./pages/component-page.component";
 import { HomeComponent } from "./pages/home.component";
 import { InstallationComponent } from "./pages/installation.component";
 import { ThemingComponent } from "./pages/theming.component";
+import { TokenReferenceComponent } from "./tokens/token-reference.component";
 import { LibrariesComponent } from "./pages/libraries.component";
 import { LibraryPageComponent } from "./pages/library-page.component";
 
@@ -11,6 +12,7 @@ export const routes: Routes = [
   { path: "introduction", component: HomeComponent },
   { path: "installation", component: InstallationComponent },
   { path: "theming", component: ThemingComponent },
+  { path: "tokens", component: TokenReferenceComponent },
   { path: "components/:id", component: ComponentPageComponent },
   { path: "libraries", pathMatch: "full", component: LibrariesComponent },
   { path: "libraries/:id", component: LibraryPageComponent },

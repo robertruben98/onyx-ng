@@ -4,6 +4,7 @@ import {
   OnyxBadgeComponent,
   OnyxTagComponent,
 } from "@onyx/ui/components";
+import { RouterLink } from "@angular/router";
 import { CodeBlockComponent } from "../ui/code-block.component";
 
 interface TokenRow {
@@ -21,6 +22,7 @@ interface TokenRow {
     OnyxBadgeComponent,
     OnyxTagComponent,
     CodeBlockComponent,
+    RouterLink,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -71,6 +73,11 @@ interface TokenRow {
       </div>
 
       <h2>Key semantic tokens</h2>
+      <p>
+        The ones a preset touches first. Every emitted token, with its value in
+        each preset, is in the generated
+        <a routerLink="/tokens">token reference</a>.
+      </p>
       <div class="docs-api-scroll">
         <table class="token-table">
           <thead>

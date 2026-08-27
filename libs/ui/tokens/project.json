@@ -7,9 +7,12 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node libs/ui/tokens/build.mjs"
+        "command": "node libs/ui/tokens/build.mjs && node libs/ui/tokens/reference.mjs"
       },
-      "outputs": ["{workspaceRoot}/libs/ui/tokens/dist"]
+      "outputs": [
+        "{workspaceRoot}/libs/ui/tokens/dist",
+        "{workspaceRoot}/apps/docs/src/app/tokens/token-reference.generated.ts"
+      ]
     }
   }
 }
