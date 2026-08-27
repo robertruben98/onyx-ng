@@ -1,6 +1,7 @@
 import { ElementRef } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
-import { Overlay, OverlayConfig } from "@angular/cdk/overlay";
+import { Overlay, OverlayConfig, OverlayRef } from "@angular/cdk/overlay";
+import { Subject } from "rxjs";
 import {
   UiOverlay,
   UiOverlayAlign,
@@ -132,6 +133,63 @@ describe("UiOverlay", () => {
         offsetY: 0,
       }),
     ]);
+  });
+
+  describe("outsideClicks", () => {
+    let events: Subject<MouseEvent>;
+    let ref: OverlayRef;
+    let origin: HTMLButtonElement;
+    let elsewhere: HTMLDivElement;
+
+    beforeEach(() => {
+      events = new Subject<MouseEvent>();
+      ref = { outsidePointerEvents: () => events } as unknown as OverlayRef;
+      origin = document.createElement("button");
+      origin.innerHTML = "<span>label</span>";
+      elsewhere = document.createElement("div");
+      document.body.append(origin, elsewhere);
+    });
+
+    afterEach(() => {
+      origin.remove();
+      elsewhere.remove();
+    });
+
+    const clickOn = (target: EventTarget) => {
+      const event = new MouseEvent("click", { bubbles: true });
+      Object.defineProperty(event, "target", { value: target });
+      events.next(event);
+    };
+
+    it("passes pointer events that land outside both the pane and the origin", () => {
+      const seen = jest.fn();
+      service.outsideClicks(ref, origin).subscribe(seen);
+
+      clickOn(elsewhere);
+      clickOn(document.body);
+
+      expect(seen).toHaveBeenCalledTimes(2);
+    });
+
+    it("ignores events on the origin or its descendants, so a trigger toggles once", () => {
+      const seen = jest.fn();
+      service.outsideClicks(ref, new ElementRef(origin)).subscribe(seen);
+
+      clickOn(origin);
+      clickOn(origin.firstElementChild as HTMLElement);
+      clickOn(elsewhere);
+
+      expect(seen).toHaveBeenCalledTimes(1);
+    });
+
+    it("treats a non-node target as outside", () => {
+      const seen = jest.fn();
+      service.outsideClicks(ref, origin).subscribe(seen);
+
+      clickOn(window);
+
+      expect(seen).toHaveBeenCalledTimes(1);
+    });
   });
 
   it.each([

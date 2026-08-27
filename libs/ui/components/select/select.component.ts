@@ -183,13 +183,12 @@ export class OnyxSelectComponent implements ControlValueAccessor {
     const ref = this.overlay.createConnected(trigger, {
       placement: "bottom",
       align: "start",
-      hasBackdrop: true,
       panelClass: "ui-select__pane",
     });
     this.overlayRef = ref;
     ref.updateSize({ width: trigger.nativeElement.offsetWidth });
     ref.attach(new TemplatePortal(tpl, this.viewContainerRef));
-    ref.backdropClick().subscribe(() => this.close());
+    this.overlay.outsideClicks(ref, trigger).subscribe(() => this.close());
 
     const selected = this.options().findIndex((o) => o.value === this.value());
     this.activeIndex.set(selected >= 0 ? selected : this.nextEnabled(-1, 1));

@@ -141,17 +141,28 @@ describe("OnyxMenuComponent", () => {
     );
   });
 
-  it("closes on backdrop click", async () => {
+  it("closes on an outside click that still reaches its target (one click, not two)", async () => {
     const user = userEvent.setup();
     await renderMenu();
-    await user.click(screen.getByRole("button", { name: "Actions" }));
-    await screen.findByRole("menu");
-    await user.click(
-      document.querySelector(".cdk-overlay-backdrop") as HTMLElement,
-    );
-    await waitFor(() =>
-      expect(screen.queryByRole("menu")).not.toBeInTheDocument(),
-    );
+    const outside = document.createElement("button");
+    outside.textContent = "Elsewhere";
+    const onOutside = jest.fn();
+    outside.addEventListener("click", onOutside);
+    document.body.appendChild(outside);
+    try {
+      await user.click(screen.getByRole("button", { name: "Actions" }));
+      await screen.findByRole("menu");
+      expect(document.querySelector(".cdk-overlay-backdrop")).toBeNull();
+
+      await user.click(outside);
+
+      expect(onOutside).toHaveBeenCalledTimes(1);
+      await waitFor(() =>
+        expect(screen.queryByRole("menu")).not.toBeInTheDocument(),
+      );
+    } finally {
+      outside.remove();
+    }
   });
 
   it("ignores menu key presses when there are no enabled items", async () => {

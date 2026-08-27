@@ -5,6 +5,7 @@ import {
   OverlayConfig,
   OverlayRef,
 } from "@angular/cdk/overlay";
+import { Observable, filter } from "rxjs";
 
 /** Options for a centered modal overlay. */
 export interface UiOverlayConfig {
@@ -42,7 +43,8 @@ export interface UiConnectedOverlayConfig {
  * into CDK directly (CLAUDE.md §2/§9): they ask here for a configured
  * `OverlayRef` — modal (`create`) or anchored (`createConnected`) — and drive
  * it through CDK's own API (`attach`, `backdropClick`, `keydownEvents`,
- * `dispose`).
+ * `dispose`). Non-modal overlays dismiss through `outsideClicks` instead of a
+ * backdrop, so the click that dismisses them still reaches its target.
  */
 @Injectable({ providedIn: "root" })
 export class UiOverlay {
@@ -93,6 +95,32 @@ export class UiOverlay {
         positionStrategy,
       }),
     );
+  }
+
+  /**
+   * Pointer events that landed outside `ref`'s pane AND outside `origin`.
+   * Subscribe to dismiss a non-modal overlay (menu, select, popover) on an
+   * outside click without a backdrop: a transparent backdrop swallows that
+   * click, so closing a menu by clicking a link used to take two clicks (W4-6).
+   * The origin is excluded because CDK dispatches these from a capturing
+   * `click` listener on `body`, i.e. BEFORE the trigger's own handler runs —
+   * without the filter a trigger click would close here and re-open in the
+   * component's `toggle()` a moment later.
+   */
+  outsideClicks(
+    ref: OverlayRef,
+    origin: ElementRef | HTMLElement,
+  ): Observable<MouseEvent> {
+    const element: HTMLElement =
+      origin instanceof ElementRef ? origin.nativeElement : origin;
+    return ref
+      .outsidePointerEvents()
+      .pipe(
+        filter(
+          (event) =>
+            !(event.target instanceof Node && element.contains(event.target)),
+        ),
+      );
   }
 
   /** Primary position for `placement`/`align` plus an opposite-side fallback. */

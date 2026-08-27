@@ -118,12 +118,11 @@ export class OnyxMenuComponent {
     const ref = this.overlay.createConnected(trigger, {
       placement: "bottom",
       align: "start",
-      hasBackdrop: true,
       panelClass: "ui-menu__pane",
     });
     this.overlayRef = ref;
     ref.attach(new TemplatePortal(tpl, this.viewContainerRef));
-    ref.backdropClick().subscribe(() => this.close());
+    this.overlay.outsideClicks(ref, trigger).subscribe(() => this.close());
     this.open.set(true);
     queueMicrotask(() => this.itemElements()[0]?.focus());
   }

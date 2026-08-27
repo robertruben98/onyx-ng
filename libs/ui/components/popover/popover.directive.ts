@@ -64,7 +64,6 @@ export class OnyxPopoverDirective {
     const ref = this.overlay.createConnected(this.elementRef, {
       placement: this.placement(),
       align: "start",
-      hasBackdrop: true,
       panelClass: "ui-popover__pane",
     });
     this.overlayRef = ref;
@@ -74,7 +73,9 @@ export class OnyxPopoverDirective {
     instance.content.set(this.content());
     instance.label.set(this.label());
 
-    ref.backdropClick().subscribe(() => this.close());
+    this.overlay
+      .outsideClicks(ref, this.elementRef)
+      .subscribe(() => this.close());
     ref.keydownEvents().subscribe((event) => {
       if (event.key === "Escape") {
         event.preventDefault();

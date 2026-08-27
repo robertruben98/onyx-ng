@@ -68,18 +68,28 @@ describe("OnyxPopoverDirective", () => {
     );
   });
 
-  it("closes on backdrop (outside) click", async () => {
+  it("closes on an outside click that still reaches its target (one click, not two)", async () => {
     const user = userEvent.setup();
     await renderPopover();
-    await user.click(screen.getByRole("button", { name: "Open" }));
-    await screen.findByRole("dialog");
-    const backdrop = document.querySelector(
-      ".cdk-overlay-backdrop",
-    ) as HTMLElement;
-    await user.click(backdrop);
-    await waitFor(() =>
-      expect(screen.queryByRole("dialog")).not.toBeInTheDocument(),
-    );
+    const outside = document.createElement("button");
+    outside.textContent = "Elsewhere";
+    const onOutside = jest.fn();
+    outside.addEventListener("click", onOutside);
+    document.body.appendChild(outside);
+    try {
+      await user.click(screen.getByRole("button", { name: "Open" }));
+      await screen.findByRole("dialog");
+      expect(document.querySelector(".cdk-overlay-backdrop")).toBeNull();
+
+      await user.click(outside);
+
+      expect(onOutside).toHaveBeenCalledTimes(1);
+      await waitFor(() =>
+        expect(screen.queryByRole("dialog")).not.toBeInTheDocument(),
+      );
+    } finally {
+      outside.remove();
+    }
   });
 
   it("restores focus to the trigger after close()", async () => {
