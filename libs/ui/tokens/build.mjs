@@ -50,6 +50,25 @@ const SELECTORS = {
 };
 
 /**
+ * Plain CSS declarations a theme block carries in addition to its tokens.
+ *
+ * `color-scheme` is not a design token: it is the switch that tells the browser
+ * which palette to draw ITS OWN controls with. The checkbox and radio are native
+ * `<input>`s styled through `accent-color`, so their box, ring and fill are UA
+ * paint, not token paint. With nothing setting it, `color-scheme` computed to
+ * `normal` inside `.onyx-dark` and the UA drew light controls on the dark
+ * surface: a #ffffff box with a #767676 ring on slate.900 (D-4, measured in
+ * Chromium on the docs app). Emitted here rather than in the component SCSS
+ * because it is a property of the theme, not of a component -- a theme
+ * conditional in a component is exactly what CLAUDE.md §3 forbids -- and it has
+ * to live on the theme root to reach every UA-drawn part (form controls,
+ * scrollbars, `<select>` popups) at once.
+ */
+const DECLARATIONS = {
+  dark: ["color-scheme: dark"],
+};
+
+/**
  * A preset that overrides a token which also has children collapses the whole
  * node, silently destroying the children. `radius` is the live example: the
  * semantic token `radius` and the primitive ramp `radius.{sm,md,full}` share a
@@ -175,7 +194,8 @@ const deltaFormat = ({ dictionary, options }) => {
       const target = ref && byPath.get(ref[1]);
       return `  --${t.name}: ${target ? `var(--${target.name})` : t.value};`;
     });
-  return `${options.selector} {\n${lines.join("\n")}\n}\n`;
+  const plain = (options.declarations ?? []).map((d) => `  ${d};`);
+  return `${options.selector} {\n${[...plain, ...lines].join("\n")}\n}\n`;
 };
 
 /** Base build: every tier at :root. This is the light default. */
@@ -235,7 +255,7 @@ for (const file of themes) {
           {
             destination: `theme-${name}.css`,
             format: "css/delta",
-            options: { selector, delta },
+            options: { selector, delta, declarations: DECLARATIONS[name] },
           },
         ],
       },
