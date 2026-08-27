@@ -9,8 +9,9 @@
 # upload-artifact options.
 #
 # ADDED gates: format:check (Prettier), typecheck of the specs (they had never
-# been type-checked), a blocking audit of production dependencies and an
-# informational audit of the full tree.
+# been type-checked), a blocking audit of production dependencies, an
+# informational audit of the full tree, and a check that the committed
+# lockfile is a fixed point of `npm install` (OPS-1).
 #
 # Every difference from the replaced job, and why:
 #
@@ -166,6 +167,24 @@ jobs:
       - name: Audit (production dependencies)
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: npm run audit
+
+      # OPS-1. The committed lockfile must be a FIXED POINT of `npm install`:
+      # if it is not, every contributor regenerates it on install and real
+      # dependency diffs drown in churn. The churn this closes was 47 deleted
+      # lines -- 45 spurious `"peer": true` flags written by npm 11.0-11.6 and
+      # stripped again by every other npm.
+      #
+      # npm is PINNED here instead of taken from the runner image, and that is
+      # the whole point: the defect lives in a specific npm range, so a check
+      # running whatever npm the image happens to bundle would itself be a
+      # source of drift. One leg only -- the pin makes the second leg a
+      # verbatim repeat. `--package-lock-only` writes no node_modules, so this
+      # cannot disturb the gates above.
+      - name: Lockfile is a fixed point (no install churn)
+        if: ${{ !cancelled() && matrix.node == '22' }}
+        run: |
+          npx -y npm@11.19.1 install --package-lock-only --ignore-scripts --no-audit --no-fund
+          git diff --exit-code -- package-lock.json
 
       # Informational: keeps the dev-dependency backlog visible every run.
       - name: Audit (full tree, informational)
