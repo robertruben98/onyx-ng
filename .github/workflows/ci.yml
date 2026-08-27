@@ -128,6 +128,20 @@ jobs:
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: npm run typecheck:spec
 
+      # The orphan gate. Every .ts under libs/, apps/, tools/ and the repo root
+      # is a root file of ONE tsc program, so a file that nothing imports still
+      # has to compile. Before this step the only thing catching such a file
+      # was the docs build, through apps/docs/tsconfig.app.json's include list
+      # -- a gate nobody had declared, which narrowing that list would have
+      # deleted silently. The other gates cannot do it (measured, PR-133,
+      # artifacts/lanes/verify.md §PR-133 C): eslint has no import resolver,
+      # jest reports "Failed to collect coverage" as a warning, ng-packagr
+      # builds from the entry point. Proven against a deliberately broken
+      # orphan under tools/ and at the root before this landed.
+      - name: Typecheck (whole tree — orphan gate)
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run typecheck:all
+
       - name: Lint (ESLint)
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: npx eslint .

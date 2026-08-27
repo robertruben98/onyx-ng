@@ -9,9 +9,10 @@
   "private": true,
   "scripts": {
     "build:tokens": "node libs/ui/tokens/build.mjs",
-    "typecheck": "npm run typecheck:lib && npm run typecheck:spec",
+    "typecheck": "npm run typecheck:lib && npm run typecheck:spec && npm run typecheck:all",
     "typecheck:lib": "tsc -p libs/ui/components/tsconfig.json --noEmit",
     "typecheck:spec": "tsc -p tsconfig.spec.json --noEmit",
+    "typecheck:all": "tsc -p tsconfig.typecheck.json --noEmit",
     "lint": "eslint . && npm run lint:tokens",
     "lint:tokens": "stylelint \"libs/ui/components/**/*.scss\"",
     "format": "prettier --write .",
