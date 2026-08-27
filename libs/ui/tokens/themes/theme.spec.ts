@@ -143,8 +143,18 @@ describe("theme presets", () => {
       // component tokens downstream of it. Empty is now the contract: a preset
       // that re-states a light value is a gap, not a design choice. If one is
       // ever deliberate, add it here with the reason and the measured ratio.
+      //
+      // color.border-strong (B-36 / W4-2): slate.500 in BOTH themes on purpose.
+      // It is the lightest slate step that clears 3:1 from either side --
+      // slate.400 is 2.56 on white (light fails), slate.600 is 2.36 on slate.900
+      // (dark fails) -- so the same step is the minimum in both directions.
+      // Measured: light 4.76 on surface / 4.37 on surface-hover; dark 3.75 on
+      // surface / 3.07 on surface-hover. Guarded by the contrast gate below in
+      // every theme, so a future lighter dark value cannot pass unnoticed.
+      const deliberatelyShared = ["color.border-strong"];
       const identical = semanticColours.filter(
-        (p) => dark.get(p) === semantic.get(p),
+        (p) =>
+          dark.get(p) === semantic.get(p) && !deliberatelyShared.includes(p),
       );
       expect(identical.sort()).toEqual([]);
     });
@@ -229,9 +239,14 @@ const TEXT_PAIRS: [string, string][] = [
  * light and 3.07:1 in dark: 1.4.3 exempts text in an inactive control, and
  * dimming IS the affordance -- raising it to AA would make disabled look
  * enabled. `color.border` on `color.surface` is a 1.23:1 hairline: 1.4.11
- * covers boundaries *required* to identify a component, not decorative rules,
- * and every control that needs a visible edge in this library carries its own
- * state border token, which is gated below.
+ * covers boundaries *required* to identify a component, not decorative rules.
+ * The control boundaries themselves are `color.border-strong` (B-36 / W4-2):
+ * before that token existed, `color.border` WAS the resting edge of input,
+ * textarea, select and the switch OFF track, measured at 1.23:1 (light, acme)
+ * and 1.72:1 (dark) against the surface each one sits on -- and since every
+ * control fill is `color.surface` too (inside/outside 1.00), that hairline
+ * was the only thing identifying the control. Gated below against both
+ * surfaces a resting control can sit on.
  */
 const NON_TEXT_PAIRS: [string, string][] = [
   ["color.info-border", "color.info-surface"],
@@ -239,6 +254,13 @@ const NON_TEXT_PAIRS: [string, string][] = [
   ["color.danger-border", "color.danger-surface"],
   ["color.warning-border", "color.warning-surface"],
   ["focus.ring", "color.surface"],
+  // Resting control boundary (B-36 / W4-2A). Measured on main@b747059 with
+  // painted pixels and computed styles agreeing: slate.200 on white 1.23,
+  // slate.700 on slate.900 1.72. `surface-hover` is the second denominator a
+  // resting control sits on (table header, hovered rows/options); in dark it is
+  // the tight cell -- slate.500 on slate.800 = 3.07.
+  ["color.border-strong", "color.surface"],
+  ["color.border-strong", "color.surface-hover"],
   // The knob against the track it actually sits on, per state (B-04 / W4-3).
   // A single token cannot satisfy both rows: off and on tracks sit at opposite
   // ends of the luminance range inside each theme, which is why there are two.

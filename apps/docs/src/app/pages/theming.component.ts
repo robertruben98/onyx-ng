@@ -291,6 +291,11 @@ export class ThemingComponent {
       swatch: "var(--ui-color-border)",
     },
     {
+      token: "--ui-color-border-strong",
+      role: "Resting boundary of form controls (≥ 3:1 on surface)",
+      swatch: "var(--ui-color-border-strong)",
+    },
+    {
       token: "--ui-focus-ring",
       role: "Visible focus indicator",
       swatch: "var(--ui-focus-ring)",
