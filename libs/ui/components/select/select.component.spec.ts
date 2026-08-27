@@ -134,6 +134,29 @@ describe("OnyxSelectComponent", () => {
     expect(fixture.componentInstance.ctrl.value).toBe("rx");
   });
 
+  it("moves the active option to the first label starting with the typed letter", async () => {
+    const user = userEvent.setup();
+    await renderSelect();
+    await user.click(screen.getByRole("combobox"));
+    const listbox = await screen.findByRole("listbox");
+    expect(listbox).toHaveFocus();
+    expect(listbox).toHaveAttribute(
+      "aria-activedescendant",
+      expect.stringMatching(/-0$/),
+    );
+
+    await user.keyboard("r");
+
+    await waitFor(
+      () =>
+        expect(listbox).toHaveAttribute(
+          "aria-activedescendant",
+          expect.stringMatching(/-1$/),
+        ),
+      { timeout: 1000 },
+    );
+  });
+
   it("closes with Tab and by toggling the trigger", async () => {
     const user = userEvent.setup();
     await renderSelect();

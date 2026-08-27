@@ -13,7 +13,7 @@ import {
 } from "@angular/core";
 import { TemplatePortal } from "@angular/cdk/portal";
 import type { OverlayRef } from "@angular/cdk/overlay";
-import { UiOverlay } from "@onyx/ui/primitives";
+import { UiOverlay, createTypeahead } from "@onyx/ui/primitives";
 
 export interface MenuItem {
   /** Stable identifier for the action. */
@@ -57,9 +57,16 @@ export class OnyxMenuComponent {
   private readonly trigger =
     viewChild<ElementRef<HTMLButtonElement>>("trigger");
   private overlayRef?: OverlayRef;
+  /** Type-to-jump over the item labels (W4-6 #2); indexes follow `items()`. */
+  private readonly typeahead = createTypeahead(this.items, (index) =>
+    this.allItemElements()[index]?.focus(),
+  );
 
   constructor() {
-    inject(DestroyRef).onDestroy(() => this.overlayRef?.dispose());
+    inject(DestroyRef).onDestroy(() => {
+      this.overlayRef?.dispose();
+      this.typeahead.destroy();
+    });
   }
 
   protected toggle(): void {
@@ -102,6 +109,13 @@ export class OnyxMenuComponent {
       case "Tab":
         this.close();
         break;
+      default:
+        this.typeahead.setActive(
+          this.allItemElements().indexOf(
+            document.activeElement as HTMLButtonElement,
+          ),
+        );
+        this.typeahead.handleKey(event);
     }
   }
 
@@ -137,12 +151,15 @@ export class OnyxMenuComponent {
 
   /** Enabled menuitem buttons currently in the overlay. */
   private itemElements(): HTMLButtonElement[] {
+    return this.allItemElements().filter((el) => !el.disabled);
+  }
+
+  /** Every menuitem button in the overlay, aligned with `items()` indexes. */
+  private allItemElements(): HTMLButtonElement[] {
     const el = this.overlayRef?.overlayElement;
     if (!el) return [];
     return Array.from(
-      el.querySelectorAll<HTMLButtonElement>(
-        '[role="menuitem"]:not([disabled])',
-      ),
+      el.querySelectorAll<HTMLButtonElement>('[role="menuitem"]'),
     );
   }
 }

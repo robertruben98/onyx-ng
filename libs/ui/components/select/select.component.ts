@@ -16,7 +16,7 @@ import {
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
 import { TemplatePortal } from "@angular/cdk/portal";
 import type { OverlayRef } from "@angular/cdk/overlay";
-import { UiOverlay } from "@onyx/ui/primitives";
+import { UiOverlay, createTypeahead } from "@onyx/ui/primitives";
 
 export interface SelectOption {
   value: string;
@@ -95,12 +95,19 @@ export class OnyxSelectComponent implements ControlValueAccessor {
   private readonly trigger =
     viewChild<ElementRef<HTMLButtonElement>>("trigger");
   private overlayRef?: OverlayRef;
+  /** Type-to-jump over the option labels (W4-6 #2). */
+  private readonly typeahead = createTypeahead(this.options, (index) =>
+    this.activeIndex.set(index),
+  );
 
   private onChange: (value: string | null) => void = () => {};
   private onTouched: () => void = () => {};
 
   constructor() {
-    inject(DestroyRef).onDestroy(() => this.overlayRef?.dispose());
+    inject(DestroyRef).onDestroy(() => {
+      this.overlayRef?.dispose();
+      this.typeahead.destroy();
+    });
   }
 
   // --- ControlValueAccessor ------------------------------------------------
@@ -165,6 +172,9 @@ export class OnyxSelectComponent implements ControlValueAccessor {
       case "Tab":
         this.close();
         break;
+      default:
+        this.typeahead.setActive(this.activeIndex());
+        this.typeahead.handleKey(event);
     }
   }
 

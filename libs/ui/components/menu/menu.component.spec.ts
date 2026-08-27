@@ -165,6 +165,47 @@ describe("OnyxMenuComponent", () => {
     }
   });
 
+  it("focuses the first item whose label starts with the typed letter", async () => {
+    const user = userEvent.setup();
+    await renderMenu();
+    await user.click(screen.getByRole("button", { name: "Actions" }));
+    await screen.findByRole("menu");
+    await waitFor(() =>
+      expect(screen.getByRole("menuitem", { name: "Edit" })).toHaveFocus(),
+    );
+
+    await user.keyboard("d");
+
+    await waitFor(
+      () =>
+        expect(
+          screen.getByRole("menuitem", { name: "Duplicate" }),
+        ).toHaveFocus(),
+      { timeout: 1000 },
+    );
+  });
+
+  it("drops a typeahead match that resolves after the menu closed", async () => {
+    const user = userEvent.setup();
+    await renderMenu();
+    const trigger = screen.getByRole("button", { name: "Actions" });
+    await user.click(trigger);
+    await screen.findByRole("menu");
+    await waitFor(() =>
+      expect(screen.getByRole("menuitem", { name: "Edit" })).toHaveFocus(),
+    );
+
+    await user.keyboard("d");
+    await user.keyboard("{Escape}");
+    await waitFor(() =>
+      expect(screen.queryByRole("menu")).not.toBeInTheDocument(),
+    );
+    await new Promise((resolve) => setTimeout(resolve, 300));
+
+    expect(trigger).toHaveFocus();
+    expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+  });
+
   it("ignores menu key presses when there are no enabled items", async () => {
     const user = userEvent.setup();
     await render(`<onyx-menu [items]="items">Empty</onyx-menu>`, {
