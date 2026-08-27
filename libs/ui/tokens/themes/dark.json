@@ -30,6 +30,9 @@
     "border": {
       "value": "{slate.700}"
     },
+    "border-strong": {
+      "value": "{slate.500}"
+    },
     "scrim": {
       "value": "{black-alpha.64}"
     },
