@@ -11,7 +11,9 @@ const axeOptions = { rules: { region: { enabled: false } } };
 
 describe("OnyxInputComponent", () => {
   it("associates a visible label with the input", async () => {
-    await render(`<onyx-input label="Email" />`, { imports: [OnyxInputComponent] });
+    await render(`<onyx-input label="Email" />`, {
+      imports: [OnyxInputComponent],
+    });
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
   });
 
@@ -39,7 +41,9 @@ describe("OnyxInputComponent", () => {
 
   it("is reachable by keyboard", async () => {
     const user = userEvent.setup();
-    await render(`<onyx-input label="Name" />`, { imports: [OnyxInputComponent] });
+    await render(`<onyx-input label="Name" />`, {
+      imports: [OnyxInputComponent],
+    });
     await user.tab();
     expect(screen.getByLabelText("Name")).toHaveFocus();
   });

@@ -1,31 +1,174 @@
+# The quality gates from CLAUDE.md §8, on every push and PR.
+#
+# This file replaces the `build-test` job that used to live here. Every one of
+# that job's steps is still run: npm ci, build:tokens, both typechecks, eslint,
+# stylelint, jest with coverage, the coverage-report artifact, `nx build
+# ui-components` and `nx build docs`. Verified mechanically against
+# origin/main's ci.yml rather than by eye -- 9/9 leaf commands covered once
+# npm scripts are expanded, 3/3 actions, 3/3 triggers, identical
+# upload-artifact options.
+#
+# ADDED gates: format:check (Prettier), typecheck of the specs (they had never
+# been type-checked), a blocking audit of production dependencies and an
+# informational audit of the full tree.
+#
+# Every difference from the replaced job, and why:
+#
+# 1. eslint and stylelint are separate steps; `npm run lint` is never used.
+#    That script is `eslint . && npm run lint:tokens`, and the `&&`
+#    short-circuits, so one ESLint error stops stylelint running at all -- a
+#    whole gate reporting nothing because the one before it failed.
+#    `npm run typecheck` is split for the same reason. Same coverage, two
+#    results instead of one.
+# 2. Every action is pinned by commit SHA. checkout and upload-artifact were
+#    already pinned; setup-node was pinned in pages.yml but referenced by bare
+#    tag here and in publish.yml. Bare tags are mutable, so this uses the SHA
+#    everywhere. Dependabot maintains these pins; setup-node is already at
+#    the v7.0.0 SHA that PR #134 bumps to, so this file does not silently
+#    downgrade it whichever order the two land in.
+# 3. Node is a matrix of 22 and 24, where the job it replaces used 22 alone.
+#    This workspace publishes a library, so the Node version that matters is
+#    the consumer's, not the maintainer's: package.json declares >=22.0.0, and
+#    testing one point of a declared range is how a library ships something
+#    that only works on the newest runtime. 22 is the floor and what the old
+#    job used; 24 is the current LTS.
+# 4. CONSEQUENCE OF (3), for whoever configures branch protection: the checks
+#    are named `Quality gates (22)` and `Quality gates (24)`, not
+#    `build-test` and not `Quality gates`. A matrix produces one check per leg
+#    and there is no un-suffixed parent to require. Both legs must be required,
+#    and neither name exists in the branch-protection UI until this workflow
+#    has completed once -- which is what the workflow_dispatch trigger is for.
+# 5. The coverage upload is `!cancelled()` and runs on the 22 leg only, where
+#    the old job used `always()`. `always()` also fires on cancellation, which
+#    uploads a report nobody asked for; `!cancelled()` still uploads when the
+#    tests FAILED, which is when the report is worth reading. The single leg is
+#    forced: upload-artifact rejects a second upload under the same name, and
+#    `coverage-report` is the name the old job produced.
+# 6. Added `concurrency` (superseded runs on the same ref are cancelled),
+#    `permissions: contents: read` (the replaced job inherited the repository
+#    default; nothing here needs write) and a 30-minute timeout.
+#
+# Sibling workflows are untouched and do not collide with this one: pages.yml
+# (Pages deploy) and publish.yml (semantic-release) are separate workflows with
+# their own names and triggers.
 name: CI
+
 on:
   push:
     branches: [main]
   pull_request:
+  # The `Quality gates` checks do not appear in branch protection until the
+  # workflow has run once, so this is what makes them requirable.
   workflow_dispatch:
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
-  build-test:
+  gates:
+    name: Quality gates
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    strategy:
+      # One Node version failing must not hide the other's result.
+      fail-fast: false
+      matrix:
+        # This package publishes, so the Node that matters is the consumer's,
+        # not the maintainer's. package.json declares >=22.0.0: 22 is the floor
+        # and what the previous job built on, 24 is the current LTS. Testing one
+        # point of a declared range is how a library ships something that only
+        # works on the newest runtime.
+        node: ["22", "24"]
+
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
-      - uses: actions/setup-node@v6
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node ${{ matrix.node }}
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: "22"
-          cache: "npm"
-      - run: npm ci # runs postinstall (patch-package applies the ng-packagr patch)
-      - run: npm run build:tokens
-      - run: npm run typecheck
-      - run: npm run lint
-      - run: npm test -- --coverage --ci
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      # Also runs the postinstall that applies patches/ng-packagr+19.2.2.patch,
+      # which the library build below depends on.
+      - name: Install dependencies
+        id: install
+        run: npm ci
+
+      # A gate in its own right: style-dictionary has to compile. It is no
+      # longer a prerequisite for anything below -- ui-components and docs now
+      # declare ui-tokens as a dependency in their project.json, so both build
+      # targets produce tokens.css themselves rather than inheriting it from
+      # this step's side effect.
+      - name: Build design tokens
+        run: npm run build:tokens
+
+      # Every gate below reports independently and is gated on `install` only,
+      # which is the one thing they genuinely all need. Measured with
+      # libs/ui/tokens/dist deleted: format:check, both typechecks, eslint,
+      # stylelint and the full 412-test suite all pass without it. Gating them
+      # on the token build instead would mean a broken style-dictionary config
+      # reports six gates as "skipped" and tells you nothing about the code --
+      # the same failure this workflow splits `npm run lint` to avoid.
+      - name: Format check (Prettier)
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run format:check
+
+      - name: Typecheck (library)
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run typecheck:lib
+
+      - name: Typecheck (specs)
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run typecheck:spec
+
+      - name: Lint (ESLint)
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npx eslint .
+
+      - name: Lint (Stylelint — design-token rules)
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run lint:tokens
+
+      - name: Test (Jest + jest-axe, coverage thresholds)
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run test:ci
+
+      # From one matrix entry only: upload-artifact rejects a second upload
+      # under the same name, and `coverage-report` is the name the job this
+      # replaces produced. Runs even when the tests failed -- that is when the
+      # report is most worth reading.
       - name: Upload coverage report
-        if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4
+        if: ${{ !cancelled() && matrix.node == '22' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: coverage-report
           path: coverage/
           if-no-files-found: error
           retention-days: 14
-      - run: npx nx build ui-components
-      - run: npx nx build docs
+
+      - name: Build library (ng-packagr)
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npx nx build ui-components
+
+      - name: Build docs app
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npx nx build docs
+
+      # Blocking on the production tree only. The dev tree is red today over
+      # build tooling that never reaches a consumer; see the audit script.
+      - name: Audit (production dependencies)
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run audit
+
+      # Informational: keeps the dev-dependency backlog visible every run.
+      - name: Audit (full tree, informational)
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        continue-on-error: true
+        run: npm audit

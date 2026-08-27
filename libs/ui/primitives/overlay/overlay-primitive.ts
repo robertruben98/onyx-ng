@@ -53,7 +53,7 @@ export class UiOverlay {
     return this.overlay.create(
       new OverlayConfig({
         hasBackdrop: config.hasBackdrop ?? true,
-        backdropClass: config.backdropClass ?? "cdk-overlay-dark-backdrop",
+        backdropClass: config.backdropClass ?? "onyx-overlay-backdrop",
         panelClass: config.panelClass,
         scrollStrategy: this.overlay.scrollStrategies.block(),
         positionStrategy: this.overlay

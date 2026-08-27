@@ -6,14 +6,19 @@ import { OnyxBadgeComponent } from "./badge.component";
 const axeOptions = { rules: { region: { enabled: false } } };
 
 describe("OnyxBadgeComponent", () => {
-  // B1: renders with correct ARIA role and content
-  it('renders with role="status"', async () => {
-    await render(`<onyx-badge>Active</onyx-badge>`, { imports: [OnyxBadgeComponent] });
-    expect(screen.getByRole("status")).toBeInTheDocument();
+  // B1: a badge is a static label, NOT a live region (A-18)
+  it('is not an ARIA live region (no role="status")', async () => {
+    const { container } = await render(`<onyx-badge>Active</onyx-badge>`, {
+      imports: [OnyxBadgeComponent],
+    });
+    expect(screen.queryByRole("status")).toBeNull();
+    expect(container.querySelector("[aria-live]")).toBeNull();
   });
 
   it("renders projected text inside the badge label", async () => {
-    await render(`<onyx-badge>Pending</onyx-badge>`, { imports: [OnyxBadgeComponent] });
+    await render(`<onyx-badge>Pending</onyx-badge>`, {
+      imports: [OnyxBadgeComponent],
+    });
     expect(screen.getByText("Pending")).toBeInTheDocument();
   });
 
@@ -32,9 +37,12 @@ describe("OnyxBadgeComponent", () => {
 
   // B3: size CSS classes
   it("applies ui-badge--sm class when size is sm", async () => {
-    const { container } = await render(`<onyx-badge size="sm">Label</onyx-badge>`, {
-      imports: [OnyxBadgeComponent],
-    });
+    const { container } = await render(
+      `<onyx-badge size="sm">Label</onyx-badge>`,
+      {
+        imports: [OnyxBadgeComponent],
+      },
+    );
     const badge = container.querySelector(".ui-badge") as HTMLElement;
     expect(badge).toHaveClass("ui-badge--sm");
   });
@@ -48,16 +56,27 @@ describe("OnyxBadgeComponent", () => {
   });
 
   // B4: dot mode
-  it("applies ui-badge--dot class and hides label text when dot is true", async () => {
+  it("applies ui-badge--dot class when dot is true", async () => {
     const { container } = await render(
       `<onyx-badge [dot]="true">Online</onyx-badge>`,
       { imports: [OnyxBadgeComponent] },
     );
     const badge = container.querySelector(".ui-badge") as HTMLElement;
     expect(badge).toHaveClass("ui-badge--dot");
-    // Label span carries aria-hidden so screen readers skip repeated text
-    const label = badge.querySelector(".ui-badge__label");
-    expect(label).toHaveAttribute("aria-hidden", "true");
+  });
+
+  // A-18: the dot is decorative; the label must stay in the accessibility tree
+  it("keeps the label text accessible in dot mode (visually hidden, not aria-hidden)", async () => {
+    const { container } = await render(
+      `<onyx-badge [dot]="true">Online</onyx-badge>`,
+      { imports: [OnyxBadgeComponent] },
+    );
+    const label = screen.getByText("Online");
+    expect(label).not.toHaveAttribute("aria-hidden");
+    expect(label.closest('[aria-hidden="true"]')).toBeNull();
+    // The dot itself stays decorative.
+    const dot = container.querySelector(".ui-badge__dot");
+    expect(dot).toHaveAttribute("aria-hidden", "true");
   });
 
   it("shows label text without aria-hidden when dot is false", async () => {

@@ -1,0 +1,19 @@
+node_modules
+dist
+coverage
+.nx
+libs/ui/tokens/dist
+package-lock.json
+patches
+
+# Markdown is hand-formatted on purpose. CLAUDE.md is the project blueprint
+# every lane reads; letting Prettier rewrap it churns the one document that has
+# to stay stable.
+*.md
+
+# Measurement data and generated artefacts: never reformat.
+# tools/contrast/matrix.json is 1,371 lines of measured rows; prettier expands it to ~33,686 (1.2 MB),
+# which makes every future re-measurement diff unreadable. Measured by Kevin in the W4-7 trial merge.
+tools/contrast/matrix.json
+tools/contrast/matrix.csv
+tools/layout/findings.json

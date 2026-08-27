@@ -25,6 +25,7 @@ import { selectDoc } from "../../../../libs/ui/components/select/select.docs";
 import { menuDoc } from "../../../../libs/ui/components/menu/menu.docs";
 import { dataTableDoc } from "../../../../libs/ui/components/data-table/data-table.docs";
 import { emptyStateDoc } from "../../../../libs/ui/components/empty-state/empty-state.docs";
+import { skeletonDoc } from "../../../../libs/ui/components/skeleton/skeleton.docs";
 
 export const COMPONENT_DOCS: ComponentDoc[] = [
   buttonDoc,
@@ -53,4 +54,5 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
   menuDoc,
   dataTableDoc,
   emptyStateDoc,
+  skeletonDoc,
 ];

@@ -1,8 +1,8 @@
-<span [ngClass]="classes()" role="status">
+<span [ngClass]="classes()">
   @if (dot()) {
     <span class="ui-badge__dot" aria-hidden="true"></span>
   }
-  <span class="ui-badge__label" [attr.aria-hidden]="dot() ? 'true' : null">
+  <span class="ui-badge__label">
     <ng-content />
   </span>
 </span>

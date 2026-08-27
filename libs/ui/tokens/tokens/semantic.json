@@ -22,13 +22,16 @@
       "value": "{slate.900}"
     },
     "text-muted": {
-      "value": "{slate.400}"
+      "value": "{slate.500}"
     },
     "text-placeholder": {
-      "value": "{slate.400}"
+      "value": "{slate.500}"
     },
     "border": {
       "value": "{slate.200}"
+    },
+    "scrim": {
+      "value": "{black-alpha.32}"
     },
     "danger": {
       "value": "{red.600}"
@@ -91,7 +94,7 @@
       "value": "{yellow.800}"
     },
     "warning-border": {
-      "value": "{yellow.600}"
+      "value": "{yellow.700}"
     },
     "danger-bg": {
       "value": "{red.50}"
@@ -155,7 +158,19 @@
       "value": "{border.width-thick}"
     }
   },
+  "radius-sm": {
+    "value": "{radii.sm}"
+  },
   "radius": {
     "value": "{radii.md}"
+  },
+  "radius-lg": {
+    "value": "{radii.lg}"
+  },
+  "radius-xl": {
+    "value": "{radii.xl}"
+  },
+  "radius-pill": {
+    "value": "{radii.full}"
   }
 }

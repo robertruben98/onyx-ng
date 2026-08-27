@@ -7,7 +7,7 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "style-dictionary build --config libs/ui/tokens/config.json"
+        "command": "node libs/ui/tokens/build.mjs"
       },
       "outputs": ["{workspaceRoot}/libs/ui/tokens/dist"]
     }

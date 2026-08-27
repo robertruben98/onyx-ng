@@ -127,6 +127,7 @@ export class InstallationComponent {
   protected readonly styles = `// angular.json → projects.app.architect.build.options
 "styles": [
   "node_modules/@angular/cdk/overlay-prebuilt.css",
+  "node_modules/@robertruben98/onyx-ui/styles/overlay.css",       // themes the modal backdrop
   "node_modules/@robertruben98/onyx-ui/styles/tokens.css",
   "node_modules/@robertruben98/onyx-ui/styles/themes/dark.css",   // optional: dark mode
   "src/styles.css"

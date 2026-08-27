@@ -62,7 +62,14 @@
 .ui-switch__el:checked ~ .ui-switch__track {
   background-color: var(--ui-switch-track-bg-checked);
 }
+// B-04: the OFF and ON tracks sit at opposite luminance ends within every
+// theme, so one thumb colour cannot clear 3:1 on both. The ON thumb has its
+// own token; the fallback keeps today's colour until that token is defined.
 .ui-switch__el:checked ~ .ui-switch__track::after {
+  background-color: var(
+    --ui-switch-thumb-color-checked,
+    var(--ui-switch-thumb-color)
+  );
   transform: translateX(var(--ui-switch-thumb-travel));
 }
 

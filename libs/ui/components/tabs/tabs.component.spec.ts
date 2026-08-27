@@ -116,9 +116,8 @@ describe("OnyxTabsComponent", () => {
     const { fixture } = await render(`<onyx-tabs />`, {
       imports: [OnyxTabsComponent],
     });
-    const tabs = fixture.debugElement.query(
-      By.directive(OnyxTabsComponent),
-    ).componentInstance as unknown as TabsInternals;
+    const tabs = fixture.debugElement.query(By.directive(OnyxTabsComponent))
+      .componentInstance as unknown as TabsInternals;
     const emptyEvent = new KeyboardEvent("keydown", { key: "Home" });
     const emptyPrevent = jest.spyOn(emptyEvent, "preventDefault");
 
@@ -136,9 +135,8 @@ describe("OnyxTabsComponent", () => {
       </onyx-tabs>`,
       { imports: [OnyxTabsComponent, OnyxTabComponent] },
     );
-    const tabs = fixture.debugElement.query(
-      By.directive(OnyxTabsComponent),
-    ).componentInstance as unknown as TabsInternals;
+    const tabs = fixture.debugElement.query(By.directive(OnyxTabsComponent))
+      .componentInstance as unknown as TabsInternals;
 
     expect(tabs.nextEnabled(0, 1)).toBeNull();
   });

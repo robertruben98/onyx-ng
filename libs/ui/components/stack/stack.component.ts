@@ -6,10 +6,7 @@ import {
 } from "@angular/core";
 
 export type StackDirection =
-  | "row"
-  | "column"
-  | "row-reverse"
-  | "column-reverse";
+  "row" | "column" | "row-reverse" | "column-reverse";
 export type StackGap = "none" | "xs" | "sm" | "md" | "lg" | "xl";
 export type StackAlign = "start" | "center" | "end" | "stretch" | "baseline";
 export type StackJustify =

@@ -12,9 +12,7 @@ describe("OnyxSliderComponent", () => {
     await render(`<onyx-slider label="Volume" />`, {
       imports: [OnyxSliderComponent],
     });
-    expect(
-      screen.getByRole("slider", { name: /volume/i }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("slider", { name: /volume/i })).toBeInTheDocument();
   });
 
   it("falls back to ariaLabel when no visible label is given", async () => {

@@ -22,7 +22,9 @@ describe("OnyxSpinnerComponent", () => {
     const { container } = await render(`<onyx-spinner size="lg" />`, {
       imports: [OnyxSpinnerComponent],
     });
-    expect(container.querySelector("onyx-spinner")).toHaveClass("ui-spinner--lg");
+    expect(container.querySelector("onyx-spinner")).toHaveClass(
+      "ui-spinner--lg",
+    );
   });
 
   it.each(["sm", "md", "lg"] as const)(

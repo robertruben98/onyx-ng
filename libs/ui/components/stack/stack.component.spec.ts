@@ -26,29 +26,27 @@ describe("OnyxStackComponent", () => {
     expect(stack).toHaveAttribute("data-align", "stretch");
     expect(stack).toHaveAttribute("data-justify", "start");
     expect(stack).not.toHaveAttribute("data-wrap");
-    expect(Array.from(stack?.children ?? [], (child) => child.textContent)).toEqual(
-      ["First", "Second"],
-    );
+    expect(
+      Array.from(stack?.children ?? [], (child) => child.textContent),
+    ).toEqual(["First", "Second"]);
   });
 
-  it.each<StackDirection>([
-    "row",
-    "column",
-    "row-reverse",
-    "column-reverse",
-  ])("exposes the %s direction to styles", async (direction) => {
-    const { container } = await render(
-      `<onyx-stack [direction]="direction"></onyx-stack>`,
-      {
-        imports: [OnyxStackComponent],
-        componentProperties: { direction },
-      },
-    );
-    expect(container.firstElementChild).toHaveAttribute(
-      "data-direction",
-      direction,
-    );
-  });
+  it.each<StackDirection>(["row", "column", "row-reverse", "column-reverse"])(
+    "exposes the %s direction to styles",
+    async (direction) => {
+      const { container } = await render(
+        `<onyx-stack [direction]="direction"></onyx-stack>`,
+        {
+          imports: [OnyxStackComponent],
+          componentProperties: { direction },
+        },
+      );
+      expect(container.firstElementChild).toHaveAttribute(
+        "data-direction",
+        direction,
+      );
+    },
+  );
 
   it.each<StackGap>(["none", "xs", "sm", "md", "lg", "xl"])(
     "exposes the %s gap token to styles",
