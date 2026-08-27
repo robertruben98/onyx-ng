@@ -1,6 +1,10 @@
 <span class="ui-avatar__frame">
   @if (showInitials()) {
-    <span class="ui-avatar__initials" role="img" [attr.aria-label]="name() || null">
+    <span
+      class="ui-avatar__initials"
+      role="img"
+      [attr.aria-label]="name() || null"
+    >
       {{ initials() }}
     </span>
   } @else {
