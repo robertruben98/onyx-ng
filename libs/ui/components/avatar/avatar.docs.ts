@@ -31,6 +31,12 @@ export const avatarDoc: ComponentDoc = {
       default: "'circle'",
       description: "Avatar shape.",
     },
+    {
+      name: "status",
+      type: "'online' | 'offline' | 'away' | 'busy' | null",
+      default: "null",
+      description: "Presence status — renders a labelled dot when set.",
+    },
   ],
   demos: avatarDemos,
 };

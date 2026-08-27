@@ -46,11 +46,54 @@ describe("OnyxAvatarComponent", () => {
     expect(await screen.findByText("AL")).toBeInTheDocument();
   });
 
+  it("has no status dot by default", async () => {
+    const { container } = await render(`<onyx-avatar name="Ada Lovelace" />`, {
+      imports: [OnyxAvatarComponent],
+    });
+    expect(container.querySelector(".ui-avatar__status")).toBeNull();
+  });
+
+  it("resolves no status label while status is null", async () => {
+    // The template only reads `statusLabel()` inside `@if (status())`, so the
+    // null branch in the computed is never reached through the DOM. Evaluate
+    // the signal on the instance itself. `statusLabel` is protected, hence the
+    // untyped `debugElement.componentInstance` handle.
+    const { fixture } = await render(OnyxAvatarComponent);
+    const instance = fixture.debugElement.componentInstance as {
+      statusLabel: () => string | null;
+    };
+    expect(instance.statusLabel()).toBeNull();
+  });
+
+  it("renders a labelled status dot when status is set", async () => {
+    const { container } = await render(
+      `<onyx-avatar name="Ada Lovelace" status="online" />`,
+      { imports: [OnyxAvatarComponent] },
+    );
+    const dot = container.querySelector(".ui-avatar__status")!;
+    expect(dot).toHaveAttribute("data-status", "online");
+    expect(dot).toHaveAttribute("aria-label", "Online");
+    expect(screen.getByRole("img", { name: "Online" })).toBe(dot);
+  });
+
+  it.each([
+    ["online", "Online"],
+    ["offline", "Offline"],
+    ["away", "Away"],
+    ["busy", "Busy"],
+  ] as const)("labels the %s status as %s", async (status, label) => {
+    await render(`<onyx-avatar name="Ada Lovelace" [status]="status" />`, {
+      imports: [OnyxAvatarComponent],
+      componentProperties: { status },
+    });
+    expect(screen.getByRole("img", { name: label })).toBeInTheDocument();
+  });
+
   it.each(["sm", "md", "lg"] as const)(
     "has no axe violations (size %s)",
     async (size) => {
       const { container } = await render(
-        `<onyx-avatar [size]="size" name="Ada Lovelace" />`,
+        `<onyx-avatar [size]="size" name="Ada Lovelace" status="online" />`,
         { imports: [OnyxAvatarComponent], componentProperties: { size } },
       );
       expect(await axe(container)).toHaveNoViolations();
