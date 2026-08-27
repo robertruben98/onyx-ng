@@ -25,6 +25,7 @@
 import StyleDictionary from "style-dictionary";
 import { readdirSync, readFileSync } from "fs";
 import { basename, join } from "path";
+import { SELECTORS } from "./selectors.mjs";
 
 /**
  * `globSync` from node:fs is Node 22+, and pages.yml runs Node 20, so the Pages
@@ -42,12 +43,6 @@ function jsonFilesUnder(dir) {
 const TOKENS_DIR = "libs/ui/tokens/tokens";
 const THEMES_DIR = "libs/ui/tokens/themes";
 const BUILD_PATH = "libs/ui/tokens/dist/";
-
-/** Selector each preset is scoped to. A preset with no entry here is a build error. */
-const SELECTORS = {
-  dark: ".onyx-dark",
-  acme: ".onyx-theme-acme",
-};
 
 /**
  * A preset that overrides a token which also has children collapses the whole

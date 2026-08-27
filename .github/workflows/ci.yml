@@ -109,6 +109,20 @@ jobs:
       - name: Build design tokens
         run: npm run build:tokens
 
+      # build:tokens also regenerates the token reference the docs app ships,
+      # apps/docs/src/app/tokens/token-reference.generated.ts, which is
+      # committed. A token change pushed without re-running the build, or a
+      # hand edit of the generated file, leaves the fresh output different from
+      # the commit. `git diff` against the working tree is what catches that;
+      # the docs spec cannot, because by the time it runs this job has already
+      # regenerated the file.
+      - name: Token reference is up to date
+        run: |
+          git diff --exit-code -- apps/docs/src/app/tokens/token-reference.generated.ts || {
+            echo "::error::token-reference.generated.ts is stale or was edited by hand. Run 'npm run build:tokens' and commit the result."
+            exit 1
+          }
+
       # Every gate below reports independently and is gated on `install` only,
       # which is the one thing they genuinely all need. Measured with
       # libs/ui/tokens/dist deleted: format:check, both typechecks, eslint,

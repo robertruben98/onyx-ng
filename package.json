@@ -8,7 +8,7 @@
   },
   "private": true,
   "scripts": {
-    "build:tokens": "node libs/ui/tokens/build.mjs",
+    "build:tokens": "node libs/ui/tokens/build.mjs && node libs/ui/tokens/reference.mjs",
     "typecheck": "npm run typecheck:lib && npm run typecheck:spec",
     "typecheck:lib": "tsc -p libs/ui/components/tsconfig.json --noEmit",
     "typecheck:spec": "tsc -p tsconfig.spec.json --noEmit",
