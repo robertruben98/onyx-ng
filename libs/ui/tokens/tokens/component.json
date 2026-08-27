@@ -975,7 +975,7 @@
       "value": "0.875rem"
     },
     "status-radius": {
-      "value": "{radii.full}"
+      "value": "{radius-pill}"
     },
     "status-ring": {
       "value": "{color.surface}"
