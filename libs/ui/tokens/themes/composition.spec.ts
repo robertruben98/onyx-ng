@@ -70,6 +70,33 @@ const resolve = (
   return ref ? resolve(decls, ref[1], seen) : value;
 };
 
+/** Plain (non-token) declarations of an emitted file, `prop: value` form. */
+const plainDeclarationsOf = (file: string): string[] =>
+  readFileSync(join(DIST, file), "utf8")
+    .split("\n")
+    .map((line) => /^\s*([a-z][a-z-]*):\s*(.+?);\s*$/.exec(line))
+    .flatMap((m) => (m ? [`${m[1]}: ${m[2]}`] : []));
+
+describe("UA colour scheme", () => {
+  it("opts the browser's own controls into the dark palette under .onyx-dark", () => {
+    // D-4. Checkbox and radio are native inputs styled through accent-color, so
+    // their box, ring and fill are painted by the browser from ITS palette, not
+    // from tokens. Without this declaration `color-scheme` computes to `normal`
+    // inside .onyx-dark and the browser draws light controls on the dark
+    // surface (#ffffff box, #767676 ring on slate.900 -- measured).
+    expect(plainDeclarationsOf("theme-dark.css")).toEqual([
+      "color-scheme: dark",
+    ]);
+  });
+
+  it("leaves the base and the brand preset on the browser default", () => {
+    // acme is a brand, not a mode: it composes with .onyx-dark, so it must not
+    // carry a scheme of its own or it would fight the mode class.
+    expect(plainDeclarationsOf("tokens.css")).toEqual([]);
+    expect(plainDeclarationsOf("theme-acme.css")).toEqual([]);
+  });
+});
+
 describe("preset composition", () => {
   it("emits presets as deltas, not as full sets", () => {
     // The regression guard. If a preset ever emits everything again, the two
