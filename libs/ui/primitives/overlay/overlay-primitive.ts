@@ -28,7 +28,11 @@ export interface UiConnectedOverlayConfig {
   placement?: UiOverlayPlacement;
   /** Cross-axis alignment. */
   align?: UiOverlayAlign;
-  /** Gap between trigger and overlay, in pixels. */
+  /**
+   * Gap between trigger and overlay, in pixels. Defaults to the
+   * `--ui-overlay-offset` token as computed on the origin (`{space.2}`,
+   * 0.5rem = 8px), so a preset re-skins the gap without touching a component.
+   */
   offset?: number;
   /** Whether a (transparent, by default) backdrop is rendered. */
   hasBackdrop?: boolean;
@@ -37,6 +41,16 @@ export interface UiConnectedOverlayConfig {
   /** Class(es) applied to the overlay pane. */
   panelClass?: string | string[];
 }
+
+/** Token that carries the trigger-to-pane gap for anchored overlays. */
+const OFFSET_TOKEN = "--ui-overlay-offset";
+/** Gap used when the token is absent or not a px/rem length (jsdom, no CSS). */
+const DEFAULT_OFFSET_PX = 8;
+/** Fallback root font size for rem tokens when the browser reports none. */
+const DEFAULT_ROOT_FONT_PX = 16;
+
+const elementOf = (origin: ElementRef | HTMLElement): HTMLElement =>
+  origin instanceof ElementRef ? origin.nativeElement : origin;
 
 /**
  * Behaviour primitive wrapping `@angular/cdk/overlay`. Components never reach
@@ -79,7 +93,7 @@ export class UiOverlay {
         this.positionsFor(
           config.placement ?? "bottom",
           config.align ?? "start",
-          config.offset ?? 8,
+          config.offset ?? this.tokenOffsetPx(elementOf(origin)),
         ),
       )
       .withPush(true)
@@ -111,8 +125,7 @@ export class UiOverlay {
     ref: OverlayRef,
     origin: ElementRef | HTMLElement,
   ): Observable<MouseEvent> {
-    const element: HTMLElement =
-      origin instanceof ElementRef ? origin.nativeElement : origin;
+    const element = elementOf(origin);
     return ref
       .outsidePointerEvents()
       .pipe(
@@ -121,6 +134,28 @@ export class UiOverlay {
             !(event.target instanceof Node && element.contains(event.target)),
         ),
       );
+  }
+
+  /**
+   * `--ui-overlay-offset` as computed on `origin`, in pixels. A custom property
+   * is NOT resolved to a used value by the engine: `getComputedStyle` returns
+   * the substituted token stream, i.e. the literal `0.5rem` — parseFloat alone
+   * would silently turn an 8px gap into 0.5px. So px is taken verbatim, rem is
+   * multiplied by the root font size, and anything else (missing token, other
+   * units, unitless) falls back to the historical 8px.
+   */
+  private tokenOffsetPx(origin: HTMLElement): number {
+    const raw = getComputedStyle(origin).getPropertyValue(OFFSET_TOKEN).trim();
+    const match = /^(-?\d*\.?\d+)(px|rem)$/.exec(raw);
+    if (!match) return DEFAULT_OFFSET_PX;
+    const [, value, unit] = match;
+    if (unit === "px") return Number(value);
+    const rootPx = parseFloat(
+      getComputedStyle(document.documentElement).fontSize,
+    );
+    return (
+      Number(value) * (Number.isFinite(rootPx) ? rootPx : DEFAULT_ROOT_FONT_PX)
+    );
   }
 
   /** Primary position for `placement`/`align` plus an opposite-side fallback. */
