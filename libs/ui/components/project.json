@@ -14,7 +14,8 @@
           "mkdir -p dist/onyx-ui/styles/themes",
           "cp libs/ui/tokens/dist/tokens.css dist/onyx-ui/styles/tokens.css",
           "cp libs/ui/primitives/overlay/overlay.css dist/onyx-ui/styles/overlay.css",
-          "for f in libs/ui/tokens/dist/theme-*.css; do cp \"$f\" \"dist/onyx-ui/styles/themes/$(basename \"$f\" | sed 's/^theme-//')\"; done"
+          "for f in libs/ui/tokens/dist/theme-*.css; do cp \"$f\" \"dist/onyx-ui/styles/themes/$(basename \"$f\" | sed 's/^theme-//')\"; done",
+          "cp LICENSE dist/onyx-ui/LICENSE"
         ],
         "parallel": false,
         "outputs": ["{workspaceRoot}/dist/onyx-ui"]
