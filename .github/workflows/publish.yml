@@ -1,8 +1,29 @@
 name: Release
+# PUB-1 — the release is gated on the CI workflow.
+#
+# Before: this workflow ran on every push to main IN PARALLEL with CI (both
+# `on: push: branches: [main]`; measured 2026-08-26 19:30:03Z, CI run
+# 33005473445 and Release run 33005473378 started the same second) and its only
+# test step was `npm test -- --ci`. The required status checks — `Quality gates
+# (22)` and `(24)` from CI — gate merges INTO main, not publishing, so a commit
+# red on coverage, eslint, stylelint, prettier, typecheck:spec, the audit or the
+# docs build still shipped to the registry as long as jest passed.
+#
+# Now the release runs only when the CI workflow has completed successfully for
+# a push to main. `workflow_run` instead of a copy of CI's step list: a copy
+# would drift out of sync with ci.yml; this cannot.
 on:
-  push:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
     branches: [main]
   workflow_dispatch:
+
+# One release at a time. A superseded run finishes (or fails) on its own; it is
+# never cancelled halfway through a publish.
+concurrency:
+  group: release
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -12,20 +33,47 @@ permissions:
 
 jobs:
   release:
+    # `workflow_run` also fires for CI runs of pull requests and for failed
+    # runs. Only a SUCCESSFUL CI run of a PUSH to MAIN releases. A manual
+    # dispatch is allowed in, then checked against CI in its first step.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_branch == 'main')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
+          # Release exactly the commit CI passed. For workflow_run the default
+          # checkout is whatever main points at when this run starts, which can
+          # already be a newer, unverified push. Empty on workflow_dispatch.
+          ref: ${{ github.event.workflow_run.head_sha || github.ref }}
+      - name: Manual dispatch — require a green CI run for this commit
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          conclusion=$(gh run list --workflow CI --commit "$GITHUB_SHA" --status completed --limit 1 --json conclusion --jq '.[0].conclusion // "none"')
+          if [ "$conclusion" != "success" ]; then
+            echo "::error::CI for $GITHUB_SHA is '$conclusion', not success — refusing to release"
+            exit 1
+          fi
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: "22"
           cache: "npm"
           registry-url: "https://npm.pkg.github.com"
       - run: npm ci
+      # This order is load-bearing (Kevin, G3): semantic-release's npm plugin
+      # reads dist/onyx-ui during verifyConditions and dies with ENOPKG without
+      # it, and .releaserc.json states the dependency nowhere. Tokens first,
+      # then the library, then the release.
       - run: npm run build:tokens
       - run: npx nx build ui-components
-      - run: npm test -- --ci
+      # `npm test -- --ci` used to run here. CI has already run the full gate
+      # set on this exact commit; a weaker copy would only pretend to be a gate.
       - run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
