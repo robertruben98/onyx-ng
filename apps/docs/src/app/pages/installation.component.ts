@@ -12,9 +12,9 @@ import { CodeBlockComponent } from "../ui/code-block.component";
     <article class="guide">
       <h1>Installation</h1>
       <p class="docs-lead">
-        Onyx UI ships standalone Angular components and a token-based theme. Add
-        the package, register the CSS once, then import components where you use
-        them.
+        Onyx UI ships standalone Angular components and a token-based theme.
+        Point npm at GitHub Packages, add the package, register the CSS once,
+        then import components where you use them.
       </p>
 
       <h2>Requirements</h2>
@@ -29,11 +29,24 @@ import { CodeBlockComponent } from "../ui/code-block.component";
         </li>
       </ul>
 
-      <h2>1. Install</h2>
+      <h2>1. Configure the registry</h2>
+      <p>
+        The package is published to <strong>GitHub Packages</strong> under the
+        <code>&#64;robertruben98</code> scope, not to npmjs — without this step
+        the install command below returns a 404. Create (or extend)
+        <code>.npmrc</code> in the consuming project root:
+      </p>
+      <docs-code-block [code]="npmrc" language="bash" />
+      <p>
+        <code>NODE_AUTH_TOKEN</code> must be a GitHub personal access token with
+        the <code>read:packages</code> scope.
+      </p>
+
+      <h2>2. Install</h2>
       <p>Add the library and its peer dependency:</p>
       <docs-code-block [code]="install" language="bash" />
 
-      <h2>2. Register the styles</h2>
+      <h2>3. Register the styles</h2>
       <p>
         Add the token stylesheet and the CDK overlay styles to the
         <code>styles</code> array of your <code>angular.json</code>. Theme files
@@ -42,14 +55,14 @@ import { CodeBlockComponent } from "../ui/code-block.component";
       </p>
       <docs-code-block [code]="styles" language="ts" />
 
-      <h2>3. Use a component</h2>
+      <h2>4. Use a component</h2>
       <p>
         Import the component directly into a standalone component's
         <code>imports</code>. No NgModules.
       </p>
       <docs-code-block [code]="usage" language="ts" />
 
-      <h2>4. Enable dark mode</h2>
+      <h2>5. Enable dark mode</h2>
       <p>
         Dark mode is a class on the document root that re-maps semantic tokens —
         components never branch on theme. Toggle <code>onyx-dark</code> on
@@ -122,6 +135,9 @@ import { CodeBlockComponent } from "../ui/code-block.component";
   ],
 })
 export class InstallationComponent {
+  protected readonly npmrc = `@robertruben98:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=\${NODE_AUTH_TOKEN}`;
+
   protected readonly install = `npm install @robertruben98/onyx-ui @angular/cdk`;
 
   protected readonly styles = `// angular.json → projects.app.architect.build.options
