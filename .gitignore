@@ -4,6 +4,8 @@ dist/
 storybook-static/
 out-tsc/
 coverage/
+playwright-report/
+test-results/
 *.log
 .angular/
 

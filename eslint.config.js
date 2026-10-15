@@ -18,6 +18,8 @@ module.exports = tseslint.config(
       ".nx/**",
       "out-tsc/**",
       "coverage/**",
+      "playwright-report/**",
+      "test-results/**",
       "**/*.config.js",
       ".stylelintrc.js",
       "eslint.config.js",
