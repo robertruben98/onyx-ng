@@ -140,6 +140,23 @@ jobs:
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: npm run test:ci
 
+      - name: Install Chromium for browser tests
+        id: browser
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npx playwright install --with-deps chromium
+
+      - name: Test (Playwright, real browser focus behavior)
+        if: ${{ !cancelled() && steps.browser.outcome == 'success' }}
+        run: npm run test:e2e
+
+      - name: Upload browser test results
+        if: ${{ !cancelled() && steps.browser.outcome == 'success' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: browser-test-results-${{ matrix.node }}
+          path: test-results/
+          retention-days: 14
+
       # From one matrix entry only: upload-artifact rejects a second upload
       # under the same name, and `coverage-report` is the name the job this
       # replaces produced. Runs even when the tests failed -- that is when the

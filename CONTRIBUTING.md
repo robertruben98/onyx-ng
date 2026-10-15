@@ -21,9 +21,32 @@ npm ci
 | ---------------------- | ---------------------------------------------------------------- |
 | `npx nx serve docs`    | Start the docs app at `http://localhost:4200` (live demos + API) |
 | `npm test`             | Run the full Jest test suite                                     |
+| `npm run test:e2e`     | Typecheck and run Playwright browser tests in Chromium           |
 | `npm run lint`         | ESLint + Stylelint (token-rule enforcement)                      |
 | `npm run build:tokens` | Compile Style Dictionary tokens → CSS custom properties          |
 | `npm run typecheck`    | TypeScript strict check (no emit)                                |
+
+---
+
+## Browser tests
+
+Install Chromium once after `npm ci`:
+
+```bash
+npx playwright install --with-deps chromium
+npm run test:e2e
+```
+
+Playwright builds the design tokens and starts the docs app on port 4200;
+keep that port free before running the tests. Tests live in `e2e/` and use
+the live component demos. The Popover tests cover Enter/Space activation,
+automatic focus capture, Tab/Shift+Tab trapping, and restoration to the
+trigger after Escape in a real browser, where jsdom cannot reliably model
+these behaviors.
+
+CI runs these tests on both Node versions in the quality-gates matrix.
+Failure traces are retained in the `browser-test-results-<node>` artifacts;
+open a downloaded trace with `npx playwright show-trace path/to/trace.zip`.
 
 ---
 
