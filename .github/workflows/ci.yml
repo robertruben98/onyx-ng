@@ -95,7 +95,7 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: npm
 
-      # Also runs the postinstall that applies patches/ng-packagr+19.2.2.patch,
+      # Also runs the postinstall that applies patches/ng-packagr+20.3.2.patch,
       # which the library build below depends on.
       - name: Install dependencies
         id: install
