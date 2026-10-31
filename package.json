@@ -4,7 +4,7 @@
   "description": "Onyx NG — Angular design-system component library (styled mode, token-driven)",
   "license": "MIT",
   "engines": {
-    "node": ">=22.0.0"
+    "node": "^22.14.0 || >=24.10.0"
   },
   "private": true,
   "scripts": {

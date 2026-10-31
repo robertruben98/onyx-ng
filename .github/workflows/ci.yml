@@ -28,7 +28,7 @@
 #    downgrade it whichever order the two land in.
 # 3. Node is a matrix of 22 and 24, where the job it replaces used 22 alone.
 #    This workspace publishes a library, so the Node version that matters is
-#    the consumer's, not the maintainer's: package.json declares >=22.0.0, and
+#    the consumer's, not the maintainer's: package.json declares ^22.14.0 || >=24.10.0, and
 #    testing one point of a declared range is how a library ships something
 #    that only works on the newest runtime. 22 is the floor and what the old
 #    job used; 24 is the current LTS.
@@ -79,7 +79,7 @@ jobs:
       fail-fast: false
       matrix:
         # This package publishes, so the Node that matters is the consumer's,
-        # not the maintainer's. package.json declares >=22.0.0: 22 is the floor
+        # not the maintainer's. package.json declares ^22.14.0 || >=24.10.0: 22 is the floor
         # and what the previous job built on, 24 is the current LTS. Testing one
         # point of a declared range is how a library ships something that only
         # works on the newest runtime.
