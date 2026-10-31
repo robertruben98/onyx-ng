@@ -17,7 +17,7 @@ interface Feature {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="hero">
-      <span class="hero__eyebrow">Angular 19 · Standalone · Signals</span>
+      <span class="hero__eyebrow">Angular 20 · Standalone · Signals</span>
       <h1 class="hero__title">
         Build accessible Angular UIs,<br />
         <span class="hero__accent">themed by tokens.</span>

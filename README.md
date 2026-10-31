@@ -3,7 +3,7 @@
 [![CI](https://github.com/robertruben98/onyx-ng/actions/workflows/ci.yml/badge.svg)](https://github.com/robertruben98/onyx-ng/actions/workflows/ci.yml)
 ![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
 
-Accessible, token-driven UI component library built for **Angular 19** using Standalone Components, Signals, and a Style Dictionary design-token layer.
+Accessible, token-driven UI component library built for **Angular 20** using Standalone Components, Signals, and a Style Dictionary design-token layer.
 
 - 27 production-grade components (forms, overlays, layout, navigation)
 - Three-tier token system (`--ui-*`): primitive → semantic → component
@@ -34,7 +34,7 @@ Create (or extend) `.npmrc` in the consuming project root:
 npm install @robertruben98/onyx-ui
 ```
 
-**Peer dependency:** Angular 19 (`@angular/core`, `@angular/common`, `@angular/cdk`).
+**Peer dependency:** Angular 19 or newer (`@angular/core`, `@angular/common`, `@angular/cdk`).
 
 ---
 
